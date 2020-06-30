@@ -1,0 +1,10 @@
+sphere(0),x,y,z,r,g,b,radius,s,angle_x,angle_y,angle_z
+cilin(1),x,y,z,r,g,b,A,B,s,angle_x,angle_y,angle_z
+cone(2),x,y,z,r,g,b,A,B,C,s,angle_x,angle_y,angle_z
+plane(3),a,b,c,d,r,g,b,s,angle_x,angle_y,angle_z
+@
+point(p),x,y,z,i
+@
+camera(c),x,y,z
+@
+direction(D),angle_x,angle_y,angle_z
