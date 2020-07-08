@@ -3,87 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
+#    By: maximka <maximka@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/09 22:21:56 by maximka           #+#    #+#              #
-#    Updated: 2020/06/29 18:40:55 by user             ###   ########.fr        #
+#    Updated: 2020/07/08 13:10:23 by maximka          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# NAME = RTv1
-
-# SRC = main.c \
-# 		vector.c\
-# 		useful.c\
-# 		useful2.c\
-# 		light.c\
-# 		parse.c\
-# 		move.c\
-# 		init_vectors.c\
-# 		parse_shape.c\
-# 		init_shape.c\
-# 		init.c\
-# 		free.c\
-# 		errors.c\
-# 		rotate.c\
-# 		matrix.c\
-# 		useful3.c\
-# 		check.c\
-# 		useful4.c\
-# 		useful5.c
-
-# libft = ./libft/libft.a
-
-# FLAGS = -g -Wall -Wextra -Werror
-
-# SDL = -lSDL2
-
-# HEADER = rtv1.h
-
-# OBJ = main.o \
-# 		vector.o\
-# 		useful.o\
-# 		useful2.o\
-# 		light.o\
-# 		parse.o\
-# 		move.o\
-# 		init_vectors.o\
-# 		parse_shape.o\
-# 		init_shape.o\
-# 		init.o\
-# 		free.o\
-# 		errors.o\
-# 		rotate.o\
-# 		matrix.o\
-# 		useful3.o\
-# 		check.o\
-# 		useful4.o\
-# 		useful5.o
-
-# LIB = lib
-
-# all: $(NAME)
-
-# $(NAME): $(LIB) $(OBJ)
-# 	gcc $(SRC) $(FLAGS) -lm -o $(NAME) $(SDL) $(libft)
-
-# $(LIB):
-# 	make -C ./libft/
-
-# %.o:%.c $(HEADER)
-# 	gcc -L libft -lft -o $@ -c $<
-
-# clean:
-# 	make -C libft clean
-# 	rm -f $(OBJ)
-
-# fclean: clean
-# 	make -C libft fclean
-# 	rm -f $(NAME)
-
-# re:fclean all
-
-NAME		:=	RTv1
+NAME		:=	RT
 DIR_SRC		:=	srcs/
 DIR_BIN		:=	bin/
 DIR_INCLUDE :=	include/
@@ -91,29 +18,11 @@ DIR_LIBFT	:=	libft/
 SDL 		:= -lSDL2
 CC			:=	gcc
 CFLAGS		:=	-g -Wextra -Werror -Wall
-HEADERS		:=	libft.h rtv1.h get_next_line.h
+HEADERS		:=	libft.h rt.h get_next_line.h
 LIBFT		:=	libft.a
 REMOVE		:=	rm -rf
 
-SRC			:=	main.c \
-		vector.c\
-		useful.c\
-		useful2.c\
-		light.c\
-		parse.c\
-		move.c\
-		init_vectors.c\
-		parse_shape.c\
-		init_shape.c\
-		init.c\
-		free.c\
-		errors.c\
-		rotate.c\
-		matrix.c\
-		useful3.c\
-		check.c\
-		useful4.c\
-		useful5.c
+SRC			:=	main.c 
 
 OBJS 		:= $(SRC:.c=.o)
 LIBFT		:= $(addprefix $(DIR_LIBFT), $(LIBFT))
