@@ -15,7 +15,7 @@
 # else
 #  include "SDL.h"
 # endif
-
+#include <assert.h>
 #include "CL/cl.h"
 
 #ifdef __OPENCL_C_VERSION__
@@ -32,6 +32,7 @@
 #endif
 
 #define PI 3.1415926535
+#define BUFF 100000
 
 enum    e_types
 {
@@ -141,3 +142,7 @@ t_matrix    scale_matrix(cl_float4 scale);
 t_matrix    default_matrix(void);
 t_matrix    mul_matrix(t_matrix A, t_matrix B);
 void        print_matrix(t_matrix matrix);
+
+/*create_program.c*/
+
+cl_program create_program(cl_context context);

@@ -12,22 +12,6 @@
 
 #include "rt.h"
 
-#include <assert.h>
-
-const char *src = "\
-__kernel    void    main_kernel(__global uint *image)\
-{\
-    int global_id;\
-    int x;\
-    int y;\
-\
-    global_id = get_global_id(0);\
-    x = global_id % 1200;\
-    y = global_id / 1200;\
-    /*image[global_id] = 0x00ff0000 + ((x % 255) << 8) + (y % 255);*/\
-    image[global_id] = ((int)(x * (255.0f / 1200)) << 8) + (y * (255.0f / 800));\
-}\
-";
 /**
 ** @brief
 ** print log about opencl build fail
@@ -91,8 +75,7 @@ int		init(t_clp *clp, t_window *window, t_cl_program *program)
 	int	ret;
 	program->image = clCreateBuffer(clp->context, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, sizeof(int) * 1200 * 600, window->image, &ret);
 	assert(!ret);
-	program->program = clCreateProgramWithSource(clp->context, 1, &src, NULL, &ret);
-	assert(!ret);
+	program->program = create_program(clp->context);
 	ret = clBuildProgram(program->program, 1, &clp->de_id, NULL, NULL, NULL);
 	cl_error(program, clp, ret);
 
@@ -148,9 +131,10 @@ int		main(int argc, char **argv)
 	/*************/
 	convert(&obj);
 	matrix = create_affin_matrix(obj);
-    print_matrix(matrix);
-	// init(&clp, &window, &program);
-	// render(&window, &program, &clp);
-	// while (1);
+    // print_matrix(matrix);
+	
+	init(&clp, &window, &program);
+	render(&window, &program, &clp);
+	while (1);
 	return (0);
 }
