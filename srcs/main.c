@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 13:10:39 by maximka           #+#    #+#             */
-/*   Updated: 2020/07/17 19:55:40 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/07/27 20:29:45 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int		init(t_clp *clp, t_window *window, t_cl_program *program)
 
 	assert(!ret);
 	program->kernel = clCreateKernel(program->program, "main_kernel", &ret);
-	printf("%d\n", ret);
 	cl_error(program, clp, ret);
 	assert(!ret);
 	return (0);
@@ -115,24 +114,24 @@ int		main(int argc, char **argv)
 	t_clp			clp;
 	t_window		window;
 	t_cl_program	program;
-	t_matrix		matrix;
+	// t_matrix		matrix;
 	int i;
 
-	/*Object*/
-	obj.origin.s[0] = 0;
-	obj.origin.s[1] = 0;
-	obj.origin.s[2] = 0;
-	obj.rotate.s[0] = 0;
-	obj.rotate.s[1] = 0;
-	obj.rotate.s[2] = 0;
-	obj.scale.s[0] = 1;
-	obj.scale.s[1] = 1;
-	obj.scale.s[2] = 1;
-	/*************/
-	convert(&obj);
-	matrix = create_affin_matrix(obj);
+	// /*Object*/
+	// obj.origin.s[0] = 0;
+	// obj.origin.s[1] = 0;
+	// obj.origin.s[2] = 0;
+	// obj.rotate.s[0] = 0;
+	// obj.rotate.s[1] = 0;
+	// obj.rotate.s[2] = 0;
+	// obj.scale.s[0] = 1;
+	// obj.scale.s[1] = 1;
+	// obj.scale.s[2] = 1;
+	// /*************/
+	// convert(&obj);
+	// matrix = create_affin_matrix(obj);
     // print_matrix(matrix);
-	
+
 	init(&clp, &window, &program);
 	render(&window, &program, &clp);
 	while (1);

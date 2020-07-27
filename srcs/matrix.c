@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 21:18:06 by marvin            #+#    #+#             */
-/*   Updated: 2020/07/26 21:18:06 by marvin           ###   ########.fr       */
+/*   Updated: 2020/07/27 20:24:45 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,4 +149,3 @@ void    convert(t_obj *obj)
     obj->scale.s[1] = 1 / obj->scale.s[1];
     obj->scale.s[2] = 1 / obj->scale.s[2];
 }
-
