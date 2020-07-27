@@ -31,6 +31,8 @@
 #define cl_uint unsigned int
 #endif
 
+#define PI 3.1415926535
+
 enum    e_types
 {
 	cone,
@@ -50,9 +52,10 @@ typedef int t_light_type;
 typedef int t_type;
 typedef int t_material;
 typedef int t_bbox;
+typedef cl_float16 t_matrix;
 
 
-struct		s_light
+typedef struct		s_light
 {
 	cl_float4		origin;
 	cl_float4		direction;
@@ -61,16 +64,17 @@ struct		s_light
 	t_light_type	type;
 
 	cl_int			object_id; //for area lights
-};
+}					t_light;
 
-struct                    s_obj
+typedef struct			s_obj
 {
     t_type                type;
     t_material            material;
     t_bbox                bounding_box;
     cl_float4            origin;
-    cl_float4            direction;
+    cl_float4            rotate;
     cl_float4            dir2;
+	cl_float4			scale;
     cl_float4            normal;
     cl_float            r;
     cl_float            r2;
@@ -79,7 +83,7 @@ struct                    s_obj
     cl_float            minm;
     cl_int                shadows;
     cl_int                sampler_id;
-};
+}						t_obj;
 
 
 struct		s_ray
@@ -124,3 +128,16 @@ struct	s_cl_program
 	cl_kernel	kernel;
 	cl_mem		image;
 };
+
+/*matrix.c*/
+void    convert(t_obj *obj);
+t_matrix    create_affin_matrix(t_obj obj);
+t_matrix    rotate_matrix(cl_float4 rotate);
+t_matrix    z_rotate(cl_float angle);
+t_matrix    y_rotate(cl_float angle);
+t_matrix    x_rotate(cl_float angle);
+t_matrix    move_matrix(cl_float4 move);
+t_matrix    scale_matrix(cl_float4 scale);
+t_matrix    default_matrix(void);
+t_matrix    mul_matrix(t_matrix A, t_matrix B);
+void        print_matrix(t_matrix matrix);

@@ -15,16 +15,17 @@
 #include <assert.h>
 
 const char *src = "\
-__kernel	void	main_kernel(__global uint *image)\
+__kernel    void    main_kernel(__global uint *image)\
 {\
-	int global_id;\
-	int x;\
-	int y;\
+    int global_id;\
+    int x;\
+    int y;\
 \
-	global_id = get_global_id(0);\
-	x = global_id % 1200;\
-	y = global_id / 1200;\
-	image[global_id] = global_id;\
+    global_id = get_global_id(0);\
+    x = global_id % 1200;\
+    y = global_id / 1200;\
+    /*image[global_id] = 0x00ff0000 + ((x % 255) << 8) + (y % 255);*/\
+    image[global_id] = ((int)(x * (255.0f / 1200)) << 8) + (y * (255.0f / 800));\
 }\
 ";
 /**
@@ -127,12 +128,29 @@ void	render(t_window *window, t_cl_program *program, t_clp *clp)
 #include "windows.h"
 int		main(int argc, char **argv)
 {
+	t_obj			obj;
 	t_clp			clp;
 	t_window		window;
 	t_cl_program	program;
+	t_matrix		matrix;
+	int i;
 
-	init(&clp, &window, &program);
-	render(&window, &program, &clp);
-	while (1);
+	/*Object*/
+	obj.origin.s[0] = 0;
+	obj.origin.s[1] = 0;
+	obj.origin.s[2] = 0;
+	obj.rotate.s[0] = 0;
+	obj.rotate.s[1] = 0;
+	obj.rotate.s[2] = 0;
+	obj.scale.s[0] = 1;
+	obj.scale.s[1] = 1;
+	obj.scale.s[2] = 1;
+	/*************/
+	convert(&obj);
+	matrix = create_affin_matrix(obj);
+    print_matrix(matrix);
+	// init(&clp, &window, &program);
+	// render(&window, &program, &clp);
+	// while (1);
 	return (0);
 }
