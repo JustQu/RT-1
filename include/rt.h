@@ -3,95 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/08 13:10:59 by maximka           #+#    #+#             */
-/*   Updated: 2020/07/17 19:10:39 by dmelessa         ###   ########.fr       */
+/*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
+/*   Updated: 2020/07/28 18:46:43 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef RT_H
+# define RT_H
+
+# include <string.h>
+# include <stdio.h>
+# include <stdint.h>
+# include <fcntl.h>
+# include <math.h>
+
+# include <assert.h>
 
 # ifdef __unix__
 #  include "SDL2/SDL.h"
 # else
 #  include "SDL.h"
 # endif
-#include <assert.h>
-#include "CL/cl.h"
 
-#ifdef __OPENCL_C_VERSION__
-#define cl_float4 float4
-#define cl_float3 float3
-#define cl_float float
-#define cl_int4 int4
-#define cl_int3 int3
-#define cl_int int
-#define cl_char char
-#define cl_uchar uchar
-#define cl_bool bool
-#define cl_uint unsigned int
-#endif
+# include "libft.h"
+# include "world.h"
+# include "bool.h"
+# include "sampler_manager.h"
 
-#define PI 3.1415926535
-#define BUFF 100000
+# ifdef _WIN64
+#  define DEFAULT_KERNEL_FILE "main_kernel.cl"
+#  define DEFAULT_KERNEL_DIR "./srcs/cl/"
+# else
+#  define DEFAULT_KERNEL_FILE "main_kernel.cl"
+#  define DEFAULT_KERNEL_DIR "./srcs/cl/"
+# endif
 
-enum    e_types
-{
-	cone,
-	cylinder,
-	paraboloid,
-	plane,
-	sphere,
-	torus,
-	triangle,
-	box,
-	disk,
-	rectangle
-};
+# define DEFAULT_KERNEL_NAME "main" //NOTE: нельзя сделать кернел с именем 'main'
+									//на встроенной видеокарте intel
 
-typedef int t_color;
-typedef int t_light_type;
-typedef int t_type;
-typedef int t_material;
-typedef int t_bbox;
-typedef cl_float16 t_matrix;
+# define DEFAULT_KERNEL_INCLUDE "-I ./include -I ./srcs/cl"
+# define DEFAULT_WORK_SIZE DEFAULT_WIDTH * DEFAULT_HEIGHT
 
-
-typedef struct		s_light
-{
-	cl_float4		origin;
-	cl_float4		direction;
-	t_color			color;
-	cl_float		ls; //radiance scaling factor [0, inf)
-	t_light_type	type;
-
-	cl_int			object_id; //for area lights
-}					t_light;
-
-typedef struct			s_obj
-{
-    t_type                type;
-    t_material            material;
-    t_bbox                bounding_box;
-    cl_float4            origin;
-    cl_float4            rotate;
-    cl_float4            dir2;
-	cl_float4			scale;
-    cl_float4            normal;
-    cl_float            r;
-    cl_float            r2;
-    cl_float            angle;
-    cl_float            maxm;
-    cl_float            minm;
-    cl_int                shadows;
-    cl_int                sampler_id;
-}						t_obj;
-
-
-struct		s_ray
-{
-	cl_float4	origin;
-	cl_float4	direction;
-};
+#define SUCCESS 0
+#define ERROR -1
 
 /**
 ** @brief
@@ -110,7 +66,7 @@ typedef struct			s_clp
 
 /**
 ** @brief
-** to manipulate sdl windos
+** to manipulate sdl windows
 */
 typedef struct			s_window
 {
@@ -118,31 +74,97 @@ typedef struct			s_window
 	SDL_Renderer		*renderer;
 	SDL_Texture			*texture;
 	uint32_t			*image; // TODO(dmelessa): change to cl_image later
+	cl_float3			*rgb_image;
 	int					width;
 	int					height;
 }						t_window;
 
+/**
+** @brief
+** all information needed to start our kernel
+*/
 typedef struct s_cl_program	t_cl_program;
-struct	s_cl_program
+struct					s_cl_program
 {
-	cl_program	program;
-	cl_kernel	kernel;
-	cl_mem		image;
+	t_clp				clp;
+
+	cl_program			program;
+
+	cl_kernel			kernel;
+	cl_kernel			new_kernel;
+	cl_kernel			help_kernel;
+
+	cl_mem				rgb_image;
+	cl_mem				output_image;
+	cl_mem				objects;
+	cl_mem				triangles;
+	cl_mem				lights;
+	cl_mem				samplers;
+	cl_mem				samples;
+	cl_mem				disk_samples;
+	cl_mem				hemisphere_samples;
+
+	size_t				work_size;
+	size_t				work_group_size;
 };
 
-/*matrix.c*/
-void    convert(t_obj *obj);
-t_matrix    create_affin_matrix(t_obj obj);
-t_matrix    rotate_matrix(cl_float4 rotate);
-t_matrix    z_rotate(cl_float angle);
-t_matrix    y_rotate(cl_float angle);
-t_matrix    x_rotate(cl_float angle);
-t_matrix    move_matrix(cl_float4 move);
-t_matrix    scale_matrix(cl_float4 scale);
-t_matrix    default_matrix(void);
-t_matrix    mul_matrix(t_matrix A, t_matrix B);
-void        print_matrix(t_matrix matrix);
+/**
+** @brief
+** struct containing information about scene: camera, objects, triangles and light sources
+*/
+typedef struct s_scene	t_scene;
+struct					s_scene
+{
+	t_obj				*objects;
+	t_triangle			*triangles;
+	t_light				ambient_light;
+	t_light				*lights;
+	t_ambient_occluder	ambient_occluder;
+	t_camera			camera;
+	int					nobjects;
+	int					nlights;
+	int					ntriangles;
+};
 
-/*create_program.c*/
+typedef struct	s_rt
+{
+	t_cl_program		program;
+	t_window			window;
+	t_scene				scene;
+	t_sampler_manager	sampler_manager;
+	t_render_options	options;
+}				t_rt;
 
-cl_program create_program(cl_context context);
+/**			functions for scene initialization			*/
+cl_float4	get_vector(int *f, int *l, char *line);
+float		get_number(int *f, int *l, char *line);
+int			find_parentheses(char *line, char *param, int *f, int *l);
+void		init_camera(char *line, t_scene *scene);
+void		init_object(char *line, t_scene *scene, int type);
+void		init_triangle(char *line, t_scene *scene);
+char		*find_file_name(char *str);
+int			fd_return(char *file_name);
+void		read_file(t_scene *scene, char *scene_file);
+
+/* program initialization */
+int			init_window(t_window *window);
+int			init_rt(t_rt *rt, char *scene_file);
+int			init_sampler_manager(t_sampler_manager *sampler_manager);
+cl_program	create_program(cl_context context);
+
+void		read_data(t_scene *scene, t_sampler_manager *sampler_manager, char *scene_file);
+
+/* events */
+int			catch_event(t_rt *rt);
+
+/* errors */
+void		cl_error(t_cl_program *program, t_clp *clp, int code);
+void		ft_clerror(cl_int ret);
+
+/* utils */
+float		rand_float();
+int			rand_int();
+void		swap_int(int *a, int *b);
+void		swap_float2(cl_float2 *a, cl_float2 *b);
+
+#endif

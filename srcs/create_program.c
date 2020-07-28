@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/07/27 20:30:35 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/07/28 18:52:53 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,75 @@
 #include <io.h>
 #include <fcntl.h>
 
-const char *files[] = {
-    "./srcs/ocl/main.cl",
-    NULL
-};
+#define BUFF 100000
 
-cl_program create_program(cl_context context)
+static const char *files[] = {
+	"world.h",
+	"cl_rt.h",
+	"utils.cl",
+	"solver.cl",
+	"random.cl",
+	"color.cl",
+	"sampler.cl",
+	"sampler_manager.cl",
+	"camera.cl",
+	"intersection.cl",
+	"normal.cl",
+	"light.cl",
+	"brdf.cl",
+	"ambient_occlusion.cl",
+	"shade.cl",
+	"area_light_shade.cl",
+	"ray_tracer.cl",
+	"main_kernel.cl",
+	"util_kernels.cl",
+	"math.cl"};
+int num_files = sizeof(files) / sizeof(char *);
+
+void		read_file(char *file_name, char *str)
 {
-    int ret;
-    int i;
-    int fd;
-    char **str;
-    cl_program program;
+	char	full_file_name[128];
+	int		ret;
+	int		fd;
 
-    i = 0;
-	str = malloc (sizeof(char *) * 1);
-    str[0] = (char*)malloc(sizeof(char) * BUFF);
-    ret = 0;
-    while (files[i])
-    {
-        fd = open(files[i], O_RDONLY);
-        ret = read(fd, str[0], BUFF);
-        str[0][ret] = 0;
-        i++;
-    }
-    program = clCreateProgramWithSource(context, 1, (const char **)str, NULL, &ret);
-    assert(!ret);
-    return (program);
+	ft_strcpy(full_file_name, DEFAULT_KERNEL_DIR);
+	ft_strcpy(full_file_name + sizeof(DEFAULT_KERNEL_DIR) - 1, file_name);
+
+	fd = open(full_file_name, O_RDONLY);
+	if (fd == -1)
+	{
+		ft_strcpy(full_file_name, "./include/");
+		ft_strcpy(full_file_name + sizeof("./include/") - 1, file_name);
+		fd = open(full_file_name, O_RDONLY);
+		assert(fd != -1);
+	}
+	assert(fd != -1);
+	ret = read(fd, str, BUFF);
+	str[ret] = '\0';
+	close(fd);
+}
+
+cl_program	create_program(cl_context context)
+{
+	int ret;
+	int i;
+	int fd;
+	char **str;
+	cl_program program;
+
+	i = 0;
+	str = malloc(sizeof(char *) * num_files);
+	ret = 0;
+	while (i < num_files)
+	{
+		str[i] = malloc(sizeof(char) * BUFF);
+		read_file(files[i], str[i]);
+		i++;
+	}
+	program = clCreateProgramWithSource(context, num_files, str, NULL, &ret);
+	assert(!ret);
+	while (i--)
+		free(str[i]);
+	free(str);
+	return (program);
 }

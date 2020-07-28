@@ -6,11 +6,12 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 21:18:06 by marvin            #+#    #+#             */
-/*   Updated: 2020/07/27 20:24:45 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/07/28 16:20:24 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "matrix.h"
+#include "objects.h"
 
 void        print_matrix(t_matrix matrix)
 {
@@ -131,21 +132,21 @@ t_matrix    create_affin_matrix(t_obj obj)
 {
     t_matrix    matrix;
 
-    matrix = scale_matrix(obj.scale);
-    matrix = mul_matrix(matrix, rotate_matrix(obj.rotate));
+    // matrix = scale_matrix(obj.scale);
+    // matrix = mul_matrix(matrix, rotate_matrix(obj.rotate));
     matrix = mul_matrix(matrix, move_matrix(obj.origin));
     return (matrix);
 }
 
 void    convert(t_obj *obj)
 {
-    obj->rotate.s[0] = obj->rotate.s[0] / 180 * PI;
-    obj->rotate.s[1] = obj->rotate.s[1] / 180 * PI;
-    obj->rotate.s[2] = obj->rotate.s[2] / 180 * PI;
+    // obj->rotate.s[0] = obj->rotate.s[0] / 180 * PI;
+    // obj->rotate.s[1] = obj->rotate.s[1] / 180 * PI;
+    // obj->rotate.s[2] = obj->rotate.s[2] / 180 * PI;
     obj->origin.s[0] *= -1;
     obj->origin.s[1] *= -1;
     obj->origin.s[2] *= -1;
-    obj->scale.s[0] = 1 / obj->scale.s[0];
-    obj->scale.s[1] = 1 / obj->scale.s[1];
-    obj->scale.s[2] = 1 / obj->scale.s[2];
+    // obj->scale.s[0] = 1 / obj->scale.s[0];
+    // obj->scale.s[1] = 1 / obj->scale.s[1];
+    // obj->scale.s[2] = 1 / obj->scale.s[2];
 }
