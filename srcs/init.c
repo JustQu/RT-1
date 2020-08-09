@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:43:55 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/07/22 19:35:25 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/06 20:51:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void init_buffers(t_cl_program *program, t_scene *scene,
 	int ro;
 	cl_context cntx;
 
-	ro = CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR;
+	ro = CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR;
 	cntx = program->clp.context;
 	program->rgb_image = clCreateBuffer(cntx, CL_MEM_READ_WRITE, sizeof(cl_float3) * program->work_size, NULL, &ret);
 	cl_error(program, &program->clp, ret);
@@ -56,12 +56,24 @@ void init_buffers(t_cl_program *program, t_scene *scene,
 										   sizeof(uint32_t) * program->work_size, NULL, &ret);
 	cl_error(program, &program->clp, ret);
 
+	program->instances = clCreateBuffer(cntx, ro, sizeof(t_instance) *
+		scene->instance_manager.ninstances, scene->instance_manager.instances,
+		&ret);
+	cl_error(program, &program->clp, ret);
+
 	program->objects = clCreateBuffer(cntx, ro,
-									  sizeof(t_obj) * scene->nobjects, scene->objects, &ret);
+		sizeof(t_obj) * scene->instance_manager.object_manager.nobjects,
+		scene->instance_manager.object_manager.objects, &ret);
 	cl_error(program, &program->clp, ret);
 
 	program->triangles = clCreateBuffer(cntx, ro,
-										sizeof(t_triangle) * scene->ntriangles, scene->triangles, &ret);
+		sizeof(t_triangle) * (scene->instance_manager.object_manager.ntriangles + 1),
+		scene->instance_manager.object_manager.triangles, &ret);
+	cl_error(program, &program->clp, ret);
+
+	program->matrices = clCreateBuffer(cntx, ro,
+		sizeof(t_matrix) * scene->instance_manager.matrix_manager.nmatrices,
+		scene->instance_manager.matrix_manager.matrices, &ret);
 	cl_error(program, &program->clp, ret);
 
 	program->lights = clCreateBuffer(cntx, ro, sizeof(t_light) * scene->nlights, scene->lights, &ret);
@@ -103,9 +115,7 @@ int init_kernel(t_cl_program *program, t_scene *scene, t_sampler_manager *sample
 {
 	int ret = 0;
 
-	/*init buffers for kernel*/
-	init_buffers(program, scene, sampler_manager);
-	cl_error(program, &program->clp, ret);
+
 	program->program = create_program(program->clp.context);
 	/* build kernel program */
 	ret = clBuildProgram(program->program, 1, &program->clp.de_id,
@@ -120,6 +130,10 @@ int init_kernel(t_cl_program *program, t_scene *scene, t_sampler_manager *sample
 	program->help_kernel = clCreateKernel(program->program, "translate_image", &ret);
 	cl_error(program, &program->clp, ret);
 	ft_clerror(program->clp.ret);
+
+	/*init buffers for kernel*/
+	init_buffers(program, scene, sampler_manager);
+	cl_error(program, &program->clp, ret);
 	return (0);
 }
 

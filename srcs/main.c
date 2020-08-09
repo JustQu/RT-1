@@ -3,21 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/07/17 18:50:48 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/09 21:16:34 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define _CRTDBG_MAP_ALLOC
 # include "rt.h"
 
+#define BANANA 0
+#define printf(...) if (BANANA) printf(__VA_ARGS__);
+
 FILE *f;
+
 /**
-** @brief
 ** L1 Cache = Local Memory(OpenCL) = Shared Memory(CUDA)
 */
+
 void	print_vector(cl_float4 vec)
 {
 	printf("(%.1f, %.1f, %.1f)", vec.x, vec.y, vec.z);
@@ -62,6 +66,12 @@ void	write_buffers(t_rt rt)
 		rt.sampler_manager.samplers, 0, 0, 0);
 }
 
+/**
+** @brief Очистка памяти
+** todo: память очищается не полностью
+** @param rt
+** @return ** void
+*/
 void cleanup(t_rt rt)
 {
 	clReleaseMemObject(rt.program.disk_samples);
@@ -78,60 +88,67 @@ void cleanup(t_rt rt)
 	clReleaseProgram(rt.program.program);
 	clReleaseCommandQueue(rt.program.clp.queue);
 	clReleaseContext(rt.program.clp.context);
-	free(rt.scene.triangles);
 	free(rt.scene.lights);
-	free(rt.scene.objects);
 	free(rt.window.image);
 }
-// #include "windows.h"
 
 void	set_new_kernel_args(t_rt rt, int step)
 {
+	printf("Pass arguments to kernel");
 	cl_kernel k;
 	int err_code;
-
 	k = rt.program.new_kernel;
 	err_code = 0;
 	err_code |= clSetKernelArg(k, 0, sizeof(cl_mem), &rt.program.rgb_image);
 	err_code |= clSetKernelArg(k, 1, sizeof(cl_int), &step);
 
-	err_code |= clSetKernelArg(k, 2, sizeof(cl_mem), &rt.program.objects);
+	err_code |= clSetKernelArg(k, 2, sizeof(cl_mem), &rt.program.instances);
+	err_code |= clSetKernelArg(k, 3, sizeof(cl_int),
+		&rt.scene.instance_manager.ninstances);
 
-	err_code |= clSetKernelArg(k, 3, sizeof(cl_int), &rt.scene.nobjects);
+	err_code |= clSetKernelArg(k, 4, sizeof(cl_mem), &rt.program.objects);
+	err_code |= clSetKernelArg(k, 5, sizeof(cl_int),
+		&rt.scene.instance_manager.object_manager.nobjects);
 
-	err_code |= clSetKernelArg(k, 4, sizeof(cl_mem), &rt.program.triangles);
+	err_code |= clSetKernelArg(k, 6, sizeof(cl_mem), &rt.program.triangles);
+	err_code |= clSetKernelArg(k, 7, sizeof(cl_int),
+		&rt.scene.instance_manager.object_manager.ntriangles);
 
-	err_code |= clSetKernelArg(k, 5, sizeof(cl_int), &rt.scene.ntriangles);
-	err_code |= clSetKernelArg(k, 6, sizeof(cl_mem), &rt.program.lights);
+	err_code |= clSetKernelArg(k, 8, sizeof(cl_mem), &rt.program.matrices);
+	err_code |= clSetKernelArg(k, 9, sizeof(cl_int),
+		&rt.scene.instance_manager.matrix_manager.nmatrices);
 
-	err_code |= clSetKernelArg(k, 7, sizeof(cl_int), &rt.scene.nlights);
+	err_code |= clSetKernelArg(k, 10, sizeof(cl_mem), &rt.program.lights);
+	err_code |= clSetKernelArg(k, 11, sizeof(cl_int), &rt.scene.nlights);
 
-	err_code |= clSetKernelArg(k, 8, sizeof(t_camera), &rt.scene.camera);
-	err_code |= clSetKernelArg(k, 9, sizeof(t_light), &rt.scene.ambient_light);
-	err_code |= clSetKernelArg(k, 10, sizeof(t_ambient_occluder), &rt.scene.ambient_occluder);
+	err_code |= clSetKernelArg(k, 12, sizeof(t_camera), &rt.scene.camera);
+	err_code |= clSetKernelArg(k, 13, sizeof(t_light), &rt.scene.ambient_light);
+	err_code |= clSetKernelArg(k, 14, sizeof(t_ambient_occluder), &rt.scene.ambient_occluder);
+	err_code |= clSetKernelArg(k, 15, sizeof(t_render_options), &rt.options);
 
-	err_code |= clSetKernelArg(k, 11, sizeof(t_render_options), &rt.options);
-
-	err_code |= clSetKernelArg(k, 12, sizeof(cl_mem), &rt.program.samplers);
-	err_code |= clSetKernelArg(k, 13, sizeof(cl_mem), &rt.program.samples);
-	err_code |= clSetKernelArg(k, 14, sizeof(cl_mem), &rt.program.disk_samples);
-	err_code |= clSetKernelArg(k, 15, sizeof(cl_mem), &rt.program.hemisphere_samples);
+	err_code |= clSetKernelArg(k, 16, sizeof(cl_mem), &rt.program.samplers);
+	err_code |= clSetKernelArg(k, 17, sizeof(cl_mem), &rt.program.samples);
+	err_code |= clSetKernelArg(k, 18, sizeof(cl_mem), &rt.program.disk_samples);
+	err_code |= clSetKernelArg(k, 19, sizeof(cl_mem), &rt.program.hemisphere_samples);
 	assert(!err_code);
 }
 
 void	render_cycle(t_rt rt)
 {
+	printf("Start render cycle\n");
 	int		err_code;
 
 	err_code = 0;
+	set_new_kernel_args(rt, 0);
+
 	for (int i = 0; i < NUM_SAMPLES; i++)
 	{
-		set_new_kernel_args(rt, i);
-		err_code = clEnqueueNDRangeKernel(rt.program.clp.queue, rt.program.new_kernel,
-										  1, NULL, &rt.program.work_size, &rt.program.work_group_size, 0, NULL, NULL);
+
+		printf("Start %d kernel\n", i + 1);
+		err_code = clEnqueueNDRangeKernel(rt.program.clp.queue,
+			rt.program.new_kernel, 1, NULL, &rt.program.work_size,
+			&rt.program.work_group_size, 0, NULL, NULL);
 		assert(!err_code);
-		err_code = clEnqueueReadBuffer(rt.program.clp.queue,
-									   rt.program.rgb_image, CL_TRUE, 0, rt.program.work_size * sizeof(float), rt.window.rgb_image, 0, NULL, NULL);
 		cl_error(&rt.program, &rt.program.clp, err_code);
 		assert(!err_code);
 	}
@@ -139,23 +156,28 @@ void	render_cycle(t_rt rt)
 	clSetKernelArg(rt.program.help_kernel, 0, sizeof(cl_mem), &rt.program.rgb_image);
 	clSetKernelArg(rt.program.help_kernel, 1, sizeof(cl_mem), &rt.program.output_image);
 	clSetKernelArg(rt.program.help_kernel, 2, sizeof(cl_int), &a);
-	err_code = clEnqueueNDRangeKernel(rt.program.clp.queue, rt.program.help_kernel,
-									  1, NULL, &rt.program.work_size, &rt.program.work_group_size, 0, NULL, NULL);
+	err_code = clEnqueueNDRangeKernel(rt.program.clp.queue,
+		rt.program.help_kernel, 1, NULL, &rt.program.work_size,
+		&rt.program.work_group_size, 0, NULL, NULL);
 	assert(!err_code);
 	err_code = clEnqueueReadBuffer(rt.program.clp.queue,
-								   rt.program.output_image, CL_TRUE, 0, rt.program.work_size * sizeof(uint32_t), rt.window.image, 0, NULL, NULL);
+		rt.program.output_image, CL_TRUE, 0,
+		rt.program.work_size * sizeof(uint32_t), rt.window.image,
+		0, NULL, NULL);
 	cl_error(&rt.program, &rt.program.clp, err_code);
 	assert(!err_code);
 }
 
 #include "stdlib.h"
 
-int		main(int ac, char **av)
+int main(int ac, char **av)
 {
+	printf("Start program\n");
+
 	t_rt	rt;
 	int		value;
 
-	f = fopen("ocl", "w");
+	f = fopen("ocl.cl", "w+");
 	if (f == NULL)
 	{
 		printf("ERROR");
@@ -169,7 +191,11 @@ int		main(int ac, char **av)
 			break;
 		else if (value == 0)
 		{
-			// start_render_kernel(rt);
+			printf("CPU:\nobj %zd\n", sizeof(t_obj));
+			printf("instance %zd\n", sizeof(t_instance));
+			printf("matrix %zd\n", sizeof(t_matrix));
+			printf("material %zd\n", sizeof(t_material));
+			printf("triangle %zd\n", sizeof(t_triangle));
 			render_cycle(rt);
 			display_image(&rt.window);
 		}

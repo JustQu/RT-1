@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 18:10:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/04/12 14:37:14 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/07 23:34:38 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,13 @@ void ft_clerror(cl_int ret)
 */
 void cl_error(t_cl_program *program, t_clp *clp, int code)
 {
+	static FILE *err_file;
+
 	if (code != CL_SUCCESS)
 	{
+		if (!err_file)
+			err_file = fopen("Errors", "w+");
+
 		printf("%d:", code);
 		// Determine the size of the log
 		size_t log_size;
@@ -130,6 +135,8 @@ void cl_error(t_cl_program *program, t_clp *clp, int code)
 
 		// Print the log
 		printf("%s\n", log);
+		fprintf(err_file, "%s\n", log);
 		ft_clerror(code);
+		fclose(err_file);
 	}
-}
+	}

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/07/28 18:46:43 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/05 21:58:56 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include "world.h"
 # include "bool.h"
 # include "sampler_manager.h"
+# include "instance_manager.h"
 
 # ifdef _WIN64
 #  define DEFAULT_KERNEL_FILE "main_kernel.cl"
@@ -40,14 +41,17 @@
 #  define DEFAULT_KERNEL_DIR "./srcs/cl/"
 # endif
 
-# define DEFAULT_KERNEL_NAME "main" //NOTE: нельзя сделать кернел с именем 'main'
-									//на встроенной видеокарте intel
+/**
+** NOTE: нельзя сделать кернел с именем 'main'
+** на встроенной видеокарте intel
+*/
+# define DEFAULT_KERNEL_NAME	"main"
 
-# define DEFAULT_KERNEL_INCLUDE "-I ./include -I ./srcs/cl"
-# define DEFAULT_WORK_SIZE DEFAULT_WIDTH * DEFAULT_HEIGHT
+# define DEFAULT_KERNEL_INCLUDE	"-I ./include -I ./srcs/cl"
+# define DEFAULT_WORK_SIZE		DEFAULT_WIDTH * DEFAULT_HEIGHT
 
-#define SUCCESS 0
-#define ERROR -1
+#define SUCCESS	0
+#define ERROR	-1
 
 /**
 ** @brief
@@ -83,8 +87,7 @@ typedef struct			s_window
 ** @brief
 ** all information needed to start our kernel
 */
-typedef struct s_cl_program	t_cl_program;
-struct					s_cl_program
+typedef struct			s_cl_program
 {
 	t_clp				clp;
 
@@ -96,8 +99,10 @@ struct					s_cl_program
 
 	cl_mem				rgb_image;
 	cl_mem				output_image;
+	cl_mem				instances;
 	cl_mem				objects;
 	cl_mem				triangles;
+	cl_mem				matrices;
 	cl_mem				lights;
 	cl_mem				samplers;
 	cl_mem				samples;
@@ -106,7 +111,7 @@ struct					s_cl_program
 
 	size_t				work_size;
 	size_t				work_group_size;
-};
+}						t_cl_program;
 
 /**
 ** @brief
@@ -115,25 +120,22 @@ struct					s_cl_program
 typedef struct s_scene	t_scene;
 struct					s_scene
 {
-	t_obj				*objects;
-	t_triangle			*triangles;
+	t_instance_manager	instance_manager;
 	t_light				ambient_light;
 	t_light				*lights;
 	t_ambient_occluder	ambient_occluder;
 	t_camera			camera;
-	int					nobjects;
 	int					nlights;
-	int					ntriangles;
 };
 
-typedef struct	s_rt
+typedef struct			s_rt
 {
 	t_cl_program		program;
 	t_window			window;
 	t_scene				scene;
 	t_sampler_manager	sampler_manager;
 	t_render_options	options;
-}				t_rt;
+}						t_rt;
 
 /**			functions for scene initialization			*/
 cl_float4	get_vector(int *f, int *l, char *line);

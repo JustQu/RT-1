@@ -6,12 +6,14 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:57:17 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/07/28 15:45:53 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/07 20:05:03 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
+
+#define OPEN_CL __OPENCL_C_VERSION__
 
 # ifndef __OPENCL_C_VERSION__
 #  ifdef __APPLE__

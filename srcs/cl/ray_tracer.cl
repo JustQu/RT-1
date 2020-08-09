@@ -6,40 +6,31 @@ float4	get_reflected_vector(float4 l, float4 n)
 	return normalize(r);
 }
 
+t_material	get_instance_material(t_instance_manager instance_manager, int id)
+{
+	return (instance_manager.instances[id].material);
+}
+
 //TODO(dmelessa): shading both sides of surface ยง14
-bool	scene_intersection(t_ray ray, t_shade_rec *shade_rec, t_scene scene)
+bool	scene_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
 {
 	float		t;
-	t_hit_info	last_rec;
+	t_hit_info	last_hit_info;
 
-	last_rec.t = K_HUGE_VALUE;
-	shade_rec->hit_an_object = false;
-	shade_rec->hit_a_triangle = false;
+	last_hit_info.t = K_HUGE_VALUE;
 
-	for (int i = 0; i < scene.nobjects; i++)
+	shade_rec->id = -1;
+	for (int i = 0; i < scene.instance_manager.ninstances; i++)
 	{
-		if (is_intersect(ray, scene.objects[i], &shade_rec->hit_info)
-			&& shade_rec->hit_info.t < last_rec.t)
+		if (instance_hit(scene.instance_manager, ray, i, &shade_rec->hit_info)
+			&& shade_rec->hit_info.t < last_hit_info.t)
 		{
-			shade_rec->hit_an_object = true;
-			last_rec = shade_rec->hit_info;
+			last_hit_info = shade_rec->hit_info;
 			shade_rec->id = i;
 		}
 	}
-
-	for (int i = 0; i < scene.ntriangles; i++)
-	{
-		if (triangle_intersection(ray, scene.triangles[i], &shade_rec->hit_info)
-			&& shade_rec->hit_info.t < last_rec.t)
-		{
-			shade_rec->hit_a_triangle = true;
-			last_rec = shade_rec->hit_info;
-			shade_rec->id = i;
-		}
-	}
-
-	shade_rec->hit_info = last_rec;
-	return (shade_rec->hit_an_object || shade_rec->hit_a_triangle);
+	shade_rec->hit_info = last_hit_info;
+	return (shade_rec->id > -1);
 }
 
 //todo: move normal computation to ray_trace_function
@@ -47,47 +38,43 @@ t_color	ray_trace(t_ray ray, t_scene scene, t_render_options options, t_sampler_
 {
 	t_shade_rec	shade_rec;
 	t_color		color;
+	t_material	instance_material;
 
 	color.value = options.background_color.value;
-	if (scene_intersection(ray, &shade_rec, scene))
+
+	if (scene_intersection(scene, ray, &shade_rec))
 	{
 		/* save ray for specular reflection */
-		shade_rec.ray = ray;
+		shade_rec.ray =  transform_ray(ray,
+			scene.instance_manager.matrices[
+				scene.instance_manager.instances[shade_rec.id].matrix_id]);;
 
 		/* compute hit point */
 		shade_rec.hit_point = (shade_rec.hit_info.t) * shade_rec.ray.direction + shade_rec.ray.origin;
 
-		/* shade ovject if it was triangle */
-		if (shade_rec.hit_a_triangle)
+		shade_rec.ray = ray;
+
+		shade_rec.normal = get_instance_normal(scene.instance_manager, shade_rec);
+
+		shade_rec.hit_point = (shade_rec.hit_info.t) * shade_rec.ray.direction + shade_rec.ray.origin;
+
+		/* if normal is not directed to us then we reverse normal*/
+		shade_rec.normal = dot(shade_rec.normal, ray.direction) < 0.0f ?
+			shade_rec.normal : -shade_rec.normal;
+
+		/* NOTE: we can get material in scene_intersection function */
+		instance_material = get_instance_material(scene.instance_manager, shade_rec.id);
+
+		// shade_rec.ray = ray;
+		if (options.area_lightning)
 		{
-			/* compute triangle normal */
-			shade_rec.normal = get_triangle_normal(scene.triangles[shade_rec.id]);
-
-			/* shade triangle */
-			if (options.area_lightning)
-			{
-				color = area_light_shade(scene.triangles[shade_rec.id].material, shade_rec, scene, sampler_manager, options, seed);
-			}
-			else
-				color = shade_object(scene.triangles[shade_rec.id].material, shade_rec, scene, sampler_manager,options, seed);
+			;
+			//todo: area_lightning
 		}
-
-		/* shade object if it was not triangle */
 		else
 		{
-			/* get object normal */
-			shade_rec.normal = get_object_normal(shade_rec.hit_point,
-				scene.objects[shade_rec.id], shade_rec.hit_info);
-			shade_rec.normal = dot(shade_rec.normal, ray.direction) < 0.0f ?
-				shade_rec.normal : -shade_rec.normal;
-
-			/* shade object */
-			if (options.area_lightning)
-			{
-				color = area_light_shade(scene.objects[shade_rec.id].material, shade_rec, scene, sampler_manager, options, seed);
-			}
-			else
-				color = shade_object(scene.objects[shade_rec.id].material, shade_rec, scene, sampler_manager, options, seed);
+			color = shade_material(scene, sampler_manager, instance_material,
+									shade_rec, options, seed);
 		}
 	}
 	return (color);

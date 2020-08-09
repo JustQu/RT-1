@@ -163,29 +163,37 @@ bool	box_intersection(t_ray ray, t_obj box, t_hit_info *hit_info)
 		}
 		return (true);
 	}
-	// printf("here\n");
 	return (false);
 }
 
+bool	generic_sphere_instersection(t_ray ray, t_obj sphere, t_hit_info *hit_info)
+{
+	float4	L = -ray.origin;
+	float	tca = dot(L, ray.direction);
+	if (tca < 0.0f)
+		return false;
+
+	float	d2 = dot(L, L);
+}
 
 bool	sphere_intersection(t_ray ray, t_obj sphere, t_hit_info *hit_info)
 {
 #if 1 // geometric solution
 
-	float4	L = sphere.origin - ray.origin;
-	float	tca = dot(L, ray.direction);
+	float4	L = sphere.origin - ray.origin; //1
+	float	tca = dot(L, ray.direction); //1 + 4
 	if (tca < 0.0f)
 		return false;
 
-	float	d2 = dot(L, L) - tca * tca;
+	float	d2 = dot(L, L) - tca * tca; //5 + 4 + 1 + 1
 	if (d2 > sphere.r2) //r^2 should be precomputed
 		return false;
 
-	float	thc = sqrt(sphere.r2 - d2);
-	float	t = tca - thc;
+	float	thc = sqrt(sphere.r2 - d2); // 11 + 6
+	float	t = tca - thc; // 18
 	if (t < 0.0f)
 	{
-		t = tca + thc;
+		t = tca + thc; //19
 		if (t < 0.0f)
 			return false;
 	}
@@ -226,11 +234,11 @@ bool	sphere_intersection(t_ray ray, t_obj sphere, t_hit_info *hit_info)
 	bool	ret;
 
 	ret = false;
-	denom = dot(ray.direction, plane.direction);
+	denom = dot(ray.direction, (float4)(0.0f, 1.0f, 0.0f, 0.0f)/* plane.direction */);
 	if (denom != 0)
 	{
-		a = plane.origin - ray.origin;
-		t = dot(a, plane.direction);
+		a = /* plane.origin */ -ray.origin;
+		t = dot(a, (float4)(0.0f, 1.0f, 0.0f, 0.0f)/* plane.direction */);
 		if (t * denom > 0.0f) //different signes
 		{
 			hit_info->t = t / denom;
@@ -540,43 +548,71 @@ bool	triangle_intersection(t_ray ray, t_triangle triangle,
 	return hit_info->t > EPSILON;
 }
 
-bool	is_intersect(t_ray ray, t_obj obj, t_hit_info *hit_info)
+bool	is_intersect(t_ray ray, t_obj obj, t_hit_info *hit_info, t_type type)
 {
-	if (obj.type == sphere)
+	if (type == sphere)
 	{
 		return (sphere_intersection(ray, obj, hit_info));
 	}
-	else if (obj.type == plane)
+	else if (type == plane)
 	{
 		return (plane_intersection(ray, obj, hit_info));
 	}
-	else if (obj.type == cylinder)
+	else if (type == cylinder)
 	{
 		return cylinder_intersection(ray, obj, hit_info);
 	}
-	else if (obj.type == cone)
+	else if (type == cone)
 	{
 		return (cone_intersection(ray, obj, hit_info));
 	}
-	else if (obj.type == paraboloid)
+	else if (type == paraboloid)
 	{
 		return (paraboloid_intersection(ray, obj, hit_info));
 	}
-	else if (obj.type == torus)
+	else if (type == torus)
 	{
 		return torus_intersecion(ray, obj, hit_info);
 	}
-	else if (obj.type == box)
+	else if (type == box)
 	{
 		return box_intersection(ray, obj, hit_info);
 	}
-	else if (obj.type == disk)
+	else if (type == disk)
 	{
 		return (disk_intersection(ray, obj, hit_info));
 	}
-	else if (obj.type == rectangle)
+	else if (type == rectangle)
 	{
 		return (rectangle_intersection(ray, obj, hit_info));
 	}
 	return (false);
+}
+
+t_ray	transform_ray(t_ray ray, t_matrix transformation_matrix)
+{
+	t_ray	inv_ray;
+
+	inv_ray.direction = vector_matrix_mul(ray.direction, transformation_matrix);
+	inv_ray.origin = point_matrix_mul(ray.origin, transformation_matrix);
+	return (inv_ray);
+}
+
+bool	instance_hit(t_instance_manager instance_manager, t_ray ray, int id, t_hit_info *hit_info)
+{
+	t_instance	instance;
+
+	instance = instance_manager.instances[id];
+	// if (instance.matrix_id > -1)
+	// {
+		ray = transform_ray(ray, instance_manager.matrices[instance.matrix_id]);
+	// }
+	if (instance.type == triangle)
+		return (triangle_intersection(ray,
+							instance_manager.triangles[instance.object_id],
+							hit_info));
+	else
+		return (is_intersect(ray,
+							instance_manager.objects[instance.object_id],
+							hit_info, instance.type));
 }

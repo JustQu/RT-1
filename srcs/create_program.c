@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/07/28 18:52:53 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/08 23:17:02 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ static const char *files[] = {
 	"world.h",
 	"cl_rt.h",
 	"utils.cl",
+	"print.cl",
 	"solver.cl",
 	"random.cl",
 	"color.cl",
 	"sampler.cl",
 	"sampler_manager.cl",
+	"matrix.cl",
 	"camera.cl",
 	"intersection.cl",
 	"normal.cl",
@@ -35,11 +37,10 @@ static const char *files[] = {
 	"area_light_shade.cl",
 	"ray_tracer.cl",
 	"main_kernel.cl",
-	"util_kernels.cl",
-	"math.cl"};
+	"util_kernels.cl"};
 int num_files = sizeof(files) / sizeof(char *);
 
-void		read_file(char *file_name, char *str)
+void		read_file(const char *file_name, char *str)
 {
 	char	full_file_name[128];
 	int		ret;
@@ -62,6 +63,8 @@ void		read_file(char *file_name, char *str)
 	close(fd);
 }
 
+extern FILE *f;
+
 cl_program	create_program(cl_context context)
 {
 	int ret;
@@ -77,6 +80,7 @@ cl_program	create_program(cl_context context)
 	{
 		str[i] = malloc(sizeof(char) * BUFF);
 		read_file(files[i], str[i]);
+		fprintf(f, "%s\n", str[i]);
 		i++;
 	}
 	program = clCreateProgramWithSource(context, num_files, str, NULL, &ret);

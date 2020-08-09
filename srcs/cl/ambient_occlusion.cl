@@ -4,16 +4,18 @@ float4	get_ambient_occluder_direction(t_ambient_occluder ambient_occluder,
 										uint2 *seed)
 {
 	float3 sp = sample_hemisphere(sampler, sampler_manager.hemisphere_samples, seed);
-	return (sp.x *ambient_occluder.u + sp.y * ambient_occluder.v + sp.z * ambient_occluder.w);
+	return (sp.x * ambient_occluder.u
+		+ sp.y * ambient_occluder.v
+		+ sp.z * ambient_occluder.w);
 }
 
 bool	in_shadow(t_ray shadow_ray, t_scene scene)
 {
 	t_hit_info ht;
 
-	for (int i = 0; i < scene.nobjects; i++)
+	for (int i = 0; i < scene.instance_manager.ninstances; i++)
 	{
-		if (is_intersect(shadow_ray, scene.objects[i], &ht))
+		if (instance_hit(scene.instance_manager, shadow_ray, i, &ht))
 			return (true);
 	}
 	return false;
@@ -36,6 +38,6 @@ t_color	ambient_occlusion_l(t_scene scene,
 	shadow_ray.direction = get_ambient_occluder_direction(scene.ambient_occluder, sampler_manager, sampler, seed);
 	color = float_color_multi(scene.ambient_occluder.ls, scene.ambient_occluder.color);
 	if (in_shadow(shadow_ray, scene))
-		color = float_color_multi(0.3, color);
+		color = float_color_multi(0.1, color);
 	return (color);
 }

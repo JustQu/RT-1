@@ -70,16 +70,23 @@ int		get_pixel_color(int x, int y,
 	return (color.value);
 }
 
-void	init_scene(t_scene *scene, __constant t_obj *objects, int nobjects,
+void	init_scene(t_scene *scene,
+					__constant t_instance *instances, int ninstances,
+					__constant t_obj *objects, int nobjects,
 					__constant t_triangle *triangles, int ntriangles,
+					__global t_matrix *matrices, int nmatrices,
 					__constant t_light *lights, int nlights,
 					t_camera camera, t_light ambient_light,
 					t_ambient_occluder ambient_occluder)
 {
-	scene->objects = objects;
-	scene->nobjects = nobjects;
-	scene->triangles = triangles;
-	scene->ntriangles = ntriangles;
+	scene->instance_manager.instances = instances;
+	scene->instance_manager.ninstances = ninstances;
+	scene->instance_manager.objects = objects;
+	scene->instance_manager.nobjects = nobjects;
+	scene->instance_manager.triangles = triangles;
+	scene->instance_manager.ntriangles = ntriangles;
+	scene->instance_manager.matrices = matrices;
+	scene->instance_manager.nmatrices = nmatrices;
 	scene->lights = lights;
 	scene->nlights = nlights;
 	scene->camera = camera;
@@ -106,22 +113,24 @@ void	init_sampler_manager(t_sampler_manager *sampler_manager,
 ** В дальнейшем когда будут сделаны материалы / преломления / отражения можно будет еще
 ** больше разбить кернел чтобы избежать дивергенции кода.
 */
-__kernel void	main(__global float3 *image,
-				int step,
+__kernel void	main(__global float3 *image,	//0
+				int step,						//1
 
-				__constant t_obj *objects, int nobjects,
-				__constant t_triangle *triangles, int ntriangles,
-				__constant t_light *lights, int nlights,
-				t_camera camera,
-				t_light ambient_light,
-				t_ambient_occluder ambient_occluder,
+				__constant t_instance *instances, int ninstances, //2, 3
+				__constant t_obj *objects, int nobjects,		//4, 5
+				__constant t_triangle *triangles, int ntriangles, //6, 7
+				__global t_matrix *matrices, int nmatrices,	//8, 9
+				__constant t_light *lights, int nlights,		//10, 11
+				t_camera camera,		//12
+				t_light ambient_light,	//13
+				t_ambient_occluder ambient_occluder, //14
 
-				t_render_options options,
+				t_render_options options, //15
 
-				__global t_sampler *samplers,
-				__global float2 *samples,
-				__global float2 *disk_samples,
-				__global float3 *hemisphere_samples)
+				__global t_sampler *samplers, //16
+				__global float2 *samples, //17
+				__global float2 *disk_samples,	//18
+				__global float3 *hemisphere_samples) //19
 {
 	int					global_id;
 	int					x;
@@ -139,10 +148,13 @@ __kernel void	main(__global float3 *image,
 	global_id = get_global_id(0);
 	x = global_id % camera.viewplane.width;
 	y = global_id / camera.viewplane.width;
-	seed.x = global_id;
-	seed.y = get_local_id(0) + get_group_id(0);
+	seed.x = global_id - step;
+	seed.y = get_local_id(0) + get_group_id(0) + step;
 	seed.y = random(&seed);
-	init_scene(&scene, objects, nobjects, triangles, ntriangles, lights, nlights, camera, ambient_light, ambient_occluder);
+	init_scene(&scene, instances, ninstances, objects, nobjects,
+				triangles, ntriangles, matrices, nmatrices,
+				lights, nlights, camera, ambient_light, ambient_occluder);
+
 	init_sampler_manager(&sampler_manager, samplers, samples, disk_samples, hemisphere_samples);
 
 	/* получаем семплер дляантиалиасинга и текущий шаг. */
@@ -170,6 +182,18 @@ __kernel void	main(__global float3 *image,
 		if (step != 0)
 			camera_sampler.jump = (random(&seed) % camera_sampler.num_sets) * camera_sampler.num_samples;
 	}
+
+	if (false && global_id == 0 && step == 0)
+	{
+		printf("GPU:\nobj %u\n", sizeof(t_obj));
+		printf("instance %u\n", sizeof(t_instance));
+		printf("matrix %u\n", sizeof(t_matrix));
+		printf("material %u\n", sizeof(t_material));
+		printf("triangle %u\n", sizeof(t_triangle));
+		printf("N: %d\n", nobjects);
+		print_all(scene);
+	}
+
 
 	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed);
 	color = ray_trace(ray, scene, options, sampler_manager, &seed);
@@ -216,7 +240,7 @@ __kernel void del(
 	t_ambient_occluder ambient_occluder;
 	// seed.y = random(&seed);
 
-	init_scene(&scene, objects, nobjects, triangles, ntriangles, lights, nlights, camera, ambient_light, ambient_occluder);
+	// init_scene(&scene, objects, nobjects, triangles, ntriangles, lights, nlights, camera, ambient_light, ambient_occluder);
 	init_sampler_manager(&sampler_manager, samplers, samples, disk_samples, hemisphere_samples);
 
 	// put_pixel(image, x, y, color);

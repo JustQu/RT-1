@@ -37,7 +37,7 @@ t_color		area_light_shade_phong(t_material material,
 		t_ray	shadow_ray = {.origin = shade_rec.hit_point * 0.999f, .direction = light_direction };
 
 		if (options.shadows)
-			in_shadow = shadow_hit(scene.lights[i], shadow_ray, shade_rec, scene);
+			in_shadow = shadow_hit(scene, scene.lights[i], shadow_ray, shade_rec);
 
 		if (!in_shadow)
 		{

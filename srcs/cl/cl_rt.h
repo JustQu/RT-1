@@ -16,16 +16,25 @@ typedef struct s_ray				t_ray;
 typedef struct s_hit_information	t_hit_info;
 typedef struct s_shade_rec			t_shade_rec;
 
-typedef float16						t_matrix4;
+typedef float16						t_matrix;
+
+typedef struct				s_instance_manager
+{
+	__constant t_instance	*instances;
+	__constant t_obj		*objects;
+	__constant t_triangle	*triangles;
+	__global t_matrix		*matrices;
+	int						ninstances;
+	int						nobjects;
+	int						ntriangles;
+	int						nmatrices;
+}							t_instance_manager;
 
 struct s_scene
 {
-	__constant t_obj		*objects;
-	__constant t_triangle	*triangles;
+	t_instance_manager		instance_manager;
 	__constant t_light		*lights;
-	int						nobjects;
-	int						ntriangles;
-	int						nlights;//36 + 80
+	int						nlights;
 	t_camera				camera;
 	t_light					ambient_light;
 	t_ambient_occluder		ambient_occluder;
@@ -57,17 +66,15 @@ struct		s_hit_information
 struct			s_shade_rec
 {
 	t_hit_info	hit_info;	//hit info for calculating hit point and normal
-	t_ray		ray;				//for specular highlights
+	t_ray		ray;			//for specular highlights
 	float4		hit_point;		//world coordinates of hit point
 	float4		local_hit_point; //for attaching textures to objects
 	float4		normal;			//normal at hit point NOTE: maybe not needed here
-							// and we can use local variable
+								// and we can use local variable
 	float4		direction;		//for area lights
 
 	int			id;
-	int			depth;			  //recursion depth
-	bool		hit_a_triangle; //did the ray hit a triangle
-	bool		hit_an_object;	  //or did the ray hit an object?
+	int			depth;			//recursion depth
 };
 
 float4 get_reflected_vector(float4 l, float4 n);

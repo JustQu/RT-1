@@ -1,6 +1,6 @@
 
 /**
-** 
+**
 */
 t_ray cast_camera_ray(t_camera camera, float x, float y, t_sampler_manager sampler_manager,
 					t_sampler *camera_sampler, uint2 *seed)
