@@ -41,15 +41,24 @@ float4	get_paraboloid_normal(float4 point, t_obj paraboloid, t_hit_info hit_info
 
 float4	get_torus_normal(float4 point, t_obj torus, t_hit_info hit_info)
 {
-	float	k;
-	float	m;
-	float4	A;
+		point = 1.0f * point;
+	float p = torus.r * torus.r + torus.r2 * torus.r2;
+	float s = point.x * point.x + point.y * point.y + point.z * point.z;
 
-	point = 1.0001f * point;
-	k = dot(point - torus.origin, torus.direction);
-	A = point - k * torus.direction;
-	m = sqrt(torus.r2 * torus.r2 - k * k);
-	return normalize(point - A - (torus.origin - A) * (m / (torus.r + m)));
+	return normalize((float4)(
+		4.0f * point.x * (s - p),
+		4.0f * point.y * (s - p + 2.0f * torus.r * torus.r),
+		4.0f * point.z * (s - p),
+		0.0f));
+	// float	k;
+	// float	m;
+	// float4	A;
+
+	// // point = 1.0001f * point;
+	// k = dot(point - torus.origin, torus.direction);
+	// A = point - k * torus.direction;
+	// m = sqrt(torus.r2 * torus.r2 - k * k);
+	// return (point - A - (torus.origin - A) * (m / (torus.r + m)));
 }
 
 float4	get_box_normal(float4 point, t_obj box, t_hit_info hit_info)
@@ -121,10 +130,11 @@ float4	get_object_normal(float4 point, t_obj object, t_hit_info hit_info, t_type
 float4	transform_normal(float4 normal, t_matrix matrix)
 {
 	// print_matrix(matrix);
-	return (float4)(matrix.s0 * normal.x + matrix.s4 * normal.y + matrix.s8 * normal.z,
-					   matrix.s1 * normal.x + matrix.s5 * normal.y + matrix.s9 * normal.z,
-					   matrix.s2 * normal.x + matrix.s6 * normal.y + matrix.sA * normal.z,
-					   0.0f);
+	return (float4)(
+		matrix.s0 * normal.x + matrix.s4 * normal.y + matrix.s8 * normal.z,
+		matrix.s1 * normal.x + matrix.s5 * normal.y + matrix.s9 * normal.z,
+		matrix.s2 * normal.x + matrix.s6 * normal.y + matrix.sA * normal.z,
+		0.0f);
 }
 
 float4	get_instance_normal(t_instance_manager instance_manager, t_shade_rec shade_rec)

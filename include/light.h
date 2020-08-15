@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   light.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 17:35:29 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/05/16 19:59:14 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/13 01:02:44 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIGHT_H
 # define LIGHT_H
 
-# include "objects.h"
+# include "types.h"
+# include "color.h"
 
 typedef enum e_light_types			t_light_type;
 typedef struct s_light				t_light;
@@ -31,7 +32,7 @@ enum	e_light_types
 };
 
 #ifdef _WIN64
-__declspec(align(4))
+//__declspec(align(4))
 #endif
 struct				s_light
 {
@@ -40,12 +41,11 @@ struct				s_light
 	t_color			color;
 	cl_float		ls; //radiance scaling factor [0, inf)
 	t_light_type	type;
-
 	cl_int			object_id; //for area lights
 };
 
 #ifdef _WIN64
-__declspec(align(4))
+//__declspec(align(4))
 #endif
 struct				s_ambient_occluder
 {

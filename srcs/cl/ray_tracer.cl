@@ -40,23 +40,28 @@ t_color	ray_trace(t_ray ray, t_scene scene, t_render_options options, t_sampler_
 	t_color		color;
 	t_material	instance_material;
 
-	color.value = options.background_color.value;
+	color = options.background_color;
 
 	if (scene_intersection(scene, ray, &shade_rec))
 	{
+		// shade_rec.ray = ray;
 		/* save ray for specular reflection */
 		shade_rec.ray =  transform_ray(ray,
 			scene.instance_manager.matrices[
-				scene.instance_manager.instances[shade_rec.id].matrix_id]);;
+				scene.instance_manager.instances[shade_rec.id].matrix_id]);
 
 		/* compute hit point */
 		shade_rec.hit_point = (shade_rec.hit_info.t) * shade_rec.ray.direction + shade_rec.ray.origin;
 
-		shade_rec.ray = ray;
-
 		shade_rec.normal = get_instance_normal(scene.instance_manager, shade_rec);
 
+		shade_rec.ray = ray;
+
 		shade_rec.hit_point = (shade_rec.hit_info.t) * shade_rec.ray.direction + shade_rec.ray.origin;
+
+		// ray =  transform_ray(ray,
+			// scene.instance_manager.matrices[
+				// scene.instance_manager.instances[shade_rec.id].matrix_id]);
 
 		/* if normal is not directed to us then we reverse normal*/
 		shade_rec.normal = dot(shade_rec.normal, ray.direction) < 0.0f ?
@@ -68,7 +73,7 @@ t_color	ray_trace(t_ray ray, t_scene scene, t_render_options options, t_sampler_
 		// shade_rec.ray = ray;
 		if (options.area_lightning)
 		{
-			;
+			;;;;;;;;;;;;;;;;;
 			//todo: area_lightning
 		}
 		else

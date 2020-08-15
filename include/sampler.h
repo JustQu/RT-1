@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sampler.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:53:59 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/05/16 18:04:10 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/14 17:53:34 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ enum	e_sampler_type
 #define DISK_SAMPLES		1 << 1
 #define HEMISPHERE_SAMPLES	1 << 2
 
-# ifdef _WIN64
+#ifdef _WIN64
 __declspec(align(4))
 # endif
 struct				s_sampler
@@ -49,8 +49,8 @@ struct				s_sampler
 	// cl_int			shuffled_indices[NUM_SAMPLES * NUM_SETS];
 
 	cl_int			offset;
-	// cl_int			disk_samples_offset;
-	// cl_int			hemisphere_samples_offset;
+	cl_int			disk_samples_offset;
+	cl_int			hemisphere_samples_offset;
 };
 
 

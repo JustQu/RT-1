@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 21:05:04 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/10 00:34:53 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/14 22:44:06 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@ static const t_camera default_camera = {
 		.width = DEFAULT_WIDTH,
 		.height = DEFAULT_HEIGHT},
 	.type = perspective,
-	.origin = {.x = 0.0f, .y = 0.0f, .z = -2.0f, .w = 0.0f},
-	.direction = {.x = 0.0f, .y = -0.00f, .z = 1.0f, .w = 0.0f},
+	.origin = {.x = 0.0f, .y = 2.0f, .z = -10.0f, .w = 0.0f},
+	.direction = {.x = 0.0f, .y = -0.2f, .z = 1.0f, .w = 0.0f},
 	.up = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
-	.d = DEFAULT_WIDTH / 4,
+	.d = DEFAULT_WIDTH,
 	.zoom = 1.0f,
-	.ratio = (float)DEFAULT_WIDTH / (float)DEFAULT_HEIGHT,
 	.normalized = FALSE
 };
 
@@ -34,16 +33,15 @@ static const t_camera default_thin_lens_camera = {
 		.height = DEFAULT_HEIGHT,
 	},
 	.type = thin_lens,
-	.origin = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
+	.origin = {.x = 0.0f, .y = 1.0f, .z = -2.0f, .w = 0.0f},
 	.direction = {.x = 0.0f, .y = 0.0f, .z = 1.0f, .w = 0.0f},
 	.up = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
 	.d = DEFAULT_WIDTH / 4,
 	.zoom = 1.0f,
-	.ratio = (float)DEFAULT_WIDTH / DEFAULT_HEIGHT,
 	.normalized = FALSE,
 
-	.l = 0.2f,
-	.f = 5.0f
+	.l = 0.0f,
+	.f = 7.0f
 };
 
 static const t_camera default_fisheye_camera = {
@@ -58,7 +56,6 @@ static const t_camera default_fisheye_camera = {
 	.up = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
 	.d = DEFAULT_WIDTH / 2,
 	.zoom = 1.0f,
-	.ratio = (float)(DEFAULT_WIDTH) / DEFAULT_HEIGHT,
 	.normalized = TRUE,
 
 	.f = 180.0 / 2.0f
@@ -76,7 +73,6 @@ static const t_camera default_stereo_camera = {
 	.up = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f },
 	.d = DEFAULT_WIDTH / 4,
 	.zoom = 1.0f,
-	.ratio = (float)DEFAULT_WIDTH / DEFAULT_HEIGHT,
 	.normalized = FALSE,
 
 	.f = 1.0f,
@@ -99,7 +95,6 @@ static const t_camera default_spherical_camera = {
 	.up = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
 	.d = DEFAULT_WIDTH / 2,
 	.zoom = 1.0f,
-	.ratio = (float)DEFAULT_WIDTH / DEFAULT_HEIGHT,
 	.normalized = TRUE,
 	.l = 360.0f / 2,
 	.f = 180.0f / 2,
@@ -107,8 +102,7 @@ static const t_camera default_spherical_camera = {
 
 static const t_material default_matte_material = {
 	.type = matte,
-	.color = {
-		.value = 0x0000afff},
+	.color = { .r = 0.0f, .g = 0xaf/(float)0xff, 1.0f },
 	.kd = 0.5f,
 	.ka = 0.1f,
 	.ks = 0.0f,
@@ -117,9 +111,7 @@ static const t_material default_matte_material = {
 
 static const t_material default_emissive_material = {
 	.type = emissive,
-	.color = {
-		.value = 0x00ffff00
-	},
+	.color = { .r = 1.0f, .g = 1.0f, .b = 0.0f },
 	.ka = 1.0f,
 };
 
@@ -310,12 +302,12 @@ static const t_light default_directional_light = {
 static const t_light default_point_light = {
 	.type = point,
 	.origin = {
-		.x = 0.0f,
-		.y = 0.0f,
-		.z = 0.0f,
+		.x = 1.0f,
+		.y = 5.0f,
+		.z = -5.0f,
 		.w = 0.0f},
-	.ls = 1.5f,
-	.color = 0x00ffffff
+	.ls = 2.0f,
+	.color = { .r = 1.0f, .g = 1.0f, .b = 1.0f }
 };
 
 void	init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
@@ -327,7 +319,7 @@ void	init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	instance_manager = &scene->instance_manager;
 	init_instance_manager(instance_manager);
 
-	// scene->camera = default_thin_lens_camera;
+	scene->camera = default_thin_lens_camera;
 	// scene->camera = default_fisheye_camera;
 	// scene->camera = default_spherical_camera;
 	// scene->camera = default_stereo_camera;
@@ -347,29 +339,46 @@ void	init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object_info.origin = (cl_float4){ .x = 0.0f, .y = -1.0f, .z = 5.0f, .w = 0.0f };
 	object_info.direction = (cl_float4){.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f};
 	object_info.scaling = (cl_float3){ .x = 1.0f, .y = 1.0f, .z = 1.0f};
-	object_info.rotation = (cl_float3){ .x = -0.1f, .y = 0.0f, .z = 0.0f };
-	object_info.material = (t_material){.type = matte, .color = {.value = 0x000ffff0}, .kd = 0.5f, .ka = 0.5f, .ks = 0.0f, .exp = 1.0f};
+	object_info.rotation = (cl_float3){ .x = 0.0f, .y = 0.0f, .z = 0.0f };
+	object_info.material = (t_material){.type = matte,
+		.color = { .r = 1.0f, .g = 1.0f, .b = (float)0xf0/0xff},
+		.kd = 0.9f, .ka = 0.1f, .ks = 0.0f, .exp = 1.0f};
 	add_instance(instance_manager, object_info);
 
 	object_info.type = sphere;
-	object_info.origin = (cl_float4) { .x = -1.0f, .y = 0.0f, .z = 2.0f, .w = 0.0f };
+	object_info.origin = (cl_float4) { .x = 0.0f, .y = 0.0f, .z = 3.0f, .w = 0.0f };
 	object_info.r = 1.0f;
 	object_info.r2 = 1.0f;
-	object_info.material = (t_material) { .type = matte, .color = {.value = 0x00ff0000 }, .kd = 0.8f, .ka = 0.1f, .ks = 0.1f, .exp = 100.0f };
+	object_info.material = (t_material) { .type = matte,
+		.color = { .r = 1.0f, .g = 0.0f, .b = 0.0f },
+		.kd = 0.8f, .ka = 0.1f, .ks = 0.1f, .exp = 100.0f };
+	add_instance(instance_manager, object_info);
+
+	object_info.type = torus;
+	object_info.r = 1.0f;
+	object_info.r2 = 0.25f;
+	object_info.rotation = (cl_float3){.x = 0.0f, .y = 0.0f, .z = 0.0f};
+	object_info.direction = (cl_float4) { .x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f};
+	object_info.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f, .w = 0.0f};
+	object_info.material.type = phong;
+	object_info.material.ks = 0.1f;
+	object_info.material.exp = 10.0f;
+	object_info.material.color =
+		(t_color){ .r = 0.0f, .g = (float)0xfa/0xff, .b = (float)0xaf/0xff };
 	add_instance(instance_manager, object_info);
 
 	//Освещение
 
-	scene->ambient_occluder.color.value = 0x00ffffff;
+	scene->ambient_occluder.color = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
 	scene->ambient_occluder.ls = 0.01f;
-	scene->ambient_occluder.min_amount.value = 0.00f;
+	scene->ambient_occluder.min_amount = (t_color){ .r = 0.0f, .g = 0.0f, .b = 0.0f };
 	scene->ambient_occluder.sampler_id = new_sampler(sampler_manager, jitter, NUM_SAMPLES, HEMISPHERE_SAMPLES);
 
 	scene->ambient_light = (t_light){
 		.type = ambient,
-		.ls = 1.0f,
-		.color = {
-			.value = 0x00ffffff}};
+		.ls = 0.2f,
+		.color = { .r = 1.0f, .b = 1.0f, .g = 1.0f }
+	};
 	scene->lights[0] = default_point_light;
 
 		scene->lights[1] = default_directional_light;

@@ -21,7 +21,7 @@ typedef float16						t_matrix;
 typedef struct				s_instance_manager
 {
 	__constant t_instance	*instances;
-	__constant t_obj		*objects;
+	__global t_obj *objects;
 	__constant t_triangle	*triangles;
 	__global t_matrix		*matrices;
 	int						ninstances;
@@ -56,6 +56,7 @@ struct		s_ray
 
 struct		s_hit_information
 {
+	float4	local_hit_point;
 	float	t; //ray distance
 	float	m;
 	float	dv; //dot(ray.direction, object.direction)

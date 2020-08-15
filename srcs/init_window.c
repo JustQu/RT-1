@@ -42,7 +42,7 @@ int		init_window(t_window *window)
 	if (!window->image)
 		perror("window->image malloc");
 
-	window->rgb_image = (cl_float3 *)malloc(sizeof(cl_float3) * window->width * window->height);
-	ft_memset(window->rgb_image, 0, sizeof(cl_float3) * window->width * window->height);
+	window->rgb_image = (t_color *)malloc(sizeof(t_color) * window->width * window->height);
+	ft_memset(window->rgb_image, 0, sizeof(t_color) * window->width * window->height);
 	return (0);
 }

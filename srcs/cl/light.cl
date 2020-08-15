@@ -18,9 +18,9 @@ float4	get_light_direction(t_light light, t_shade_rec shade_rec)
 
 	if (light.type == ambient)
 	{
-		color.r = clamp(light.color.r * light.ls, 0.0f, 255.0f);
-		color.g = clamp(light.color.g * light.ls, 0.0f, 255.0f);
-		color.b = clamp(light.color.b * light.ls, 0.0f, 255.0f);
+		color.r = light.color.r * light.ls;
+		color.g = light.color.g * light.ls;
+		color.b = light.color.b * light.ls;
 		return (color);
 	}
 }

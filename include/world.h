@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 19:36:22 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/08 14:04:05 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/14 16:39:28 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
 
 # define DEFAULT_WIDTH 1200
 # define DEFAULT_HEIGHT 600
-# define WORK_GROUP_SIZE 64
+# define WORK_GROUP_SIZE 128
 
 typedef struct s_render_options		t_render_options;
 
-# ifdef _WIN64
+#ifdef _WIN64
 __declspec(align(4))
 # endif
 struct				s_render_options

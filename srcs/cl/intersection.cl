@@ -168,12 +168,24 @@ bool	box_intersection(t_ray ray, t_obj box, t_hit_info *hit_info)
 
 bool	generic_sphere_instersection(t_ray ray, t_obj sphere, t_hit_info *hit_info)
 {
-	float4	L = -ray.origin;
-	float	tca = dot(L, ray.direction);
+	float	tca = dot(-ray.origin, ray.direction); //1 + 4
 	if (tca < 0.0f)
 		return false;
 
-	float	d2 = dot(L, L);
+	float	d2 = dot(-ray.origin, -ray.origin) - tca * tca; //5 + 4 + 1 + 1
+	if (d2 > 1.0f) //r^2 should be precomputed
+		return false;
+
+	float	thc = sqrt(1.0f - d2); // 11 + 6
+	float	t = tca - thc; // 18
+	if (t < 0.0f)
+	{
+		t = tca + thc; //19
+		if (t < 0.0f)
+			return false;
+	}
+	hit_info->t = t;
+	return (true);
 }
 
 bool	sphere_intersection(t_ray ray, t_obj sphere, t_hit_info *hit_info)
@@ -222,11 +234,30 @@ bool	sphere_intersection(t_ray ray, t_obj sphere, t_hit_info *hit_info)
 #endif
 }
 
-/**
-** there could be mistake
-** need some tests
-*/
- bool	plane_intersection(t_ray ray, t_obj plane, t_hit_info *hit_info)
+bool	generic_plane_intersection(t_ray ray, t_hit_info *hit_info)
+{
+	bool	ret = false;
+	float	denom = dot(ray.direction, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
+	float	t;
+
+	if (denom != 0.0f)
+	{
+		t = dot(-ray.origin, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
+		if (t * denom > 0.0f)
+		{
+			t = t / denom;
+			if (t >= EPSILON)
+			{
+				hit_info->t = t;
+				hit_info->dv = denom;
+				ret = true;
+			}
+		}
+	}
+	return (ret);
+}
+
+bool	plane_intersection(t_ray ray, t_obj plane, t_hit_info *hit_info)
 {
 	float4	a;
 	float	t;
@@ -475,8 +506,8 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 
  bool	torus_intersecion(t_ray ray, t_obj torus, t_hit_info *hit_info)
 {
-	if (!bbox_intersection(ray, torus.bounding_box))
-		return false;
+	// if (!bbox_intersection(ray, torus.bounding_box))
+		// return false;
 	double	coeffs[5];
 	double	roots[4];
 	float4	x;
@@ -504,7 +535,7 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 	if (num_real_roots == 0)
 		return false;
 
-	t = 1000.0f;
+	t = 10000.0f;
 	for (int j = 0; j < num_real_roots; j++)
 	{
 		if (roots[j] > EPSILON)
@@ -552,10 +583,12 @@ bool	is_intersect(t_ray ray, t_obj obj, t_hit_info *hit_info, t_type type)
 {
 	if (type == sphere)
 	{
+		return (generic_sphere_instersection(ray, obj, hit_info));
 		return (sphere_intersection(ray, obj, hit_info));
 	}
 	else if (type == plane)
 	{
+		return (generic_plane_intersection(ray, hit_info));
 		return (plane_intersection(ray, obj, hit_info));
 	}
 	else if (type == cylinder)

@@ -31,6 +31,7 @@ t_ray cast_camera_ray(t_camera camera, float x, float y, t_sampler_manager sampl
 	else if (camera.type == thin_lens)
 	{
 		float2 dp = sample_unit_disk(camera_sampler, sampler_manager.disk_samples, seed);
+		// printf("#%d: %f %f\n", get_global_id(0), dp.x, dp.y);
 		float2 lp = dp * camera.l; //lens_point
 		ray.origin = camera.origin + camera.u * lp.x + camera.v * lp.y;
 		px = px * camera.f / camera.d;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:51:48 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/05/16 18:00:09 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/13 01:07:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,25 @@
 
 #include "types.h"
 
-typedef union s_color	t_color;
+typedef struct s_color	t_color;
 
-union					s_color {
-	cl_int				value;
-	struct
-	{
-		cl_uchar		b;
-		cl_uchar		g;
-		cl_uchar		r;
-		cl_uchar		a;
-	};
+/**
+** @brief store color in rgb float compnents.
+** Components are normolized [0.0f, 1.0f]
+**
+*/
+struct	s_color
+{
+	cl_float	r;
+	cl_float	g;
+	cl_float	b;
+	cl_float	a;
 };
 
-
+# ifndef __OPENCL_C_VERSION__
+void	set_color_int(t_color *color, int value);
+void	set_color_uchar(t_color *color, uint8_t r, uint8_t g, uint8_t b);
+void	set_color_float(t_color *color, float r, float g, float b);
+# endif
 
 #endif

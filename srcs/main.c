@@ -6,14 +6,13 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/09 21:16:34 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/14 18:00:53 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _CRTDBG_MAP_ALLOC
 # include "rt.h"
 
-#define BANANA 0
+#define BANANA 1
 #define printf(...) if (BANANA) printf(__VA_ARGS__);
 
 FILE *f;
@@ -108,15 +107,15 @@ void	set_new_kernel_args(t_rt rt, int step)
 
 	err_code |= clSetKernelArg(k, 4, sizeof(cl_mem), &rt.program.objects);
 	err_code |= clSetKernelArg(k, 5, sizeof(cl_int),
-		&rt.scene.instance_manager.object_manager.nobjects);
+		&rt.scene.instance_manager.nobjects);
 
 	err_code |= clSetKernelArg(k, 6, sizeof(cl_mem), &rt.program.triangles);
 	err_code |= clSetKernelArg(k, 7, sizeof(cl_int),
-		&rt.scene.instance_manager.object_manager.ntriangles);
+		&rt.scene.instance_manager.ntriangles);
 
 	err_code |= clSetKernelArg(k, 8, sizeof(cl_mem), &rt.program.matrices);
 	err_code |= clSetKernelArg(k, 9, sizeof(cl_int),
-		&rt.scene.instance_manager.matrix_manager.nmatrices);
+		&rt.scene.instance_manager.nmatrices);
 
 	err_code |= clSetKernelArg(k, 10, sizeof(cl_mem), &rt.program.lights);
 	err_code |= clSetKernelArg(k, 11, sizeof(cl_int), &rt.scene.nlights);
@@ -139,16 +138,18 @@ void	render_cycle(t_rt rt)
 	int		err_code;
 
 	err_code = 0;
-	set_new_kernel_args(rt, 0);
+	clEnqueueWriteBuffer(rt.program.clp.queue, rt.program.samplers,
+						 CL_TRUE, 0, sizeof(t_obj) * rt.scene.instance_manager.nobjects,
+						 rt.scene.instance_manager.objects, 0, 0, 0);
+
 
 	for (int i = 0; i < NUM_SAMPLES; i++)
 	{
-
 		printf("Start %d kernel\n", i + 1);
+		set_new_kernel_args(rt, i);
 		err_code = clEnqueueNDRangeKernel(rt.program.clp.queue,
 			rt.program.new_kernel, 1, NULL, &rt.program.work_size,
 			&rt.program.work_group_size, 0, NULL, NULL);
-		assert(!err_code);
 		cl_error(&rt.program, &rt.program.clp, err_code);
 		assert(!err_code);
 	}
@@ -184,6 +185,8 @@ int main(int ac, char **av)
 		exit(0);
 	}
 	ac == 1 ? init_rt(&rt, NULL) : init_rt(&rt, av[1]);
+	print_samples(&rt.sampler_manager, rt.options.sampler_id);
+	print_samples(&rt.sampler_manager, rt.scene.camera.sampler_id);
 	while (1)
 	{
 		value = catch_event(&rt);

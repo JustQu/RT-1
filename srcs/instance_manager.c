@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 19:52:25 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/09 22:35:42 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/13 18:44:24 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,48 @@
 
 #include <assert.h>
 
-int			init_instance_manager(t_instance_manager *instance_manager)
+/**
+** @brief allocate memory with size = `new_size`
+** and copy `current_size` bytes data from `mem` memory
+** @todo: move to libft
+** @param mem
+** @param current_size
+** @param new_size
+** @return ** void*
+*/
+void		*ft_realloc(void *mem, size_t current_size, size_t new_size)
 {
-	init_object_manager(&instance_manager->object_manager);
-	init_matrix_manager(&instance_manager->matrix_manager);
+	void	*new_mem;
 
-	instance_manager->instances = malloc(sizeof(t_instance) * 100);
-	assert(instance_manager->instances);
-	ft_memset(instance_manager->instances, 0, sizeof(t_instance) * 100);
-	instance_manager->malloc_size = sizeof(t_instance) * 100;
-	instance_manager->ninstances = 0;
+	new_mem = malloc(new_size);
+	if (new_mem == NULL)
+		return (NULL);
+	ft_memcpy(new_mem, mem, current_size);
+	free(mem);
+	return (new_mem);
 }
 
-int			realloc_instance_manager(t_instance_manager *instance_manager,
-									size_t size)
+int			init_instance_manager(t_instance_manager *mngr)
 {
-	t_instance	*new_mem;
+	int	a;
 
-	new_mem = malloc(size);
-	assert(new_mem);
-	ft_memcpy(new_mem, instance_manager->instances,
-			instance_manager->ninstances * sizeof(t_instance));
-	free(instance_manager->instances);
-	instance_manager->instances = new_mem;
-	instance_manager->malloc_size = size;
-	return 0;
+	a = 100;
+	*mngr = (t_instance_manager){ .ninstances = 0, .nobjects = 0,
+		.ntriangles = 0, .nmatrices = 0,
+		.instances_malloc_size = a * sizeof(t_instance),
+		.objects_malloc_size = a * sizeof(t_obj),
+		.triangles_malloc_size = a * sizeof(t_triangle),
+		.matrices_malloc_size = a * sizeof(t_matrix)};
+	// init_object_manager(&instance_manager->object_manager);
+	// init_matrix_manager(&mngr->matrix_manager);
+	mngr->instances = (t_instance *)ft_memalloc(mngr->instances_malloc_size);
+	mngr->objects = (t_obj *)ft_memalloc(mngr->objects_malloc_size);
+	mngr->triangles = (t_triangle *)ft_memalloc(mngr->triangles_malloc_size);
+	mngr->matrices = (t_matrix *)ft_memalloc(mngr->matrices_malloc_size);
+	assert(mngr->instances);
+	assert(mngr->objects);
+	assert(mngr->triangles);
+	assert(mngr->matrices);
 }
 
 /**
@@ -50,18 +67,16 @@ int			realloc_instance_manager(t_instance_manager *instance_manager,
 ** @param object_info
 ** @return ** t_matrix
 */
-t_matrix	get_transformation_matrix(t_object_info object_info)
+t_matrix	get_transformation_matrix(t_object_info obj_info)
 {
-	t_matrix	matrix;
+	t_matrix	m;
+	cl_float3	test;
 
-	matrix = IDENTITY_MATRIX;
-	matrix = mul_matrix(matrix,
-						get_inverse_scale_matrix(object_info.scaling));
-	matrix = mul_matrix(matrix,
-						get_inverse_rotation_matrix(object_info.rotation));
-	matrix = mul_matrix(matrix,
-						get_inverse_translation_matrix(object_info.origin));
-	return (matrix);
+	m = IDENTITY_MATRIX;
+	m = mul_matrix(m, get_inverse_scale_matrix(obj_info.scaling));
+	m = mul_matrix(m, get_inverse_rotation_matrix(obj_info.rotation));
+	m = mul_matrix(m, get_inverse_translation_matrix(obj_info.origin));
+	return (m);
 }
 
 /**
@@ -71,54 +86,30 @@ t_matrix	get_transformation_matrix(t_object_info object_info)
 ** @param type
 ** @return ** int
 */
-int			add_instance(t_instance_manager *instance_manager,
-						t_object_info object_info)
+int			add_instance(t_instance_manager *mngr, t_object_info object_info)
 {
 	t_instance	*new_memory;
 	t_instance	new_instance;
 	t_matrix	transformation_matrix;
 
-	if (instance_manager->malloc_size
-		< (instance_manager->ninstances + 1) * sizeof(t_instance))
+	if (mngr->instances_malloc_size
+		< (mngr->ninstances + 1) * sizeof(t_instance))
 	{
-		realloc_instance_manager(instance_manager,
-								instance_manager->malloc_size * 2);
+		mngr->instances = ft_realloc(mngr->instances,
+			mngr->instances_malloc_size, mngr->instances_malloc_size * 2);
+		mngr->instances_malloc_size *= 2;
 	}
 	//todo: do not create matrix if there is no tranformations
 	transformation_matrix = get_transformation_matrix(object_info);
 	new_instance.type = object_info.type;
 	new_instance.material = object_info.material;
-	new_instance.object_id = add_object(&instance_manager->object_manager,
-										object_info);
-	new_instance.matrix_id = add_matrix(&instance_manager->matrix_manager,
-										transformation_matrix);
-	instance_manager->instances[instance_manager->ninstances] = new_instance;
-	return (++instance_manager->ninstances - 1);
+	new_instance.object_id = add_object(mngr, object_info);
+	new_instance.matrix_id = add_matrix(mngr, transformation_matrix);
+	mngr->instances[mngr->ninstances] = new_instance;
+	return (++mngr->ninstances - 1);
 }
 
 t_instance	get_instance(t_instance_manager *instance_manager, int instance_id)
 {
 	return instance_manager->instances[instance_id];
-}
-
-void	change_instance(t_instance_manager *instance_manager, int instance_id,
-						t_matrix matrix)
-{
-	t_instance	instance;
-	t_matrix	new_matrix;
-
-	instance = get_instance(instance_manager, instance_id);
-	// if (instance.matrix_id == -1)
-	// {
-	// 	instance_manager->instances[instance_id].matrix_id =
-	// 		add_matrix(instance_manager, matrix);
-	// }
-	// else
-	// {
-	// 	new_matrix = get_matrix(&instance_manager->matrix_manager,
-	// 						instance.matrix_id);
-	// 	new_matrix = mul_matrix(new_matrix, matrix);
-	// 	instance_manager->matrix_manager.matrices[instance.matrix_id] =
-	// 		 new_matrix;
-	// }
 }

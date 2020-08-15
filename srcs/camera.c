@@ -1,25 +1,17 @@
-#include "rt.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   camera.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/13 01:05:19 by dmelessa          #+#    #+#             */
+/*   Updated: 2020/08/13 01:05:20 by dmelessa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-cl_float4 norm4(cl_float4 vec)
-{
-	float	magnitude;
-
-	magnitude = sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
-	vec.x = vec.x / magnitude;
-	vec.y = vec.y / magnitude;
-	vec.z = vec.z / magnitude;
-	return (vec);
-}
-
-cl_float4	cross_product(cl_float4 a, cl_float4 b)
-{
-	cl_float4 c;
-
-	c.x = a.y * b.z - a.z * b.y;
-	c.y = -a.x * b.z + a.z * b.x;
-	c.z = a.x * b.y - a.y * b.x;
-	return (c);
-}
+#include "camera.h"
+#include "vector.h"
 
 //todo: check
 void	compute_uvw(t_camera *camera)

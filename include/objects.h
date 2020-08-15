@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:20 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/07 21:51:43 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/12 20:42:47 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ enum	e_types
 ** axis-aligned bounding box for object
 */
 #ifdef _WIN64
-__declspec(align(4))
+//__declspec(align(4))
+// #pragma pack(1)
 #endif
 struct					s_bbox
 {
@@ -53,8 +54,9 @@ struct					s_bbox
 ** TODO: change
 **
 */
-# ifdef _WIN64
-__declspec(align(4))
+#ifdef _WIN64
+// __declspec(align(1))
+// #pragma pack(1)
 # endif
 struct					s_obj
 {
@@ -70,14 +72,19 @@ struct					s_obj
 	cl_float			minm;
 	cl_int				shadows;
 	cl_int				sampler_id;
+	cl_int				gap;
 };
+#if OPEN_CL
+// __attribute__ ((packed))
+#endif
+;
+// #pragma pack(pop)
 
-# ifdef _WIN64
-__declspec(align(4))
+#ifdef _WIN64
+//__declspec(align(4))
 # endif
 struct					s_triangle
 {
-	t_material			material;
 	cl_float4			vertex1;
 	cl_float4			vertex2;
 	cl_float4			vertex3;
@@ -86,9 +93,6 @@ struct					s_triangle
 	cl_float4			normal;
 };
 
-#ifdef _WIN64
-__declspec(align(4))
-#endif
 typedef struct			s_object_info
 {
 	t_material			material;

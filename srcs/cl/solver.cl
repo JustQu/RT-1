@@ -1,7 +1,4 @@
 /*
-** Решение уравнения 4-ой степени для нахождения пересечения луча и тора.
-*/
-/*
  *
  *  Utility functions to find cubic and quartic roots,
  *  coefficients are passed like this:

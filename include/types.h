@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:57:17 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/07 20:05:03 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/14 00:22:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,22 @@
 
 #define OPEN_CL __OPENCL_C_VERSION__
 
+/**
+** @brief Host code
+**
+*/
 # ifndef __OPENCL_C_VERSION__
+#  include "inttypes.h"
+#  include "bool.h"
 #  ifdef __APPLE__
 #   include "OpenCL/opencl.h"
-#  else
+#else
 #   include "CL/cl.h"
 #  endif
+# endif
+
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846264338327950288
 # endif
 
 # ifdef __OPENCL_C_VERSION__

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/05 21:58:56 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/13 19:00:03 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct			s_window
 	SDL_Renderer		*renderer;
 	SDL_Texture			*texture;
 	uint32_t			*image; // TODO(dmelessa): change to cl_image later
-	cl_float3			*rgb_image;
+	t_color				*rgb_image;
 	int					width;
 	int					height;
 }						t_window;
@@ -136,17 +136,6 @@ typedef struct			s_rt
 	t_sampler_manager	sampler_manager;
 	t_render_options	options;
 }						t_rt;
-
-/**			functions for scene initialization			*/
-cl_float4	get_vector(int *f, int *l, char *line);
-float		get_number(int *f, int *l, char *line);
-int			find_parentheses(char *line, char *param, int *f, int *l);
-void		init_camera(char *line, t_scene *scene);
-void		init_object(char *line, t_scene *scene, int type);
-void		init_triangle(char *line, t_scene *scene);
-char		*find_file_name(char *str);
-int			fd_return(char *file_name);
-void		read_file(t_scene *scene, char *scene_file);
 
 /* program initialization */
 int			init_window(t_window *window);

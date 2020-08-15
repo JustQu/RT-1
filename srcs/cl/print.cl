@@ -13,7 +13,9 @@ void	print_material(t_material material)
 		printf("\033[0m");
 	}
 	printf("\n");
-	printf("\t\tColor:\t%d\n", material.color.value);
+	printf("\t\tColor:\t%f %f %f| %d\n", material.color.r,
+		material.color.g, material.color.b,
+		((int)(material.color.r * 255) << 16) + ((int)(material.color.g * 255) << 8) + material.color.b);
 	printf("\t\tKd:\t%f\n", material.kd);
 	printf("\t\tKa:\t%f\n", material.ka);
 	if (material.type == phong)
@@ -21,6 +23,38 @@ void	print_material(t_material material)
 		printf("\t\tKs:\t%f\n", material.ks);
 		printf("\t\tExp:\t%f\n", material.exp);
 	}
+}
+
+void	print_vector(float4	vec)
+{
+	printf("Vector: (%f, %f, %f, %f)\n", vec.x, vec.y, vec.z, vec.w);
+}
+
+void	print_camera(t_camera camera)
+{
+	printf("Camera:\n");
+	printf("\tViewplane:\n");
+}
+
+void	print_sampler(t_sampler sampler, int id)
+{
+	printf("Sampler #%d:", id);
+	printf("\tType: %d\n", sampler.type);
+	printf("\tnum_samples %d\n", sampler.num_sets);
+	printf("\tnum_sets %d\n", sampler.count);
+	printf("\tjump %d\n", sampler.jump);
+	printf("\tsamples_type %d\n", sampler.samples_type);
+	printf("\toffset %d\n", sampler.offset);
+	printf("\tdisk samples offset %d\n", sampler.disk_samples_offset);
+	printf("\themisphere samples offset %d\n", sampler.hemisphere_samples_offset);
+}
+
+void	print_samples(t_sampler_manager *sampler_manager, t_sampler sampler)
+{
+	int		offset;
+
+	offset = sampler.num_samples * sampler.num_sets;
+
 }
 
 

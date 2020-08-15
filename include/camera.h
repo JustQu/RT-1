@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:46:35 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/08 14:01:53 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/13 14:38:09 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ enum	e_camera_type
 };
 
 
-# ifdef _WIN64
-__declspec(align(4))
+#ifdef _WIN64
+//__declspec(align(4))
 # endif
 /**
 ** @brief Плоскость проецирования
@@ -62,8 +62,8 @@ struct s_viewplane
 **
 */
 
-# ifdef _WIN64
-__declspec(align(4))
+#ifdef _WIN64
+//__declspec(align(4))
 # endif
 /**
 ** @brief Класс камеры
@@ -84,13 +84,13 @@ __declspec(align(4))
 */
 struct	s_camera
 {
-	t_viewplane			viewplane;
 	cl_float4			origin; // eye
 	cl_float4			direction; // lookat - eye
 	cl_float4			up; // (0, 1, 0)
 	cl_float4			u;
 	cl_float4			v; // actually we need only th3 vectors. the up vector could be hardcodeded and w = -direction
 	cl_float4			w;
+	t_viewplane			viewplane;
 	cl_float			d; //the view-plane distance
 	cl_float			zoom; //zoom factor
 	cl_float			exposure_time; //using somewhere later

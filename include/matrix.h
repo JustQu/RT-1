@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_manager.h                                   :+:      :+:    :+:   */
+/*   matrix.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 12:47:05 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/03 19:56:17 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/13 18:54:19 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ struct					s_matrix_manager
 	size_t				malloc_size;
 };
 
-int			init_matrix_manager(t_matrix_manager *matrix_manager);
-int			add_matrix(t_matrix_manager *matrix_manager, t_matrix matrix);
+void		print_matrix(t_matrix matrix);
 
 t_matrix	mul_matrix(t_matrix A, t_matrix B);
 

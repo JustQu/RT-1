@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:43:55 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/06 20:51:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/14 16:38:45 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void init_buffers(t_cl_program *program, t_scene *scene,
 
 	ro = CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR;
 	cntx = program->clp.context;
-	program->rgb_image = clCreateBuffer(cntx, CL_MEM_READ_WRITE, sizeof(cl_float3) * program->work_size, NULL, &ret);
+	program->rgb_image = clCreateBuffer(cntx, CL_MEM_READ_WRITE, sizeof(t_color) * program->work_size, NULL, &ret);
 	cl_error(program, &program->clp, ret);
 	program->output_image = clCreateBuffer(cntx, CL_MEM_READ_WRITE,
 										   sizeof(uint32_t) * program->work_size, NULL, &ret);
@@ -62,18 +62,18 @@ void init_buffers(t_cl_program *program, t_scene *scene,
 	cl_error(program, &program->clp, ret);
 
 	program->objects = clCreateBuffer(cntx, ro,
-		sizeof(t_obj) * scene->instance_manager.object_manager.nobjects,
-		scene->instance_manager.object_manager.objects, &ret);
+		sizeof(t_obj) * scene->instance_manager.nobjects,
+		scene->instance_manager.objects, &ret);
 	cl_error(program, &program->clp, ret);
 
 	program->triangles = clCreateBuffer(cntx, ro,
-		sizeof(t_triangle) * (scene->instance_manager.object_manager.ntriangles + 1),
-		scene->instance_manager.object_manager.triangles, &ret);
+		sizeof(t_triangle) * (scene->instance_manager.ntriangles + 1),
+		scene->instance_manager.triangles, &ret);
 	cl_error(program, &program->clp, ret);
 
 	program->matrices = clCreateBuffer(cntx, ro,
-		sizeof(t_matrix) * scene->instance_manager.matrix_manager.nmatrices,
-		scene->instance_manager.matrix_manager.matrices, &ret);
+		sizeof(t_matrix) * scene->instance_manager.nmatrices,
+		scene->instance_manager.matrices, &ret);
 	cl_error(program, &program->clp, ret);
 
 	program->lights = clCreateBuffer(cntx, ro, sizeof(t_light) * scene->nlights, scene->lights, &ret);
@@ -96,12 +96,14 @@ void init_buffers(t_cl_program *program, t_scene *scene,
 void init_options(t_render_options *options, t_sampler_manager *sampler_manager)
 {
 	options->shadows = TRUE;
-	options->ambient_occlusion = TRUE;
+	options->ambient_occlusion = FALSE;
 	options->area_lightning = FALSE;
 	// options->backgorund_color.value = 0x000000af;
-	options->background_color.value = 0x000505af;
+	options->background_color = (t_color){
+		.r = 0x05/255.0f, .g = 0x05/255.0f, .b = 0xaf/255.0f
+	};
 	options->depth = 5;
-	options->sampler_id = new_sampler(sampler_manager, rand_jitter, NUM_SAMPLES, DEFAULT_SAMPLES); //Anti-aliasing
+	options->sampler_id = new_sampler(sampler_manager, regular_grid, NUM_SAMPLES, DEFAULT_SAMPLES); //Anti-aliasing
 }
 
 /**

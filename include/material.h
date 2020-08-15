@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/07/27 17:14:28 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/08/13 18:20:31 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,13 @@ enum e_material_type
 	emissive
 };
 
-# ifdef _WIN64
-__declspec(align(4))
+#ifdef _WIN64
+// __declspec(align(4))
+// #pragma pack(4)
 # endif
+#ifdef __OPENCL_C_VERSION__
+// __attribute__ ((packed))
+#endif
 struct					s_material //kd + ks < 1.0
 {
 	t_material_type		type;
@@ -36,7 +40,8 @@ struct					s_material //kd + ks < 1.0
 	cl_float			ka; //ambient reflection
 	cl_float			ks; //coefficient of specular reflection [0, 1]
 	cl_float			exp;
-	void				*texture;
+	cl_float			d;
+	cl_float			gap[6];
 };
 
 #endif
