@@ -21,7 +21,10 @@
 
 # include <assert.h>
 
-# ifdef __unix__
+
+# ifdef __APPLE__
+# include <SDL.h>
+# elif __unix__
 #  include "SDL2/SDL.h"
 # else
 #  include "SDL.h"
@@ -45,7 +48,7 @@
 ** NOTE: нельзя сделать кернел с именем 'main'
 ** на встроенной видеокарте intel
 */
-# define DEFAULT_KERNEL_NAME	"main"
+# define DEFAULT_KERNEL_NAME	"main_kernel"
 
 # define DEFAULT_KERNEL_INCLUDE	"-I ./include -I ./srcs/cl"
 # define DEFAULT_WORK_SIZE		DEFAULT_WIDTH * DEFAULT_HEIGHT

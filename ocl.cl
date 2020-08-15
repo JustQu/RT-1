@@ -2119,7 +2119,7 @@ void	init_sampler_manager(t_sampler_manager *sampler_manager,
 ** В дальнейшем когда будут сделаны материалы / преломления / отражения можно будет еще
 ** больше разбить кернел чтобы избежать дивергенции кода.
 */												//Pos of argument on host
-__kernel void	main(__global t_color *image,	//0
+__kernel void	main_kernel(__global t_color *image,	//0
 				int step,						//1
 
 				__constant t_instance *instances, int ninstances, //2, 3
