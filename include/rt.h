@@ -12,8 +12,6 @@
 
 #include <CL/opencl.h>
 
-#define cl_float4 float
-
 enum    e_types
 {
     cone,
