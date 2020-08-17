@@ -6,9 +6,15 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 13:10:59 by maximka           #+#    #+#             */
-/*   Updated: 2020/08/17 11:09:00 by user             ###   ########.fr       */
+/*   Updated: 2020/08/17 11:23:59 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#define NK_IMPLEMENTATION
+#include "../Libs/nuklear/nuklear.h"
+#include <SDL2/SDL.h>
+#define WIDTH 1200
+#define HEIGHT 800
 
 enum    e_types
 {
