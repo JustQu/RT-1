@@ -3,60 +3,102 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maximka <maximka@student.42.fr>            +#+  +:+       +#+         #
+#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/03/09 22:21:56 by maximka           #+#    #+#              #
-#    Updated: 2020/07/08 13:10:23 by maximka          ###   ########.fr        #
+#    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
+#    Updated: 2020/08/17 11:08:44 by user             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		:=	RT
-DIR_SRC		:=	srcs/
-DIR_BIN		:=	bin/
-DIR_INCLUDE :=	include/
-DIR_LIBFT	:=	libft/
-SDL 		:= -lSDL2
-CC			:=	gcc
-CFLAGS		:=	-g -Wextra -Werror -Wall
-HEADERS		:=	libft.h rt.h get_next_line.h
-LIBFT		:=	libft.a
-REMOVE		:=	rm -rf
+NAME = ./RT
+CC = gcc
+RM = rm -f
+CURRENTDIR = .
 
-SRC			:=	main.c 
+#UNAME_S = $(shell uname -s)
 
-OBJS 		:= $(SRC:.c=.o)
-LIBFT		:= $(addprefix $(DIR_LIBFT), $(LIBFT))
+#SYSTEM:
+SYSTEM = $(shell uname)
+MACOS = Darwin
+LINUX = Linux
 
-MAKE_LIBFT	:= make -C $(DIR_LIBFT)
+CFLAGS = -I$(INCDIR)\
+		 -I$(LIBFTINC)\
+		 -I$(SDL2INC)\
+#		 -Wall\
+		 -Werror\
+		 -Wextra
+ifeq ($(SYSTEM), $(MACOS))
 
-vpath %.c $(DIR_SRC)
-vpath %.o $(DIR_BIN)
-vpath %.h $(DIR_INCLUDE)
+	LDLIBS = -lm\
+			 -lft\
+			 -framework SDL2\
+			 -framework OpenCL
 
-all: make_lft $(NAME)
+	LDFLAGS = -L$(LIBFTDIR)\
+			  -F $(LIBSDIR)\
+			  -rpath $(LIBSDIR)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(addprefix $(DIR_BIN), $(OBJS)) $(SDL) $(LIBFT) -lm -o $@
+else ifeq ($(SYSTEM), $(LINUX))
 
-$(OBJS):%.o:%.c $(HEADERS) | $(DIR_BIN)
-	$(CC) -c $(CFLAGS) $< -o $(DIR_BIN)$@ -I $(DIR_INCLUDE) -lm
+	LDLIBS = -lm\
+			 -l SDL2\
+			 -l OpenCL
 
-$(DIR_BIN):
-	mkdir -p $@
+	LDFLAGS	= $(LIBFT)
 
-make_lft:
-	$(MAKE_LIBFT)
+endif
+
+
+LIBSDIR = $(CURRENTDIR)/Libs
+
+LIBFT = $(LIBFTDIR)/libft.a
+LIBFTDIR = $(LIBSDIR)/libft
+LIBFTINC = $(LIBFTDIR)
+LIBFTHEAD = $(LIBFTINC)/libft.h $(LIBFTINC)/get_next_line.h
+
+#MACOS
+SDL2DIR = $(LIBSDIR)/SDL2.framework
+SDL2INC = $(SDL2DIR)/Headers
+
+INCDIR = $(CURRENTDIR)/include
+INCS = *.h
+INCS := $(addprefix $(INCDIR)/, $(INCS))
+
+SRCSDIR	= ./srcs/
+SRCS =	main.c
+
+OBJSDIR = ./obj/
+OBJS = $(addprefix $(OBJSDIR), $(SRCS:.c=.o))
+
+all: $(LIBFT) $(NAME)
+
+$(NAME): $(OBJS) $(INCS) $(LIBFTHEAD)
+	@echo 'making executable'
+	$(CC) -o $@ $(OBJS) $(LDLIBS) $(LDFLAGS)
+	@echo DONE!
+
+
+$(LIBFT):
+	@make -C $(LIBFTDIR)
+
+$(OBJS): $(OBJSDIR)%.o: $(SRCSDIR)%.c | $(OBJSDIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJS): $(INCS)
+
+$(OBJSDIR):
+	mkdir $@
 
 clean:
-	$(REMOVE) $(addprefix $(DIR_BIN), $(OBJS))
-	$(REMOVE) $(DIR_BIN)
-	$(MAKE_LIBFT) clean
+	@echo deliting object files
+	@$(RM) $(OBJS)
+	@make -C $(LIBFTDIR) clean
 
 fclean: clean
-	$(REMOVE) $(NAME)
-	$(MAKE_LIBFT) fclean
+	@echo deliting executable file
+	@$(RM) $(NAME)
+	@make -C $(LIBFTDIR) fclean
 
-re: fclean all
-
-.PHONY: clean fclean all re
-.SILENT: all $(NAME) $(OBJS) $(DIR_BIN) clean fclean re make_lft
+.PHONY: all clean fclean re
+re:	fclean all
