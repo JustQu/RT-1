@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 13:10:59 by maximka           #+#    #+#             */
-/*   Updated: 2020/08/17 11:23:59 by user             ###   ########.fr       */
+/*   Updated: 2020/08/18 17:50:53 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define NK_IMPLEMENTATION
-#include "../Libs/nuklear/nuklear.h"
+
 #include <SDL2/SDL.h>
 #define WIDTH 1200
 #define HEIGHT 800
@@ -30,6 +29,34 @@ enum    e_types
     rectangle
 };
 
+typedef struct		s_vector
+{
+	float			x;
+	float			y;
+	float			z;
+	float			l;
+}					t_vector;
+
+typedef struct		s_sdl
+{
+	SDL_Window		*win;
+	SDL_Renderer	*render;
+	SDL_Event		event;
+}					t_sdl;
+
+typedef struct      s_gui
+{
+    t_vector        dir;
+    t_vector        center;
+    t_vector        rotate;
+    SDL_Color       color;
+}                   t_gui;
+
+typedef struct		s_rt
+{
+	t_sdl			sdl;
+    t_gui           gui;
+}					t_rt;
 // struct                s_light
 // {
 //     cl_float4        origin;

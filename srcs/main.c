@@ -3,42 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 13:10:39 by maximka           #+#    #+#             */
-/*   Updated: 2020/08/17 12:13:36 by user             ###   ########.fr       */
+/*   Updated: 2020/08/18 17:25:42 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "gui.h"
 #include <stdio.h>
 
 int     main(int argc, char **argv)
 {
     (void)argc;
     (void)argv;
-	SDL_Window *win;
-	SDL_Renderer *render;
-	SDL_Event event;
+	t_rt rt;
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 		printf("Error");
-	win = SDL_CreateWindow("Menu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
-	if (win == NULL)
+	rt.sdl.win = SDL_CreateWindow("Menu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
+	if (rt.sdl.win == NULL)
 		printf("Error");
-	render = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (render == NULL)
+	rt.sdl.render = SDL_CreateRenderer(rt.sdl.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (rt.sdl.render == NULL)
 		printf("Error");
-	struct nk_context *ctx;
-	struct nk_colorf bg;
-	
-
-	SDL_RenderPresent(render);
+	main_gui(&rt);
+	SDL_RenderPresent(rt.sdl.render);
 	while (1)
 	{
-		while (SDL_PollEvent(&event))
+		while (SDL_PollEvent(&rt.sdl.event))
 		{
-			if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
+			if (rt.sdl.event.type == SDL_QUIT || rt.sdl.event.key.keysym.sym == SDLK_ESCAPE)
 				exit(0);
 		}
 	}
