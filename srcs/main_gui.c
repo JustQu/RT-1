@@ -78,70 +78,19 @@ void	draw_fill_rect(t_rt *rt, SDL_Rect *background, SDL_Color *color)
     SDL_RenderFillRect(rt->sdl.render, &rect);
 }
 
-void	draw_border(t_rt *rt, SDL_Rect *border_rect, SDL_Color *color)
-{
-	SDL_Rect rect;
-
-	SDL_SetRenderDrawColor(rt->sdl.render, color->r, color->g,
-							color->b, color->a);
-	rect.x = border_rect->x;
-	rect.y = border_rect->y;
-	rect.w = border_rect->w;
-	rect.h = border_rect->h;
-    SDL_RenderDrawRect(rt->sdl.render, &rect);
-}
-
-void draw_gradient(SDL_Renderer * renderer,
-        const int x, const int y, const int w, const int h,
-        const SDL_Color c1, const SDL_Color c2)
-{
-	int i;
-	SDL_Color start;
-	SDL_Color end;
-	SDL_Rect rect;
-    float yt;
-	float ys;
-	yt = y;
-    start.r = c1.r;
-    start.g = c1.g;
-    start.b = c1.b;
-    start.a = c1.a;
-	ys = h / COLOR_STEP;
-    end.r = (c2.r - c1.r) / COLOR_STEP;
-    end.g = (c2.g - c1.g) / COLOR_STEP;
-    end.b = (c2.b - c1.b) / COLOR_STEP;
-    end.a = (c2.a - c1.a) / COLOR_STEP;
-	i = 0;
-	while (i < COLOR_STEP)
-	{
-		// SDL_Rect rect = { x, yt, w, ys + 1 };
-		rect.x = x;
-		rect.y = yt;
-		rect.w = w;
-		rect.h = ys + 1;
-		SDL_SetRenderDrawColor(renderer, start.r, start.g, start.b, start.a);
-		SDL_RenderFillRect(renderer, &rect);
-		yt += ys;
-        start.r += end.r;
-        start.g += end.g;
-        start.b += end.b;
-        start.a += end.a;
-		i++;
-	}
-}
-
 int		main_gui(t_rt *rt)
 {
+	t_colors color;
 	//init rt
 	rt->direction.x = 1.23;
 	rt->direction.y = 1.02;
 	rt->direction.z = 2.093432;
 
 	SDL_Color	border_color;
-	SDL_Color	background_color;
 	SDL_Color	text_color;
 	SDL_Rect	background;
 	SDL_Rect	color_picker;
+	SDL_Rect	button;
 
 	//colorPicker
 	SDL_Color	red_color;
@@ -150,15 +99,46 @@ int		main_gui(t_rt *rt)
 
 	TTF_Init();
 
-	background.x = WIDTH_OFFSET - 1;
-	background.y = 1;
+	color.preground.r = 255;
+	color.preground.g = 255;
+	color.preground.b = 255;
+	color.preground.a = 0;
+
+	color.title_text_color.r = 128;
+	color.title_text_color.g = 128;
+	color.title_text_color.b = 128;
+	color.title_text_color.a = 0;
+
+	color.border_color.r = 217;
+	color.border_color.g = 217;
+	color.border_color.b = 217;
+	color.border_color.a = 0;
+
+	color.subtitle_xyz_color.r = 36;
+	color.subtitle_xyz_color.g = 36;
+	color.subtitle_xyz_color.b = 36;
+	color.subtitle_xyz_color.a = 0;
+
+	color.xyz_text_color.r = 38;
+	color.xyz_text_color.g = 38;
+	color.xyz_text_color.b = 38;
+	color.xyz_text_color.a = 0;
+
+
+	button.x = WIDTH_OFFSET + MARGIN;
+	button.y = 400;
+	button.w = button.x + 70;
+	button.h = 400 + 30;
+
+	background.x = WIDTH_OFFSET;
+	background.y = 0;
 	background.w = WIDTH_MENU;
 	background.h = HEIGHT;
 
-	background_color.r = 242;
-	background_color.g = 242;
-	background_color.b = 242;
-	background_color.a = 0;
+	color.background_color.r = 242;
+	color.background_color.g = 242;
+	color.background_color.b = 242;
+	color.background_color.a = 0;
 
 	red_color.r = 255;
 	red_color.g = 0;
@@ -184,12 +164,15 @@ int		main_gui(t_rt *rt)
 	color_picker.y = 500;
 	color_picker.w = WIDTH_MENU - MARGIN * 2;
 	color_picker.h = 200;
-	draw_fill_rect(rt, &background, &background_color);
-	draw_xyz(rt, 100, &border_color, &rt->direction, &text_color);
-	draw_xyz(rt, 170, &border_color, &rt->center, &text_color);
-	draw_xyz(rt, 240, &border_color, &rt->rotate, &text_color);
-	draw_border(rt, &border, &border_color);
+	draw_fill_rect(rt, &background, &color.background_color);
+	draw_xyz(rt, 100, &rt->direction, &color);
+	draw_xyz(rt, 170, &rt->center, &color);
+	draw_xyz(rt, 240, &rt->rotate, &color);
+	roundedRectangleRGBA(rt->sdl.render, WIDTH_OFFSET, 0, WIDTH, HEIGHT, 5, color.border_color.r, color.border_color.g, color.border_color.b, 255);
+	vlineRGBA(rt->sdl.render, WIDTH_OFFSET, 0, HEIGHT, color.border_color.r, color.border_color.g, color.border_color.b, 255);
 	draw_titles(rt, &text_color);
-	draw_gradient(rt->sdl.render, WIDTH_OFFSET, 500, WIDTH_MENU, 200, red_color, border_color);
+	draw_gradient(rt->sdl.render, &color_picker, red_color, border_color);
+	draw_button(rt, &button, "Color", &color);
+	hlineRGBA(rt->sdl.render, WIDTH_OFFSET + MARGIN,WIDTH - MARGIN, 300, 217, 217, 217, 255);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 13:10:39 by maximka           #+#    #+#             */
-/*   Updated: 2020/08/18 19:12:21 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/19 19:02:12 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int     main(int argc, char **argv)
 	rt.sdl.render = SDL_CreateRenderer(rt.sdl.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (rt.sdl.render == NULL)
 		printf("Error");
+	SDL_SetRenderDrawColor(rt.sdl.render, 255, 255, 255, 255);
+	SDL_RenderClear(rt.sdl.render);
 	main_gui(&rt);
+
 	SDL_RenderPresent(rt.sdl.render);
 	while (1)
 	{

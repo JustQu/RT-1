@@ -6,7 +6,7 @@
 #    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/08/19 08:42:39 by alex             ###   ########.fr        #
+#    Updated: 2020/08/19 18:47:50 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ DIR_SRC		:=	srcs/
 DIR_BIN		:=	bin/
 DIR_INCLUDE :=	include/
 DIR_LIBFT	:=	Libs/libft/
-SDL 		:= -lSDL2 -lSDL2_image -lSDL2_ttf
+SDL 		:= -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_gfx
 CC			:=	gcc
 CFLAGS		:=	-g -Wextra -Werror -Wall
 HEADERS		:=	libft.h rt.h get_next_line.h gui.h
@@ -23,7 +23,8 @@ LIBFT		:=	libft.a
 REMOVE		:=	rm -rf
 
 SRC			:=	main.c \
-		main_gui.c gui_xyz.c
+		main_gui.c gui_xyz.c gui_button.c\
+		gui_gradient.c
 
 OBJS 		:= $(SRC:.c=.o)
 LIBFT		:= $(addprefix $(DIR_LIBFT), $(LIBFT))
