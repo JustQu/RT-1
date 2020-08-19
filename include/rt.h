@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 13:10:59 by maximka           #+#    #+#             */
-/*   Updated: 2020/08/18 17:50:53 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/19 08:47:33 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <SDL2/SDL.h>
 #define WIDTH 1200
 #define HEIGHT 800
+
 
 enum    e_types
 {
@@ -44,11 +45,19 @@ typedef struct		s_sdl
 	SDL_Event		event;
 }					t_sdl;
 
+typedef struct      s_rect
+{
+    SDL_Rect        rect;
+    int             min_width;
+    int             min_height;
+    int             max_width;
+    int             max_height;
+}                   t_rect;
+
 typedef struct      s_gui
 {
-    t_vector        dir;
-    t_vector        center;
-    t_vector        rotate;
+    SDL_Texture     *texture;
+    t_rect          rect;
     SDL_Color       color;
 }                   t_gui;
 
@@ -56,6 +65,9 @@ typedef struct		s_rt
 {
 	t_sdl			sdl;
     t_gui           gui;
+    t_vector        direction;
+    t_vector        center;
+    t_vector        rotate;
 }					t_rt;
 // struct                s_light
 // {
