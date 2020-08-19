@@ -98,6 +98,7 @@ void draw_gradient(SDL_Renderer * renderer,
 	int i;
 	SDL_Color start;
 	SDL_Color end;
+	SDL_Rect rect;
     float yt;
 	float ys;
 	yt = y;
@@ -113,7 +114,11 @@ void draw_gradient(SDL_Renderer * renderer,
 	i = 0;
 	while (i < COLOR_STEP)
 	{
-		SDL_Rect rect = { x, yt, w, ys + 1 };
+		// SDL_Rect rect = { x, yt, w, ys + 1 };
+		rect.x = x;
+		rect.y = yt;
+		rect.w = w;
+		rect.h = ys + 1;
 		SDL_SetRenderDrawColor(renderer, start.r, start.g, start.b, start.a);
 		SDL_RenderFillRect(renderer, &rect);
 		yt += ys;
@@ -186,6 +191,5 @@ int		main_gui(t_rt *rt)
 	draw_border(rt, &border, &border_color);
 	draw_titles(rt, &text_color);
 	draw_gradient(rt->sdl.render, WIDTH_OFFSET, 500, WIDTH_MENU, 200, red_color, border_color);
-	
 	return (0);
 }
