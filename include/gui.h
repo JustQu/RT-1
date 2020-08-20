@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/08/19 18:48:45 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/20 10:43:47 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@
 typedef struct s_rt t_rt;
 typedef struct s_vector t_vector;
 
+typedef struct	s_all_rect
+{
+	SDL_Rect	color_picker_button;
+	SDL_Rect	color_picker;
+	SDL_Rect	background;
+}				t_all_rect;
+
 typedef struct 	s_colors
 {
 	SDL_Color	preground;
@@ -39,12 +46,12 @@ typedef struct 	s_colors
 	SDL_Color	background_color;
 }				t_colors;
 
-int					main_gui(t_rt *rt);
+int					main_gui(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void				draw_background(t_rt *rt);
 void 				render_texture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y);
 SDL_Texture*		load_texture(char *str, SDL_Renderer *renderer);
 void				render_rect(SDL_Texture *texture, SDL_Renderer *renderer, int x, int y, int w, int h);
-void				xyz_text(t_rt *rt, float xyz, SDL_Color *text_color, int y, int x);
+void				xyz_text(t_rt *rt, float *xyz, SDL_Color *text_color, int y, int x);
 void				draw_titles(t_rt *rt, SDL_Color *color);
 void				draw_xyz(t_rt *rt, int y, t_vector *vector, t_colors *color);
 void				draw_fill_rect(t_rt *rt, SDL_Rect *background, SDL_Color *color);
@@ -53,5 +60,7 @@ SDL_Texture*		render_text(char *message, char *fontFile,
 void				draw_button(t_rt *rt, SDL_Rect *rect, char *str, t_colors *color);
 void				draw_gradient(SDL_Renderer * renderer,
 									SDL_Rect *back_rect, const SDL_Color c1, const SDL_Color c2);
+void				keyboard(t_rt *rt, t_all_rect *all_rect, t_colors *color);
+void				mouse_move(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 
 #endif

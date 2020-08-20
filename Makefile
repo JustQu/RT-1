@@ -6,7 +6,7 @@
 #    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/08/19 18:47:50 by alex             ###   ########.fr        #
+#    Updated: 2020/08/20 09:32:44 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ REMOVE		:=	rm -rf
 
 SRC			:=	main.c \
 		main_gui.c gui_xyz.c gui_button.c\
-		gui_gradient.c
+		gui_gradient.c mouse.c keyboard.c \
+		
 
 OBJS 		:= $(SRC:.c=.o)
 LIBFT		:= $(addprefix $(DIR_LIBFT), $(LIBFT))

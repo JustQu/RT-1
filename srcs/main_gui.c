@@ -78,67 +78,38 @@ void	draw_fill_rect(t_rt *rt, SDL_Rect *background, SDL_Color *color)
     SDL_RenderFillRect(rt->sdl.render, &rect);
 }
 
-int		main_gui(t_rt *rt)
+int		main_gui(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 {
-	t_colors color;
+	// t_colors color;
 	//init rt
-	rt->direction.x = 1.23;
-	rt->direction.y = 1.02;
-	rt->direction.z = 2.093432;
+
 
 	SDL_Color	border_color;
 	SDL_Color	text_color;
-	SDL_Rect	background;
-	SDL_Rect	color_picker;
-	SDL_Rect	button;
+	// SDL_Rect	background;
+	// SDL_Rect	color_picker;
+	// SDL_Rect	button;
 
 	//colorPicker
 	SDL_Color	red_color;
 
-	SDL_Rect	border;
+	// SDL_Rect	border;
 
 	TTF_Init();
 
-	color.preground.r = 255;
-	color.preground.g = 255;
-	color.preground.b = 255;
-	color.preground.a = 0;
-
-	color.title_text_color.r = 128;
-	color.title_text_color.g = 128;
-	color.title_text_color.b = 128;
-	color.title_text_color.a = 0;
-
-	color.border_color.r = 217;
-	color.border_color.g = 217;
-	color.border_color.b = 217;
-	color.border_color.a = 0;
-
-	color.subtitle_xyz_color.r = 36;
-	color.subtitle_xyz_color.g = 36;
-	color.subtitle_xyz_color.b = 36;
-	color.subtitle_xyz_color.a = 0;
-
-	color.xyz_text_color.r = 38;
-	color.xyz_text_color.g = 38;
-	color.xyz_text_color.b = 38;
-	color.xyz_text_color.a = 0;
 
 
-	button.x = WIDTH_OFFSET + MARGIN;
-	button.y = 400;
-	button.w = button.x + 70;
-	button.h = 400 + 30;
+	// button.x = WIDTH_OFFSET + MARGIN;
+	// button.y = 400;
+	// button.w = button.x + 70;
+	// button.h = 400 + 30;
 
-	background.x = WIDTH_OFFSET;
-	background.y = 0;
-	background.w = WIDTH_MENU;
-	background.h = HEIGHT;
+	// background.x = WIDTH_OFFSET;
+	// background.y = 0;
+	// background.w = WIDTH_MENU;
+	// background.h = HEIGHT;
 
-	color.background_color.r = 242;
-	color.background_color.g = 242;
-	color.background_color.b = 242;
-	color.background_color.a = 0;
+
 
 	red_color.r = 255;
 	red_color.g = 0;
@@ -150,29 +121,30 @@ int		main_gui(t_rt *rt)
 	text_color.b = 38;
 	text_color.a = 0;
 
-	border.x = WIDTH_OFFSET;
-	border.y = 0;
-	border.w = WIDTH_MENU;
-	border.h = HEIGHT;
+	// border.x = WIDTH_OFFSET;
+	// border.y = 0;
+	// border.w = WIDTH_MENU;
+	// border.h = HEIGHT;
 
 	border_color.r = 255;
 	border_color.g = 255;
 	border_color.b = 255;
 	border_color.a = 0;
 
-	color_picker.x = WIDTH_OFFSET + MARGIN;
-	color_picker.y = 500;
-	color_picker.w = WIDTH_MENU - MARGIN * 2;
-	color_picker.h = 200;
-	draw_fill_rect(rt, &background, &color.background_color);
-	draw_xyz(rt, 100, &rt->direction, &color);
-	draw_xyz(rt, 170, &rt->center, &color);
-	draw_xyz(rt, 240, &rt->rotate, &color);
-	roundedRectangleRGBA(rt->sdl.render, WIDTH_OFFSET, 0, WIDTH, HEIGHT, 5, color.border_color.r, color.border_color.g, color.border_color.b, 255);
-	vlineRGBA(rt->sdl.render, WIDTH_OFFSET, 0, HEIGHT, color.border_color.r, color.border_color.g, color.border_color.b, 255);
+	// color_picker.x = WIDTH_OFFSET + MARGIN;
+	// color_picker.y = 500;
+	// color_picker.w = WIDTH_MENU - MARGIN * 2;
+	// color_picker.h = 200;
+
+	draw_fill_rect(rt, &all_rect->background, &color->background_color);
+	draw_xyz(rt, 100, &rt->direction, color);
+	draw_xyz(rt, 170, &rt->center, color);
+	draw_xyz(rt, 240, &rt->rotate, color);
+	roundedRectangleRGBA(rt->sdl.render, WIDTH_OFFSET, 0, WIDTH, HEIGHT, 5, color->border_color.r, color->border_color.g, color->border_color.b, 255);
+	vlineRGBA(rt->sdl.render, WIDTH_OFFSET, 0, HEIGHT, color->border_color.r, color->border_color.g, color->border_color.b, 255);
 	draw_titles(rt, &text_color);
-	draw_gradient(rt->sdl.render, &color_picker, red_color, border_color);
-	draw_button(rt, &button, "Color", &color);
+	draw_gradient(rt->sdl.render, &all_rect->color_picker, red_color, border_color);
+	draw_button(rt, &all_rect->color_picker_button, "Color", color); /* colorpicker button */
 	hlineRGBA(rt->sdl.render, WIDTH_OFFSET + MARGIN,WIDTH - MARGIN, 300, 217, 217, 217, 255);
 	return (0);
 }

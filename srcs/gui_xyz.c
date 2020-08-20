@@ -22,14 +22,14 @@ void	draw_titles(t_rt *rt, SDL_Color *color)
 	render_texture(rotate_text, rt->sdl.render, WIDTH_OFFSET + MARGIN, 215);
 }
 
-void	xyz_text(t_rt *rt, float xyz, SDL_Color *text_color, int y, int x)
+void	xyz_text(t_rt *rt, float *xyz, SDL_Color *text_color, int y, int x)
 {
 	SDL_Texture *x_text;
 	char str[8];
 	int w;
 	int h;
 
-	gcvt(xyz, 4, str);
+	gcvt(*xyz, 4, str);
 	x_text = render_text(str, "font/Roboto.ttf",
 	*text_color, FONT_TITLE_SIZE, rt->sdl.render);
 	SDL_QueryTexture(x_text, NULL, NULL, &w, &h);
@@ -73,8 +73,8 @@ void	draw_xyz(t_rt *rt, int y, t_vector *vector, t_colors *color)
 	create_xyz_subtitles(rt, i + offset, y, "x", color);
 	create_xyz_subtitles(rt, i + offset * 2 + MARGIN, y, "y", color);
 	create_xyz_subtitles(rt, i + (offset + MARGIN) * 2 + offset, y, "z", color);
-	xyz_text(rt, vector->x, &color->xyz_text_color, y, i + MARGIN / 2);
-	xyz_text(rt, vector->y, &color->xyz_text_color, y, i + offset + MARGIN + MARGIN / 2);
-	xyz_text(rt, vector->z, &color->xyz_text_color, y, i + (offset + MARGIN) * 2 + MARGIN / 2);
+	xyz_text(rt, &vector->x, &color->xyz_text_color, y, i + MARGIN / 2);
+	xyz_text(rt, &vector->y, &color->xyz_text_color, y, i + offset + MARGIN + MARGIN / 2);
+	xyz_text(rt, &vector->z, &color->xyz_text_color, y, i + (offset + MARGIN) * 2 + MARGIN / 2);
 
 }
