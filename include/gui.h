@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/08/20 10:43:47 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/22 18:51:06 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@
 # define WIDTH_MENU WIDTH / 4
 # define WIDTH_OFFSET WIDTH - WIDTH / 4
 # define MARGIN 10
-# define FONT_TITLE_SIZE 20
+# define MARGIN_Y 10
+# define FONT_TITLE_SIZE 15
 # define FONT_SUBTITLE_SIZE 12
 # define COLOR_STEP 100
+# define HEIGHT_BUTTON 30
 
 typedef struct s_rt t_rt;
 typedef struct s_vector t_vector;
@@ -34,6 +36,7 @@ typedef struct	s_all_rect
 	SDL_Rect	color_picker_button;
 	SDL_Rect	color_picker;
 	SDL_Rect	background;
+	SDL_Rect	checkbox_button;
 }				t_all_rect;
 
 typedef struct 	s_colors

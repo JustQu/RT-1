@@ -10,16 +10,16 @@ void	draw_titles(t_rt *rt, SDL_Color *color)
 
 	rt_text = render_text("RT", "font/Title.ttf",
 	*color, FONT_TITLE_SIZE * 2, rt->sdl.render);
-	render_texture(rt_text, rt->sdl.render, WIDTH_OFFSET + WIDTH_MENU / 2 - 25, MARGIN);
+	render_texture(rt_text, rt->sdl.render, WIDTH_OFFSET + WIDTH_MENU / 2 - 25, MARGIN_Y);
 	direction_text = render_text("Direction", "font/Title.ttf",
 	*color, FONT_TITLE_SIZE, rt->sdl.render);
-	render_texture(direction_text, rt->sdl.render, WIDTH_OFFSET + MARGIN, 75);
+	render_texture(direction_text, rt->sdl.render, WIDTH_OFFSET + MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 4);
 	center_text = render_text("Center", "font/Title.ttf",
 	*color, FONT_TITLE_SIZE, rt->sdl.render);
-	render_texture(center_text, rt->sdl.render, WIDTH_OFFSET + MARGIN, 145);
+	render_texture(center_text, rt->sdl.render, WIDTH_OFFSET + MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 6 + MARGIN_Y);
 	rotate_text = render_text("Rotate", "font/Title.ttf",
 	*color, FONT_TITLE_SIZE, rt->sdl.render);
-	render_texture(rotate_text, rt->sdl.render, WIDTH_OFFSET + MARGIN, 215);
+	render_texture(rotate_text, rt->sdl.render, WIDTH_OFFSET + MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 8 + MARGIN_Y * 2);
 }
 
 void	xyz_text(t_rt *rt, float *xyz, SDL_Color *text_color, int y, int x)
@@ -58,7 +58,7 @@ void	draw_xyz(t_rt *rt, int y, t_vector *vector, t_colors *color)
 	xyz.x = WIDTH_OFFSET + MARGIN;
 	xyz.y = y;
 	xyz.w = xyz.x + offset;
-	xyz.h = y + 30;
+	xyz.h = y + HEIGHT_BUTTON;
 	i = 0;
 	while (i < 3)
 	{

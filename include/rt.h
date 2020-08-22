@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 13:10:59 by maximka           #+#    #+#             */
-/*   Updated: 2020/08/19 08:47:33 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/22 21:18:26 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct      s_gui
 
 typedef struct		s_rt
 {
+    SDL_Renderer    *render_menu;
 	t_sdl			sdl;
     t_gui           gui;
     t_vector        direction;

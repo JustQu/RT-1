@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 13:10:39 by maximka           #+#    #+#             */
-/*   Updated: 2020/08/20 10:44:53 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/22 21:22:01 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 void	init_rect(t_all_rect *rect)
 {
 	rect->color_picker_button.x = WIDTH_OFFSET + MARGIN;
-	rect->color_picker_button.y = 400;
+	rect->color_picker_button.y = (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 6 + HEIGHT_BUTTON;
 	rect->color_picker_button.w = rect->color_picker_button.x + 70;
-	rect->color_picker_button.h = 400 + 30;
+	rect->color_picker_button.h = rect->color_picker_button.y + HEIGHT_BUTTON;
 
 	rect->background.x = WIDTH_OFFSET;
 	rect->background.y = 0;
@@ -30,6 +30,11 @@ void	init_rect(t_all_rect *rect)
 	rect->color_picker.y = 500;
 	rect->color_picker.w = WIDTH_MENU - MARGIN * 2;
 	rect->color_picker.h = 200;
+
+	rect->checkbox_button.x = WIDTH_OFFSET + MARGIN;
+	rect->checkbox_button.y = 500;
+	rect->checkbox_button.w = rect->checkbox_button.x + HEIGHT_BUTTON;
+	rect->checkbox_button.h = rect->checkbox_button.y + HEIGHT_BUTTON;
 }
 
 void	init_colors(t_colors *color)
@@ -80,10 +85,12 @@ int     main(int argc, char **argv)
 	rt.direction.z = 2.093432;
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 		printf("Error");
+	IMG_Init(IMG_INIT_PNG);
 	rt.sdl.win = SDL_CreateWindow("Menu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
 	if (rt.sdl.win == NULL)
 		printf("Error");
 	rt.sdl.render = SDL_CreateRenderer(rt.sdl.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	// rt.render_menu = SDL_CreateRenderer(rt.sdl.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (rt.sdl.render == NULL)
 		printf("Error");
 	// SDL_SetRenderDrawColor(rt.sdl.render, 255, 255, 255, 255);
