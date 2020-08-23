@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 13:10:39 by maximka           #+#    #+#             */
-/*   Updated: 2020/08/23 18:44:54 by user             ###   ########.fr       */
+/*   Updated: 2020/08/23 20:44:30 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,11 @@ void	init_colors(t_colors *color)
 	color->tab_pressed_color.g = 30;
 	color->tab_pressed_color.b = 239;
 	color->tab_pressed_color.a = 0;
+
+	color->green_color.r = 0;
+	color->green_color.g = 255;
+	color->green_color.b = 0;
+	color->green_color.a = 0;
 }
 
 int     main(int argc, char **argv)
