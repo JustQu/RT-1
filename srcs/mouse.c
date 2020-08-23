@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:51:39 by alex              #+#    #+#             */
-/*   Updated: 2020/08/22 21:24:24 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/23 19:09:29 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,37 @@ void	mouse_move(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 	// t_sdl color_picker;
 	SDL_Texture *check_box_texture;
 
-	if (rt->sdl.event.type == SDL_MOUSEMOTION)
+	// if (rt->sdl.event.type == SDL_MOUSEMOTION)
+	// {
+	// 	rt->direction.x = rt->sdl.event.motion.x;
+	// 	rt->direction.y = rt->sdl.event.motion.y;
+	// 	main_gui(rt,all_rect, color);
+	// }
+	if (is_press_button(rt, &all_rect->tab_main_button))
 	{
-		rt->direction.x = rt->sdl.event.motion.x;
-		rt->direction.y = rt->sdl.event.motion.y;
+		main_gui(rt, all_rect, color);
+		draw_main(rt, all_rect, color);
+
+		render_tab_bar(rt, &color->tab_pressed_color, &all_rect->tab_main_button, WIDTH - WIDTH_MENU / 2 - WIDTH_MENU / 4, "MAIN");
+		render_tab_bar(rt, &color->title_text_color, &all_rect->tab_render_button, WIDTH - WIDTH_MENU / 2 + WIDTH_MENU / 4, "RENDER");
+		hlineRGBA(rt->sdl.render, WIDTH_OFFSET + MARGIN, WIDTH - WIDTH_MENU / 2, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y,
+		color->tab_pressed_color.r, color->tab_pressed_color.g, color->tab_pressed_color.b, 255);
+		hlineRGBA(rt->sdl.render, WIDTH - WIDTH_MENU / 2, WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y, 217, 217, 217, 255);
+	}
+	if (is_press_button(rt, &all_rect->tab_render_button))
+	{
 		main_gui(rt,all_rect, color);
+
+		render_tab_bar(rt, &color->title_text_color, &all_rect->tab_main_button, WIDTH - WIDTH_MENU / 2 - WIDTH_MENU / 4, "MAIN");
+		render_tab_bar(rt, &color->tab_pressed_color, &all_rect->tab_render_button, WIDTH - WIDTH_MENU / 2 + WIDTH_MENU / 4, "RENDER");
+		hlineRGBA(rt->sdl.render, WIDTH - WIDTH_MENU / 2, WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y,
+		color->tab_pressed_color.r, color->tab_pressed_color.g, color->tab_pressed_color.b, 255);
+		hlineRGBA(rt->sdl.render, WIDTH_OFFSET + MARGIN, WIDTH - WIDTH_MENU / 2, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y, 217, 217, 217, 255);
 	}
 	if (is_press_button(rt, &all_rect->color_picker_button))
 	{
-		// color_picker.win = SDL_CreateWindow("Color Picker", 0, HEIGHT - all_rect->color_picker.h, all_rect->color_picker.w, all_rect->color_picker.h, SDL_WINDOW_BORDERLESS);
-		// if (color_picker.win == NULL)
-		// 	printf("Error");
-		// color_picker.render = SDL_CreateRenderer(color_picker.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-		// if (color_picker.render == NULL)
-		// 	printf("Error");
+		main_gui(rt,all_rect, color);
 		draw_gradient(rt->sdl.render, &all_rect->color_picker, color->preground, color->title_text_color);
-		// SDL_RenderPresent(color_picker.render);
 	}
 	if (is_press_button(rt, &all_rect->checkbox_button))
 	{

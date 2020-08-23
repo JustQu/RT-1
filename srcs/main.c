@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 13:10:39 by maximka           #+#    #+#             */
-/*   Updated: 2020/08/22 21:22:01 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/23 18:44:54 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,16 @@ void	init_rect(t_all_rect *rect)
 	rect->checkbox_button.y = 500;
 	rect->checkbox_button.w = rect->checkbox_button.x + HEIGHT_BUTTON;
 	rect->checkbox_button.h = rect->checkbox_button.y + HEIGHT_BUTTON;
+
+	rect->tab_main_button.x = WIDTH_OFFSET + MARGIN;
+	rect->tab_main_button.y = (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON;
+	rect->tab_main_button.w = rect->tab_main_button.x + WIDTH_MENU / 2;
+	rect->tab_main_button.h = rect->tab_main_button.y + HEIGHT_BUTTON;
+
+	rect->tab_render_button.x = rect->tab_main_button.w;
+	rect->tab_render_button.y = (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON;
+	rect->tab_render_button.w = rect->tab_render_button.x + WIDTH_MENU / 2;
+	rect->tab_render_button.h = rect->tab_render_button.y + HEIGHT_BUTTON;
 }
 
 void	init_colors(t_colors *color)
@@ -44,9 +54,9 @@ void	init_colors(t_colors *color)
 	color->preground.b = 255;
 	color->preground.a = 0;
 
-	color->title_text_color.r = 128;
-	color->title_text_color.g = 128;
-	color->title_text_color.b = 128;
+	color->title_text_color.r = 0;
+	color->title_text_color.g = 0;
+	color->title_text_color.b = 0;
 	color->title_text_color.a = 0;
 
 	color->border_color.r = 217;
@@ -59,15 +69,20 @@ void	init_colors(t_colors *color)
 	color->subtitle_xyz_color.b = 36;
 	color->subtitle_xyz_color.a = 0;
 
-	color->xyz_text_color.r = 38;
-	color->xyz_text_color.g = 38;
-	color->xyz_text_color.b = 38;
+	color->xyz_text_color.r = 100;
+	color->xyz_text_color.g = 100;
+	color->xyz_text_color.b = 100;
 	color->xyz_text_color.a = 0;
 
 	color->background_color.r = 242;
 	color->background_color.g = 242;
 	color->background_color.b = 242;
 	color->background_color.a = 0;
+
+	color->tab_pressed_color.r = 106;
+	color->tab_pressed_color.g = 30;
+	color->tab_pressed_color.b = 239;
+	color->tab_pressed_color.a = 0;
 }
 
 int     main(int argc, char **argv)
@@ -90,22 +105,14 @@ int     main(int argc, char **argv)
 	if (rt.sdl.win == NULL)
 		printf("Error");
 	rt.sdl.render = SDL_CreateRenderer(rt.sdl.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	// rt.render_menu = SDL_CreateRenderer(rt.sdl.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (rt.sdl.render == NULL)
 		printf("Error");
 	// SDL_SetRenderDrawColor(rt.sdl.render, 255, 255, 255, 255);
 	// SDL_RenderClear(rt.sdl.render);
 	main_gui(&rt, &all_rect, &color);
-	// SDL_RenderPresent(rt.sdl.render);
 	while (1)
 	{
 		keyboard(&rt, &all_rect, &color);
-		// while (SDL_PollEvent(&rt.sdl.event))
-		// {
-		// 	if (rt.sdl.event.type == SDL_QUIT || rt.sdl.event.key.keysym.sym == SDLK_ESCAPE)
-		// 		exit(0);
-		// }
 	}
-	printf("Ok\n");
-    return (0);
+	return (0);
 }

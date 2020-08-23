@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_button.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:52:14 by alex              #+#    #+#             */
-/*   Updated: 2020/08/22 18:56:22 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/23 16:51:07 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	draw_button(t_rt *rt, SDL_Rect *rect, char *str, t_colors *color)
 	if (str != 0)
 	{
 		text = render_text(str, "font/Title.ttf",
-		color->title_text_color, FONT_SUBTITLE_SIZE, rt->sdl.render);
+		color->xyz_text_color, FONT_SUBTITLE_SIZE, rt->sdl.render);
 		SDL_QueryTexture(text, NULL, NULL, &w, &h);
 		render_texture(text, rt->sdl.render, rect->x + w / 2, rect->y + HEIGHT_BUTTON + MARGIN_Y);
 	}

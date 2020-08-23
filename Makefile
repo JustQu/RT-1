@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
+#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/08/20 09:32:44 by alex             ###   ########.fr        #
+#    Updated: 2020/08/23 18:04:35 by user             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ REMOVE		:=	rm -rf
 SRC			:=	main.c \
 		main_gui.c gui_xyz.c gui_button.c\
 		gui_gradient.c mouse.c keyboard.c \
-		
+		gui_tab_bar.c 
 
 OBJS 		:= $(SRC:.c=.o)
 LIBFT		:= $(addprefix $(DIR_LIBFT), $(LIBFT))

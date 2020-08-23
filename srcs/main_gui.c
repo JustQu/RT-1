@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_gui.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:51:59 by alex              #+#    #+#             */
-/*   Updated: 2020/08/22 18:56:42 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/23 19:14:37 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,28 +80,47 @@ void	draw_fill_rect(t_rt *rt, SDL_Rect *background, SDL_Color *color)
     SDL_RenderFillRect(rt->sdl.render, &rect);
 }
 
-int		main_gui(t_rt *rt, t_all_rect *all_rect, t_colors *color)
+void	draw_main(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 {
-	SDL_Color	text_color;
-
-	TTF_Init();
-
-	text_color.r = 38;
-	text_color.g = 38;
-	text_color.b = 38;
-	text_color.a = 0;
-
-	draw_fill_rect(rt, &all_rect->background, &color->background_color);
 	draw_xyz(rt, (FONT_TITLE_SIZE + MARGIN_Y) * 5, &rt->direction, color);
 	draw_xyz(rt, (FONT_TITLE_SIZE + MARGIN_Y) * 7 + MARGIN_Y, &rt->center, color);
 	draw_xyz(rt, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 2, &rt->rotate, color);
-	roundedRectangleRGBA(rt->sdl.render, WIDTH_OFFSET, 0, WIDTH, HEIGHT, 5, color->border_color.r, color->border_color.g, color->border_color.b, 255);
-	vlineRGBA(rt->sdl.render, WIDTH_OFFSET, 0, HEIGHT, color->border_color.r, color->border_color.g, color->border_color.b, 255);
-	// draw_gradient(rt->sdl.render, &all_rect->color_picker, color->preground, color->title_text_color);
-	draw_titles(rt, &text_color);
+
+	draw_titles(rt, &color->title_text_color);
 	draw_button(rt, &all_rect->color_picker_button, "Color", color); /* colorpicker button */
 	draw_button(rt, &all_rect->checkbox_button, 0, color);
-	hlineRGBA(rt->sdl.render, WIDTH_OFFSET + MARGIN,WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 4 + HEIGHT_BUTTON, 217, 217, 217, 255);
-	hlineRGBA(rt->sdl.render, WIDTH_OFFSET + MARGIN,WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y, 217, 217, 217, 255);
+	hlineRGBA(rt->sdl.render, WIDTH_OFFSET + MARGIN, WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 4 + HEIGHT_BUTTON, 217, 217, 217, 255);
+}
+
+void	draw_title_ray_tracing(t_rt *rt, t_colors *color)
+{
+	SDL_Texture *rt_text;
+	int w;
+	int h;
+
+	rt_text = render_text("Ray Tracing", "font/Title_font_CAT.ttf",
+	color->title_text_color, FONT_TITLE_SIZE * 2, rt->sdl.render);
+	SDL_QueryTexture(rt_text, NULL, NULL, &w, &h);
+	render_texture(rt_text, rt->sdl.render, WIDTH_OFFSET + WIDTH_MENU / 2 - w / 2, MARGIN_Y * 2);
+}
+
+int		main_gui(t_rt *rt, t_all_rect *all_rect, t_colors *color)
+{
+
+	TTF_Init();
+
+	SDL_SetRenderDrawColor(rt->sdl.render, 255, 255, 255, 255);
+	SDL_RenderClear(rt->sdl.render);
+
+	/* background */
+	draw_fill_rect(rt, &all_rect->background, &color->background_color);
+	vlineRGBA(rt->sdl.render, WIDTH_OFFSET, 0, HEIGHT, color->border_color.r, color->border_color.g, color->border_color.b, 255);
+	roundedRectangleRGBA(rt->sdl.render, WIDTH_OFFSET, 0, WIDTH, HEIGHT, 5, color->border_color.r, color->border_color.g, color->border_color.b, 255);
+
+	draw_title_ray_tracing(rt, color);
+
+	gui_tab_bar(rt, all_rect, color);
+
+	hlineRGBA(rt->sdl.render, WIDTH_OFFSET + MARGIN, WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y, 217, 217, 217, 255);
 	return (0);
 }

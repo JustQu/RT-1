@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/08/22 18:51:06 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/23 19:08:35 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define WIDTH_OFFSET WIDTH - WIDTH / 4
 # define MARGIN 10
 # define MARGIN_Y 10
-# define FONT_TITLE_SIZE 15
+# define FONT_TITLE_SIZE 20
 # define FONT_SUBTITLE_SIZE 12
 # define COLOR_STEP 100
 # define HEIGHT_BUTTON 30
@@ -37,6 +37,8 @@ typedef struct	s_all_rect
 	SDL_Rect	color_picker;
 	SDL_Rect	background;
 	SDL_Rect	checkbox_button;
+	SDL_Rect	tab_main_button;
+	SDL_Rect	tab_render_button;
 }				t_all_rect;
 
 typedef struct 	s_colors
@@ -47,6 +49,7 @@ typedef struct 	s_colors
 	SDL_Color	xyz_text_color;
 	SDL_Color	subtitle_xyz_color;
 	SDL_Color	background_color;
+	SDL_Color	tab_pressed_color;
 }				t_colors;
 
 int					main_gui(t_rt *rt, t_all_rect *all_rect, t_colors *color);
@@ -65,5 +68,9 @@ void				draw_gradient(SDL_Renderer * renderer,
 									SDL_Rect *back_rect, const SDL_Color c1, const SDL_Color c2);
 void				keyboard(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void				mouse_move(t_rt *rt, t_all_rect *all_rect, t_colors *color);
+void				create_xyz_subtitles(t_rt *rt, int x, int y, char *str, t_colors *color);
+void				gui_tab_bar(t_rt *rt, t_all_rect *rect, t_colors *color);
+void				render_tab_bar(t_rt *rt, SDL_Color *color, SDL_Rect *rect, int x, char *str);
+void				draw_main(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 
 #endif
