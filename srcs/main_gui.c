@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:51:59 by alex              #+#    #+#             */
-/*   Updated: 2020/08/23 20:47:12 by user             ###   ########.fr       */
+/*   Updated: 2020/08/25 19:33:45 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,20 @@ void	draw_fill_rect(t_rt *rt, SDL_Rect *background, SDL_Color *color)
     SDL_RenderFillRect(rt->sdl.render, &rect);
 }
 
-void	draw_main(t_rt *rt, t_all_rect *all_rect, t_colors *color)
+void	draw_render_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 {
+	draw_button(rt, &all_rect->color_picker_button, "Color", color);
+	draw_button(rt, &all_rect->checkbox_button, 0, color);
+	draw_gradient(rt->sdl.render, &all_rect->color_picker, color->preground, color->title_text_color);
+}
+
+void	draw_main_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color)
+{
+	all_rect->tab_main_button = all_rect->tab_main_button;
 	draw_xyz(rt, (FONT_TITLE_SIZE + MARGIN_Y) * 5, &rt->direction, color);
 	draw_xyz(rt, (FONT_TITLE_SIZE + MARGIN_Y) * 7 + MARGIN_Y, &rt->center, color);
 	draw_xyz(rt, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 2, &rt->rotate, color);
-
 	draw_titles(rt, &color->title_text_color);
-	draw_button(rt, &all_rect->color_picker_button, "Color", color); /* colorpicker button */
-	draw_button(rt, &all_rect->checkbox_button, 0, color);
 	hlineRGBA(rt->sdl.render, WIDTH_OFFSET + MARGIN, WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 4 + HEIGHT_BUTTON, 217, 217, 217, 255);
 }
 

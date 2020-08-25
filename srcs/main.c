@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 13:10:39 by maximka           #+#    #+#             */
-/*   Updated: 2020/08/23 20:44:30 by user             ###   ########.fr       */
+/*   Updated: 2020/08/25 18:02:46 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	init_rect(t_all_rect *rect)
 	rect->color_picker.h = 200;
 
 	rect->checkbox_button.x = WIDTH_OFFSET + MARGIN;
-	rect->checkbox_button.y = 500;
+	rect->checkbox_button.y = HEIGHT / 2;
 	rect->checkbox_button.w = rect->checkbox_button.x + HEIGHT_BUTTON;
 	rect->checkbox_button.h = rect->checkbox_button.y + HEIGHT_BUTTON;
 

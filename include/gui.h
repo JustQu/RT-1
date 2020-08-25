@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/08/23 20:50:52 by user             ###   ########.fr       */
+/*   Updated: 2020/08/25 19:33:37 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,11 @@ void				mouse_move(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void				create_xyz_subtitles(t_rt *rt, int x, int y, char *str, t_colors *color);
 void				gui_tab_bar(t_rt *rt, t_all_rect *rect, t_colors *color);
 void				render_tab_bar(t_rt *rt, SDL_Color *color, SDL_Rect *rect, int x, char *str);
-void				draw_main(t_rt *rt, t_all_rect *all_rect, t_colors *color);
+void				draw_main_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color);
+void				draw_render_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void				progress_bar(t_rt *rt, t_colors *color, t_all_rect *all_rect);
 void				draw_title_ray_tracing(t_rt *rt, SDL_Color *color);
+void				color_tab_render(t_rt *rt, t_colors *color, t_all_rect *all_rect);
+void				color_tab_main(t_rt *rt, t_colors *color, t_all_rect *all_rect);
 
 #endif

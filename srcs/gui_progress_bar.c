@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 20:23:14 by user              #+#    #+#             */
-/*   Updated: 2020/08/23 20:55:38 by user             ###   ########.fr       */
+/*   Updated: 2020/08/23 21:16:22 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void	progress_bar(t_rt *rt, t_colors *color, t_all_rect *all_rect)
 			7, 2, 217, 217, 217, 255);
 		roundedBoxRGBA(rt->sdl.render, WIDTH_OFFSET, 0, res,
 			7, 2, 106, 30, 239, 255);
-		// roundedRectangleRGBA(rt->sdl.render, WIDTH_OFFSET, 0,
-		// 	WIDTH, 8, 15, 60, 60, 60, 255);
 	}
 	else
 	{
@@ -38,7 +36,5 @@ void	progress_bar(t_rt *rt, t_colors *color, t_all_rect *all_rect)
 		roundedBoxRGBA(rt->sdl.render, WIDTH_OFFSET, 0,
 			WIDTH, 7, 2, 0, 255, 0, 255);
 		draw_title_ray_tracing(rt, &color->green_color);
-		// roundedRectangleRGBA(rt->sdl.render, WIDTH_OFFSET, 0,
-		// 	WIDTH, 8, 15, 60, 60, 60, 255);
 	}
 }
