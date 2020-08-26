@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 13:10:39 by maximka           #+#    #+#             */
-/*   Updated: 2020/08/25 18:02:46 by user             ###   ########.fr       */
+/*   Updated: 2020/08/26 19:26:03 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,15 @@ void	init_rect(t_all_rect *rect)
 	rect->color_picker.w = WIDTH_MENU - MARGIN * 2;
 	rect->color_picker.h = 200;
 
-	rect->checkbox_button.x = WIDTH_OFFSET + MARGIN;
-	rect->checkbox_button.y = HEIGHT / 2;
+	rect->checkbox_button.x = WIDTH_OFFSET + WIDTH_MENU / 2 - HEIGHT_BUTTON - MARGIN;
+	rect->checkbox_button.y = (FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y;
 	rect->checkbox_button.w = rect->checkbox_button.x + HEIGHT_BUTTON;
 	rect->checkbox_button.h = rect->checkbox_button.y + HEIGHT_BUTTON;
+
+	rect->checkbox_button2.x = WIDTH - MARGIN;
+	rect->checkbox_button2.y = (FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y;
+	rect->checkbox_button2.w = rect->checkbox_button.x + HEIGHT_BUTTON;
+	rect->checkbox_button2.h = rect->checkbox_button.y + HEIGHT_BUTTON;
 
 	rect->tab_main_button.x = WIDTH_OFFSET + MARGIN;
 	rect->tab_main_button.y = (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON;
@@ -118,6 +123,7 @@ int     main(int argc, char **argv)
 	while (1)
 	{
 		keyboard(&rt, &all_rect, &color);
+		SDL_RenderPresent(rt.sdl.render);
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_gui.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:51:59 by alex              #+#    #+#             */
-/*   Updated: 2020/08/25 19:33:45 by user             ###   ########.fr       */
+/*   Updated: 2020/08/26 19:27:51 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,29 +44,6 @@ void render_texture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y)
 	render_rect(tex, ren, x, y, w, h);
 }
 
-SDL_Texture*		render_text(char *message, char *fontFile,
-		SDL_Color color, int fontSize, SDL_Renderer *renderer)
-{
-		TTF_Font *font;
-		SDL_Surface *surf;
-
-
-		font = TTF_OpenFont(fontFile, fontSize);
-		if (font == NULL)
-				printf("not font");
-		surf = TTF_RenderText_Blended(font, message, color);
-		if (surf == NULL){
-				return NULL;
-		}
-		SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
-		if (texture == NULL){
-				return NULL;
-		}
-		SDL_FreeSurface(surf);
-		TTF_CloseFont(font);
-		return texture;
-}
-
 void	draw_fill_rect(t_rt *rt, SDL_Rect *background, SDL_Color *color)
 {
 	SDL_Rect rect;
@@ -80,11 +57,33 @@ void	draw_fill_rect(t_rt *rt, SDL_Rect *background, SDL_Color *color)
     SDL_RenderFillRect(rt->sdl.render, &rect);
 }
 
+void	draw_render_checkbox(t_rt *rt, SDL_Rect *all_rect, t_colors *color)
+{
+	SDL_Rect rect;
+	int i;
+	char str[4][32] = {"Shadow", "Ambient", "Specular", "And More" };
+
+	i = 0;
+	rect.x = all_rect->x;
+	rect.y = all_rect->y;
+	rect.w = all_rect->w;
+	rect.h = all_rect->h;
+	while (i < 4)
+	{
+		draw_checkbox(rt, &rect, str[i], color);
+		rect.y += HEIGHT_BUTTON + MARGIN_Y;
+		rect.h += HEIGHT_BUTTON + MARGIN_Y;
+		i++;
+	}
+}
+
 void	draw_render_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 {
 	draw_button(rt, &all_rect->color_picker_button, "Color", color);
 	draw_button(rt, &all_rect->checkbox_button, 0, color);
 	draw_gradient(rt->sdl.render, &all_rect->color_picker, color->preground, color->title_text_color);
+	draw_render_checkbox(rt, &all_rect->checkbox_button, color);
+	// draw_render_checkbox(rt, &all_rect->checkbox_button2, color);
 }
 
 void	draw_main_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color)
@@ -93,7 +92,7 @@ void	draw_main_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 	draw_xyz(rt, (FONT_TITLE_SIZE + MARGIN_Y) * 5, &rt->direction, color);
 	draw_xyz(rt, (FONT_TITLE_SIZE + MARGIN_Y) * 7 + MARGIN_Y, &rt->center, color);
 	draw_xyz(rt, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 2, &rt->rotate, color);
-	draw_titles(rt, &color->title_text_color);
+	draw_titles_xyz(rt, &color->title_text_color);
 	hlineRGBA(rt->sdl.render, WIDTH_OFFSET + MARGIN, WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 4 + HEIGHT_BUTTON, 217, 217, 217, 255);
 }
 

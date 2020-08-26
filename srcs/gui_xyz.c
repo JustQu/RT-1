@@ -1,7 +1,7 @@
 #include "gui.h"
 #include "rt.h"
 
-void	draw_titles(t_rt *rt, SDL_Color *color)
+void	draw_titles_xyz(t_rt *rt, SDL_Color *color)
 {
 
 	SDL_Texture *direction_text;

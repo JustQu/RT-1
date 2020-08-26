@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:51:50 by alex              #+#    #+#             */
-/*   Updated: 2020/08/23 20:56:15 by user             ###   ########.fr       */
+/*   Updated: 2020/08/26 18:25:01 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,5 @@ void	keyboard(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 			mouse_move(rt, all_rect, color);
 		}
 	}
-	SDL_RenderPresent(rt->sdl.render);
+	// SDL_RenderPresent(rt->sdl.render);
 }

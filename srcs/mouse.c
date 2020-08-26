@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:51:39 by alex              #+#    #+#             */
-/*   Updated: 2020/08/25 19:16:05 by user             ###   ########.fr       */
+/*   Updated: 2020/08/26 18:25:23 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int		is_press_button(t_rt *rt, SDL_Rect *rect)
 	else
 		return (0);
 }
-
-
 
 void	mouse_move(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 {
