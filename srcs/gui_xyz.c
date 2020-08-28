@@ -22,7 +22,7 @@ void	draw_titles_xyz(t_rt *rt, SDL_Color *color)
 void	xyz_text(t_rt *rt, float *xyz, SDL_Color *text_color, int y, int x)
 {
 	SDL_Texture *x_text;
-	char str[8];
+	char str[256];
 	int w;
 	int h;
 

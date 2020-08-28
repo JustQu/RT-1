@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:51:39 by alex              #+#    #+#             */
-/*   Updated: 2020/08/26 18:25:23 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/28 16:45:02 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "gui.h"
+
 
 int		is_press_button(t_rt *rt, SDL_Rect *rect)
 {
@@ -23,22 +24,73 @@ int		is_press_button(t_rt *rt, SDL_Rect *rect)
 		return (0);
 }
 
+void	is_pressed_checkbox(t_rt *rt, t_all_rect *all_rect, t_colors *color)
+{
+
+	if (rt->is_pressed.shadow == 1)
+	{
+		draw_ispressed_checkbox(rt, &all_rect->checkbox_button_shadow, "Shadow", color);
+	}
+	if (rt->is_pressed.ambient == 1)
+	{
+		draw_ispressed_checkbox(rt, &all_rect->checkbox_button_ambient, "Ambient", color);
+	}
+}
+
 void	mouse_move(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 {
-	if (is_press_button(rt, &all_rect->tab_main_button))
+	if (is_press_button(rt, &all_rect->tab_main_button)) /* event tab main bar */
 	{
 		main_gui(rt, all_rect, color);
 		draw_main_tab(rt, all_rect, color);
 		color_tab_main(rt, color, all_rect);
+		rt->is_pressed.main_tab = 1;
+		rt->is_pressed.render_tab = 0;
 	}
-	if (is_press_button(rt, &all_rect->tab_render_button))
+	if (is_press_button(rt, &all_rect->tab_render_button)) /* event tab render bar */
 	{
+
 		main_gui(rt,all_rect, color);
 		draw_render_tab(rt, all_rect, color);
 		color_tab_render(rt, color, all_rect);
+		is_pressed_checkbox(rt, all_rect, color);
+		rt->is_pressed.main_tab = 0;
+		rt->is_pressed.render_tab = 1;
 	}
-	if (is_press_button(rt, &all_rect->checkbox_button))
+	if (is_press_button(rt, &all_rect->checkbox_button_shadow)) /* shadow checkbox event */
 	{
-
+		main_gui(rt, all_rect, color);
+		if (!rt->is_pressed.shadow)
+		{
+			draw_render_tab(rt, all_rect, color);
+			color_tab_render(rt, color, all_rect);
+			draw_ispressed_checkbox(rt, &all_rect->checkbox_button_shadow, "Shadow", color);
+			rt->is_pressed.shadow = 1;
+		}
+		else
+		{
+			draw_render_tab(rt, all_rect, color);
+			color_tab_render(rt, color, all_rect);
+			// draw_checkbox(rt, &all_rect->checkbox_button_shadow, "Shadow", color);
+			rt->is_pressed.shadow = 0;
+		}
+	}
+	if (is_press_button(rt, &all_rect->checkbox_button_ambient))
+	{
+		main_gui(rt, all_rect, color);
+		if (!rt->is_pressed.ambient)
+		{
+			draw_render_tab(rt, all_rect, color);
+			color_tab_render(rt, color, all_rect);
+			draw_ispressed_checkbox(rt, &all_rect->checkbox_button_ambient, "Ambient", color);
+			rt->is_pressed.ambient = 1;
+		}
+		else
+		{
+			draw_render_tab(rt, all_rect, color);
+			color_tab_render(rt, color, all_rect);
+			// draw_checkbox(rt, &all_rect->checkbox_button_ambient, "Ambient", color);
+			rt->is_pressed.ambient = 0;
+		}
 	}
 }

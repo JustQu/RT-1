@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/08/26 19:22:46 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/28 15:43:19 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ typedef struct	s_all_rect
 	SDL_Rect	color_picker_button;
 	SDL_Rect	color_picker;
 	SDL_Rect	background;
-	SDL_Rect	checkbox_button;
-	SDL_Rect	checkbox_button2;
+	SDL_Rect	checkbox_button_shadow;
+	SDL_Rect	checkbox_button_ambient;
 	SDL_Rect	tab_main_button;
 	SDL_Rect	tab_render_button;
+	SDL_Rect	specular_button_10;
 }				t_all_rect;
 
 typedef struct 	s_colors
@@ -80,5 +81,7 @@ void				progress_bar(t_rt *rt, t_colors *color, t_all_rect *all_rect);
 void				draw_title_ray_tracing(t_rt *rt, SDL_Color *color);
 void				color_tab_render(t_rt *rt, t_colors *color, t_all_rect *all_rect);
 void				color_tab_main(t_rt *rt, t_colors *color, t_all_rect *all_rect);
+void				draw_ispressed_checkbox(t_rt *rt, SDL_Rect *rect, char *str, t_colors *color);
+void				draw_render_checkbox(t_rt *rt, SDL_Rect *all_rect, t_colors *color, char **str, int count);
 
 #endif

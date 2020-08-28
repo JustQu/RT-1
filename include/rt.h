@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 13:10:59 by maximka           #+#    #+#             */
-/*   Updated: 2020/08/26 19:07:02 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/28 16:22:32 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,25 @@ typedef struct      s_gui
     SDL_Color       color;
 }                   t_gui;
 
+typedef struct s_pressed
+{
+	int 		shadow;
+	int			ambient;
+	int			specular;
+	int			and_more;
+	int			render_tab;
+	int			main_tab;
+}				t_pressed;
+
+
 typedef struct		s_rt
 {
-    SDL_Renderer    *render_menu;
 	t_sdl			sdl;
     t_gui           gui;
     t_vector        direction;
     t_vector        center;
     t_vector        rotate;
+	t_pressed		is_pressed;
 }					t_rt;
 // struct                s_light
 // {

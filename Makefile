@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
+#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/08/26 18:32:07 by alex             ###   ########.fr        #
+#    Updated: 2020/08/28 14:48:52 by user             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SRC			:=	main.c \
 		main_gui.c gui_xyz.c gui_button.c\
 		gui_gradient.c mouse.c keyboard.c \
 		gui_tab_bar.c gui_progress_bar.c \
-		gui_render_text.c
+		gui_render_text.c gui_checkbox.c \
+		
 
 OBJS 		:= $(SRC:.c=.o)
 LIBFT		:= $(addprefix $(DIR_LIBFT), $(LIBFT))

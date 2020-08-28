@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_gui.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:51:59 by alex              #+#    #+#             */
-/*   Updated: 2020/08/26 19:27:51 by alex             ###   ########.fr       */
+/*   Updated: 2020/08/28 16:19:51 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,38 +57,81 @@ void	draw_fill_rect(t_rt *rt, SDL_Rect *background, SDL_Color *color)
     SDL_RenderFillRect(rt->sdl.render, &rect);
 }
 
-void	draw_render_checkbox(t_rt *rt, SDL_Rect *all_rect, t_colors *color)
+void	draw_ambient_context(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 {
-	SDL_Rect rect;
-	int i;
-	char str[4][32] = {"Shadow", "Ambient", "Specular", "And More" };
+	int count;
+	char **str;
 
-	i = 0;
-	rect.x = all_rect->x;
-	rect.y = all_rect->y;
-	rect.w = all_rect->w;
-	rect.h = all_rect->h;
-	while (i < 4)
-	{
-		draw_checkbox(rt, &rect, str[i], color);
-		rect.y += HEIGHT_BUTTON + MARGIN_Y;
-		rect.h += HEIGHT_BUTTON + MARGIN_Y;
-		i++;
-	}
+	count = 3;
+	if (!(str = malloc(sizeof(char*) * 4)))
+		exit(0);
+	str[0] = "10";
+	str[1] = "100";
+	str[2] = "1000";
+
+	draw_render_checkbox(rt, &all_rect->specular_button_10, color, str, count);
+}
+
+void	draw_title_specular(t_rt *rt, SDL_Color *color)
+{
+	SDL_Texture *rt_text;
+	int w;
+	int h;
+
+	rt_text = render_text("Specular", "font/Title.ttf",
+	*color, FONT_TITLE_SIZE, rt->sdl.render);
+	SDL_QueryTexture(rt_text, NULL, NULL, &w, &h);
+	render_texture(rt_text, rt->sdl.render, WIDTH - WIDTH_MENU / 4 - w / 2, ((FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y) * 2 + MARGIN_Y * 3);
+}
+
+char	**init_checkbox_title(char *str1, char *str2, char *str3, char *str4)
+{
+	char **str;
+
+	if (!(str = malloc(sizeof(char*) * 256)))
+		exit(0);
+	str[0] = str1;
+	str[1] = str2;
+	str[2] = str3;
+	str[3] = str4;
+	return (str);
 }
 
 void	draw_render_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 {
-	draw_button(rt, &all_rect->color_picker_button, "Color", color);
-	draw_button(rt, &all_rect->checkbox_button, 0, color);
+	char **str;
+	int count;
+
+	count = 4;
+	if (!(str = malloc(sizeof(char*) * 5)))
+		exit(0);
+	str[0] = "Shadow";
+	str[1] = "Ambient";
+	str[2] = "Specular";
+	str[3] = "And More";
+	// draw_button(rt, &all_rect->color_picker_button, "Color", color);
+	// draw_button(rt, &all_rect->checkbox_button_shadow, 0, color);
 	draw_gradient(rt->sdl.render, &all_rect->color_picker, color->preground, color->title_text_color);
-	draw_render_checkbox(rt, &all_rect->checkbox_button, color);
-	// draw_render_checkbox(rt, &all_rect->checkbox_button2, color);
+	str = init_checkbox_title("Shadow", "Ambient", "Specular", "And More");
+	draw_render_checkbox(rt, &all_rect->checkbox_button_shadow, color, str, count); /* first checkbox */
+	str = init_checkbox_title("Ambient", "Ambient2", "Specular2", "And More2");
+	draw_render_checkbox(rt, &all_rect->checkbox_button_ambient, color, str, count); /* second checkbox */
+	hlineRGBA(rt->sdl.render, WIDTH_OFFSET + MARGIN, WIDTH - MARGIN,
+		(FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 2, 217, 217, 217, 255);
+	draw_ambient_context(rt, all_rect, color);
+	draw_title_specular(rt, &color->title_text_color);
+	vlineRGBA(rt->sdl.render, WIDTH_OFFSET + WIDTH_MENU / 2,
+		((FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y) * 2 + MARGIN_Y * 4,
+		(FONT_TITLE_SIZE + MARGIN_Y) * 9 + (HEIGHT_BUTTON + MARGIN_Y) * 4,
+		217, 217, 217, 255);
+	hlineRGBA(rt->sdl.render, WIDTH_OFFSET + MARGIN, WIDTH - MARGIN,
+		(FONT_TITLE_SIZE + MARGIN_Y) * 9 + (HEIGHT_BUTTON + MARGIN_Y) * 4 + MARGIN_Y, 217, 217, 217, 255);
+
 }
 
 void	draw_main_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 {
-	all_rect->tab_main_button = all_rect->tab_main_button;
+	all_rect->tab_main_button = all_rect->tab_main_button; // потом изменить
 	draw_xyz(rt, (FONT_TITLE_SIZE + MARGIN_Y) * 5, &rt->direction, color);
 	draw_xyz(rt, (FONT_TITLE_SIZE + MARGIN_Y) * 7 + MARGIN_Y, &rt->center, color);
 	draw_xyz(rt, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 2, &rt->rotate, color);
@@ -110,7 +153,6 @@ void	draw_title_ray_tracing(t_rt *rt, SDL_Color *color)
 
 int		main_gui(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 {
-
 	TTF_Init();
 
 	SDL_SetRenderDrawColor(rt->sdl.render, 255, 255, 255, 255);
@@ -118,8 +160,10 @@ int		main_gui(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 
 	/* background */
 	draw_fill_rect(rt, &all_rect->background, &color->background_color);
-	vlineRGBA(rt->sdl.render, WIDTH_OFFSET, 0, HEIGHT, color->border_color.r, color->border_color.g, color->border_color.b, 255);
-	roundedRectangleRGBA(rt->sdl.render, WIDTH_OFFSET, 0, WIDTH, HEIGHT, 5, color->border_color.r, color->border_color.g, color->border_color.b, 255);
+	vlineRGBA(rt->sdl.render, WIDTH_OFFSET, 0, HEIGHT, color->border_color.r,
+		color->border_color.g, color->border_color.b, 255);
+	roundedRectangleRGBA(rt->sdl.render, WIDTH_OFFSET, 0, WIDTH, HEIGHT, 5,
+		color->border_color.r, color->border_color.g, color->border_color.b, 255);
 	draw_title_ray_tracing(rt, &color->title_text_color);
 	gui_tab_bar(rt, all_rect, color);
 	hlineRGBA(rt->sdl.render, WIDTH_OFFSET + MARGIN, WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y, 217, 217, 217, 255);
