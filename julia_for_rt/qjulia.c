@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   qjulia.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:28:34 by user              #+#    #+#             */
-/*   Updated: 2020/09/02 18:04:13 by user             ###   ########.fr       */
+/*   Updated: 2020/09/07 18:23:08 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,88 +15,7 @@
 #define WIDTH 1200
 #define HEIGHT 800
 
-#define GL_SILENCE_DEPRECATION
-#include <OpenGL/OpenGL.h>
-#include <OpenGL/gl.h>
-#include <OpenGL/CGLDevice.h>
-#include <GLUT/glut.h>
-#include <OpenCL/opencl.h>
-
-#include <mach/mach_time.h>
-#include <math.h>
-
-#include <fcntl.h>
-#include <stdarg.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <mach/mach_time.h>
-
-#define COMPUTE_KERNEL_FILENAME	("qjulia_kernel.cl")
-#define COMPUTE_KERNEL_METHOD_NAME ("QJuliaKernel")
-
-static int animated		= 0;
-static int update		= 1;
-
-static cl_context		compute_context;
-static cl_command_queue	compute_commands;
-static cl_device_type	compute_device_type;
-static cl_device_id		compute_device_id;
-
-static cl_program		compute_program;
-static cl_kernel		compute_kernel;
-static cl_mem			compute_result;
-static cl_mem			compute_image;
-
-static size_t			max_work_group_size;
-static int				work_group_size[2];
-static int				work_group_items = 32;
-
-static uint texture_id = 0;
-static uint texture_width = WIDTH;
-static uint texture_height = HEIGHT;
-static uint texture_target = GL_TEXTURE_2D;
-static uint texture_format = GL_RGBA;
-static uint texture_type	= GL_UNSIGNED_BYTE;
-static uint texture_internal = GL_RGBA;
-static size_t texture_type_size = sizeof(char);
-static uint active_texture_uint = 0x84C1;
-static void *host_image_buffer = 0;
-
-static float mut			= 0.0f;
-static float mua[4]			= { -.278f, -.479f, 0.0f, 0.0f };
-static float mub[4]			= { 0.278f, 0.479f, 0.0f, 0.0f };
-static float muc[4]			= { -.278f, -.479f, -.231f, .235f };
-
-static float epsilon		= 0.003f;
-
-static float color_t		= 0.0f;
-static float color_a[4]		= { 0.25f, 0.45f, 1.0f, 1.0f };
-static float color_b[4]		= { 0.25f, 0.45f, 1.0f, 1.0f };
-static float color_c[4]		= { 0.25f, 0.45f, 1.0f, 1.0f };
-
-static float shadow_text_color[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-static float highlight_text_color[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-static uint text_offset[2]			= { 25, 25};
-
-static double time_elapsed	= 0;
-static int frame_count 		= 0;
-static uint report_stats_interval = 30;
-
-static float tex_coords[4][2];
-
-static float vertex_pos[4][2] = { { -1.0f, -1.0f},
-								  { +1.0f, -1.0f},
-								  { +1.0f, +1.0f},
-								  { -1.0f, +1.0f} };
-
-static uint show_stats		= 1;
-static char stats_string[512] = "\0";
-static uint show_info		= 1;
-static char info_string[512] = "\0";
+#include <SDL2/SDL.h>
 
 void	create_texture()
 {
@@ -132,23 +51,23 @@ int		setup_graphics()
 	glViewport(0,0, WIDTH, HEIGHT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+	// glMatrixMode(GL_PROJECTION);
+	// glLoadIdentity();
 
-	tex_coords[3][0] = 0.0f;
-	tex_coords[3][1] = 0.0f;
-	tex_coords[2][0] = WIDTH;
-	tex_coords[2][1] = 0.0f;
-	tex_coords[1][0] = WIDTH;
-	tex_coords[1][1] = HEIGHT;
-	tex_coords[0][0] = 0.0f;
-	tex_coords[0][1] = HEIGHT;
+	// tex_coords[3][0] = 0.0f;
+	// tex_coords[3][1] = 0.0f;
+	// tex_coords[2][0] = WIDTH;
+	// tex_coords[2][1] = 0.0f;
+	// tex_coords[1][0] = WIDTH;
+	// tex_coords[1][1] = HEIGHT;
+	// tex_coords[0][0] = 0.0f;
+	// tex_coords[0][1] = HEIGHT;
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glVertexPointer(2, GL_FLOAT, 0, vertex_pos);
-	glClientActiveTexture(GL_TEXTURE0);
-	glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
+	// glEnableClientState(GL_VERTEX_ARRAY);
+	// glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	// glVertexPointer(2, GL_FLOAT, 0, vertex_pos);
+	// glClientActiveTexture(GL_TEXTURE0);
+	// glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
 	return (GL_NO_ERROR);
 }
 
@@ -336,9 +255,9 @@ void	random_color(float v[4])
 	uint seed;
 
 	seed = (uint)mach_absolute_time(); /* get current time */
-	v[0] = 2.0f * rand_r(&seed) / (float) RAND_MAX - 1.0f;
-	v[1] = 2.0f * rand_r(&seed) / (float) RAND_MAX - 1.0f;
-	v[2] = 2.0f * rand_r(&seed) / (float) RAND_MAX - 1.0f;
+	v[0] = 5.0f * rand_r(&seed) / (float) RAND_MAX - 1.0f;
+	v[1] = 5.0f * rand_r(&seed) / (float) RAND_MAX - 1.0f;
+	v[2] = 5.0f * rand_r(&seed) / (float) RAND_MAX - 1.0f;
 	v[3] = 1.0f;
 }
 
@@ -508,108 +427,108 @@ void	render_texture(void *pv_data)
 	glDisable(texture_target);
 }
 
-void	draw_string(float x, float y, float color[4], char *buffer)
-{
-	unsigned int uilen;
-	unsigned int i;
+// void	draw_string(float x, float y, float color[4], char *buffer)
+// {
+// 	unsigned int uilen;
+// 	unsigned int i;
 
-	glPushAttrib(GL_LIGHTING_BIT);
-	glDisable(GL_LIGHTING);
+// 	glPushAttrib(GL_LIGHTING_BIT);
+// 	glDisable(GL_LIGHTING);
 
-	glRasterPos2f(x, y);
-	glColor3f(color[0], color[1], color[2]);
-	uilen = (unsigned int)strlen(buffer);
-	i = 0;
-	while (i < uilen)
-	{
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, buffer[i]);
-		i++;
-	}
-	glPopAttrib();
-}
+// 	glRasterPos2f(x, y);
+// 	glColor3f(color[0], color[1], color[2]);
+// 	uilen = (unsigned int)strlen(buffer);
+// 	i = 0;
+// 	while (i < uilen)
+// 	{
+// 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, buffer[i]);
+// 		i++;
+// 	}
+// 	glPopAttrib();
+// }
 
-void	draw_text(float x, float y, int light, char *format, ...)
-{
-	va_list args;
-	char buffer[256];
-	GLint ivp[4];
-	GLint imatrix_mode;
+// void	draw_text(float x, float y, int light, char *format, ...)
+// {
+// 	va_list args;
+// 	char buffer[256];
+// 	GLint ivp[4];
+// 	GLint imatrix_mode;
 
-	va_start(args, format);
-	vsprintf(buffer, format, args);
-	va_end(args);
+// 	va_start(args, format);
+// 	vsprintf(buffer, format, args);
+// 	va_end(args);
 
-	glPushAttrib(GL_LIGHTING_BIT);
-	glDisable(GL_LIGHTING);
-	glDisable(GL_BLEND);
+// 	glPushAttrib(GL_LIGHTING_BIT);
+// 	glDisable(GL_LIGHTING);
+// 	glDisable(GL_BLEND);
 
-	glGetIntegerv(GL_VIEWPORT, ivp);
-	glViewport(0, 0, WIDTH, HEIGHT);
-	glGetIntegerv(GL_MATRIX_MODE, &imatrix_mode);
+// 	glGetIntegerv(GL_VIEWPORT, ivp);
+// 	glViewport(0, 0, WIDTH, HEIGHT);
+// 	glGetIntegerv(GL_MATRIX_MODE, &imatrix_mode);
 
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
+// 	glMatrixMode(GL_PROJECTION);
+// 	glPushMatrix();
+// 	glLoadIdentity();
 
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
+// 	glMatrixMode(GL_MODELVIEW);
+// 	glPushMatrix();
+// 	glLoadIdentity();
 
-	glScalef(2.0f / WIDTH, -2.0f / HEIGHT, 1.0f);
-	glTranslatef(-WIDTH / 2.0f, -HEIGHT / 2.0f, 0.0f);
+// 	glScalef(2.0f / WIDTH, -2.0f / HEIGHT, 1.0f);
+// 	glTranslatef(-WIDTH / 2.0f, -HEIGHT / 2.0f, 0.0f);
 
-	if (light)
-	{
-		glColor4fv(shadow_text_color);
-		draw_string(x - 0, y - 0, shadow_text_color, buffer);
+// 	if (light)
+// 	{
+// 		glColor4fv(shadow_text_color);
+// 		// draw_string(x - 0, y - 0, shadow_text_color, buffer);
 
-		glColor4fv(highlight_text_color);
-		draw_string(x - 2, y - 2, highlight_text_color, buffer);
-	}
-	else
-	{
-		glColor4fv(highlight_text_color);
-		draw_string(x - 0, y - 0, highlight_text_color, buffer);
+// 		glColor4fv(highlight_text_color);
+// 		// draw_string(x - 2, y - 2, highlight_text_color, buffer);
+// 	}
+// 	else
+// 	{
+// 		glColor4fv(highlight_text_color);
+// 		// draw_string(x - 0, y - 0, highlight_text_color, buffer);
 
-		glColor4fv(shadow_text_color);
-		draw_string(x - 2, y - 2, shadow_text_color, buffer);
-	}
+// 		glColor4fv(shadow_text_color);
+// 		// draw_string(x - 2, y - 2, shadow_text_color, buffer);
+// 	}
 
 
-	glPopMatrix();
-	glMatrixMode(GL_PROJECTION);
+// 	glPopMatrix();
+// 	glMatrixMode(GL_PROJECTION);
 
-	glPopMatrix();
-	glMatrixMode(imatrix_mode);
+// 	glPopMatrix();
+// 	glMatrixMode(imatrix_mode);
 
-	glPopAttrib();
-	glViewport(ivp[0], ivp[1], ivp[2], ivp[3]);
+// 	glPopAttrib();
+// 	glViewport(ivp[0], ivp[1], ivp[2], ivp[3]);
 
-}
+// }
 
-void	report_info()
-{
-	if (show_stats)
-	{
-		int ix = 20;
-		int iy = 20;
+// void	report_info()
+// {
+// 	if (show_stats)
+// 	{
+// 		int ix = 20;
+// 		int iy = 20;
 
-		draw_text(ix - 1, HEIGHT -iy - 1, 0, stats_string);
-		draw_text(ix - 2, HEIGHT -iy - 2, 0, stats_string);
-		draw_text(ix, HEIGHT -iy, 1, stats_string);
-	}
-	if (show_info)
-	{
-		int ix = text_offset[0];
-		int iy = HEIGHT - text_offset[1];
+// 		// draw_text(ix - 1, HEIGHT -iy - 1, 0, stats_string);
+// 		// draw_text(ix - 2, HEIGHT -iy - 2, 0, stats_string);
+// 		// draw_text(ix, HEIGHT -iy, 1, stats_string);
+// 	}
+// 	if (show_info)
+// 	{
+// 		int ix = text_offset[0];
+// 		int iy = HEIGHT - text_offset[1];
 
-		draw_text(WIDTH - ix - 1 - strlen(info_string) * 10, HEIGHT - iy - 1, 0, info_string);
-		draw_text(WIDTH - ix - 2 - strlen(info_string) * 10, HEIGHT - iy - 2, 0, info_string);
-		draw_text(WIDTH - ix - strlen(info_string) * 10, HEIGHT - iy, 1, info_string);
+// 		// draw_text(WIDTH - ix - 1 - strlen(info_string) * 10, HEIGHT - iy - 1, 0, info_string);
+// 		// draw_text(WIDTH - ix - 2 - strlen(info_string) * 10, HEIGHT - iy - 2, 0, info_string);
+// 		// draw_text(WIDTH - ix - strlen(info_string) * 10, HEIGHT - iy, 1, info_string);
 
-		show_info = (show_info > 200) ? 0 : show_info + 1;
-	}
-}
+// 		show_info = (show_info > 200) ? 0 : show_info + 1;
+// 	}
+// }
 
 double	subtract_time(uint64_t ui_end_time, uint64_t ui_start_time)
 {
@@ -666,14 +585,14 @@ void	display()
 		printf("Error %d from Recompute!\n", err);
 
 	render_texture(host_image_buffer);
-	report_info();
+	// report_info();
 
 	glFinish(); /* for timing */
 
 	uint64_t ui_end_time = mach_absolute_time();
-	report_stats(ui_start_time, ui_end_time);
-	draw_text(text_offset[0], text_offset[1], 1, (animated == 0) ? "Press space to animate" : " ");
-	glutSwapBuffers();
+	// report_stats(ui_start_time, ui_end_time);
+	// draw_text(text_offset[0], text_offset[1], 1, (animated == 0) ? "Press space to animate" : " ");
+	// glutSwapBuffers();
 }
 
 int		init_cl()
@@ -770,22 +689,55 @@ void	shutdown()
 
 int		main(int argc, char **argv) /* is julia main */
 {
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(WIDTH, HEIGHT);
-	glutInitWindowPosition(100, 100);
-	glutCreateWindow(argv[0]);
+
+//SDL
+	SDL_Window *window;
+
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+		printf("error");
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
+
+	window =SDL_CreateWindow("sdl_julia", 100, 100, WIDTH, HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+	SDL_GLContext glcontext = SDL_GL_CreateContext(window);
+	if (window == NULL)
+		printf("error window");
+
 	if (init_cl() == GL_NO_ERROR)
 	{
-		glutDisplayFunc(display);
-		glutIdleFunc(idle);
-		glutReshapeFunc(reshape);
-		glutKeyboardFunc(keyboard);
-
-		atexit(shutdown);
-		printf("Starting event loop...\n");
-
-		glutMainLoop();
+		while (1)
+		{
+			SDL_Event event;
+			while(SDL_PollEvent(&event))
+			{
+				if (event.type == SDL_QUIT)
+					exit(0);
+			}
+			display();
+			SDL_GL_SwapWindow(window);
+		}
 	}
+
+
+
+	// glutInit(&argc, argv);
+	// glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	// glutInitWindowSize(WIDTH, HEIGHT);
+	// glutInitWindowPosition(100, 100);
+	// glutCreateWindow(argv[0]);
+	// if (init_cl() == GL_NO_ERROR)
+	// {
+	// 	glutDisplayFunc(display);
+	// 	glutIdleFunc(idle);
+	// 	glutReshapeFunc(reshape);
+	// 	glutKeyboardFunc(keyboard);
+
+	// 	atexit(shutdown);
+	// 	printf("Starting event loop...\n");
+
+	// 	glutMainLoop();
+	// }
 	return (0);
 }

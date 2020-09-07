@@ -4,15 +4,15 @@
 #ifndef HEIGHT
 #define HEIGHT                      (512)
 #endif
-#define ASPECT                      ((float)WIDTH / (float)HEIGHT)
-#define SQR(x)                      ((x)*(x))
-#define BOUNDING_RADIUS             (2.0f)
-#define BOUNDING_RADIUS_SQR         (SQR(BOUNDING_RADIUS))
-#define ESCAPE_THRESHOLD            (BOUNDING_RADIUS * 1.5f)
-#define DELTA                       (1e-5f)
-#define ITERATIONS                  (10)
-#define EPSILON                     (0.003f)
-#define SHADOWS                     (0)
+#define ASPECT                      (float)WIDTH / (float)HEIGHT
+#define SQR(x)                      (x)*(x)
+#define BOUNDING_RADIUS             2.0f
+#define BOUNDING_RADIUS_SQR         SQR(BOUNDING_RADIUS)
+#define ESCAPE_THRESHOLD            BOUNDING_RADIUS * 1.5f
+#define DELTA                       1e-5f
+#define ITERATIONS                  10
+#define EPSILON                     0.003f
+#define SHADOWS                     0
 
 float4	qmult(float4 q1, float4 q2)
 {
@@ -113,8 +113,8 @@ float3	Phong(
 				float3 normal,
 				float3 base)
 {
-	const float specular_exponent = 10.0f;
-	const float specularity = 0.45f;
+	const float specular_exponent = 15.0f;
+	const float specularity = 0.7f;
 
 	float3 light_dir = fast_normalize(light - pt);
 	float3 eye_dir = fast_normalize(eye - pt);
@@ -157,7 +157,7 @@ float4	RaytraceQJulia(
 						bool shadows,
 						int iterations)
 {
-	const float4 background = (float4)(0.15f, 0.15f, 0.15f, 0.0f);
+	const float4 background = (float4)(0.40f, 0.40f, 0.40f, 0.0f);
 	float4 color = background;
 
 	rD = fast_normalize(rD);
