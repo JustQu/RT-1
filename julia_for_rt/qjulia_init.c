@@ -6,11 +6,40 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 16:05:53 by user              #+#    #+#             */
-/*   Updated: 2020/09/10 16:26:09 by user             ###   ########.fr       */
+/*   Updated: 2020/09/10 16:35:43 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "julia.h"
+
+int		init_cl(t_texture *texture, t_compute *compute, t_julia_color *color)
+{
+	int err;
+	cl_bool image_support;
+
+	err = setup_graphics(texture);
+	if (err != GL_NO_ERROR)
+		error_julia(err, "Failed to setup openGL state");
+	err = setup_compute_device(compute);
+	if (err != CL_SUCCESS)
+		error_julia(err, "Failed to connect to compute device! Error");
+	err = clGetDeviceInfo(compute->device_id, CL_DEVICE_IMAGE_SUPPORT,
+							sizeof(image_support), &image_support, NULL);
+	if (err != CL_SUCCESS)
+		error_julia(err, "Unable to query device for image support");
+	if (image_support == CL_FALSE)
+		error_julia(err, "Qjulia requires images: Images not supported on this device.");
+	err = setup_compute_kernel(compute);
+	if (err != CL_SUCCESS)
+		error_julia(err,"Failed to setup compute kernel! Error");
+	err = create_compute_result(texture, compute);
+	if (err != CL_SUCCESS)
+		error_julia(err, "Failed to create compute result! Error");
+	random_color(color->color_a);
+	random_color(color->color_b);
+	random_color(color->color_c);
+	return CL_SUCCESS;
+}
 
 void	init_julia_color(t_julia_color *color)
 {

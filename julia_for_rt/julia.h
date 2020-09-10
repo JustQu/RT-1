@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:32:04 by user              #+#    #+#             */
-/*   Updated: 2020/09/10 16:29:00 by user             ###   ########.fr       */
+/*   Updated: 2020/09/10 16:38:48 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,17 @@ void					update_mu(float t[4], float a[4], float b[4]);
 int						divide_up(int a, int b);
 void					interpolate(float m[4], float t, float a[4], float b[4]);
 void					update_color(float t[4], float a[4], float b[4]);
+void					error_julia(int err, char *str);
+void					render_texture(t_texture *texture);
+int						recompute(t_compute *compute, t_julia_color *color);
+int						create_compute_result(t_texture *texture, t_compute *compute);
+int						setup_compute_kernel(t_compute *compute);
+int						load_text_from_file(
+							const char *file_name, char **result_string, size_t *string_len);
+int						setup_compute_device(t_compute *compute);
+int						setup_graphics(t_texture *texture);
+void					create_texture(t_texture *texture);
+int						init_cl(t_texture *texture, t_compute *compute,
+							t_julia_color *color);
 
 #endif
