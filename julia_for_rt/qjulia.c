@@ -3,46 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   qjulia.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:28:34 by user              #+#    #+#             */
-/*   Updated: 2020/09/07 18:23:08 by alex             ###   ########.fr       */
+/*   Updated: 2020/09/10 16:27:03 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "julia.h"
 
-#define WIDTH 1200
-#define HEIGHT 800
-
-#include <SDL2/SDL.h>
-
-void	create_texture()
+void	create_texture(t_texture *texture)
 {
-	if (texture_id)
-		glDeleteTextures(1, &texture_id);
-	texture_id = 0;
-
-	printf("Creating Texture %d x %d...\n", WIDTH, HEIGHT);
-
-	texture_width = WIDTH;
-	texture_height = HEIGHT;
-
-	glActiveTextureARB(active_texture_uint);
-	glGenTextures(1, &texture_id);
-	glBindTexture(texture_target, texture_id);
-	glTexParameteri(texture_target, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(texture_target, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glTexParameteri(texture_target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(texture_target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(texture_target, 0, texture_internal, texture_width, texture_height, 0,
-				texture_format, texture_type, 0);
-	glBindTexture(texture_target, 0);
+	if (texture->id)
+		glDeleteTextures(1, &texture->id);
+	texture->id = 0;
+	glActiveTextureARB(texture->active_uint);
+	glGenTextures(1, &texture->id);
+	glBindTexture(texture->target, texture->id);
+	glTexParameteri(texture->target, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(texture->target, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(texture->target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(texture->target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(texture->target, 0, texture->internal, WIDTH, HEIGHT, 0,
+				texture->format, texture->type, 0);
+	glBindTexture(texture->target, 0);
 }
 
-int		setup_graphics()
+int		setup_graphics(t_texture *texture)
 {
-	create_texture();
+	create_texture(texture);
 
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 
@@ -51,31 +40,14 @@ int		setup_graphics()
 	glViewport(0,0, WIDTH, HEIGHT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	// glMatrixMode(GL_PROJECTION);
-	// glLoadIdentity();
-
-	// tex_coords[3][0] = 0.0f;
-	// tex_coords[3][1] = 0.0f;
-	// tex_coords[2][0] = WIDTH;
-	// tex_coords[2][1] = 0.0f;
-	// tex_coords[1][0] = WIDTH;
-	// tex_coords[1][1] = HEIGHT;
-	// tex_coords[0][0] = 0.0f;
-	// tex_coords[0][1] = HEIGHT;
-
-	// glEnableClientState(GL_VERTEX_ARRAY);
-	// glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	// glVertexPointer(2, GL_FLOAT, 0, vertex_pos);
-	// glClientActiveTexture(GL_TEXTURE0);
-	// glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
 	return (GL_NO_ERROR);
 }
 
-int		setup_compute_device()
+int		setup_compute_device(t_compute *compute)
 {
 	int err;
 	size_t return_size;
-	compute_device_type = CL_DEVICE_TYPE_GPU;
+	compute->device_type = CL_DEVICE_TYPE_GPU;
 
 	CGLContextObj kcgl_context = CGLGetCurrentContext();
 	CGLShareGroupObj kcgl_shape_group = CGLGetShareGroup(kcgl_context);
@@ -85,14 +57,14 @@ int		setup_compute_device()
 		(cl_context_properties)kcgl_shape_group, 0
 	};
 
-	compute_context = clCreateContext(properties, 0, 0, clLogMessagesToStderrAPPLE, 0, 0);
-	if (!compute_context)
+	compute->context = clCreateContext(properties, 0, 0, clLogMessagesToStderrAPPLE, 0, 0);
+	if (!compute->context)
 		printf("Error: Failed to create a compute context!\n");
 
 	unsigned int device_count;
 	cl_device_id device_ids[16];
 
-	err = clGetContextInfo(compute_context, CL_CONTEXT_DEVICES, sizeof(device_ids), device_ids, &return_size);
+	err = clGetContextInfo(compute->context, CL_CONTEXT_DEVICES, sizeof(device_ids), device_ids, &return_size);
 	if (err)
 		printf("Error: Failed to retrieve compute devices for context!\n");
 
@@ -104,9 +76,9 @@ int		setup_compute_device()
 	while (i < device_count)
 	{
 		clGetDeviceInfo(device_ids[i], CL_DEVICE_TYPE, sizeof(cl_device_type), &device_type, NULL);
-		if (device_type == compute_device_type)
+		if (device_type == compute->device_type)
 		{
-			compute_device_id = device_ids[i];
+			compute->device_id = device_ids[i];
 			device_found = 1;
 			break ;
 		}
@@ -116,14 +88,14 @@ int		setup_compute_device()
 	if (!device_found)
 		printf("Error: Failed to locate compute device!\n");
 
-	compute_commands = clCreateCommandQueue(compute_context, compute_device_id, 0, &err);
-	if (!compute_commands)
+	compute->commands = clCreateCommandQueue(compute->context, compute->device_id, 0, &err);
+	if (!compute->commands)
 		printf("Error: Failed to create a command queue!\n");
 
 	cl_char vendor_name[1024] = {0};
 	cl_char device_name[1024] = {0};
-	err = clGetDeviceInfo(compute_device_id, CL_DEVICE_VENDOR, sizeof(vendor_name), vendor_name, &return_size);
-	err |= clGetDeviceInfo(compute_device_id, CL_DEVICE_NAME, sizeof(device_name), device_name, &return_size);
+	err = clGetDeviceInfo(compute->device_id, CL_DEVICE_VENDOR, sizeof(vendor_name), vendor_name, &return_size);
+	err |= clGetDeviceInfo(compute->device_id, CL_DEVICE_NAME, sizeof(device_name), device_name, &return_size);
 	if (err != CL_SUCCESS)
 		printf("Error: Failed to retrieve device info!\n");
 
@@ -161,24 +133,23 @@ int		load_text_from_file(
         return -1;
 	}
 	close (fd);
-
 	*string_len = file_len;
 	return 0;
 }
 
-int		setup_compute_kernel()
+int		setup_compute_kernel(t_compute *compute)
 {
 	int err = 0;
 	char *source = 0;
 	size_t lenght = 0;
 
-	if (compute_kernel)
-		clReleaseKernel(compute_kernel);
-	compute_kernel = 0;
+	if (compute->kernel)
+		clReleaseKernel(compute->kernel);
+	compute->kernel = 0;
 
-	if (compute_program)
-		clReleaseProgram(compute_program);
-	compute_program = 0;
+	if (compute->program)
+		clReleaseProgram(compute->program);
+	compute->program = 0;
 
 	printf("Loading kernel source from file '%s'...\n", COMPUTE_KERNEL_FILENAME);
 	err = load_text_from_file(COMPUTE_KERNEL_FILENAME, &source, &lenght);
@@ -190,119 +161,68 @@ int		setup_compute_kernel()
 	const char *width_macro = "#define WIDTH";
 	const char *height_macro = "#define HEIGHT";
 
-	char *preprocess = malloc(strlen(source) + 1024);
+	char *preprocess = (char*)malloc(strlen(source) + 1024);
 	sprintf(preprocess, "\n%s (%d)\n%s (%d)\n%s", width_macro, WIDTH, height_macro, HEIGHT, source);
 
-	compute_program = clCreateProgramWithSource(compute_context, 1, (const char **)&preprocess, NULL, &err);
-	if (!compute_program || err != CL_SUCCESS)
+	compute->program = clCreateProgramWithSource(compute->context, 1, (const char **)&preprocess, NULL, &err);
+	if (!compute->program || err != CL_SUCCESS)
 		printf("Error: Failed to create compute program!\n");
 	free(source);
 	free(preprocess);
 
-	err = clBuildProgram(compute_program, 0, NULL, NULL, NULL, NULL);
+	err = clBuildProgram(compute->program, 0, NULL, NULL, NULL, NULL);
 	if (err != CL_SUCCESS)
 	{
 		size_t len;
 		char buffer[2048];
 
 		printf("Error: Failed to build program executable!\n");
-		clGetProgramBuildInfo(compute_program, compute_device_id, CL_PROGRAM_BUILD_LOG, sizeof(buffer), buffer, &len);
+		clGetProgramBuildInfo(compute->program, compute->device_id, CL_PROGRAM_BUILD_LOG, sizeof(buffer), buffer, &len);
 		printf("%s\n", buffer);
 	}
 
 	printf("Creating kernel '%s'...\n", COMPUTE_KERNEL_METHOD_NAME);
-	compute_kernel = clCreateKernel(compute_program, COMPUTE_KERNEL_METHOD_NAME, &err);
-	if (!compute_kernel || err != CL_SUCCESS)
+	compute->kernel = clCreateKernel(compute->program, COMPUTE_KERNEL_METHOD_NAME, &err);
+	if (!compute->kernel || err != CL_SUCCESS)
 	{
 		printf("Error: Failed to create compute kernel!\n");
 	}
-	err = clGetKernelWorkGroupInfo(compute_kernel, compute_device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(size_t), &max_work_group_size, NULL);
+	err = clGetKernelWorkGroupInfo(compute->kernel, compute->device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(size_t), &compute->max_work_group_size, NULL);
 	if (err != CL_SUCCESS)
 		printf("Error: Failed to retrieve kernel work group info! %d\n", err);
 
-	work_group_size[0] = (max_work_group_size > 1) ? (max_work_group_size / work_group_items) : max_work_group_size;
-	work_group_size[1] = max_work_group_size / work_group_size[0];
+	compute->work_group_size[0] = (compute->max_work_group_size > 1) ? (compute->max_work_group_size / compute->work_group_items) : compute->max_work_group_size;
+	compute->work_group_size[1] = compute->max_work_group_size / compute->work_group_size[0];
 
 	return CL_SUCCESS;
 }
 
-int		create_compute_result()
+int		create_compute_result(t_texture *texture, t_compute *compute)
 {
 	int err = 0;
 
-	if (compute_image)
-		clReleaseMemObject(compute_image);
-	compute_image = 0;
+	if (compute->image)
+		clReleaseMemObject(compute->image);
+	compute->image = 0;
 
 	printf("Allocating compute result image in device memory...\n");
-	compute_image = clCreateFromGLTexture2D(compute_context, CL_MEM_WRITE_ONLY, texture_target, 0, texture_id, &err);
-	if (!compute_image || err != CL_SUCCESS)
+	compute->image = clCreateFromGLTexture2D(compute->context, CL_MEM_WRITE_ONLY, texture->target, 0, texture->id, &err);
+	if (!compute->image || err != CL_SUCCESS)
 		printf("Failed to create OpenGL texture reference! %d\n", err);
 
-	if (compute_result)
-		clReleaseMemObject(compute_result);
-	compute_result = 0;
-
-	compute_result = clCreateBuffer(compute_context, CL_MEM_WRITE_ONLY, texture_type_size * 4 * texture_width * texture_height, NULL, NULL);
-	if (!compute_result)
+	if (compute->result)
+		clReleaseMemObject(compute->result);
+	compute->result = 0;
+	compute->result = clCreateBuffer(compute->context, CL_MEM_WRITE_ONLY, texture->type_size * 4 * WIDTH * HEIGHT, NULL, NULL);
+	if (!compute->result)
 		printf("Failed to create OpenCL array!\n");
 
 	return CL_SUCCESS;
 }
 
-void	random_color(float v[4])
+int		recompute(t_compute *compute, t_julia_color *color)
 {
-	uint seed;
-
-	seed = (uint)mach_absolute_time(); /* get current time */
-	v[0] = 5.0f * rand_r(&seed) / (float) RAND_MAX - 1.0f;
-	v[1] = 5.0f * rand_r(&seed) / (float) RAND_MAX - 1.0f;
-	v[2] = 5.0f * rand_r(&seed) / (float) RAND_MAX - 1.0f;
-	v[3] = 1.0f;
-}
-
-void	update_mu(float t[4], float a[4], float b[4])
-{
-	*t += 0.01f;
-
-	uint seed = (uint)mach_absolute_time();
-
-	if (*t >= 1.0f)
-	{
-		*t = 0.0f;
-
-		a[0] = b[0];
-		a[1] = b[1];
-		a[2] = b[2];
-		a[3] = b[3];
-
-		b[0] = 2.0f * rand_r(&seed) / (float)RAND_MAX - 1.0f;
-		b[1] = 2.0f * rand_r(&seed) / (float)RAND_MAX - 1.0f;
-		b[2] = 2.0f * rand_r(&seed) / (float)RAND_MAX - 1.0f;
-		b[3] = 2.0f * rand_r(&seed) / (float)RAND_MAX - 1.0f;
-	}
-}
-
-void	interpolate(float m[4], float t, float a[4], float b[4])
-{
-	int i;
-
-	i = 0;
-	while (i < 4)
-	{
-		m[i] = (1.0f - t) * a[i] + t * b[i];
-		i++;
-	}
-}
-
-int		divide_up(int a, int b)
-{
-	return ((a % b) != 0) ? (a / b + 1) : (a / b);
-}
-
-int		recompute()
-{
-	if (!compute_kernel || !compute_result)
+	if (!compute->kernel || !compute->result)
 		return CL_SUCCESS;
 
 	void *values[10];
@@ -314,99 +234,77 @@ int		recompute()
 	unsigned int v = 0;
 	unsigned int s = 0;
 	unsigned int a = 0;
-	values[v++] = &compute_result;
-	values[v++] = muc;
-	values[v++] = color_c;
-	values[v++] = &epsilon;
+	values[v++] = &compute->result;
+	values[v++] = color->muc;
+	values[v++] = color->color_c;
+	values[v++] = &color->epsilon;
 
 	sizes[s++] = sizeof(cl_mem);
 	sizes[s++] = 4 * (sizeof(float));
 	sizes[s++] = 4 * (sizeof(float));
 	sizes[s++] = sizeof(float);
 
-	if (animated || update)
+	if (compute->animated || compute->update)
 	{
-		update = 0;
+		compute->update = 0;
 		err = CL_SUCCESS;
 
 		a = 0;
 		while (a < s)
 		{
-			err |= clSetKernelArg(compute_kernel, a, sizes[a], values[a]);
+			err |= clSetKernelArg(compute->kernel, a, sizes[a], values[a]);
 			a++;
 		}
 		if (err)
 			return -10;
 	}
 
-	int size_x = work_group_size[0];
-	int size_y = work_group_size[1];
+	int size_x = compute->work_group_size[0];
+	int size_y = compute->work_group_size[1];
 
-	global[0] = divide_up(texture_width, size_x) * size_x;
-	global[1] = divide_up(texture_height, size_y) * size_y;
+	global[0] = divide_up(WIDTH, size_x) * size_x;
+	global[1] = divide_up(HEIGHT, size_y) * size_y;
 
 	local[0] = size_x;
 	local[1] = size_y;
 
-	err = clEnqueueNDRangeKernel(compute_commands, compute_kernel, 2, NULL, global, local, 0, NULL, NULL);
+	err = clEnqueueNDRangeKernel(compute->commands, compute->kernel, 2, NULL, global, local, 0, NULL, NULL);
 	if (err)
 		printf("Failed to enqueue kernel! %d\n", err);
 
-	err = clEnqueueAcquireGLObjects(compute_commands, 1, &compute_image, 0, 0, 0);
+	err = clEnqueueAcquireGLObjects(compute->commands, 1, &compute->image, 0, 0, 0);
 	if (err != CL_SUCCESS)
 		printf("Failed to acquire GL object! %d\n", err);
 
 	size_t origin[] = { 0, 0, 0 };
-	size_t region[] = { texture_width, texture_height, 1 };
-	err = clEnqueueCopyBufferToImage(compute_commands, compute_result, compute_image,
+	size_t region[] = { WIDTH, HEIGHT, 1 };
+	err = clEnqueueCopyBufferToImage(compute->commands, compute->result, compute->image,
 									0, origin, region, 0, NULL, 0);
 	if (err != CL_SUCCESS)
 		printf("Failed to copy buffer to image! %d\n", err);
 
-	err = clEnqueueReleaseGLObjects(compute_commands, 1, &compute_image, 0, 0, 0);
+	err = clEnqueueReleaseGLObjects(compute->commands, 1, &compute->image, 0, 0, 0);
 	if (err != CL_SUCCESS)
 		printf("Failed to release GL object! %d\n", err);
-
 	return CL_SUCCESS;
 }
 
-void	update_color(float t[4], float a[4], float b[4])
-{
-	*t += 0.01f;
-
-	if (*t >= 1.0f)
-	{
-		*t = 0.0f;
-
-		a[0] = b[0];
-		a[1] = b[1];
-		a[2] = b[2];
-		a[3] = b[3];
-
-		random_color(b);
-	}
-}
-
-void	render_texture(void *pv_data)
+void	render_texture(t_texture *texture)
 {
 	glDisable(GL_LIGHTING);
-
 	glViewport(0, 0, WIDTH, HEIGHT);
-
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D( -1.0, 1.0, -1.0, 1.0);
-
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	glEnable(texture->target);
+	glBindTexture(texture->target, texture->id);
+	if (texture->host_image_buffer)
+		glTexSubImage2D(texture->target, 0, 0, 0, WIDTH,
+			HEIGHT, texture->format, texture->type, texture->host_image_buffer);
 
-	glEnable(texture_target);
-	glBindTexture(texture_target, texture_id);
-	if (pv_data)
-		glTexSubImage2D(texture_target, 0, 0, 0, texture_width,
-			texture_height, texture_format, texture_type, pv_data);
-
-	glTexParameteri(texture_target, GL_TEXTURE_COMPARE_MODE, GL_NONE);
+	glTexParameteri(texture->target, GL_TEXTURE_COMPARE_MODE, GL_NONE);
 	glBegin(GL_QUADS);
 	{
 		glColor3f(1.0f, 1.0f, 1.0f);
@@ -423,274 +321,106 @@ void	render_texture(void *pv_data)
 		glVertex3f(1.0f, -1.0f, 0.0f);
 	}
 	glEnd();
-	glBindTexture(texture_target, 0);
-	glDisable(texture_target);
+	glBindTexture(texture->target, 0);
+	glDisable(texture->target);
 }
 
-// void	draw_string(float x, float y, float color[4], char *buffer)
-// {
-// 	unsigned int uilen;
-// 	unsigned int i;
-
-// 	glPushAttrib(GL_LIGHTING_BIT);
-// 	glDisable(GL_LIGHTING);
-
-// 	glRasterPos2f(x, y);
-// 	glColor3f(color[0], color[1], color[2]);
-// 	uilen = (unsigned int)strlen(buffer);
-// 	i = 0;
-// 	while (i < uilen)
-// 	{
-// 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, buffer[i]);
-// 		i++;
-// 	}
-// 	glPopAttrib();
-// }
-
-// void	draw_text(float x, float y, int light, char *format, ...)
-// {
-// 	va_list args;
-// 	char buffer[256];
-// 	GLint ivp[4];
-// 	GLint imatrix_mode;
-
-// 	va_start(args, format);
-// 	vsprintf(buffer, format, args);
-// 	va_end(args);
-
-// 	glPushAttrib(GL_LIGHTING_BIT);
-// 	glDisable(GL_LIGHTING);
-// 	glDisable(GL_BLEND);
-
-// 	glGetIntegerv(GL_VIEWPORT, ivp);
-// 	glViewport(0, 0, WIDTH, HEIGHT);
-// 	glGetIntegerv(GL_MATRIX_MODE, &imatrix_mode);
-
-// 	glMatrixMode(GL_PROJECTION);
-// 	glPushMatrix();
-// 	glLoadIdentity();
-
-// 	glMatrixMode(GL_MODELVIEW);
-// 	glPushMatrix();
-// 	glLoadIdentity();
-
-// 	glScalef(2.0f / WIDTH, -2.0f / HEIGHT, 1.0f);
-// 	glTranslatef(-WIDTH / 2.0f, -HEIGHT / 2.0f, 0.0f);
-
-// 	if (light)
-// 	{
-// 		glColor4fv(shadow_text_color);
-// 		// draw_string(x - 0, y - 0, shadow_text_color, buffer);
-
-// 		glColor4fv(highlight_text_color);
-// 		// draw_string(x - 2, y - 2, highlight_text_color, buffer);
-// 	}
-// 	else
-// 	{
-// 		glColor4fv(highlight_text_color);
-// 		// draw_string(x - 0, y - 0, highlight_text_color, buffer);
-
-// 		glColor4fv(shadow_text_color);
-// 		// draw_string(x - 2, y - 2, shadow_text_color, buffer);
-// 	}
-
-
-// 	glPopMatrix();
-// 	glMatrixMode(GL_PROJECTION);
-
-// 	glPopMatrix();
-// 	glMatrixMode(imatrix_mode);
-
-// 	glPopAttrib();
-// 	glViewport(ivp[0], ivp[1], ivp[2], ivp[3]);
-
-// }
-
-// void	report_info()
-// {
-// 	if (show_stats)
-// 	{
-// 		int ix = 20;
-// 		int iy = 20;
-
-// 		// draw_text(ix - 1, HEIGHT -iy - 1, 0, stats_string);
-// 		// draw_text(ix - 2, HEIGHT -iy - 2, 0, stats_string);
-// 		// draw_text(ix, HEIGHT -iy, 1, stats_string);
-// 	}
-// 	if (show_info)
-// 	{
-// 		int ix = text_offset[0];
-// 		int iy = HEIGHT - text_offset[1];
-
-// 		// draw_text(WIDTH - ix - 1 - strlen(info_string) * 10, HEIGHT - iy - 1, 0, info_string);
-// 		// draw_text(WIDTH - ix - 2 - strlen(info_string) * 10, HEIGHT - iy - 2, 0, info_string);
-// 		// draw_text(WIDTH - ix - strlen(info_string) * 10, HEIGHT - iy, 1, info_string);
-
-// 		show_info = (show_info > 200) ? 0 : show_info + 1;
-// 	}
-// }
-
-double	subtract_time(uint64_t ui_end_time, uint64_t ui_start_time)
+void	display(t_texture *texture, t_compute *compute, t_julia_color *color)
 {
-	static double s_dconversion = 0.0;
-	uint64_t ui_difference = ui_end_time - ui_start_time;
-	if (0.0 ==s_dconversion)
-	{
-		mach_timebase_info_data_t k_timebase;
-		kern_return_t k_error = mach_timebase_info(&k_timebase);
-		if (k_error == 0)
-			s_dconversion = 1e-9 * (double)k_timebase.numer / (double)k_timebase.denom;
-	}
-	return s_dconversion * (double)ui_difference;
-}
-
-void	report_stats(uint64_t ui_start_time, uint64_t ui_end_time)
-{
-	time_elapsed += subtract_time(ui_end_time, ui_start_time);
-
-	if (time_elapsed && frame_count && frame_count > report_stats_interval)
-	{
-		double fms = (time_elapsed * 1000.0 / (double)frame_count);
-		double ffps = 1.0 / (fms / 1000.0);
-
-		sprintf(stats_string, "[%s] Compute: %3.2f ms Display: %3.2f fps (%s)\n",
-				"GPU", fms, ffps, "Attached");
-
-		glutSetWindowTitle(stats_string);
-
-		frame_count = 0;
-		time_elapsed = 0;
-	}
-}
-
-void	display()
-{
-	frame_count++;
 	uint64_t ui_start_time = mach_absolute_time();
 
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
-
-	if (animated)
+	if (compute->animated)
 	{
-		update_mu(&mut, mua, mub);
-		interpolate(muc, mut, mua, mub);
+		update_mu(&color->mut, color->mua, color->mub);
+		interpolate(color->muc, color->mut, color->mua, color->mub);
 
-		update_color(&color_t, color_a, color_b);
-		interpolate(color_c, color_t, color_a, color_b);
+		update_color(&color->color_t, color->color_a, color->color_b);
+		interpolate(color->color_c, color->color_t, color->color_a, color->color_b);
 	}
-
-	int err = recompute();
+	int err = recompute(compute, color);
 	if (err != 0)
 		printf("Error %d from Recompute!\n", err);
-
-	render_texture(host_image_buffer);
-	// report_info();
-
+	render_texture(texture);
 	glFinish(); /* for timing */
-
 	uint64_t ui_end_time = mach_absolute_time();
-	// report_stats(ui_start_time, ui_end_time);
-	// draw_text(text_offset[0], text_offset[1], 1, (animated == 0) ? "Press space to animate" : " ");
-	// glutSwapBuffers();
 }
 
-int		init_cl()
+int		init_cl(t_texture *texture, t_compute *compute, t_julia_color *color)
 {
 	int err;
-	err = setup_graphics();
+	err = setup_graphics(texture);
 	if (err != GL_NO_ERROR)
 	{
 		printf("Failed to setup openGL state");
 		exit(err);
 	}
-
-	err = setup_compute_device();
+	err = setup_compute_device(compute);
 	if (err != CL_SUCCESS)
 		printf ("Failed to connect to compute device! Error %d\n", err);
-
 	cl_bool image_support;
-	err = clGetDeviceInfo(compute_device_id, CL_DEVICE_IMAGE_SUPPORT,
+	err = clGetDeviceInfo(compute->device_id, CL_DEVICE_IMAGE_SUPPORT,
 							sizeof(image_support), &image_support, NULL);
 	if (err != CL_SUCCESS)
 		printf("Unable to query device for image support");
 	if (image_support == CL_FALSE)
 		printf("Qjulia requires images: Images not supported on this device.");
-
-	err = setup_compute_kernel();
+	err = setup_compute_kernel(compute);
 	if (err != CL_SUCCESS)
 		printf ("Failed to setup compute kernel! Error %d\n", err);
-
-	err = create_compute_result();
+	err = create_compute_result(texture, compute);
 	if (err != CL_SUCCESS)
 		printf ("Failed to create compute result! Error %d\n", err);
-
-	random_color(color_a);
-	random_color(color_b);
-	random_color(color_c);
-
+	random_color(color->color_a);
+	random_color(color->color_b);
+	random_color(color->color_c);
 	return CL_SUCCESS;
 }
 
-void	idle()
+void	cleanup(t_compute *compute)
 {
-	glutPostRedisplay();
+	clFinish(compute->commands);
+	clReleaseKernel(compute->kernel);
+	clReleaseProgram(compute->program);
+	clReleaseCommandQueue(compute->commands);
+	clRetainMemObject(compute->result);
+	clReleaseMemObject(compute->image);
+
+	compute->commands = 0;
+	compute->kernel = 0;
+	compute->result = 0;
+	compute->program = 0;
+	compute->image = 0;
+	compute->context = 0;
 }
 
-void	reshape(int w, int h)
-{
-	glViewport(0, 0, w, h);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glClear(GL_COLOR_BUFFER_BIT);
-	glutSwapBuffers();
-
-}
-
-void	keyboard(unsigned char key, int x, int y)
-{
-	const float f_step_size = 0.05f;
-
-	if (key == 27)
-		exit(0);
-	if (key == ' ')
-	{
-		animated = !animated;
-		sprintf(info_string, "Animated = %s\n", animated ? "true" : "false");
-		show_info = 1;
-	}
-}
-
-void	cleanup()
-{
-	clFinish(compute_commands);
-	clReleaseKernel(compute_kernel);
-	clReleaseProgram(compute_program);
-	clReleaseCommandQueue(compute_commands);
-	clRetainMemObject(compute_result);
-	clReleaseMemObject(compute_image);
-
-	compute_commands = 0;
-	compute_kernel = 0;
-	compute_result = 0;
-	compute_program = 0;
-	compute_image = 0;
-	compute_context = 0;
-}
-
-void	shutdown()
+void	shutdown(t_compute *compute)
 {
 	printf("Shutting down...\n");
-    cleanup();
+    cleanup(compute);
     exit(0);
 }
 
-int		main(int argc, char **argv) /* is julia main */
+void		setup_color(float color[4], float r, float g, float b, float a)
 {
+	color[0] = r;
+	color[1] = g;
+	color[2] = b;
+	color[3] = a;
+}
 
-//SDL
+int					main(int argc, char **argv) /* is julia main */
+{
+	t_compute		compute;
+	t_texture		texture;
+	t_julia_color	color;
+
+	init_texture_cl(&texture);
+	init_compute_cl(&compute);
+	init_julia_color(&color);
+
+	/*  SDL  */
 	SDL_Window *window;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -700,44 +430,29 @@ int		main(int argc, char **argv) /* is julia main */
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
 
-	window =SDL_CreateWindow("sdl_julia", 100, 100, WIDTH, HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+	window = SDL_CreateWindow("sdl_julia", 100, 100, WIDTH, HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 	SDL_GLContext glcontext = SDL_GL_CreateContext(window);
 	if (window == NULL)
 		printf("error window");
 
-	if (init_cl() == GL_NO_ERROR)
+	if (init_cl(&texture, &compute, &color) == GL_NO_ERROR)
 	{
 		while (1)
 		{
 			SDL_Event event;
 			while(SDL_PollEvent(&event))
 			{
-				if (event.type == SDL_QUIT)
+				if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
 					exit(0);
+				if (event.type == SDL_KEYDOWN)
+				{
+				if (event.key.keysym.sym == SDLK_SPACE)
+					compute.animated ^= 1;
+				}
 			}
-			display();
+			display(&texture, &compute, &color);
 			SDL_GL_SwapWindow(window);
 		}
 	}
-
-
-
-	// glutInit(&argc, argv);
-	// glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	// glutInitWindowSize(WIDTH, HEIGHT);
-	// glutInitWindowPosition(100, 100);
-	// glutCreateWindow(argv[0]);
-	// if (init_cl() == GL_NO_ERROR)
-	// {
-	// 	glutDisplayFunc(display);
-	// 	glutIdleFunc(idle);
-	// 	glutReshapeFunc(reshape);
-	// 	glutKeyboardFunc(keyboard);
-
-	// 	atexit(shutdown);
-	// 	printf("Starting event loop...\n");
-
-	// 	glutMainLoop();
-	// }
 	return (0);
 }

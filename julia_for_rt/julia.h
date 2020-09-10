@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   julia.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:32:04 by user              #+#    #+#             */
-/*   Updated: 2020/09/07 18:21:59 by alex             ###   ########.fr       */
+/*   Updated: 2020/09/10 16:29:00 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #define WIDTH 1200
 #define HEIGHT 800
+
+#include <SDL2/SDL.h>
 
 #define GL_SILENCE_DEPRECATION
 #include <OpenGL/OpenGL.h>
@@ -46,64 +48,57 @@
 #define COMPUTE_KERNEL_FILENAME	("qjulia_kernel.cl")
 #define COMPUTE_KERNEL_METHOD_NAME ("QJuliaKernel")
 
-static int animated		= 1;
-static int update		= 1;
+typedef struct			s_julia_color
+{
+	float				mut;
+	float				mua[4];
+	float				mub[4];
+	float				muc[4];
+	float				epsilon;
+	float				color_t;
+	float				color_a[4];
+	float				color_b[4];
+	float				color_c[4];
+}						t_julia_color;
 
-static cl_context		compute_context;
-static cl_command_queue	compute_commands;
-static cl_device_type	compute_device_type;
-static cl_device_id		compute_device_id;
+typedef struct			s_texture
+{
+	uint				id;
+	uint				target;
+	uint				format;
+	uint				type;
+	uint				internal;
+	size_t				type_size;
+	uint				active_uint;
+	void				*host_image_buffer;
+}						t_texture;
 
-static cl_program		compute_program;
-static cl_kernel		compute_kernel;
-static cl_mem			compute_result;
-static cl_mem			compute_image;
+typedef struct			s_compute
+{
+	cl_context			context;
+	cl_command_queue	commands;
+	cl_device_type		device_type;
+	cl_device_id		device_id;
+	cl_program			program;
+	cl_kernel			kernel;
+	cl_mem				result;
+	cl_mem				image;
+	int					animated;
+	int					update;
+	size_t				max_work_group_size;
+	int					work_group_size[2];
+	int					work_group_items;
+}						t_compute;
 
-static size_t			max_work_group_size;
-static int				work_group_size[2];
-static int				work_group_items = 32;
-
-static uint texture_id = 0;
-static uint texture_width = WIDTH;
-static uint texture_height = HEIGHT;
-static uint texture_target = GL_TEXTURE_2D;
-static uint texture_format = GL_RGBA;
-static uint texture_type	= GL_UNSIGNED_BYTE;
-static uint texture_internal = GL_RGBA;
-static size_t texture_type_size = sizeof(char);
-static uint active_texture_uint = 0x84C1;
-static void *host_image_buffer = 0;
-
-static float mut			= 0.0f;
-static float mua[4]			= { -.278f, -.479f, 0.0f, 0.0f };
-static float mub[4]			= { 0.278f, 0.479f, 0.0f, 0.0f };
-static float muc[4]			= { -.278f, -.479f, -.231f, .235f };
-
-static float epsilon		= 0.003f;
-
-static float color_t		= 0.0f;
-static float color_a[4]		= { 0.25f, 0.45f, 1.0f, 1.0f };
-static float color_b[4]		= { 0.25f, 0.45f, 1.0f, 1.0f };
-static float color_c[4]		= { 0.25f, 0.45f, 1.0f, 1.0f };
-
-static float shadow_text_color[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-static float highlight_text_color[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-static uint text_offset[2]			= { 25, 25};
-
-static double time_elapsed	= 0;
-static int frame_count 		= 0;
-static uint report_stats_interval = 30;
-
-static float tex_coords[4][2];
-
-static float vertex_pos[4][2] = { { -1.0f, -1.0f},
-								  { +1.0f, -1.0f},
-								  { +1.0f, +1.0f},
-								  { -1.0f, +1.0f} };
-
-static uint show_stats		= 1;
-static char stats_string[512] = "\0";
-static uint show_info		= 1;
-static char info_string[512] = "\0";
+void					init_julia_color(t_julia_color *color);
+void					init_compute_cl(t_compute *compute);
+void					init_texture_cl(t_texture *texture);
+void					setup_color(float color[4], float r,
+							float g, float b, float a);
+void					random_color(float v[4]);
+void					update_mu(float t[4], float a[4], float b[4]);
+int						divide_up(int a, int b);
+void					interpolate(float m[4], float t, float a[4], float b[4]);
+void					update_color(float t[4], float a[4], float b[4]);
 
 #endif

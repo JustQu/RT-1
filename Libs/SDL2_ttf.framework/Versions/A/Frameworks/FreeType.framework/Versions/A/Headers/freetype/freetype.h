@@ -2965,7 +2965,7 @@ FT_BEGIN_HEADER
    *     converted to 256-level gray bitmaps transparently, using the
    *     @FT_PIXEL_MODE_GRAY format.
    *
-   *   FT_LOAD_COMPUTE_METRICS ::
+   *   FT_LOAD_compute_METRICS ::
    *     [Since 2.6.1] Compute glyph metrics from the glyph data, without
    *     the use of bundled metrics tables (for example, the `hdmx' table in
    *     TrueType fonts).  This flag is mainly used by font validating or
@@ -3027,7 +3027,7 @@ FT_BEGIN_HEADER
 #define FT_LOAD_NO_AUTOHINT                  ( 1L << 15 )
   /* Bits 16-19 are used by `FT_LOAD_TARGET_' */
 #define FT_LOAD_COLOR                        ( 1L << 20 )
-#define FT_LOAD_COMPUTE_METRICS              ( 1L << 21 )
+#define FT_LOAD_compute_METRICS              ( 1L << 21 )
 #define FT_LOAD_BITMAP_METRICS_ONLY          ( 1L << 22 )
 
   /* */
