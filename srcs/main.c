@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 13:10:39 by maximka           #+#    #+#             */
-/*   Updated: 2020/08/28 16:30:22 by user             ###   ########.fr       */
+/*   Updated: 2020/09/15 18:12:05 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "gui.h"
+#include "julia.h"
 #include <stdio.h>
 
 SDL_Rect	init_rect_size(int x, int y, int w, int h)
@@ -31,51 +32,31 @@ void	init_rect(t_all_rect *rect)
 		(FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 6 + HEIGHT_BUTTON,
 		rect->color_picker_button.x + 70,
 		rect->color_picker_button.y + HEIGHT_BUTTON);
-	// rect->color_picker_button.x = WIDTH_OFFSET + MARGIN;
-	// rect->color_picker_button.y = (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 6 + HEIGHT_BUTTON;
-	// rect->color_picker_button.w = rect->color_picker_button.x + 70;
-	// rect->color_picker_button.h = rect->color_picker_button.y + HEIGHT_BUTTON;
 
 	rect->background = init_rect_size(WIDTH_OFFSET, 0, WIDTH_MENU, HEIGHT);
-	// rect->background.x = WIDTH_OFFSET;
-	// rect->background.y = 0;
-	// rect->background.w = WIDTH_MENU;
-	// rect->background.h = HEIGHT;
 
 	rect->color_picker = init_rect_size(WIDTH_OFFSET + MARGIN, 500, WIDTH_MENU - MARGIN * 2, 200);
-	// rect->color_picker.x = WIDTH_OFFSET + MARGIN;
-	// rect->color_picker.y = 500;
-	// rect->color_picker.w = WIDTH_MENU - MARGIN * 2;
-	// rect->color_picker.h = 200;
 
 	rect->checkbox_button_shadow = init_rect_size(WIDTH_OFFSET + WIDTH_MENU / 2 - HEIGHT_BUTTON - MARGIN,
 										(FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y,
 										WIDTH_OFFSET + WIDTH_MENU / 2 - HEIGHT_BUTTON - MARGIN + HEIGHT_BUTTON,
 										(FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y + HEIGHT_BUTTON);
-	// rect->checkbox_button.x = WIDTH_OFFSET + WIDTH_MENU / 2 - HEIGHT_BUTTON - MARGIN;
-	// rect->checkbox_button.y = (FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y;
-	// rect->checkbox_button.w = rect->checkbox_button.x + HEIGHT_BUTTON;
-	// rect->checkbox_button.h = rect->checkbox_button.y + HEIGHT_BUTTON;
 
-	rect->checkbox_button_ambient.x = WIDTH - MARGIN - HEIGHT_BUTTON;
-	rect->checkbox_button_ambient.y = (FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y;
-	rect->checkbox_button_ambient.w = rect->checkbox_button_ambient.x + HEIGHT_BUTTON;
-	rect->checkbox_button_ambient.h = rect->checkbox_button_ambient.y + HEIGHT_BUTTON;
+	rect->checkbox_button_ambient = init_rect_size(WIDTH - MARGIN - HEIGHT_BUTTON,
+		(FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y, WIDTH - MARGIN - HEIGHT_BUTTON + HEIGHT_BUTTON,
+		(FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y + HEIGHT_BUTTON);
 
-	rect->specular_button_10.x = WIDTH - MARGIN - HEIGHT_BUTTON;
-	rect->specular_button_10.y = ((FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y) * 2 + MARGIN_Y * 6;
-	rect->specular_button_10.w = rect->specular_button_10.x + HEIGHT_BUTTON;
-	rect->specular_button_10.h = rect->specular_button_10.y + HEIGHT_BUTTON;
+	rect->specular_button_10 = init_rect_size(WIDTH - MARGIN - HEIGHT_BUTTON, ((FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y) * 2 + MARGIN_Y * 6,
+		WIDTH - MARGIN - HEIGHT_BUTTON + HEIGHT_BUTTON, ((FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y) * 2 + MARGIN_Y * 6 + HEIGHT_BUTTON);
 
-	rect->tab_main_button.x = WIDTH_OFFSET + MARGIN;
-	rect->tab_main_button.y = (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON;
-	rect->tab_main_button.w = rect->tab_main_button.x + WIDTH_MENU / 2;
-	rect->tab_main_button.h = rect->tab_main_button.y + HEIGHT_BUTTON;
+	rect->tab_main_button = init_rect_size(WIDTH_OFFSET + MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON,
+		WIDTH_OFFSET + MARGIN + WIDTH_MENU / 2, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON + HEIGHT_BUTTON);
 
-	rect->tab_render_button.x = rect->tab_main_button.w;
-	rect->tab_render_button.y = (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON;
-	rect->tab_render_button.w = rect->tab_render_button.x + WIDTH_MENU / 2;
-	rect->tab_render_button.h = rect->tab_render_button.y + HEIGHT_BUTTON;
+	rect->tab_render_button = init_rect_size(rect->tab_main_button.w, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON,
+		rect->tab_main_button.w + WIDTH_MENU / 2, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON + HEIGHT_BUTTON);
+
+	rect->fractol_button = init_rect_size(WIDTH_OFFSET + MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 4 + HEIGHT_BUTTON * 2,
+		WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 4 + HEIGHT_BUTTON * 3);
 }
 
 void	init_colors(t_colors *color)
@@ -148,6 +129,7 @@ int     main(int argc, char **argv)
 	rt.is_pressed.ambient = 1;
 	rt.is_pressed.render_tab = 0;
 	rt.is_pressed.main_tab = 0;
+
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 		printf("Error");

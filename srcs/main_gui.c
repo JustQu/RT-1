@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_gui.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:51:59 by alex              #+#    #+#             */
-/*   Updated: 2020/08/28 16:19:51 by user             ###   ########.fr       */
+/*   Updated: 2020/09/15 17:16:22 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void	draw_main_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 	draw_xyz(rt, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 2, &rt->rotate, color);
 	draw_titles_xyz(rt, &color->title_text_color);
 	hlineRGBA(rt->sdl.render, WIDTH_OFFSET + MARGIN, WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 4 + HEIGHT_BUTTON, 217, 217, 217, 255);
+	draw_button(rt, &all_rect->fractol_button, "fractol", color);
 }
 
 void	draw_title_ray_tracing(t_rt *rt, SDL_Color *color)

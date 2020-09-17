@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   qjulia.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:28:34 by user              #+#    #+#             */
-/*   Updated: 2020/09/10 16:35:39 by user             ###   ########.fr       */
+/*   Updated: 2020/09/17 13:16:46 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "julia.h"
+#include "gui.h"
+#include "rt.h"
 
 void	create_texture(t_texture *texture)
 {
@@ -24,7 +26,7 @@ void	create_texture(t_texture *texture)
 	glTexParameteri(texture->target, GL_TEXTURE_WRAP_T, GL_CLAMP);
 	glTexParameteri(texture->target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(texture->target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(texture->target, 0, texture->internal, WIDTH, HEIGHT, 0,
+	glTexImage2D(texture->target, 0, texture->internal, J_WIDTH, J_HEIGHT, 0,
 				texture->format, texture->type, 0);
 	glBindTexture(texture->target, 0);
 }
@@ -37,7 +39,7 @@ int		setup_graphics(t_texture *texture)
 
 	glDisable(GL_DEPTH_TEST);
 	glActiveTexture(GL_TEXTURE0);
-	glViewport(0,0, WIDTH, HEIGHT);
+	glViewport(0,0, J_WIDTH, J_HEIGHT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	return (GL_NO_ERROR);
@@ -70,7 +72,7 @@ int		setup_compute_device(t_compute *compute)
 
 	device_count = return_size / sizeof(cl_device_id);
 
-	int i = 0;
+	unsigned int i = 0;
 	int device_found = 0;
 	cl_device_type device_type;
 	while (i < device_count)
@@ -110,6 +112,7 @@ int		load_text_from_file(
 	struct stat file_status;
 	int ret;
 
+	printf("%s\n\n", file_name);
 	*string_len = 0;
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
@@ -158,11 +161,11 @@ int		setup_compute_kernel(t_compute *compute)
 		printf("Error: Failed to load kernel source!\n");
 	}
 
-	const char *width_macro = "#define WIDTH";
-	const char *height_macro = "#define HEIGHT";
+	const char *width_macro = "#define J_WIDTH";
+	const char *height_macro = "#define J_HEIGHT";
 
 	char *preprocess = (char*)malloc(strlen(source) + 1024);
-	sprintf(preprocess, "\n%s (%d)\n%s (%d)\n%s", width_macro, WIDTH, height_macro, HEIGHT, source);
+	sprintf(preprocess, "\n%s (%d)\n%s (%d)\n%s", width_macro, J_WIDTH, height_macro, J_HEIGHT, source);
 
 	compute->program = clCreateProgramWithSource(compute->context, 1, (const char **)&preprocess, NULL, &err);
 	if (!compute->program || err != CL_SUCCESS)
@@ -213,7 +216,7 @@ int		create_compute_result(t_texture *texture, t_compute *compute)
 	if (compute->result)
 		clReleaseMemObject(compute->result);
 	compute->result = 0;
-	compute->result = clCreateBuffer(compute->context, CL_MEM_WRITE_ONLY, texture->type_size * 4 * WIDTH * HEIGHT, NULL, NULL);
+	compute->result = clCreateBuffer(compute->context, CL_MEM_WRITE_ONLY, texture->type_size * 4 * J_WIDTH * J_HEIGHT, NULL, NULL);
 	if (!compute->result)
 		printf("Failed to create OpenCL array!\n");
 
@@ -262,8 +265,8 @@ int		recompute(t_compute *compute, t_julia_color *color)
 	int size_x = compute->work_group_size[0];
 	int size_y = compute->work_group_size[1];
 
-	global[0] = divide_up(WIDTH, size_x) * size_x;
-	global[1] = divide_up(HEIGHT, size_y) * size_y;
+	global[0] = divide_up(J_WIDTH, size_x) * size_x;
+	global[1] = divide_up(J_HEIGHT, size_y) * size_y;
 
 	local[0] = size_x;
 	local[1] = size_y;
@@ -277,7 +280,7 @@ int		recompute(t_compute *compute, t_julia_color *color)
 		printf("Failed to acquire GL object! %d\n", err);
 
 	size_t origin[] = { 0, 0, 0 };
-	size_t region[] = { WIDTH, HEIGHT, 1 };
+	size_t region[] = { J_WIDTH, J_HEIGHT, 1 };
 	err = clEnqueueCopyBufferToImage(compute->commands, compute->result, compute->image,
 									0, origin, region, 0, NULL, 0);
 	if (err != CL_SUCCESS)
@@ -289,10 +292,10 @@ int		recompute(t_compute *compute, t_julia_color *color)
 	return CL_SUCCESS;
 }
 
-void	render_texture(t_texture *texture)
+void	qjulia_render_texture(t_texture *texture)
 {
 	glDisable(GL_LIGHTING);
-	glViewport(0, 0, WIDTH, HEIGHT);
+	glViewport(0, 0, J_WIDTH, J_HEIGHT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D( -1.0, 1.0, -1.0, 1.0);
@@ -301,8 +304,8 @@ void	render_texture(t_texture *texture)
 	glEnable(texture->target);
 	glBindTexture(texture->target, texture->id);
 	if (texture->host_image_buffer)
-		glTexSubImage2D(texture->target, 0, 0, 0, WIDTH,
-			HEIGHT, texture->format, texture->type, texture->host_image_buffer);
+		glTexSubImage2D(texture->target, 0, 0, 0, J_WIDTH,
+			J_HEIGHT, texture->format, texture->type, texture->host_image_buffer);
 
 	glTexParameteri(texture->target, GL_TEXTURE_COMPARE_MODE, GL_NONE);
 	glBegin(GL_QUADS);
@@ -327,7 +330,7 @@ void	render_texture(t_texture *texture)
 
 void	display(t_texture *texture, t_compute *compute, t_julia_color *color)
 {
-	uint64_t ui_start_time = mach_absolute_time();
+	// uint64_t ui_start_time = mach_absolute_time();
 
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -342,9 +345,9 @@ void	display(t_texture *texture, t_compute *compute, t_julia_color *color)
 	int err = recompute(compute, color);
 	if (err != 0)
 		printf("Error %d from Recompute!\n", err);
-	render_texture(texture);
+	qjulia_render_texture(texture);
 	glFinish(); /* for timing */
-	uint64_t ui_end_time = mach_absolute_time();
+	// uint64_t ui_end_time = mach_absolute_time();
 }
 
 void	error_julia(int err, char *str)
@@ -375,8 +378,8 @@ void	cleanup(t_compute *compute)
 void	shutdown(t_compute *compute)
 {
 	printf("Shutting down...\n");
-    cleanup(compute);
-    exit(0);
+	cleanup(compute);
+	exit(0);
 }
 
 void		setup_color(float color[4], float r, float g, float b, float a)
@@ -387,12 +390,14 @@ void		setup_color(float color[4], float r, float g, float b, float a)
 	color[3] = a;
 }
 
-int					main(int argc, char **argv) /* is julia main */
+int					main_qjulia() /* is julia main */
 {
 	t_compute		compute;
 	t_texture		texture;
 	t_julia_color	color;
+	int loop;
 
+	loop = 1;
 	init_texture_cl(&texture);
 	init_compute_cl(&compute);
 	init_julia_color(&color);
@@ -407,29 +412,36 @@ int					main(int argc, char **argv) /* is julia main */
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
 
-	window = SDL_CreateWindow("sdl_julia", 100, 100, WIDTH, HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+	window = SDL_CreateWindow("sdl_julia", 100, 100, J_WIDTH, J_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 	SDL_GLContext glcontext = SDL_GL_CreateContext(window);
 	if (window == NULL)
 		printf("error window");
 
 	if (init_cl(&texture, &compute, &color) == GL_NO_ERROR)
 	{
-		while (1)
+		while (loop)
 		{
 			SDL_Event event;
 			while(SDL_PollEvent(&event))
 			{
 				if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
-					exit(0);
+				{
+
+					loop = 0;
+					// SDL_DestroyWindow(window);
+					// SDL_Quit();
+				}
 				if (event.type == SDL_KEYDOWN)
 				{
-				if (event.key.keysym.sym == SDLK_SPACE)
-					compute.animated ^= 1;
+					if (event.key.keysym.sym == SDLK_SPACE)
+						compute.animated ^= 1;
 				}
 			}
 			display(&texture, &compute, &color);
 			SDL_GL_SwapWindow(window);
 		}
 	}
+	SDL_DestroyWindow(window);
+	SDL_Quit();
 	return (0);
 }

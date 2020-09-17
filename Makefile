@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
+#    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/08/28 14:48:52 by user             ###   ########.fr        #
+#    Updated: 2020/09/15 17:35:50 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ DIR_INCLUDE :=	include/
 DIR_LIBFT	:=	Libs/libft/
 SDL 		:= -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_gfx
 CC			:=	gcc
-CFLAGS		:=	-g -Wextra -Werror -Wall
+CFLAGS		:=	-g #-Wextra -Werror -Wall
 HEADERS		:=	libft.h rt.h get_next_line.h gui.h
 LIBFT		:=	libft.a
 REMOVE		:=	rm -rf
@@ -27,7 +27,8 @@ SRC			:=	main.c \
 		gui_gradient.c mouse.c keyboard.c \
 		gui_tab_bar.c gui_progress_bar.c \
 		gui_render_text.c gui_checkbox.c \
-		
+		qjulia.c qjulia_color.c qjulia_init.c
+
 
 OBJS 		:= $(SRC:.c=.o)
 LIBFT		:= $(addprefix $(DIR_LIBFT), $(LIBFT))
@@ -41,7 +42,7 @@ vpath %.h $(DIR_INCLUDE)
 all: make_lft $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(addprefix $(DIR_BIN), $(OBJS)) $(SDL) $(LIBFT)  -o $@
+	$(CC) $(CFLAGS) $(addprefix $(DIR_BIN), $(OBJS)) $(SDL) -framework openGL -framework openCL $(LIBFT) -o $@
 
 $(OBJS):%.o:%.c $(HEADERS) | $(DIR_BIN)
 	$(CC) -c $(CFLAGS) $< -o $(DIR_BIN)$@ -I $(DIR_INCLUDE)

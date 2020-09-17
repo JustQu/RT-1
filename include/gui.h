@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/08/28 15:43:19 by user             ###   ########.fr       */
+/*   Updated: 2020/09/15 17:05:02 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct	s_all_rect
 	SDL_Rect	tab_main_button;
 	SDL_Rect	tab_render_button;
 	SDL_Rect	specular_button_10;
+	SDL_Rect	fractol_button;
 }				t_all_rect;
 
 typedef struct 	s_colors

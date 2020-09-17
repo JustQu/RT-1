@@ -1,10 +1,10 @@
-#ifndef WIDTH
-#define WIDTH                       (512)
+#ifndef J_J_WIDTH
+#define J_J_WIDTH                       (512)
 #endif
-#ifndef HEIGHT
-#define HEIGHT                      (512)
+#ifndef J_J_HEIGHT
+#define J_J_HEIGHT                      (512)
 #endif
-#define ASPECT                      (float)WIDTH / (float)HEIGHT
+#define ASPECT                      (float)J_J_WIDTH / (float)J_J_HEIGHT
 #define SQR(x)                      (x)*(x)
 #define BOUNDING_RADIUS             2.0f
 #define BOUNDING_RADIUS_SQR         SQR(BOUNDING_RADIUS)
@@ -231,13 +231,13 @@ __kernel void	QJuliaKernel(
 	int ty = get_global_id(1);
 	// int sx = get_global_size(0);
 	// int sy = get_global_size(1);
-	int index = ty * WIDTH + tx;
-	bool valid = (tx < WIDTH) && (ty < HEIGHT);
+	int index = ty * J_WIDTH + tx;
+	bool valid = (tx < J_WIDTH) && (ty < J_HEIGHT);
 
 	float4 coord = (float4)((float)tx, (float)ty, 0.0f, 0.0f);
 	if (valid)
 	{
-		float4 color = QJulia(coord, mu, diffuse, epsilon, ITERATIONS, SHADOWS, WIDTH, HEIGHT);
+		float4 color = QJulia(coord, mu, diffuse, epsilon, ITERATIONS, SHADOWS, J_WIDTH, J_HEIGHT);
 		uchar4 output = convert_uchar4_sat_rte(color * 255.0f);
 		result[index] = output;
 	}

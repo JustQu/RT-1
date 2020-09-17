@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:51:39 by alex              #+#    #+#             */
-/*   Updated: 2020/08/28 16:45:02 by user             ###   ########.fr       */
+/*   Updated: 2020/09/15 18:12:11 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,9 @@ void	mouse_move(t_rt *rt, t_all_rect *all_rect, t_colors *color)
 			// draw_checkbox(rt, &all_rect->checkbox_button_ambient, "Ambient", color);
 			rt->is_pressed.ambient = 0;
 		}
+	}
+	if (is_press_button(rt, &all_rect->fractol_button))
+	{
+		main_qjulia();
 	}
 }

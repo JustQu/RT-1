@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   julia.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:32:04 by user              #+#    #+#             */
-/*   Updated: 2020/09/10 16:38:48 by user             ###   ########.fr       */
+/*   Updated: 2020/09/15 18:17:31 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _JULIA_H_
 # define _JULIA_H_
 
-#define WIDTH 1200
-#define HEIGHT 800
+#define J_WIDTH 800
+#define J_HEIGHT 800
 
 #include <SDL2/SDL.h>
 
@@ -45,7 +45,7 @@
 #include <string.h>
 #include <mach/mach_time.h>
 
-#define COMPUTE_KERNEL_FILENAME	("qjulia_kernel.cl")
+#define COMPUTE_KERNEL_FILENAME	("srcs/qjulia_cl/qjulia_kernel.cl")
 #define COMPUTE_KERNEL_METHOD_NAME ("QJuliaKernel")
 
 typedef struct			s_julia_color
@@ -101,7 +101,7 @@ int						divide_up(int a, int b);
 void					interpolate(float m[4], float t, float a[4], float b[4]);
 void					update_color(float t[4], float a[4], float b[4]);
 void					error_julia(int err, char *str);
-void					render_texture(t_texture *texture);
+void					julia_texture(t_texture *texture);
 int						recompute(t_compute *compute, t_julia_color *color);
 int						create_compute_result(t_texture *texture, t_compute *compute);
 int						setup_compute_kernel(t_compute *compute);
@@ -112,5 +112,5 @@ int						setup_graphics(t_texture *texture);
 void					create_texture(t_texture *texture);
 int						init_cl(t_texture *texture, t_compute *compute,
 							t_julia_color *color);
-
+int						main_qjulia();
 #endif
