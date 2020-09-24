@@ -1,2 +1,20 @@
-
+<kernel>:1565:1: warning: control may reach end of non-void function
+}
+^
+<kernel>:1603:1: warning: control may reach end of non-void function
+}
+^
+<kernel>:1648:1: warning: control may reach end of non-void function
+}
+^
+<kernel>:1661:1: warning: control may reach end of non-void function
+}
+^
+<kernel>:1760:19: error: member reference type 't_shade_rec' (aka 'struct s_shade_rec') is not a pointer; maybe you meant to use '.'?
+                                                                &shade_rec->hit_info,
+                                                                 ~~~~~~~~~^~
+                                                                          .
+<kernel>:1760:9: error: cannot take the address of an rvalue of type 't_hit_info' (aka 'struct s_hit_information')
+                                                                &shade_rec->hit_info,
+                                                                ^~~~~~~~~~~~~~~~~~~~
 

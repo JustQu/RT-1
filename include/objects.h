@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:20 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/12 20:42:47 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/23 15:34:37 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,6 @@ struct					s_bbox
 ** TODO: change
 **
 */
-#ifdef _WIN64
-// __declspec(align(1))
-// #pragma pack(1)
-# endif
 struct					s_obj
 {
 	t_bbox				bounding_box;
@@ -96,13 +92,13 @@ struct					s_triangle
 typedef struct			s_object_info
 {
 	t_material			material;
-	t_bbox				bounding_box;
 	cl_float4			origin;	//vertexe for triangle
 	cl_float4			vector1;
 	cl_float4			vector2;
 	cl_float4			direction; //triangle or plane?
 	cl_float3			rotation;	//object rotation about x, y, z axis
 	cl_float3			scaling;	//scaling toward to axis
+	t_bbox				bounding_box;
 	cl_float			minm;
 	cl_float			maxm;
 	cl_float			r;	//torus radius1

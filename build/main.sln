@@ -3,12 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "main", "main.exe", "{5D67F1A3-4316-4F73-813D-74BE940BFD10}"
+Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "main", "main.exe", "{DDE8BD9C-184C-4CB4-9A31-583CE3F05D30}"
 	ProjectSection(DebuggerProjectSystem) = preProject
 		PortSupplier = 00000000-0000-0000-0000-000000000000
-		Executable = D:\repos\C\rt\build\main.exe
+		Executable = D:\repos\C\rt2\build\main.exe
 		RemoteMachine = JUSTQU
-		StartingDirectory = D:\repos\C\rt
+		StartingDirectory = D:\repos\C\rt2
 		Environment = По умолчанию
 		LaunchingEngine = 00000000-0000-0000-0000-000000000000
 		UseLegacyDebugEngines = No
@@ -21,12 +21,12 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5D67F1A3-4316-4F73-813D-74BE940BFD10}.Release|x64.ActiveCfg = Release|x64
+		{DDE8BD9C-184C-4CB4-9A31-583CE3F05D30}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {AAF107C5-0360-437D-85B9-3C100BA9246F}
+		SolutionGuid = {CAA7B14F-3D6F-481C-975D-1B47868146E3}
 	EndGlobalSection
 EndGlobal

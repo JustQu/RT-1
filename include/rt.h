@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/13 19:00:03 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/23 15:55:58 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # include "bool.h"
 # include "sampler_manager.h"
 # include "instance_manager.h"
+# include "scene.h"
+# include "bvh.h"
 
 # ifdef _WIN64
 #  define DEFAULT_KERNEL_FILE "main_kernel.cl"
@@ -45,7 +47,7 @@
 ** NOTE: нельзя сделать кернел с именем 'main'
 ** на встроенной видеокарте intel
 */
-# define DEFAULT_KERNEL_NAME	"main"
+#define DEFAULT_KERNEL_NAME "main_kernel"
 
 # define DEFAULT_KERNEL_INCLUDE	"-I ./include -I ./srcs/cl"
 # define DEFAULT_WORK_SIZE		DEFAULT_WIDTH * DEFAULT_HEIGHT
@@ -99,11 +101,14 @@ typedef struct			s_cl_program
 
 	cl_mem				rgb_image;
 	cl_mem				output_image;
+
 	cl_mem				instances;
 	cl_mem				objects;
 	cl_mem				triangles;
 	cl_mem				matrices;
 	cl_mem				lights;
+	cl_mem				bvh;
+
 	cl_mem				samplers;
 	cl_mem				samples;
 	cl_mem				disk_samples;
@@ -112,21 +117,6 @@ typedef struct			s_cl_program
 	size_t				work_size;
 	size_t				work_group_size;
 }						t_cl_program;
-
-/**
-** @brief
-** struct containing information about scene: camera, objects, triangles and light sources
-*/
-typedef struct s_scene	t_scene;
-struct					s_scene
-{
-	t_instance_manager	instance_manager;
-	t_light				ambient_light;
-	t_light				*lights;
-	t_ambient_occluder	ambient_occluder;
-	t_camera			camera;
-	int					nlights;
-};
 
 typedef struct			s_rt
 {

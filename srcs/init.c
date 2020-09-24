@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:43:55 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/14 16:38:45 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/23 23:34:44 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int init_cl(t_clp *clp)
 	clp->context = clCreateContext(NULL, 1, &(clp->de_id), NULL, NULL,
 								   &(clp->ret));
 	assert(!clp->ret);
-	clp->queue = clCreateCommandQueue(clp->context, clp->de_id, 0, &(clp->ret));
+	clp->queue = clCreateCommandQueue(clp->context, clp->de_id, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &(clp->ret));
 	ft_clerror(clp->ret);
 	return (0);
 }
@@ -56,24 +56,19 @@ void init_buffers(t_cl_program *program, t_scene *scene,
 										   sizeof(uint32_t) * program->work_size, NULL, &ret);
 	cl_error(program, &program->clp, ret);
 
-	program->instances = clCreateBuffer(cntx, ro, sizeof(t_instance) *
-		scene->instance_manager.ninstances, scene->instance_manager.instances,
-		&ret);
+	program->instances = clCreateBuffer(cntx, ro, sizeof(t_instance) * (scene->instance_mngr.ninstances), scene->instance_mngr.instances, &ret);
 	cl_error(program, &program->clp, ret);
 
-	program->objects = clCreateBuffer(cntx, ro,
-		sizeof(t_obj) * scene->instance_manager.nobjects,
-		scene->instance_manager.objects, &ret);
+	program->objects = clCreateBuffer(cntx, ro, sizeof(t_obj) * (scene->instance_mngr.nobjects), scene->instance_mngr.objects, &ret);
 	cl_error(program, &program->clp, ret);
 
-	program->triangles = clCreateBuffer(cntx, ro,
-		sizeof(t_triangle) * (scene->instance_manager.ntriangles + 1),
-		scene->instance_manager.triangles, &ret);
+	program->triangles = clCreateBuffer(cntx, ro, sizeof(t_triangle) * (scene->instance_mngr.ntriangles + 1), scene->instance_mngr.triangles, &ret);
 	cl_error(program, &program->clp, ret);
 
-	program->matrices = clCreateBuffer(cntx, ro,
-		sizeof(t_matrix) * scene->instance_manager.nmatrices,
-		scene->instance_manager.matrices, &ret);
+	program->matrices = clCreateBuffer(cntx, ro, sizeof(t_matrix) * (scene->instance_mngr.nmatrices), scene->instance_mngr.matrices, &ret);
+	cl_error(program, &program->clp, ret);
+
+	program->bvh = clCreateBuffer(cntx, ro, sizeof(t_bvh_node) * (scene->instance_mngr.ninstances * 2), scene->bvh, &ret);
 	cl_error(program, &program->clp, ret);
 
 	program->lights = clCreateBuffer(cntx, ro, sizeof(t_light) * scene->nlights, scene->lights, &ret);

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 13:22:40 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/13 18:26:48 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/23 16:21:56 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "libft.h"
 #include "bool.h"
 #include "instance_manager.h"
+#include "utils.h"
 
 static const t_triangle default_triangle;
 static const t_obj default_obj;
@@ -60,7 +61,6 @@ int		add_obj(t_instance_manager *mngr, t_object_info object_info)
 	** @deprecated
 	*/
 	object.origin = (cl_float4){0.0f, 0.0f, 0.0f, 0.0f};
-	object.direction = object_info.direction;
 	object.r = object_info.r;
 	object.r2 = object_info.r2;
 

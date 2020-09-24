@@ -6,81 +6,156 @@ float4	get_reflected_vector(float4 l, float4 n)
 	return normalize(r);
 }
 
-t_material	get_instance_material(t_instance_manager instance_manager, int id)
+inline t_material	get_instance_material(t_instance_manager instance_manager, t_instance instance)
 {
-	return (instance_manager.instances[id].material);
+	return (instance.material);
 }
 
-//TODO(dmelessa): shading both sides of surface ยง14
-bool	scene_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
+inline t_instance	get_instance(t_instance_manager instance_manager, int id)
 {
-	float		t;
+	return instance_manager.instances[id];
+}
+
+inline t_matrix	get_instance_matrix(t_instance_manager instance_manager, t_instance	instance)
+{
+	return (instance_manager.matrices[instance.matrix_id]);
+}
+
+inline t_obj get_object_info(t_instance_manager instance_manager, t_instance instance)
+{
+	return (instance_manager.objects[instance.object_id]);
+}
+
+inline t_triangle get_triangle_info(t_instance_manager instance_manager, t_instance instance)
+{
+	return (instance_manager.triangles[instance.object_id]);
+}
+
+bool	bvh_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
+{
 	t_hit_info	last_hit_info;
 
 	last_hit_info.t = K_HUGE_VALUE;
 
 	shade_rec->id = -1;
-	for (int i = 0; i < scene.instance_manager.ninstances; i++)
+	int			node_id = 0;
+	t_bvh_node	current_node;
+
+	while (node_id != -1)
 	{
-		if (instance_hit(scene.instance_manager, ray, i, &shade_rec->hit_info)
-			&& shade_rec->hit_info.t < last_hit_info.t)
+		current_node = scene.bvh[node_id];
+
+		if (bbox_intersection(ray, current_node.aabb))
 		{
-			last_hit_info = shade_rec->hit_info;
-			shade_rec->id = i;
+			if (current_node.instance_id == -1)
+			{
+				node_id++;
+			}
+			else /* leaf node*/
+			{
+				if (instance_hit(scene.instance_manager,
+								ray,
+								&shade_rec->hit_info,
+								get_instance(scene.instance_manager, current_node.instance_id))
+					&& shade_rec->hit_info.t < last_hit_info.t)
+				{
+					last_hit_info = shade_rec->hit_info;
+					shade_rec->id = current_node.instance_id;
+				}
+				node_id = current_node.next;
+			}
+		}
+		else
+		{
+			node_id = current_node.next;
 		}
 	}
 	shade_rec->hit_info = last_hit_info;
 	return (shade_rec->id > -1);
 }
 
-//todo: move normal computation to ray_trace_function
+//TODO(dmelessa): shading both sides of surface à¸¢à¸‡14
+bool	scene_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
+{
+	return (bvh_intersection(scene, ray, shade_rec));
+
+	/* old code for bruteforcing*/
+	// t_hit_info	last_hit_info;
+
+	// last_hit_info.t = K_HUGE_VALUE;
+
+	// shade_rec->id = -1;
+	// for (int i = 0; i < scene.instance_manager.ninstances; i++)
+	// {
+	// 	t_instance instance = get_instance(scene.instance_manager, i);
+	// 	if (instance_hit(scene.instance_manager, ray, &shade_rec->hit_info, instance)
+	// 		&& shade_rec->hit_info.t < last_hit_info.t)
+	// 	{
+	// 		last_hit_info = shade_rec->hit_info;
+	// 		shade_rec->id = i;
+	// 	}
+	// }
+	// shade_rec->hit_info = last_hit_info;
+	// return (shade_rec->id > -1);
+}
+
+#define maximum_tree_depth 16
+
 t_color	ray_trace(t_ray ray, t_scene scene, t_render_options options, t_sampler_manager sampler_manager, uint2 *seed)
 {
+	int			local_id = get_local_id(0);
 	t_shade_rec	shade_rec;
-	t_color		color;
+
+	/* computed color */
+	t_color		color = options.background_color;
+	color.r = 0.0f;
+	color.b = 0.0f;
+	color.g = 0.0f;
+	float		color_coef = 1.0f;
+
+	/* material of hit object*/
 	t_material	instance_material;
 
-	color = options.background_color;
+	bool		continue_loop = true;
+	uchar		tree_depth = 0;
 
-	if (scene_intersection(scene, ray, &shade_rec))
+	while (continue_loop)
+	// do
 	{
-		// shade_rec.ray = ray;
-		/* save ray for specular reflection */
-		shade_rec.ray =  transform_ray(ray,
-			scene.instance_manager.matrices[
-				scene.instance_manager.instances[shade_rec.id].matrix_id]);
-
-		/* compute hit point */
-		shade_rec.hit_point = (shade_rec.hit_info.t) * shade_rec.ray.direction + shade_rec.ray.origin;
-
-		shade_rec.normal = get_instance_normal(scene.instance_manager, shade_rec);
-
-		shade_rec.ray = ray;
-
-		shade_rec.hit_point = (shade_rec.hit_info.t) * shade_rec.ray.direction + shade_rec.ray.origin;
-
-		// ray =  transform_ray(ray,
-			// scene.instance_manager.matrices[
-				// scene.instance_manager.instances[shade_rec.id].matrix_id]);
-
-		/* if normal is not directed to us then we reverse normal*/
-		shade_rec.normal = dot(shade_rec.normal, ray.direction) < 0.0f ?
-			shade_rec.normal : -shade_rec.normal;
-
-		/* NOTE: we can get material in scene_intersection function */
-		instance_material = get_instance_material(scene.instance_manager, shade_rec.id);
-
-		// shade_rec.ray = ray;
-		if (options.area_lightning)
+		if (scene_intersection(scene, ray, &shade_rec))
 		{
-			;;;;;;;;;;;;;;;;;
-			//todo: area_lightning
+			t_instance	instance = scene.instance_manager.instances[shade_rec.id];
+			shade_rec.ray =  transform_ray(ray,
+				scene.instance_manager.matrices[instance.matrix_id]);
+
+			/* local_hit_point */
+			shade_rec.hit_point = (shade_rec.hit_info.t) * shade_rec.ray.direction + shade_rec.ray.origin;
+
+			/* normal at hit point */
+			shade_rec.normal = get_instance_normal(scene.instance_manager, shade_rec);
+
+			/* save ray for specular reflection */
+			shade_rec.ray = ray;
+			/* world hit point */
+			shade_rec.hit_point = (shade_rec.hit_info.t) * shade_rec.ray.direction + shade_rec.ray.origin;
+
+			/* if normal is not directed to us then we reverse normal*/
+			shade_rec.normal = dot(shade_rec.normal, ray.direction) < 0.0f ?
+				shade_rec.normal : -shade_rec.normal;
+
+			/* NOTE: we can get material in scene_intersection function */
+			instance_material = get_instance_material(scene.instance_manager, instance);
+
+			/* accumulate color */
+			color = color_sum(color, shade_material(scene, sampler_manager, instance_material, shade_rec, options, seed));
 		}
-		else
+		else /* no hit */
 		{
-			color = shade_material(scene, sampler_manager, instance_material,
-									shade_rec, options, seed);
+			continue_loop = false;
+			color = color_sum(color, options.background_color);
 		}
-	}
+		continue_loop = false;
+
+	};
 	return (color);
 }

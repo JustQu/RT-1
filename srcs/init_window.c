@@ -31,18 +31,18 @@ int		init_window(t_window *window)
 	}
 	if (!(window->texture = SDL_CreateTexture(window->renderer,
 				SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
-				window->width, window->height)))
+				DEFAULT_WIDTH, DEFAULT_HEIGHT)))
 	{
 		SDL_DestroyWindow(window->ptr);
 		quit("SDL_CreateTexture Error");
 	}
 	window->image = (uint32_t *)malloc(sizeof(uint32_t) *
-				window->width * window->height);
-	ft_memset(window->image, 0, sizeof(uint32_t) * window->width * window->height);
+				DEFAULT_WIDTH * DEFAULT_HEIGHT);
+	ft_memset(window->image, 0, sizeof(uint32_t) * DEFAULT_WIDTH * DEFAULT_HEIGHT);
 	if (!window->image)
 		perror("window->image malloc");
 
-	window->rgb_image = (t_color *)malloc(sizeof(t_color) * window->width * window->height);
-	ft_memset(window->rgb_image, 0, sizeof(t_color) * window->width * window->height);
+	window->rgb_image = (t_color *)malloc(sizeof(t_color) * DEFAULT_WIDTH * DEFAULT_HEIGHT);
+	ft_memset(window->rgb_image, 0, sizeof(t_color) * DEFAULT_WIDTH * DEFAULT_HEIGHT);
 	return (0);
 }

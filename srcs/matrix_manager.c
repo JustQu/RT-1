@@ -6,12 +6,13 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 18:15:15 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/13 19:01:01 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/24 13:44:11 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.h"
 #include "instance_manager.h"
+#include "utils.h"
 
 #include "libft.h"
 #include <assert.h>
@@ -41,4 +42,17 @@ int			set_matrix(t_instance_manager *mngr, int matrix_id, t_matrix new_matrix)
 t_matrix	get_matrix(t_instance_manager *mngr, int matrix_id)
 {
 	return mngr->matrices[matrix_id];
+}
+
+t_matrix	get_transformation_matrix(t_instance_manager mngr, int instance_id)
+{
+	t_object_info	object_info;
+	t_matrix		m;
+
+	object_info = mngr.instances_info[instance_id];
+	m = IDENTITY_MATRIX;
+	m = mul_matrix(m, get_rotation_matrix(object_info.rotation));
+	m = mul_matrix(m, get_scale_matrix(object_info.scaling));
+	m = mul_matrix(m, get_translation_matrix(object_info.origin));
+	return (m);
 }

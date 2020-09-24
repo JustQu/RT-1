@@ -3,12 +3,43 @@ bool		shadow_hit(t_scene scene, t_light light, t_ray shadow_ray, t_shade_rec sha
 	float	t;
 	float	d = distance(light.origin, shadow_ray.origin);
 
-	for (int i = 0; i < scene.instance_manager.ninstances; i++)
+	int			node_id = 0;
+	t_bvh_node	current_node;
+
+	while (node_id != -1)
 	{
-		if (instance_hit(scene.instance_manager, shadow_ray, i, &shade_rec.hit_info)
-			&& shade_rec.hit_info.t < d)
-			return (true);
+		current_node = scene.bvh[node_id];
+
+		if (bbox_intersection(shadow_ray, current_node.aabb))
+		{
+			if (current_node.instance_id == -1)
+			{
+				node_id++;
+			}
+			else /* leaf node*/
+			{
+				if (instance_hit(scene.instance_manager,
+								shadow_ray,
+								&shade_rec.hit_info,
+								get_instance(scene.instance_manager, current_node.instance_id))
+						&& shade_rec.hit_info.t < d)
+					return (true);
+				node_id = current_node.next;
+			}
+		}
+		else
+		{
+			node_id = current_node.next;
+		}
 	}
+
+	// for (int i = 0; i < scene.instance_manager.ninstances; i++)
+	// {
+	// 	t_instance instance = get_instance(scene.instance_manager, i);
+	// 	if (instance_hit(scene.instance_manager, shadow_ray, &shade_rec.hit_info, instance)
+	// 		&& shade_rec.hit_info.t < d)
+	// 		return (true);
+	// }
 	return (false);
 }
 
@@ -51,7 +82,7 @@ t_color		shade_phong(t_material material,
 		light_direction = get_light_direction(scene.lights[i], shade_rec);
 
 		/* multiplying by 0.999f to avoid self shadowing error */
-		t_ray	shadow_ray = { .origin = shade_rec.hit_point + 0.01f * shade_rec.normal, .direction = light_direction };
+		t_ray	shadow_ray = { .origin = shade_rec.hit_point + 1e-2f * shade_rec.normal, .direction = light_direction };
 
 		if (options.shadows)
 			in_shadow = shadow_hit(scene, scene.lights[i], shadow_ray, shade_rec);
@@ -81,10 +112,6 @@ t_color		shade_phong(t_material material,
 				color_tmp.g = scene.lights[i].ls * scene.lights[i].color.g
 							* color_tmp.g * dirdotn;
 				color = color_sum(color_tmp, color);
-				// color_tmp.r = clamp(scene.lights[i].ls * scene.lights[i].color.r * color_tmp.r / 255.0f * dirdotn, 0.0f, 255.0f);
-				// color_tmp.b = clamp(scene.lights[i].ls * scene.lights[i].color.b * color_tmp.b / 255.0f * dirdotn, 0.0f, 255.0f);
-				// color_tmp.g = clamp(scene.lights[i].ls * scene.lights[i].color.g * color_tmp.g / 255.0f * dirdotn, 0.0f, 255.0f);
-				// color = color_sum(color_tmp, color);
 			}
 		}
 	}

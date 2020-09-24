@@ -6,11 +6,15 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 21:05:04 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/14 22:44:06 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/24 13:31:27 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "bvh.h"
+
+t_bvh	build_bvh(t_scene *scene);
+
 
 static const t_camera default_camera = {
 	.viewplane = {
@@ -18,10 +22,10 @@ static const t_camera default_camera = {
 		.width = DEFAULT_WIDTH,
 		.height = DEFAULT_HEIGHT},
 	.type = perspective,
-	.origin = {.x = 0.0f, .y = 2.0f, .z = -10.0f, .w = 0.0f},
-	.direction = {.x = 0.0f, .y = -0.2f, .z = 1.0f, .w = 0.0f},
+	.origin = {.x = 0.0f, .y = 0.0f, .z = -3.0f, .w = 0.0f},
+	.direction = {.x = -0.0f, .y = -0.0f, .z = 1.0f, .w = 0.0f},
 	.up = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
-	.d = DEFAULT_WIDTH,
+	.d = DEFAULT_WIDTH/4,
 	.zoom = 1.0f,
 	.normalized = FALSE
 };
@@ -40,7 +44,7 @@ static const t_camera default_thin_lens_camera = {
 	.zoom = 1.0f,
 	.normalized = FALSE,
 
-	.l = 0.0f,
+	.l = 0.2f,
 	.f = 7.0f
 };
 
@@ -134,7 +138,6 @@ static const t_obj default_plane = {
 		.y = -1.0f,
 		.z = 0.0f,
 		.w = 0.0f},
-	.direction = {.x = 0.0f, .y = -1.0f, .z = 0.0f, .w = 0.0f},
 	// .material = {.type = phong, .color = {.value = 0x00aaaaaa}, .kd = 0.8f, .ka = 0.1f, .ks = 0.05f, .exp = 10.0f},
 	.shadows = CL_TRUE};
 
@@ -145,7 +148,6 @@ static const t_obj default_cylinder = {
 		.y = 3.0f,
 		.z = 5.0f,
 		.w = 0.0f},
-	.direction = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
 	.r = 1.0f,
 	.r2 = 1.0f,
 	.maxm = 5.0f, //max height of cylinder
@@ -160,13 +162,6 @@ static const t_obj default_cone = {
 		.z = 5.0f,
 		.w = 0.0f,
 	},
-	.direction = {
-		.x = 0.0f,
-		.y = 1.0f,
-		.z = 0.0f,
-		.w = 0.0f,
-	},
-	.angle = 60.0f * M_PI / 180.0f, //radians
 	.r = 0.57735026919,
 	.r2 = 1.33333333333, //tan(angle / 2) + 1
 	.maxm = 3.0f,
@@ -181,7 +176,6 @@ static const t_obj default_paraboloid = {
 		.y = 1.0f,
 		.z = 5.0f,
 		.w = 0.0f},
-	.direction = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
 	.r = 0.3f,
 	.minm = 0.0f,
 	.maxm = 2.0f,
@@ -195,7 +189,6 @@ static const t_obj default_torus = {
 		.y = 1.0f,
 		.z = 1.0f,
 		.w = 0.0f},
-	.direction = {.x = 0.0f, .y = 0.7071067118f, .z = 0.7071067118f, .w = 0.0f},
 	.r = 2.0f,
 	.r2 = 0.4f,
 	// .material = {.type = phong, .color = {.value = 0x00bf8f0f}, .kd = 0.6f, .ka = 0.1f, .ks = 0.2f, .exp = 50.0f},
@@ -220,14 +213,6 @@ static const t_triangle default_triangle = {
 	// .material = {.color = 0x00af00af, .type = phong, .kd = 0.2, .ka = 0.25, .ks = 0.8, .exp = 10}
 };
 static const t_obj default_box = {
-	.bounding_box = {
-		.min = {
-			.x = 1.0f,
-			.y = -1.0f,
-			.z = 3.0f,
-			.w = 0.0f},
-		.max = {.x = 2.0f, .y = 0.0f, .z = 4.0f, .w = 0.0f}
-	},
 	.shadows = CL_TRUE
 };
 
@@ -236,12 +221,6 @@ static const t_obj default_disk = {
 		.x = -1.0f,
 		.y = 2.0f,
 		.z = 3.0f,
-		.w = 0.0f
-	},
-	.direction = {
-		.x = 0.707107f,
-		.y = 0.0f,
-		.z = 0.707107f,
 		.w = 0.0f
 	},
 	.r = 1.0f,
@@ -254,18 +233,6 @@ static const t_obj default_rectangle = {
 		.x = -1.2f,
 		.y = 0.0f,
 		.z = 2.0f,
-		.w = 0.0f
-	},
-	.direction = {
-		.x = 1.0f,
-		.y = 0.0f,
-		.z = 0.0f,
-		.w = 0.0f
-	},
-	.dir2 = {
-		.x = 0.0f,
-		.y = 1.0f,
-		.z = 0.0f,
 		.w = 0.0f
 	},
 	.normal = {
@@ -303,7 +270,7 @@ static const t_light default_point_light = {
 	.type = point,
 	.origin = {
 		.x = 1.0f,
-		.y = 5.0f,
+		.y = 0.0f,
 		.z = -5.0f,
 		.w = 0.0f},
 	.ls = 2.0f,
@@ -316,10 +283,10 @@ void	init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	t_object_info		object_info;
 	scene->camera = default_camera;
 
-	instance_manager = &scene->instance_manager;
+	instance_manager = &scene->instance_mngr;
 	init_instance_manager(instance_manager);
 
-	scene->camera = default_thin_lens_camera;
+	// scene->camera = default_thin_lens_camera;
 	// scene->camera = default_fisheye_camera;
 	// scene->camera = default_spherical_camera;
 	// scene->camera = default_stereo_camera;
@@ -331,48 +298,116 @@ void	init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	scene->lights = (t_light *)malloc(sizeof(t_light) * (scene->nlights + 10));
 
 	//default_scene
-#if 1
 	//Объекты
-	static t_object_info zero;
-	object_info = zero;
-	object_info.type = plane;
-	object_info.origin = (cl_float4){ .x = 0.0f, .y = -1.0f, .z = 5.0f, .w = 0.0f };
-	object_info.direction = (cl_float4){.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f};
-	object_info.scaling = (cl_float3){ .x = 1.0f, .y = 1.0f, .z = 1.0f};
-	object_info.rotation = (cl_float3){ .x = 0.0f, .y = 0.0f, .z = 0.0f };
-	object_info.material = (t_material){.type = matte,
+	static t_material		zero_material;
+	t_parsed_object			object;
+
+	object.type = plane;
+	object.origin = (cl_float4){.x = 0.0f, .y = -1.0f, .z = 5.0f, .w = 0.0f};
+	object.direction = (cl_float4){.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f};
+	object.scaling = (cl_float3){.x = 1.0f, .y = 1.0f, .z = 1.0f};
+	object.rotation = (cl_float3){.x = 0.0f, .y = 0.0f, .z = 0.0f};
+	object.material = (t_material){.type = matte,
 		.color = { .r = 1.0f, .g = 1.0f, .b = (float)0xf0/0xff},
 		.kd = 0.9f, .ka = 0.1f, .ks = 0.0f, .exp = 1.0f};
-	add_instance(instance_manager, object_info);
+	// add_parsed_object(instance_manager, object);
+	// add_instance(instance_manager, object_info);
 
-	object_info.type = sphere;
-	object_info.origin = (cl_float4) { .x = 0.0f, .y = 0.0f, .z = 3.0f, .w = 0.0f };
-	object_info.r = 1.0f;
-	object_info.r2 = 1.0f;
-	object_info.material = (t_material) { .type = matte,
+	object.type = sphere;
+	object.origin = (cl_float4) { .x = 0.0f, .y = 0.0f, .z = 20.0f, .w = 0.0f };
+	object.r = 1.0f;
+	object.r2 = 1.0f;
+	object.scaling = (cl_float3){.x = 1.0f, .y = 2.0f, .z = 1.0f};
+	object.material = zero_material;
+	object.material = (t_material) { .type = matte,
 		.color = { .r = 1.0f, .g = 0.0f, .b = 0.0f },
 		.kd = 0.8f, .ka = 0.1f, .ks = 0.1f, .exp = 100.0f };
-	add_instance(instance_manager, object_info);
+	add_parsed_object(instance_manager, object);
 
-	object_info.type = torus;
-	object_info.r = 1.0f;
-	object_info.r2 = 0.25f;
-	object_info.rotation = (cl_float3){.x = 0.0f, .y = 0.0f, .z = 0.0f};
-	object_info.direction = (cl_float4) { .x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f};
-	object_info.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f, .w = 0.0f};
-	object_info.material.type = phong;
-	object_info.material.ks = 0.1f;
-	object_info.material.exp = 10.0f;
-	object_info.material.color =
+	// add_instance(instance_manager, object_info);
+
+	object.type = cylinder;
+	object.origin = (cl_float4){.x = -3.0f, .y = 0.0f, .z = 2.0f, .w = 0.0f};
+	object.scaling = (cl_float3){ .x = 1.0f, .y = 4.0f, .z = 1.0f};
+	object.r = 1.0f;
+	object.material = (t_material){.type = phong,
+										.color = {.r = 1.0f, .g = 0.0f, .b = 0.0f},
+										.kd = 0.8f,
+										.ka = 0.1f,
+										.ks = 0.1f,
+										.exp = 100.0f};
+	// add_parsed_object(instance_manager, object);
+
+	// add_instance(instance_manager, object_info);
+
+	object.type = torus;
+	object.r = 1.0f;
+	object.r2 = 0.4f;
+	object.rotation = (cl_float3){.x = 0.0f, .y = 0.0f, .z = 0.0f};
+	object.direction = (cl_float4) { .x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f};
+	object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 3.0f, .w = 0.0f};
+	object.scaling = (cl_float3){ .x = 1.0f, .y = 1.0f, .z = 1.0f};
+	object.material.type = phong;
+	object.material.ks = 0.1f;
+	object.material.exp = 10.0f;
+	object.material.color =
 		(t_color){ .r = 0.0f, .g = (float)0xfa/0xff, .b = (float)0xaf/0xff };
-	add_instance(instance_manager, object_info);
+	add_parsed_object(instance_manager, object);
+
+	object.type = sphere;
+	object.r = 1.0f;
+	object.origin = (cl_float4){.x = 2.0f, .y = 4.0f, .z = 5.0f};
+	add_parsed_object(instance_manager, object);
+
+	object.type = sphere;
+	object.r = 1.0f;
+	object.scaling = (cl_float3){.x = 2.0f, .y = 0.5f, .z = 1.0f};
+	object.origin = (cl_float4){.x = 0.0f, .y = 2.0f, .z = 0.0f};
+	add_parsed_object(instance_manager, object);
+
+	object.scaling = (cl_float3){.x = 1.0f, .y = 1.0f, .z = 1.0f};
+
+	object.type = sphere;
+	object.r = 1.0f;
+	object.origin = (cl_float4){.x = -3.0f, .y = 2.0f, .z = 1.0f};
+	add_parsed_object(instance_manager, object);
+
+	object.type = sphere;
+	object.r = 2.0f;
+	object.origin = (cl_float4){.x = -2.0f, .y = 3.0f, .z = 6.0f};
+	add_parsed_object(instance_manager, object);
+
+	object.type = sphere;
+	object.r = 1.0f;
+	object.origin = (cl_float4){.x = -4.0f, .y = 2.0f, .z = 3.0f};
+	add_parsed_object(instance_manager, object);
+
+	object.type = sphere;
+	object.r = 1.0f;
+	object.origin = (cl_float4){.x = -6.0f, .y = 4.0f, .z = 3.0f};
+	add_parsed_object(instance_manager, object);
+
+	object.type = sphere;
+	object.r = 3.0f;
+	object.origin = (cl_float4){.x = -2.5f, .y = -2.0f, .z = 6.0f};
+	add_parsed_object(instance_manager, object);
+
+	object.type = sphere;
+	object.r = 2.0f;
+	object.origin = (cl_float4){.x = -1.0f, .y = 7.0f, .z = 3.0f};
+	add_parsed_object(instance_manager, object);
+
+	object.type = sphere;
+	object.r = 1.0f;
+	object.origin = (cl_float4){.x = -8.0f, .y = -3.0f, .z = 2.0f};
+	add_parsed_object(instance_manager, object);
 
 	//Освещение
 
 	scene->ambient_occluder.color = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
 	scene->ambient_occluder.ls = 0.01f;
 	scene->ambient_occluder.min_amount = (t_color){ .r = 0.0f, .g = 0.0f, .b = 0.0f };
-	scene->ambient_occluder.sampler_id = new_sampler(sampler_manager, jitter, NUM_SAMPLES, HEMISPHERE_SAMPLES);
+	scene->ambient_occluder.sampler_id = new_sampler(sampler_manager, pure_random, NUM_SAMPLES, HEMISPHERE_SAMPLES);
 
 	scene->ambient_light = (t_light){
 		.type = ambient,
@@ -393,231 +428,6 @@ void	init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	scene->lights[2].origin.y = 5.0f;
 
 	scene->lights[2].ls = 1.0f;
-
-#elif 0
-
-	scene->ambient_occluder.color.value = 0x00ffffff;
-	scene->ambient_occluder.ls = 0.15f;
-	scene->ambient_occluder.min_amount.value = 0.00f;
-	scene->ambient_occluder.sampler_id = new_sampler(sampler_manager, rand_jitter, NUM_SAMPLES, HEMISPHERE_SAMPLES);
-
-	scene->objects[0] = default_plane;
-
-	// scene->objects[0] = default_sphere;
-	scene->objects[0].origin.x = 0.0f;
-	scene->objects[0].origin.y = -3.0f;
-	scene->objects[0].origin.z = 0.0f;
-	scene->objects[0].r = 0.1f;
-	scene->objects[0].r2 = 0.01f;
-	scene->objects[0].material.color.value = 0x0000ff00;
-
-	// scene->objects[1] = default_sphere;
-	// scene->objects[1].origin.x = 10.0f;
-	// scene->objects[1].origin.y = 10.0f;
-	// scene->objects[1].origin.z = 0.0f;
-	// scene->objects[1].r = 10.0f;
-	// scene->objects[1].r2 = 100.0f;
-	// scene->objects[1].material.color.value = 0x003846b0;
-
-	scene->objects[1] = default_plane;
-	scene->objects[1].origin.x = 0.0f;
-	scene->objects[1].origin.y = 0.0f;
-	scene->objects[1].origin.z = 10.0f;
-	scene->objects[1].origin.w = 0.0f;
-	scene->objects[1].direction.x = 0.0f;
-	scene->objects[1].direction.y = 0.0f;
-	scene->objects[1].direction.z = 1.0f;
-	scene->objects[1].direction.w = 0.0f;
-	scene->objects[1].material.color.value = 0x00fa00af;
-
-	scene->objects[2] = default_plane;
-	scene->objects[2].origin.x = 3.0f;
-	scene->objects[2].origin.y = 0.0f;
-	scene->objects[2].origin.z = 0.0f;
-	scene->objects[2].origin.w = 0.0f;
-	scene->objects[2].direction.x = -0.86602540378f;
-	scene->objects[2].direction.y = 0.0f;
-	scene->objects[2].direction.z = 0.5f;
-	scene->objects[2].direction.w = 0.0f;
-	scene->objects[2].material.color.value = 0x0000afaf;
-
-	scene->objects[3] = default_plane;
-	scene->objects[3].origin.x = -3.0f;
-	scene->objects[3].origin.y = 0.0f;
-	scene->objects[3].origin.z = 0.0f;
-	scene->objects[3].origin.w = 0.0f;
-	scene->objects[3].direction.x = 0.86602540378f;
-	scene->objects[3].direction.y = 0.0f;
-	scene->objects[3].direction.z = 0.5f;
-	scene->objects[3].direction.w = 0.0f;
-	scene->objects[3].material.color.value = 0x00af0f00;
-
-	scene->objects[4] = default_sphere;
-	scene->objects[4].origin.x = 0.0f;
-	scene->objects[4].origin.y = 2.0f;
-	scene->objects[4].origin.z = 4.5f;
-	scene->objects[4].r = 1.0f;
-	scene->objects[4].r2 = 1.0f;
-	scene->objects[4].material.color.value = 0x003846b0;
-
-	scene->objects[5] = default_cylinder;
-	scene->objects[5].origin.x = 3.0f;
-	scene->objects[5].origin.y = 3.0f;
-	scene->objects[5].origin.z = 5.0f;
-	scene->objects[5].direction.x = 1.0f;
-	scene->objects[5].direction.y = 0.0f;
-	scene->objects[5].direction.z = 0.0f;
-	scene->objects[5].maxm = 5.0f;
-
-	scene->objects[6] = default_cone;
-	scene->objects[6].material.color.value = 0x00ffafff;
-	scene->objects[6].minm = -3.0f;
-	scene->objects[6].maxm = 3.0f;
-
-	scene->objects[7] = default_paraboloid;
-
-	scene->objects[8] = default_torus;
-	scene->objects[8].origin.x = 0.0f;
-	scene->objects[8].origin.y = 0.0f;
-	scene->objects[8].origin.z = 4.0f;
-	scene->objects[8].direction.x = 0.0f;
-	scene->objects[8].direction.y = 0.0;
-	scene->objects[8].direction.z = 1;
-	scene->objects[8].r = 1.0f;
-	scene->objects[8].r2 = 0.5f;
-	scene->objects[8].bounding_box.max.x =
-		scene->objects[8].origin.x + scene->objects[8].r + scene->objects[8].r2;
-	scene->objects[8].bounding_box.max.y =
-		scene->objects[8].origin.y + scene->objects[8].r + scene->objects[8].r2;
-	scene->objects[8].bounding_box.max.z =
-		scene->objects[8].origin.z + scene->objects[8].r + scene->objects[8].r2;
-	scene->objects[8].bounding_box.min.x =
-		scene->objects[8].origin.x - scene->objects[8].r - scene->objects[8].r2;
-	scene->objects[8].bounding_box.min.y =
-		scene->objects[8].origin.y - scene->objects[8].r - scene->objects[8].r2;
-	scene->objects[8].bounding_box.min.z =
-		scene->objects[8].origin.z - scene->objects[8].r - scene->objects[8].r2;
-
-	scene->objects[9] = default_box;
-	scene->objects[9].material.color.value = 0x00ffffff;
-	scene->objects[9].material.ka = 0.1f;
-	scene->objects[9].material.kd = 0.7f;
-	scene->objects[9].material.ks = 0.0f;
-
-	scene->objects[10] = default_disk;
-	scene->objects[10].material.color.value = 0x00aa0a;
-	scene->objects[10].material.ka = 0.0f,
-	scene->objects[10].material.kd = 0.5f,
-	scene->objects[10].material.ks = 0.0f,
-
-	scene->objects[11] = default_rectangle;
-	scene->objects[11].material.color.value = 0x000af0aa0;
-	scene->objects[11].material.type = phong;
-	scene->objects[11].material.ka = 0.2f,
-	scene->objects[11].material.kd = 0.7f,
-	scene->objects[11].material.ks = 0.2f,
-	scene->objects[11].material.exp = 1000.0f,
-
-	scene->triangles[0] = default_triangle;
-
-	scene->ambient_light = (t_light){
-		.type = ambient,
-		.ls = 1.0f,
-		.color = {
-			.value = 0x00ffffff}};
-	scene->lights[0] = default_point_light;
-
-	scene->lights[1] = default_directional_light;
-	scene->lights[1].ls = 0.0f;
-	scene->lights[1].origin.x = INFINITY;
-	scene->lights[1].origin.y = INFINITY;
-	scene->lights[1].origin.z = INFINITY;
-
-	scene->lights[2] = default_point_light;
-	scene->lights[2].origin.x = -2.0f;
-	scene->lights[2].origin.y = 5.0f;
-	scene->lights[2].ls = 0.0f;
-
-	//
-
-#else
-	// scene->camera.viewplane.pixel_size = 0.05;
-	// scene->camera.d = 40;
-	// scene->camera.f = 50;
-	// scene->camera.lens_radius = 5.0f;
-
-	scene->objects[0] = default_plane;
-	scene->objects[0].origin.x = 0.0f;
-	scene->objects[0].origin.y = 0.0f;
-	scene->objects[0].origin.z = 0.0f;
-	scene->objects[0].direction.x = 0.0f;
-	scene->objects[0].direction.y = 0.0f;
-	scene->objects[0].direction.z = 1.0f;
-	// scene->objects[0].direction.y = 0.999f;
-	// scene->objects[0].direction.z = sqrtf(1.0f - 0.999f * 0.999f);
-	scene->objects[0].material.color.value = 0x0000ff00;
-	scene->objects[0].material.ks = 0.00;
-	scene->objects[0].material.ka = 0.00;
-	scene->objects[0].material.exp = 10000;
-
-	scene->objects[1] = default_sphere;
-	scene->objects[1].origin.x = 0.0f;
-	scene->objects[1].origin.y = -10.0f;
-	scene->objects[1].origin.z = 50.0f;
-	scene->objects[1].r = 10;
-	scene->objects[1].r2 = 100;
-
-	scene->objects[2] = default_cylinder;
-	scene->objects[2].origin.x = 40.0f;
-	scene->objects[2].origin.y = -10.0f;
-	scene->objects[2].origin.z = 70.0f;
-	scene->objects[2].maxm = 15.0f;
-	scene->objects[2].r = 10.0f;
-	scene->objects[2].r2 = 100.0f;
-	scene->objects[2].material.color.value = 0x0026E600;
-
-	scene->objects[3] = default_plane;
-	scene->objects[3].origin.y = -100;
-	scene->objects[3].direction.y = 0.99f;
-	scene->objects[3].direction.z = -sqrtf(1.0f - 0.99f * 0.99f);
-
-	scene->objects[4] = default_sphere;
-	scene->objects[4].r = 10;
-	scene->objects[4].r2 = 100;
-	scene->objects[4].origin.x = -25.0f;
-	scene->objects[4].origin.y = -10.0f;
-	scene->objects[4].origin.z = 40.0f;
-	scene->objects[4].material.color.value = 0x00B00B69;
-
-	scene->nobjects = 5;
-
-	scene->lights[0] = default_point_light;
-	scene->lights[0].direction.x = -1.0f;
-	scene->lights[0].direction.y = 1.0f;
-	scene->lights[0].direction.z = 0.0f;
-	scene->lights[0].origin.x = 0.0f;
-	scene->lights[0].origin.y = 500.0f;
-	scene->lights[0].origin.z = 50.0f;
-	scene->lights[0].ls = 2.0f;
-
-	scene->lights[1] = default_point_light;
-	scene->lights[1].origin = default_camera.origin;
-	scene->lights[1].origin.z = 50.0f;
-	scene->lights[1].origin.y = -20.0f;
-	scene->lights[1].origin.x = 40.0f;
-	scene->lights[1].ls = 0.5f;
-
-	scene->nlights = 2;
-
-	scene->triangles[0] = default_triangle;
-
-	scene->ambient_light = (t_light){
-		.type = ambient,
-		.ls = 0.3f,
-		.color = {
-			.value = 0x00ffffff}};
-
-#endif
 }
 
 /**
@@ -634,4 +444,5 @@ void	read_data(t_scene *scene, t_sampler_manager *sampler_manager, char *scene_f
 	}
 	else
 		init_default_scene(scene, sampler_manager);
+	scene->bvh = build_bvh(scene);
 }

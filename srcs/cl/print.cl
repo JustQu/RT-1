@@ -96,26 +96,26 @@ void	print_instance(t_instance instance)
 
 void	print_object(t_obj object)
 {
-	printf("\t\tBounding box:\t(%f, %f, %f, %f)\n", object.bounding_box.min.x,
-													object.bounding_box.min.y,
-													object.bounding_box.min.z,
-													object.bounding_box.min.w);
-	printf("\t\t\t\t(%f, %f, %f, %f)\n", object.bounding_box.max.x,
-										object.bounding_box.max.y,
-										object.bounding_box.max.z,
-										object.bounding_box.max.w);
+	// printf("\t\tBounding box:\t(%f, %f, %f, %f)\n", object.bounding_box.min.x,
+	// 												object.bounding_box.min.y,
+	// 												object.bounding_box.min.z,
+	// 												object.bounding_box.min.w);
+	// printf("\t\t\t\t(%f, %f, %f, %f)\n", object.bounding_box.max.x,
+	// 									object.bounding_box.max.y,
+	// 									object.bounding_box.max.z,
+	// 									object.bounding_box.max.w);
 	printf("\t\tOrigin:\t\t(%f, %f, %f, %f)\n", object.origin.x,
 												object.origin.y,
 												object.origin.z,
 												object.origin.w);
-	printf("\t\tDirection:\t(%f, %f, %f, %f)\n", object.direction.x,
-												object.direction.y,
-												object.direction.z,
-												object.direction.w);
-	printf("\t\tDir2:\t\t(%f, %f, %f, %f)\n", object.dir2.x,
-											object.dir2.y,
-											object.dir2.z,
-											object.dir2.w);
+	// printf("\t\tDirection:\t(%f, %f, %f, %f)\n", object.direction.x,
+	// 											object.direction.y,
+	// 											object.direction.z,
+	// 											object.direction.w);
+	// printf("\t\tDir2:\t\t(%f, %f, %f, %f)\n", object.dir2.x,
+	// 										object.dir2.y,
+	// 										object.dir2.z,
+	// 										object.dir2.w);
 	printf("\t\tNormal:\t\t(%f, %f, %f, %f)\n", object.normal.x,
 												object.normal.y,
 												object.normal.z,

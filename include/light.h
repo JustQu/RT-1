@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 17:35:29 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/13 01:02:44 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/23 15:33:16 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@ enum	e_light_types
 	enviromental
 };
 
-#ifdef _WIN64
-//__declspec(align(4))
-#endif
 struct				s_light
 {
 	cl_float4		origin;
@@ -44,18 +41,15 @@ struct				s_light
 	cl_int			object_id; //for area lights
 };
 
-#ifdef _WIN64
-//__declspec(align(4))
-#endif
 struct				s_ambient_occluder
 {
 	cl_float4		u;
 	cl_float4		v;
 	cl_float4		w;
 	t_color			color;
+	t_color			min_amount;
 	cl_float		ls; //radiance scaling factor [0, inf)
 	cl_int			sampler_id;
-	t_color			min_amount;
 };
 
 #endif

@@ -1,7 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cl_rt.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/21 00:29:53 by dmelessa          #+#    #+#             */
+/*   Updated: 2020/09/23 23:31:54 by dmelessa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CL_RT_H
 # define CL_RT_H
-
-// #include "world.h"
 
 #define K_HUGE_VALUE 1e4f
 #define EPSILON 1e-5f
@@ -18,10 +28,16 @@ typedef struct s_shade_rec			t_shade_rec;
 
 typedef float16						t_matrix;
 
+typedef struct				s_kernel_buffer
+{
+	__global t_ray			*rays;
+	__global uchar4			*flags;
+}							t_kernel_buffer;
+
 typedef struct				s_instance_manager
 {
 	__constant t_instance	*instances;
-	__global t_obj *objects;
+	__global t_obj			*objects;
 	__constant t_triangle	*triangles;
 	__global t_matrix		*matrices;
 	int						ninstances;
@@ -30,10 +46,11 @@ typedef struct				s_instance_manager
 	int						nmatrices;
 }							t_instance_manager;
 
-struct s_scene
+struct						s_scene
 {
 	t_instance_manager		instance_manager;
 	__constant t_light		*lights;
+	__global t_bvh_node		*bvh;
 	int						nlights;
 	t_camera				camera;
 	t_light					ambient_light;
@@ -56,7 +73,6 @@ struct		s_ray
 
 struct		s_hit_information
 {
-	float4	local_hit_point;
 	float	t; //ray distance
 	float	m;
 	float	dv; //dot(ray.direction, object.direction)
@@ -66,16 +82,16 @@ struct		s_hit_information
 //TODO(dmelessa): change later
 struct			s_shade_rec
 {
-	t_hit_info	hit_info;	//hit info for calculating hit point and normal
 	t_ray		ray;			//for specular highlights
+	t_hit_info	hit_info;
 	float4		hit_point;		//world coordinates of hit point
-	float4		local_hit_point; //for attaching textures to objects
-	float4		normal;			//normal at hit point NOTE: maybe not needed here
+	float4		local_hit_point;//for attaching textures to objects
+	float4		normal;			//normal at hit point
+								//NOTE: maybe not needed here
 								// and we can use local variable
 	float4		direction;		//for area lights
 
 	int			id;
-	int			depth;			//recursion depth
 };
 
 float4 get_reflected_vector(float4 l, float4 n);
@@ -85,5 +101,13 @@ t_color area_light_shade(t_material material,
 						 t_sampler_manager sampler_manager,
 						 t_render_options render_options,
 						 uint2 *seed);
+
+t_instance get_instance(t_instance_manager instance_manager, int id);
+
+inline t_matrix get_instance_matrix(t_instance_manager instance_manager, t_instance instance);
+
+inline t_obj get_object_info(t_instance_manager instance_manager, t_instance instance);
+
+inline t_triangle get_triangle_info(t_instance_manager instance_manager, t_instance instance);
 
 #endif

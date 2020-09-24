@@ -4,6 +4,7 @@ void	init_scene(t_scene *scene,
 					__constant t_triangle *triangles, int ntriangles,
 					__global t_matrix *matrices, int nmatrices,
 					__constant t_light *lights, int nlights,
+					__global t_bvh_node *bvh,
 					t_camera camera, t_light ambient_light,
 					t_ambient_occluder ambient_occluder)
 {
@@ -17,6 +18,7 @@ void	init_scene(t_scene *scene,
 	scene->instance_manager.nmatrices = nmatrices;
 	scene->lights = lights;
 	scene->nlights = nlights;
+	scene->bvh = bvh;
 	scene->camera = camera;
 	scene->ambient_light = ambient_light;
 	scene->ambient_occluder = ambient_occluder;
@@ -41,7 +43,8 @@ void	init_sampler_manager(t_sampler_manager *sampler_manager,
 ** В дальнейшем когда будут сделаны материалы / преломления / отражения можно будет еще
 ** больше разбить кернел чтобы избежать дивергенции кода.
 */												//Pos of argument on host
-__kernel void	main(__global t_color *image,	//0
+__kernel  __attribute__((work_group_size_hint(32, 1, 1)))
+void main_kernel(__global t_color *image,	//0
 				int step,						//1
 
 				__constant t_instance *instances, int ninstances, //2, 3
@@ -53,12 +56,14 @@ __kernel void	main(__global t_color *image,	//0
 				t_light ambient_light,	//13
 				t_ambient_occluder ambient_occluder, //14
 
-				t_render_options options, //15
+				__global t_bvh_node	*bvh, //15
 
-				__global t_sampler *samplers, //16
-				__global float2 *samples, //17
-				__global float2 *disk_samples,	//18
-				__global float3 *hemisphere_samples) //19
+				t_render_options options, //16
+
+				__global t_sampler *samplers, //17
+				__global float2 *samples, //18
+				__global float2 *disk_samples,	//19
+				__global float3 *hemisphere_samples) //20
 {
 	int					global_id;
 	int					x;
@@ -72,20 +77,23 @@ __kernel void	main(__global t_color *image,	//0
 	t_sampler			camera_sampler;
 	t_sampler			ao_sampler;
 
-	/* Инициализируем нужные перменные и структуры */
+	/* Инициализируем нужные переменные и структуры */
 	global_id = get_global_id(0);
 	x = global_id % camera.viewplane.width;
 	y = global_id / camera.viewplane.width;
 	seed.x = global_id;
 	seed.y = get_local_id(0) + get_group_id(0);
 	seed.y = random(&seed);
-	init_scene(&scene, instances, ninstances, objects, nobjects,
+
+	init_scene(&scene,
+				instances, ninstances, objects, nobjects,
 				triangles, ntriangles, matrices, nmatrices,
-				lights, nlights, camera, ambient_light, ambient_occluder);
+				lights, nlights, bvh,
+				camera, ambient_light, ambient_occluder);
 
 	init_sampler_manager(&sampler_manager, samplers, samples, disk_samples, hemisphere_samples);
 
-	/* получаем семплер дляантиалиасинга и текущий шаг. */
+	/* получаем семплер для антиалиасинга и текущий шаг. */
 	ao_sampler = get_sampler(sampler_manager, options.sampler_id);
 	ao_sampler.count = global_id * ao_sampler.num_samples + step;
 
@@ -111,7 +119,7 @@ __kernel void	main(__global t_color *image,	//0
 			camera_sampler.jump = (random(&seed) % camera_sampler.num_sets) * camera_sampler.num_samples;
 	}
 
-	if (true && global_id == 0 && step == 0)
+	if (false && global_id == 0 && step == 0)
 	{
 		printf("GPU:\nobj %u\n", sizeof(t_obj));
 		printf("instance %u\n", sizeof(t_instance));
@@ -123,7 +131,7 @@ __kernel void	main(__global t_color *image,	//0
 	}
 
 	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed);
-	color = ray_trace(ray, scene, options, sampler_manager, &seed);
+	color = ray_trace(ray, scene, options, sampler_manager, &seed);;;;;
 
 	image[global_id] = color_sum(image[global_id], color);
 }

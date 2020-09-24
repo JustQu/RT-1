@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:46:35 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/13 14:38:09 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/20 22:41:48 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "types.h"
 
 typedef enum e_camera_type	t_camera_type;
-typedef struct s_camera		t_camera;
+typedef struct s_camera		t_camera; //160
 typedef struct s_viewplane	t_viewplane;
 
 /**

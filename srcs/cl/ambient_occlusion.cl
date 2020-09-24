@@ -15,8 +15,8 @@ bool	in_shadow(t_ray shadow_ray, t_scene scene)
 
 	for (int i = 0; i < scene.instance_manager.ninstances; i++)
 	{
-		if (instance_hit(scene.instance_manager, shadow_ray, i, &ht))
-			return (true);
+		// if (instance_hit(scene.instance_manager, shadow_ray, i, &ht))
+			// return (true);
 	}
 	return false;
 }

@@ -5,7 +5,7 @@ float4	get_sphere_normal(float4 point, t_obj sphere)
 
 float4	get_plane_normal(t_obj plane, t_hit_info hit_info)
 {
-	// return (float4)(0.0f, 1.0f, 0.0f, 0.0f);
+	return (float4)(0.0f, 1.0f, 0.0f, 0.0f);
 	if (hit_info.dv < 0.0f)
 		return (plane.direction);
 	else
@@ -14,6 +14,8 @@ float4	get_plane_normal(t_obj plane, t_hit_info hit_info)
 
 float4	get_cylinder_normal(float4 point, t_obj cylinder, t_hit_info hit_info)
 {
+	return (normalize(point - cylinder.origin
+		- dot(cylinder.direction, (point - cylinder.origin)) * cylinder.direction));
 	float m = hit_info.dv * hit_info.t + hit_info.xv;
 	return (normalize(point - cylinder.origin - cylinder.direction * m));
 }
@@ -50,15 +52,6 @@ float4	get_torus_normal(float4 point, t_obj torus, t_hit_info hit_info)
 		4.0f * point.y * (s - p + 2.0f * torus.r * torus.r),
 		4.0f * point.z * (s - p),
 		0.0f));
-	// float	k;
-	// float	m;
-	// float4	A;
-
-	// // point = 1.0001f * point;
-	// k = dot(point - torus.origin, torus.direction);
-	// A = point - k * torus.direction;
-	// m = sqrt(torus.r2 * torus.r2 - k * k);
-	// return (point - A - (torus.origin - A) * (m / (torus.r + m)));
 }
 
 float4	get_box_normal(float4 point, t_obj box, t_hit_info hit_info)
@@ -137,22 +130,22 @@ float4	transform_normal(float4 normal, t_matrix matrix)
 		0.0f);
 }
 
-float4	get_instance_normal(t_instance_manager instance_manager, t_shade_rec shade_rec)
+float4	get_instance_normal(t_instance_manager instance_mngr, t_shade_rec shade_rec)
 {
 	t_instance	instance;
 	float4		normal;
 	t_matrix	matrix;
 
-	instance = instance_manager.instances[shade_rec.id];
+	instance = instance_mngr.instances[shade_rec.id];
 	if (instance.type == triangle)
 		normal = get_triangle_normal(
-					instance_manager.triangles[instance.object_id]);
+					instance_mngr.triangles[instance.object_id]);
 	else
 		normal = get_object_normal(shade_rec.hit_point,
-			instance_manager.objects[instance.object_id],
+			instance_mngr.objects[instance.object_id],
 			shade_rec.hit_info,
-			instance_manager.instances[shade_rec.id].type);
-	matrix = instance_manager.matrices[instance_manager.instances[shade_rec.id].matrix_id];
+			instance_mngr.instances[shade_rec.id].type);
+	matrix = instance_mngr.matrices[instance_mngr.instances[shade_rec.id].matrix_id];
 	normal = transform_normal(normal, matrix);
 	// printf("Normal %f %f %f %f", normal.x, normal.y, normal.z, normal.w);
 

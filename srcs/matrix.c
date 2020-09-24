@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:23:02 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/13 20:00:34 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/23 16:14:12 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,16 @@ t_matrix get_inverse_z_rotation_matrix(float angle)
 		.sC = 0.0f, .sD = 0.0f, .sE = 0.0f, .sF = 1.0f};
 }
 
+t_matrix	get_rotation_matrix(cl_float3 v)
+{
+	t_matrix	matrix;
+
+	matrix = x_rotate(v.x);
+	matrix = mul_matrix(matrix, y_rotate(v.y));
+	matrix = mul_matrix(matrix, z_rotate(v.z));
+	return (matrix);
+}
+
 /**
 ** @brief Get the inverse rotation matrix object
 **
@@ -275,13 +285,24 @@ t_matrix	get_inverse_rotation_matrix(cl_float3 v)
 	return (matrix);
 }
 
+t_matrix	get_translation_matrix(cl_float3 v)
+{
+	t_matrix	matrix;
+
+	matrix = g_default_matrix;
+	matrix.s3 = v.x;
+	matrix.s7 = v.y;
+	matrix.sB = v.z;
+	return (matrix);
+}
+
 /**
 ** @brief Get the inverse translation matrix object
 **
 ** @param v
 ** @return ** t_matrix
 */
-t_matrix get_inverse_translation_matrix(cl_float3 v)
+t_matrix	get_inverse_translation_matrix(cl_float3 v)
 {
 	t_matrix matrix;
 
@@ -290,6 +311,17 @@ t_matrix get_inverse_translation_matrix(cl_float3 v)
 	matrix.s7 = -v.y;
 	matrix.sB = -v.z;
 	return (matrix);
+}
+
+t_matrix	get_scale_matrix(cl_float3 v)
+{
+	t_matrix	matrix;
+
+	return (t_matrix){
+		.s0 = v.x, .s1 = 0.0f, .s2 = 0.0f, .s3 = 0.0f,
+		.s4 = 0.0f, .s5 = v.y, .s6 = 0.0f, .s7 = 0.0f,
+		.s8 = 0.0f, .s9 = 0.0f, .sA = v.z, .sB = 0.0f,
+		.sC = 0.0f, .sD = 0.0f, .sE = 0.0f, .sF = 1.0f};
 }
 
 /**

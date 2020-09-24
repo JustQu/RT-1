@@ -3,6 +3,43 @@
 
 bool	bbox_intersection(t_ray ray, t_bbox bbox)
 {
+	float tmin = (bbox.min.x - ray.origin.x) / ray.direction.x;
+	float tmax = (bbox.max.x - ray.origin.x) / ray.direction.x;
+
+	if (tmin > tmax) swap(&tmin, &tmax);
+
+	float tymin = (bbox.min.y - ray.origin.y) / ray.direction.y;
+	float tymax = (bbox.max.y - ray.origin.y) / ray.direction.y;
+
+	if (tymin > tymax) swap(&tymin, &tymax);
+
+	if ((tmin > tymax) || (tymin > tmax))
+		return false;
+
+	if (tymin > tmin)
+		tmin = tymin;
+
+	if (tymax < tmax)
+		tmax = tymax;
+
+	float tzmin = (bbox.min.z - ray.origin.z) / ray.direction.z;
+    float tzmax = (bbox.max.z - ray.origin.z) / ray.direction.z;
+
+    if (tzmin > tzmax) swap(&tzmin, &tzmax);
+
+    if ((tmin > tzmax) || (tzmin > tmax))
+        return false;
+
+    if (tzmin > tmin)
+        tmin = tzmin;
+
+    if (tzmax < tmax)
+        tmax = tzmax;
+
+    return true;
+
+
+
 	float ox = ray.origin.x;
 	float oy = ray.origin.y;
 	float oz = ray.origin.z;
@@ -23,7 +60,7 @@ bool	bbox_intersection(t_ray ray, t_bbox bbox)
 		tx_min = (bbox.max.x - ox) * a;
 		tx_max = (bbox.min.x - ox) * a;
 	}
-	float b = 1.0 / dy;
+	float b = 1.0f / dy;
 	if (b >= 0.0f)
 	{
 		ty_min = (bbox.min.y - oy) * b;
@@ -35,7 +72,7 @@ bool	bbox_intersection(t_ray ray, t_bbox bbox)
 		ty_max = (bbox.min.y - oy) * b;
 	}
 
-	float c = 1.0 / dz;
+	float c = 1.0f / dz;
 	if (c >= 0.0f)
 	{
 		tz_min = (bbox.min.z - oz) * c;
@@ -62,7 +99,7 @@ bool	bbox_intersection(t_ray ray, t_bbox bbox)
 	if (tz_max < t1)
 		t1 = tz_max;
 
-	return (t0 < t1 && t1 > 1e-6);
+	return (t0 < t1 && t1 > 0.0f);
 }
 
 bool	box_intersection(t_ray ray, t_obj box, t_hit_info *hit_info)
@@ -80,7 +117,7 @@ bool	box_intersection(t_ray ray, t_obj box, t_hit_info *hit_info)
 	float tx_max, ty_max, tz_max;
 	float a = 1.0f / dx;
 
-	t_bbox bbox = box.bounding_box;
+	t_bbox bbox; /* = box.bounding_box; */
 
 	if (a >= 0.0f)
 	{
@@ -92,7 +129,7 @@ bool	box_intersection(t_ray ray, t_obj box, t_hit_info *hit_info)
 		tx_min = (bbox.max.x - ox) * a;
 		tx_max = (bbox.min.x - ox) * a;
 	}
-	float b = 1.0 / dy;
+	float b = 1.0f / dy;
 	if (b >= 0.0f)
 	{
 		ty_min = (bbox.min.y - oy) * b;
@@ -104,7 +141,7 @@ bool	box_intersection(t_ray ray, t_obj box, t_hit_info *hit_info)
 		ty_max = (bbox.min.y - oy) * b;
 	}
 
-	float c = 1.0 / dz;
+	float c = 1.0f / dz;
 	if (c >= 0.0f)
 	{
 		tz_min = (bbox.min.z - oz) * c;
@@ -168,24 +205,23 @@ bool	box_intersection(t_ray ray, t_obj box, t_hit_info *hit_info)
 
 bool	generic_sphere_instersection(t_ray ray, t_obj sphere, t_hit_info *hit_info)
 {
-	float	tca = dot(-ray.origin, ray.direction); //1 + 4
-	if (tca < 0.0f)
-		return false;
+	float4 L = ray.origin;
+	float a = dot(ray.direction, ray.direction);
+	float b = 2.0f * dot(ray.direction, L); //b/2
+	float c = dot(L, L) - 1.0f;
+	float disc = b * b - 4.0f * a * c; // DISC = (b/2)^2-ac
 
-	float	d2 = dot(-ray.origin, -ray.origin) - tca * tca; //5 + 4 + 1 + 1
-	if (d2 > 1.0f) //r^2 should be precomputed
+	if (disc < 0.0f)
 		return false;
-
-	float	thc = sqrt(1.0f - d2); // 11 + 6
-	float	t = tca - thc; // 18
-	if (t < 0.0f)
+	disc = sqrt(disc);
+	hit_info->t = (-b - disc) / (2.0f * a);
+	if (hit_info->t < 0.0f)
 	{
-		t = tca + thc; //19
-		if (t < 0.0f)
+		hit_info->t = (-b + disc) / (2.0f * a);
+		if (hit_info->t < 0.0f)
 			return false;
 	}
-	hit_info->t = t;
-	return (true);
+	return true;
 }
 
 bool	sphere_intersection(t_ray ray, t_obj sphere, t_hit_info *hit_info)
@@ -358,13 +394,17 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 	float4	x;
 	float	a, b, c, dv, xv, disc;
 
-	x = ray.origin - cylinder.origin;
-	dv = dot(ray.direction, cylinder.direction);
-	xv = dot(x, cylinder.direction);
-	a = 1.0f - dv * dv; // 1 if ray direction is normalized else dot(d,d)
+	x = ray.origin;
+	dv = dot(ray.direction, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
+	xv = dot(x, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
+	a = dot(ray.direction, ray.direction) - dv * dv;
 	b = 2.0f * (dot(ray.direction, x) - dv * xv);
-	c = dot(x, x) - xv * xv - cylinder.r2;
+	c = dot(x, x) - xv * xv - 1.0f;
 	disc = b * b - 4.0f * a * c;
+	// a = ray.direction.x * ray.direction.x + ray.direction.z * ray.direction.z;
+	// b = 2.0f * (ray.origin.x * ray.direction.x + ray.origin.z *ray.direction.z);
+	// c = ray.origin.x * ray.origin.x + ray.origin.x * ray.origin.z - 1.0f;
+	// disc = b * b - 4.0f * a * c;
 	if (disc >= EPSILON)
 	{
 		a *= 2.0f;
@@ -389,15 +429,11 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 				if (hit_info->m >= cylinder.minm + EPSILON &&
 					hit_info->m <= cylinder.maxm)
 				{
-					hit_info->dv = dv;
-					hit_info->xv = xv;
 					return true;
 				}
 			}
 			else
 			{
-				hit_info->dv = dv;
-				hit_info->xv = xv;
 				return true;
 			}
 		}
@@ -506,8 +542,6 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 
  bool	torus_intersecion(t_ray ray, t_obj torus, t_hit_info *hit_info)
 {
-	// if (!bbox_intersection(ray, torus.bounding_box))
-		// return false;
 	double	coeffs[5];
 	double	roots[4];
 	float4	x;
@@ -518,8 +552,8 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 	m = dot(ray.direction, ray.direction);
 	n = dot(ray.direction, x);
 	o = dot(x, x);
-	p = dot(ray.direction, torus.direction);
-	q = dot(x, torus.direction);
+	p = dot(ray.direction,(float4)(0.0f, 1.0f, 0.0f, 0.0f));
+	q = dot(x,(float4)(0.0f, 1.0f, 0.0f, 0.0f));
 	r2 = torus.r2 * torus.r2;
 	R2 = torus.r * torus.r;
 
@@ -527,7 +561,7 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 	coeffs[3] = 4.0f * n * m; //b
 	coeffs[2] = 4.0f * n * n + 2.0f * m * o - 2.0f * (R2 + r2) * m + 4.0f * R2 * p * p;
 	coeffs[1] = 4.0f * n * o - 4.0f * (R2 + r2) * n + 8.0f * R2 * p * q;
-	coeffs[0] = o * o - 2.0f * (R2 + r2) * o + 4 * R2 * q * q + (R2 - r2) * (R2 - r2);
+	coeffs[0] = o * o - 2.0f * (R2 + r2) * o + 4.0f * R2 * q * q + (R2 - r2) * (R2 - r2);
 	num_real_roots = SolveQuartic(coeffs, roots);
 	bool	intersect = false;
 	float	t;
@@ -547,8 +581,6 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 			}
 		}
 	}
-	if (!intersect)
-		return false;
 	hit_info->t = t;
 	return (intersect);
 }
@@ -589,7 +621,7 @@ bool	is_intersect(t_ray ray, t_obj obj, t_hit_info *hit_info, t_type type)
 	else if (type == plane)
 	{
 		return (generic_plane_intersection(ray, hit_info));
-		return (plane_intersection(ray, obj, hit_info));
+		// return (plane_intersection(ray, obj, hit_info));
 	}
 	else if (type == cylinder)
 	{
@@ -631,21 +663,17 @@ t_ray	transform_ray(t_ray ray, t_matrix transformation_matrix)
 	return (inv_ray);
 }
 
-bool	instance_hit(t_instance_manager instance_manager, t_ray ray, int id, t_hit_info *hit_info)
+bool	instance_hit(t_instance_manager instance_mngr, t_ray ray, t_hit_info *hit_info, t_instance instance)
 {
-	t_instance	instance;
+	t_obj	object = instance_mngr.objects[instance.object_id];
+	ray = transform_ray(ray, instance_mngr.matrices[instance.matrix_id]);
 
-	instance = instance_manager.instances[id];
-	// if (instance.matrix_id > -1)
-	// {
-		ray = transform_ray(ray, instance_manager.matrices[instance.matrix_id]);
-	// }
 	if (instance.type == triangle)
 		return (triangle_intersection(ray,
-							instance_manager.triangles[instance.object_id],
-							hit_info));
+									instance_mngr.triangles[instance.object_id],
+									hit_info));
 	else
 		return (is_intersect(ray,
-							instance_manager.objects[instance.object_id],
-							hit_info, instance.type));
+							object, hit_info,
+							instance.type));;
 }

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 19:36:22 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/14 16:39:28 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/23 15:36:32 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,14 @@
 # include "sampler.h"
 # include "color.h"
 # include "instance.h"
+# include "bvh.h"
 
 # define DEFAULT_WIDTH 1200
 # define DEFAULT_HEIGHT 600
-# define WORK_GROUP_SIZE 128
+# define WORK_GROUP_SIZE 32
 
 typedef struct s_render_options		t_render_options;
 
-#ifdef _WIN64
-__declspec(align(4))
-# endif
 struct				s_render_options
 {
 	t_sampler		ambient_occluder_sampler;
@@ -49,10 +47,20 @@ struct				s_render_options
 
 #endif
 
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cl_rt.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/21 00:29:53 by dmelessa          #+#    #+#             */
+/*   Updated: 2020/09/23 23:31:54 by dmelessa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CL_RT_H
 # define CL_RT_H
-
-// #include "world.h"
 
 #define K_HUGE_VALUE 1e4f
 #define EPSILON 1e-5f
@@ -69,10 +77,16 @@ typedef struct s_shade_rec			t_shade_rec;
 
 typedef float16						t_matrix;
 
+typedef struct				s_kernel_buffer
+{
+	__global t_ray			*rays;
+	__global uchar4			*flags;
+}							t_kernel_buffer;
+
 typedef struct				s_instance_manager
 {
 	__constant t_instance	*instances;
-	__global t_obj *objects;
+	__global t_obj			*objects;
 	__constant t_triangle	*triangles;
 	__global t_matrix		*matrices;
 	int						ninstances;
@@ -81,10 +95,11 @@ typedef struct				s_instance_manager
 	int						nmatrices;
 }							t_instance_manager;
 
-struct s_scene
+struct						s_scene
 {
 	t_instance_manager		instance_manager;
 	__constant t_light		*lights;
+	__global t_bvh_node		*bvh;
 	int						nlights;
 	t_camera				camera;
 	t_light					ambient_light;
@@ -107,7 +122,6 @@ struct		s_ray
 
 struct		s_hit_information
 {
-	float4	local_hit_point;
 	float	t; //ray distance
 	float	m;
 	float	dv; //dot(ray.direction, object.direction)
@@ -117,16 +131,16 @@ struct		s_hit_information
 //TODO(dmelessa): change later
 struct			s_shade_rec
 {
-	t_hit_info	hit_info;	//hit info for calculating hit point and normal
 	t_ray		ray;			//for specular highlights
+	t_hit_info	hit_info;
 	float4		hit_point;		//world coordinates of hit point
-	float4		local_hit_point; //for attaching textures to objects
-	float4		normal;			//normal at hit point NOTE: maybe not needed here
+	float4		local_hit_point;//for attaching textures to objects
+	float4		normal;			//normal at hit point
+								//NOTE: maybe not needed here
 								// and we can use local variable
 	float4		direction;		//for area lights
 
 	int			id;
-	int			depth;			//recursion depth
 };
 
 float4 get_reflected_vector(float4 l, float4 n);
@@ -136,6 +150,14 @@ t_color area_light_shade(t_material material,
 						 t_sampler_manager sampler_manager,
 						 t_render_options render_options,
 						 uint2 *seed);
+
+t_instance get_instance(t_instance_manager instance_manager, int id);
+
+inline t_matrix get_instance_matrix(t_instance_manager instance_manager, t_instance instance);
+
+inline t_obj get_object_info(t_instance_manager instance_manager, t_instance instance);
+
+inline t_triangle get_triangle_info(t_instance_manager instance_manager, t_instance instance);
 
 #endif
 
@@ -246,26 +268,26 @@ void	print_instance(t_instance instance)
 
 void	print_object(t_obj object)
 {
-	printf("\t\tBounding box:\t(%f, %f, %f, %f)\n", object.bounding_box.min.x,
-													object.bounding_box.min.y,
-													object.bounding_box.min.z,
-													object.bounding_box.min.w);
-	printf("\t\t\t\t(%f, %f, %f, %f)\n", object.bounding_box.max.x,
-										object.bounding_box.max.y,
-										object.bounding_box.max.z,
-										object.bounding_box.max.w);
+	// printf("\t\tBounding box:\t(%f, %f, %f, %f)\n", object.bounding_box.min.x,
+	// 												object.bounding_box.min.y,
+	// 												object.bounding_box.min.z,
+	// 												object.bounding_box.min.w);
+	// printf("\t\t\t\t(%f, %f, %f, %f)\n", object.bounding_box.max.x,
+	// 									object.bounding_box.max.y,
+	// 									object.bounding_box.max.z,
+	// 									object.bounding_box.max.w);
 	printf("\t\tOrigin:\t\t(%f, %f, %f, %f)\n", object.origin.x,
 												object.origin.y,
 												object.origin.z,
 												object.origin.w);
-	printf("\t\tDirection:\t(%f, %f, %f, %f)\n", object.direction.x,
-												object.direction.y,
-												object.direction.z,
-												object.direction.w);
-	printf("\t\tDir2:\t\t(%f, %f, %f, %f)\n", object.dir2.x,
-											object.dir2.y,
-											object.dir2.z,
-											object.dir2.w);
+	// printf("\t\tDirection:\t(%f, %f, %f, %f)\n", object.direction.x,
+	// 											object.direction.y,
+	// 											object.direction.z,
+	// 											object.direction.w);
+	// printf("\t\tDir2:\t\t(%f, %f, %f, %f)\n", object.dir2.x,
+	// 										object.dir2.y,
+	// 										object.dir2.z,
+	// 										object.dir2.w);
 	printf("\t\tNormal:\t\t(%f, %f, %f, %f)\n", object.normal.x,
 												object.normal.y,
 												object.normal.z,
@@ -348,9 +370,9 @@ void	print_all(t_scene scene)
 #define EQN_EPS 1e-9
 #define IsZero(x) ((x) > -EQN_EPS && (x) < EQN_EPS)
 
-int SolveQuadric(double c[3], double s[2])
+int SolveQuadric(float c[3], float s[2])
 {
-	double p, q, D;
+	float p, q, D;
 
 	/* normal form: x^2 + px + q = 0 */
 
@@ -370,7 +392,7 @@ int SolveQuadric(double c[3], double s[2])
 	}
 	else /* if (D > 0) */
 	{
-		double sqrt_D = sqrt(D);
+		float sqrt_D = sqrt(D);
 
 		s[0] = sqrt_D - p;
 		s[1] = -sqrt_D - p;
@@ -378,13 +400,13 @@ int SolveQuadric(double c[3], double s[2])
 	}
 }
 
-int SolveCubic(double c[4], double s[3])
+int SolveCubic(float c[4], float s[3])
 {
 	int i, num;
-	double sub;
-	double A, B, C;
-	double sq_A, p, q;
-	double cb_p, D;
+	float sub;
+	float A, B, C;
+	float sq_A, p, q;
+	float cb_p, D;
 
 	/* normal form: x^3 + Ax^2 + Bx + C = 0 */
 
@@ -411,9 +433,9 @@ int SolveCubic(double c[4], double s[3])
 			s[0] = 0;
 			num = 1;
 		}
-		else /* one single and one double solution */
+		else /* one single and one float solution */
 		{
-			double u = cbrt(-q);
+			float u = cbrt(-q);
 			s[0] = 2 * u;
 			s[1] = -u;
 			num = 2;
@@ -421,8 +443,8 @@ int SolveCubic(double c[4], double s[3])
 	}
 	else if (D < 0) /* Casus irreducibilis: three real solutions */
 	{
-		double phi = 1.0 / 3 * acos(-q / sqrt(-cb_p));
-		double t = 2 * sqrt(-p);
+		float phi = 1.0 / 3 * acos(-q / sqrt(-cb_p));
+		float t = 2 * sqrt(-p);
 
 		s[0] = t * cos(phi);
 		s[1] = -t * cos(phi + M_PI / 3);
@@ -431,9 +453,9 @@ int SolveCubic(double c[4], double s[3])
 	}
 	else /* one real solution */
 	{
-		double sqrt_D = sqrt(D);
-		double u = cbrt(sqrt_D - q);
-		double v = -cbrt(sqrt_D + q);
+		float sqrt_D = sqrt(D);
+		float u = cbrt(sqrt_D - q);
+		float v = -cbrt(sqrt_D + q);
 
 		s[0] = u + v;
 		num = 1;
@@ -449,12 +471,12 @@ int SolveCubic(double c[4], double s[3])
 	return num;
 }
 
-int SolveQuartic(double c[5], double s[4])
+int SolveQuartic(float c[5], float s[4])
 {
-	double coeffs[4];
-	double z, u, v, sub;
-	double A, B, C, D;
-	double sq_A, p, q, r;
+	float coeffs[4];
+	float z, u, v, sub;
+	float A, B, C, D;
+	float sq_A, p, q, r;
 	int i, num;
 
 	/* normal form: x^4 + Ax^3 + Bx^2 + Cx + D = 0 */
@@ -610,7 +632,7 @@ float2	sample_unit_square(t_sampler *sampler, __global float2 *samples, uint2 *s
 	if (sampler->count % sampler->num_samples == 0) // ?????? ?????? ???????
 		sampler->jump = (random(seed) % sampler->num_sets) * sampler->num_samples;
 
-	return ((samples + sampler->offset)[sampler->jump + sampler->count++ % sampler->num_samples]);
+	return ((samples + sampler->offset)[sampler->jump +  (random(seed) + sampler->count++) % sampler->num_samples]);
 
 	// return (samples[sampler->jump + sampler->shuffled_indices[sampler->jump + sampler->count++ % sampler->num_samples]]);
 }
@@ -622,6 +644,8 @@ float2	sample_unit_disk(t_sampler *sampler, __global float2 *disk_samples, uint2
 {
 	if (sampler->count % sampler->num_samples == 0)
 		sampler->jump = (random(seed) % sampler->num_sets) * sampler->num_samples;
+
+	return ((disk_samples + sampler->offset)[sampler->jump + (random(seed) + sampler->count++) % sampler->num_samples]);;
 
 	return ((disk_samples + sampler->offset)[sampler->jump + sampler->count++ % sampler->num_samples]);
 }
@@ -793,6 +817,43 @@ t_ray cast_camera_ray(t_camera camera, float x, float y, t_sampler_manager sampl
 
 bool	bbox_intersection(t_ray ray, t_bbox bbox)
 {
+	float tmin = (bbox.min.x - ray.origin.x) / ray.direction.x;
+	float tmax = (bbox.max.x - ray.origin.x) / ray.direction.x;
+
+	if (tmin > tmax) swap(&tmin, &tmax);
+
+	float tymin = (bbox.min.y - ray.origin.y) / ray.direction.y;
+	float tymax = (bbox.max.y - ray.origin.y) / ray.direction.y;
+
+	if (tymin > tymax) swap(&tymin, &tymax);
+
+	if ((tmin > tymax) || (tymin > tmax))
+		return false;
+
+	if (tymin > tmin)
+		tmin = tymin;
+
+	if (tymax < tmax)
+		tmax = tymax;
+
+	float tzmin = (bbox.min.z - ray.origin.z) / ray.direction.z;
+    float tzmax = (bbox.max.z - ray.origin.z) / ray.direction.z;
+
+    if (tzmin > tzmax) swap(&tzmin, &tzmax);
+
+    if ((tmin > tzmax) || (tzmin > tmax))
+        return false;
+
+    if (tzmin > tmin)
+        tmin = tzmin;
+
+    if (tzmax < tmax)
+        tmax = tzmax;
+
+    return true;
+
+
+
 	float ox = ray.origin.x;
 	float oy = ray.origin.y;
 	float oz = ray.origin.z;
@@ -813,7 +874,7 @@ bool	bbox_intersection(t_ray ray, t_bbox bbox)
 		tx_min = (bbox.max.x - ox) * a;
 		tx_max = (bbox.min.x - ox) * a;
 	}
-	float b = 1.0 / dy;
+	float b = 1.0f / dy;
 	if (b >= 0.0f)
 	{
 		ty_min = (bbox.min.y - oy) * b;
@@ -825,7 +886,7 @@ bool	bbox_intersection(t_ray ray, t_bbox bbox)
 		ty_max = (bbox.min.y - oy) * b;
 	}
 
-	float c = 1.0 / dz;
+	float c = 1.0f / dz;
 	if (c >= 0.0f)
 	{
 		tz_min = (bbox.min.z - oz) * c;
@@ -852,7 +913,7 @@ bool	bbox_intersection(t_ray ray, t_bbox bbox)
 	if (tz_max < t1)
 		t1 = tz_max;
 
-	return (t0 < t1 && t1 > 1e-6);
+	return (t0 < t1 && t1 > 0.0f);
 }
 
 bool	box_intersection(t_ray ray, t_obj box, t_hit_info *hit_info)
@@ -870,7 +931,7 @@ bool	box_intersection(t_ray ray, t_obj box, t_hit_info *hit_info)
 	float tx_max, ty_max, tz_max;
 	float a = 1.0f / dx;
 
-	t_bbox bbox = box.bounding_box;
+	t_bbox bbox; /* = box.bounding_box; */
 
 	if (a >= 0.0f)
 	{
@@ -882,7 +943,7 @@ bool	box_intersection(t_ray ray, t_obj box, t_hit_info *hit_info)
 		tx_min = (bbox.max.x - ox) * a;
 		tx_max = (bbox.min.x - ox) * a;
 	}
-	float b = 1.0 / dy;
+	float b = 1.0f / dy;
 	if (b >= 0.0f)
 	{
 		ty_min = (bbox.min.y - oy) * b;
@@ -894,7 +955,7 @@ bool	box_intersection(t_ray ray, t_obj box, t_hit_info *hit_info)
 		ty_max = (bbox.min.y - oy) * b;
 	}
 
-	float c = 1.0 / dz;
+	float c = 1.0f / dz;
 	if (c >= 0.0f)
 	{
 		tz_min = (bbox.min.z - oz) * c;
@@ -958,24 +1019,23 @@ bool	box_intersection(t_ray ray, t_obj box, t_hit_info *hit_info)
 
 bool	generic_sphere_instersection(t_ray ray, t_obj sphere, t_hit_info *hit_info)
 {
-	float	tca = dot(-ray.origin, ray.direction); //1 + 4
-	if (tca < 0.0f)
-		return false;
+	float4 L = ray.origin;
+	float a = dot(ray.direction, ray.direction);
+	float b = 2.0f * dot(ray.direction, L); //b/2
+	float c = dot(L, L) - 1.0f;
+	float disc = b * b - 4.0f * a * c; // DISC = (b/2)^2-ac
 
-	float	d2 = dot(-ray.origin, -ray.origin) - tca * tca; //5 + 4 + 1 + 1
-	if (d2 > 1.0f) //r^2 should be precomputed
+	if (disc < 0.0f)
 		return false;
-
-	float	thc = sqrt(1.0f - d2); // 11 + 6
-	float	t = tca - thc; // 18
-	if (t < 0.0f)
+	disc = sqrt(disc);
+	hit_info->t = (-b - disc) / (2.0f * a);
+	if (hit_info->t < 0.0f)
 	{
-		t = tca + thc; //19
-		if (t < 0.0f)
+		hit_info->t = (-b + disc) / (2.0f * a);
+		if (hit_info->t < 0.0f)
 			return false;
 	}
-	hit_info->t = t;
-	return (true);
+	return true;
 }
 
 bool	sphere_intersection(t_ray ray, t_obj sphere, t_hit_info *hit_info)
@@ -1148,13 +1208,17 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 	float4	x;
 	float	a, b, c, dv, xv, disc;
 
-	x = ray.origin - cylinder.origin;
-	dv = dot(ray.direction, cylinder.direction);
-	xv = dot(x, cylinder.direction);
-	a = 1.0f - dv * dv; // 1 if ray direction is normalized else dot(d,d)
+	x = ray.origin;
+	dv = dot(ray.direction, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
+	xv = dot(x, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
+	a = dot(ray.direction, ray.direction) - dv * dv;
 	b = 2.0f * (dot(ray.direction, x) - dv * xv);
-	c = dot(x, x) - xv * xv - cylinder.r2;
+	c = dot(x, x) - xv * xv - 1.0f;
 	disc = b * b - 4.0f * a * c;
+	// a = ray.direction.x * ray.direction.x + ray.direction.z * ray.direction.z;
+	// b = 2.0f * (ray.origin.x * ray.direction.x + ray.origin.z *ray.direction.z);
+	// c = ray.origin.x * ray.origin.x + ray.origin.x * ray.origin.z - 1.0f;
+	// disc = b * b - 4.0f * a * c;
 	if (disc >= EPSILON)
 	{
 		a *= 2.0f;
@@ -1179,15 +1243,11 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 				if (hit_info->m >= cylinder.minm + EPSILON &&
 					hit_info->m <= cylinder.maxm)
 				{
-					hit_info->dv = dv;
-					hit_info->xv = xv;
 					return true;
 				}
 			}
 			else
 			{
-				hit_info->dv = dv;
-				hit_info->xv = xv;
 				return true;
 			}
 		}
@@ -1296,8 +1356,6 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 
  bool	torus_intersecion(t_ray ray, t_obj torus, t_hit_info *hit_info)
 {
-	// if (!bbox_intersection(ray, torus.bounding_box))
-		// return false;
 	double	coeffs[5];
 	double	roots[4];
 	float4	x;
@@ -1308,8 +1366,8 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 	m = dot(ray.direction, ray.direction);
 	n = dot(ray.direction, x);
 	o = dot(x, x);
-	p = dot(ray.direction, torus.direction);
-	q = dot(x, torus.direction);
+	p = dot(ray.direction,(float4)(0.0f, 1.0f, 0.0f, 0.0f));
+	q = dot(x,(float4)(0.0f, 1.0f, 0.0f, 0.0f));
 	r2 = torus.r2 * torus.r2;
 	R2 = torus.r * torus.r;
 
@@ -1317,7 +1375,7 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 	coeffs[3] = 4.0f * n * m; //b
 	coeffs[2] = 4.0f * n * n + 2.0f * m * o - 2.0f * (R2 + r2) * m + 4.0f * R2 * p * p;
 	coeffs[1] = 4.0f * n * o - 4.0f * (R2 + r2) * n + 8.0f * R2 * p * q;
-	coeffs[0] = o * o - 2.0f * (R2 + r2) * o + 4 * R2 * q * q + (R2 - r2) * (R2 - r2);
+	coeffs[0] = o * o - 2.0f * (R2 + r2) * o + 4.0f * R2 * q * q + (R2 - r2) * (R2 - r2);
 	num_real_roots = SolveQuartic(coeffs, roots);
 	bool	intersect = false;
 	float	t;
@@ -1337,8 +1395,6 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 			}
 		}
 	}
-	if (!intersect)
-		return false;
 	hit_info->t = t;
 	return (intersect);
 }
@@ -1379,7 +1435,7 @@ bool	is_intersect(t_ray ray, t_obj obj, t_hit_info *hit_info, t_type type)
 	else if (type == plane)
 	{
 		return (generic_plane_intersection(ray, hit_info));
-		return (plane_intersection(ray, obj, hit_info));
+		// return (plane_intersection(ray, obj, hit_info));
 	}
 	else if (type == cylinder)
 	{
@@ -1421,23 +1477,19 @@ t_ray	transform_ray(t_ray ray, t_matrix transformation_matrix)
 	return (inv_ray);
 }
 
-bool	instance_hit(t_instance_manager instance_manager, t_ray ray, int id, t_hit_info *hit_info)
+bool	instance_hit(t_instance_manager instance_mngr, t_ray ray, t_hit_info *hit_info, t_instance instance)
 {
-	t_instance	instance;
+	t_obj	object = instance_mngr.objects[instance.object_id];
+	ray = transform_ray(ray, instance_mngr.matrices[instance.matrix_id]);
 
-	instance = instance_manager.instances[id];
-	// if (instance.matrix_id > -1)
-	// {
-		ray = transform_ray(ray, instance_manager.matrices[instance.matrix_id]);
-	// }
 	if (instance.type == triangle)
 		return (triangle_intersection(ray,
-							instance_manager.triangles[instance.object_id],
-							hit_info));
+									instance_mngr.triangles[instance.object_id],
+									hit_info));
 	else
 		return (is_intersect(ray,
-							instance_manager.objects[instance.object_id],
-							hit_info, instance.type));
+							object, hit_info,
+							instance.type));;
 }
 
 float4	get_sphere_normal(float4 point, t_obj sphere)
@@ -1447,7 +1499,7 @@ float4	get_sphere_normal(float4 point, t_obj sphere)
 
 float4	get_plane_normal(t_obj plane, t_hit_info hit_info)
 {
-	// return (float4)(0.0f, 1.0f, 0.0f, 0.0f);
+	return (float4)(0.0f, 1.0f, 0.0f, 0.0f);
 	if (hit_info.dv < 0.0f)
 		return (plane.direction);
 	else
@@ -1456,6 +1508,8 @@ float4	get_plane_normal(t_obj plane, t_hit_info hit_info)
 
 float4	get_cylinder_normal(float4 point, t_obj cylinder, t_hit_info hit_info)
 {
+	return (normalize(point - cylinder.origin
+		- dot(cylinder.direction, (point - cylinder.origin)) * cylinder.direction));
 	float m = hit_info.dv * hit_info.t + hit_info.xv;
 	return (normalize(point - cylinder.origin - cylinder.direction * m));
 }
@@ -1492,15 +1546,6 @@ float4	get_torus_normal(float4 point, t_obj torus, t_hit_info hit_info)
 		4.0f * point.y * (s - p + 2.0f * torus.r * torus.r),
 		4.0f * point.z * (s - p),
 		0.0f));
-	// float	k;
-	// float	m;
-	// float4	A;
-
-	// // point = 1.0001f * point;
-	// k = dot(point - torus.origin, torus.direction);
-	// A = point - k * torus.direction;
-	// m = sqrt(torus.r2 * torus.r2 - k * k);
-	// return (point - A - (torus.origin - A) * (m / (torus.r + m)));
 }
 
 float4	get_box_normal(float4 point, t_obj box, t_hit_info hit_info)
@@ -1579,22 +1624,22 @@ float4	transform_normal(float4 normal, t_matrix matrix)
 		0.0f);
 }
 
-float4	get_instance_normal(t_instance_manager instance_manager, t_shade_rec shade_rec)
+float4	get_instance_normal(t_instance_manager instance_mngr, t_shade_rec shade_rec)
 {
 	t_instance	instance;
 	float4		normal;
 	t_matrix	matrix;
 
-	instance = instance_manager.instances[shade_rec.id];
+	instance = instance_mngr.instances[shade_rec.id];
 	if (instance.type == triangle)
 		normal = get_triangle_normal(
-					instance_manager.triangles[instance.object_id]);
+					instance_mngr.triangles[instance.object_id]);
 	else
 		normal = get_object_normal(shade_rec.hit_point,
-			instance_manager.objects[instance.object_id],
+			instance_mngr.objects[instance.object_id],
 			shade_rec.hit_info,
-			instance_manager.instances[shade_rec.id].type);
-	matrix = instance_manager.matrices[instance_manager.instances[shade_rec.id].matrix_id];
+			instance_mngr.instances[shade_rec.id].type);
+	matrix = instance_mngr.matrices[instance_mngr.instances[shade_rec.id].matrix_id];
 	normal = transform_normal(normal, matrix);
 	// printf("Normal %f %f %f %f", normal.x, normal.y, normal.z, normal.w);
 
@@ -1679,8 +1724,8 @@ bool	in_shadow(t_ray shadow_ray, t_scene scene)
 
 	for (int i = 0; i < scene.instance_manager.ninstances; i++)
 	{
-		if (instance_hit(scene.instance_manager, shadow_ray, i, &ht))
-			return (true);
+		// if (instance_hit(scene.instance_manager, shadow_ray, i, &ht))
+			// return (true);
 	}
 	return false;
 }
@@ -1711,12 +1756,43 @@ bool		shadow_hit(t_scene scene, t_light light, t_ray shadow_ray, t_shade_rec sha
 	float	t;
 	float	d = distance(light.origin, shadow_ray.origin);
 
-	for (int i = 0; i < scene.instance_manager.ninstances; i++)
+	int			node_id = 0;
+	t_bvh_node	current_node;
+
+	while (node_id != -1)
 	{
-		if (instance_hit(scene.instance_manager, shadow_ray, i, &shade_rec.hit_info)
-			&& shade_rec.hit_info.t < d)
-			return (true);
+		current_node = scene.bvh[node_id];
+
+		if (bbox_intersection(shadow_ray, current_node.aabb))
+		{
+			if (current_node.instance_id == -1)
+			{
+				node_id++;
+			}
+			else /* leaf node*/
+			{
+				if (instance_hit(scene.instance_manager,
+								shadow_ray,
+								&shade_rec.hit_info,
+								get_instance(scene.instance_manager, current_node.instance_id))
+						&& shade_rec.hit_info.t < d)
+					return (true);
+				node_id = current_node.next;
+			}
+		}
+		else
+		{
+			node_id = current_node.next;
+		}
 	}
+
+	// for (int i = 0; i < scene.instance_manager.ninstances; i++)
+	// {
+	// 	t_instance instance = get_instance(scene.instance_manager, i);
+	// 	if (instance_hit(scene.instance_manager, shadow_ray, &shade_rec.hit_info, instance)
+	// 		&& shade_rec.hit_info.t < d)
+	// 		return (true);
+	// }
 	return (false);
 }
 
@@ -1759,7 +1835,7 @@ t_color		shade_phong(t_material material,
 		light_direction = get_light_direction(scene.lights[i], shade_rec);
 
 		/* multiplying by 0.999f to avoid self shadowing error */
-		t_ray	shadow_ray = { .origin = shade_rec.hit_point + 0.01f * shade_rec.normal, .direction = light_direction };
+		t_ray	shadow_ray = { .origin = shade_rec.hit_point + 1e-2f * shade_rec.normal, .direction = light_direction };
 
 		if (options.shadows)
 			in_shadow = shadow_hit(scene, scene.lights[i], shadow_ray, shade_rec);
@@ -1789,10 +1865,6 @@ t_color		shade_phong(t_material material,
 				color_tmp.g = scene.lights[i].ls * scene.lights[i].color.g
 							* color_tmp.g * dirdotn;
 				color = color_sum(color_tmp, color);
-				// color_tmp.r = clamp(scene.lights[i].ls * scene.lights[i].color.r * color_tmp.r / 255.0f * dirdotn, 0.0f, 255.0f);
-				// color_tmp.b = clamp(scene.lights[i].ls * scene.lights[i].color.b * color_tmp.b / 255.0f * dirdotn, 0.0f, 255.0f);
-				// color_tmp.g = clamp(scene.lights[i].ls * scene.lights[i].color.g * color_tmp.g / 255.0f * dirdotn, 0.0f, 255.0f);
-				// color = color_sum(color_tmp, color);
 			}
 		}
 	}
@@ -1997,82 +2069,157 @@ float4	get_reflected_vector(float4 l, float4 n)
 	return normalize(r);
 }
 
-t_material	get_instance_material(t_instance_manager instance_manager, int id)
+inline t_material	get_instance_material(t_instance_manager instance_manager, t_instance instance)
 {
-	return (instance_manager.instances[id].material);
+	return (instance.material);
 }
 
-//TODO(dmelessa): shading both sides of surface ยง14
-bool	scene_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
+inline t_instance	get_instance(t_instance_manager instance_manager, int id)
 {
-	float		t;
+	return instance_manager.instances[id];
+}
+
+inline t_matrix	get_instance_matrix(t_instance_manager instance_manager, t_instance	instance)
+{
+	return (instance_manager.matrices[instance.matrix_id]);
+}
+
+inline t_obj get_object_info(t_instance_manager instance_manager, t_instance instance)
+{
+	return (instance_manager.objects[instance.object_id]);
+}
+
+inline t_triangle get_triangle_info(t_instance_manager instance_manager, t_instance instance)
+{
+	return (instance_manager.triangles[instance.object_id]);
+}
+
+bool	bvh_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
+{
 	t_hit_info	last_hit_info;
 
 	last_hit_info.t = K_HUGE_VALUE;
 
 	shade_rec->id = -1;
-	for (int i = 0; i < scene.instance_manager.ninstances; i++)
+	int			node_id = 0;
+	t_bvh_node	current_node;
+
+	while (node_id != -1)
 	{
-		if (instance_hit(scene.instance_manager, ray, i, &shade_rec->hit_info)
-			&& shade_rec->hit_info.t < last_hit_info.t)
+		current_node = scene.bvh[node_id];
+
+		if (bbox_intersection(ray, current_node.aabb))
 		{
-			last_hit_info = shade_rec->hit_info;
-			shade_rec->id = i;
+			if (current_node.instance_id == -1)
+			{
+				node_id++;
+			}
+			else /* leaf node*/
+			{
+				if (instance_hit(scene.instance_manager,
+								ray,
+								&shade_rec->hit_info,
+								get_instance(scene.instance_manager, current_node.instance_id))
+					&& shade_rec->hit_info.t < last_hit_info.t)
+				{
+					last_hit_info = shade_rec->hit_info;
+					shade_rec->id = current_node.instance_id;
+				}
+				node_id = current_node.next;
+			}
+		}
+		else
+		{
+			node_id = current_node.next;
 		}
 	}
 	shade_rec->hit_info = last_hit_info;
 	return (shade_rec->id > -1);
 }
 
-//todo: move normal computation to ray_trace_function
+//TODO(dmelessa): shading both sides of surface à¸¢à¸‡14
+bool	scene_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
+{
+	return (bvh_intersection(scene, ray, shade_rec));
+
+	/* old code for bruteforcing*/
+	// t_hit_info	last_hit_info;
+
+	// last_hit_info.t = K_HUGE_VALUE;
+
+	// shade_rec->id = -1;
+	// for (int i = 0; i < scene.instance_manager.ninstances; i++)
+	// {
+	// 	t_instance instance = get_instance(scene.instance_manager, i);
+	// 	if (instance_hit(scene.instance_manager, ray, &shade_rec->hit_info, instance)
+	// 		&& shade_rec->hit_info.t < last_hit_info.t)
+	// 	{
+	// 		last_hit_info = shade_rec->hit_info;
+	// 		shade_rec->id = i;
+	// 	}
+	// }
+	// shade_rec->hit_info = last_hit_info;
+	// return (shade_rec->id > -1);
+}
+
+#define maximum_tree_depth 16
+
 t_color	ray_trace(t_ray ray, t_scene scene, t_render_options options, t_sampler_manager sampler_manager, uint2 *seed)
 {
+	int			local_id = get_local_id(0);
 	t_shade_rec	shade_rec;
-	t_color		color;
+
+	/* computed color */
+	t_color		color = options.background_color;
+	color.r = 0.0f;
+	color.b = 0.0f;
+	color.g = 0.0f;
+	float		color_coef = 1.0f;
+
+	/* material of hit object*/
 	t_material	instance_material;
 
-	color = options.background_color;
+	bool		continue_loop = true;
+	uchar		tree_depth = 0;
 
-	if (scene_intersection(scene, ray, &shade_rec))
+	while (continue_loop)
+	// do
 	{
-		// shade_rec.ray = ray;
-		/* save ray for specular reflection */
-		shade_rec.ray =  transform_ray(ray,
-			scene.instance_manager.matrices[
-				scene.instance_manager.instances[shade_rec.id].matrix_id]);
-
-		/* compute hit point */
-		shade_rec.hit_point = (shade_rec.hit_info.t) * shade_rec.ray.direction + shade_rec.ray.origin;
-
-		shade_rec.normal = get_instance_normal(scene.instance_manager, shade_rec);
-
-		shade_rec.ray = ray;
-
-		shade_rec.hit_point = (shade_rec.hit_info.t) * shade_rec.ray.direction + shade_rec.ray.origin;
-
-		// ray =  transform_ray(ray,
-			// scene.instance_manager.matrices[
-				// scene.instance_manager.instances[shade_rec.id].matrix_id]);
-
-		/* if normal is not directed to us then we reverse normal*/
-		shade_rec.normal = dot(shade_rec.normal, ray.direction) < 0.0f ?
-			shade_rec.normal : -shade_rec.normal;
-
-		/* NOTE: we can get material in scene_intersection function */
-		instance_material = get_instance_material(scene.instance_manager, shade_rec.id);
-
-		// shade_rec.ray = ray;
-		if (options.area_lightning)
+		if (scene_intersection(scene, ray, &shade_rec))
 		{
-			;;;;;;;;;;;;;;;;;
-			//todo: area_lightning
+			t_instance	instance = scene.instance_manager.instances[shade_rec.id];
+			shade_rec.ray =  transform_ray(ray,
+				scene.instance_manager.matrices[instance.matrix_id]);
+
+			/* local_hit_point */
+			shade_rec.hit_point = (shade_rec.hit_info.t) * shade_rec.ray.direction + shade_rec.ray.origin;
+
+			/* normal at hit point */
+			shade_rec.normal = get_instance_normal(scene.instance_manager, shade_rec);
+
+			/* save ray for specular reflection */
+			shade_rec.ray = ray;
+			/* world hit point */
+			shade_rec.hit_point = (shade_rec.hit_info.t) * shade_rec.ray.direction + shade_rec.ray.origin;
+
+			/* if normal is not directed to us then we reverse normal*/
+			shade_rec.normal = dot(shade_rec.normal, ray.direction) < 0.0f ?
+				shade_rec.normal : -shade_rec.normal;
+
+			/* NOTE: we can get material in scene_intersection function */
+			instance_material = get_instance_material(scene.instance_manager, instance);
+
+			/* accumulate color */
+			color = color_sum(color, shade_material(scene, sampler_manager, instance_material, shade_rec, options, seed));
 		}
-		else
+		else /* no hit */
 		{
-			color = shade_material(scene, sampler_manager, instance_material,
-									shade_rec, options, seed);
+			continue_loop = false;
+			color = color_sum(color, options.background_color);
 		}
-	}
+		continue_loop = false;
+
+	};
 	return (color);
 }
 
@@ -2082,6 +2229,7 @@ void	init_scene(t_scene *scene,
 					__constant t_triangle *triangles, int ntriangles,
 					__global t_matrix *matrices, int nmatrices,
 					__constant t_light *lights, int nlights,
+					__global t_bvh_node *bvh,
 					t_camera camera, t_light ambient_light,
 					t_ambient_occluder ambient_occluder)
 {
@@ -2095,6 +2243,7 @@ void	init_scene(t_scene *scene,
 	scene->instance_manager.nmatrices = nmatrices;
 	scene->lights = lights;
 	scene->nlights = nlights;
+	scene->bvh = bvh;
 	scene->camera = camera;
 	scene->ambient_light = ambient_light;
 	scene->ambient_occluder = ambient_occluder;
@@ -2119,7 +2268,8 @@ void	init_sampler_manager(t_sampler_manager *sampler_manager,
 ** В дальнейшем когда будут сделаны материалы / преломления / отражения можно будет еще
 ** больше разбить кернел чтобы избежать дивергенции кода.
 */												//Pos of argument on host
-__kernel void	main(__global t_color *image,	//0
+__kernel  __attribute__((work_group_size_hint(32, 1, 1)))
+void main_kernel(__global t_color *image,	//0
 				int step,						//1
 
 				__constant t_instance *instances, int ninstances, //2, 3
@@ -2131,12 +2281,14 @@ __kernel void	main(__global t_color *image,	//0
 				t_light ambient_light,	//13
 				t_ambient_occluder ambient_occluder, //14
 
-				t_render_options options, //15
+				__global t_bvh_node	*bvh, //15
 
-				__global t_sampler *samplers, //16
-				__global float2 *samples, //17
-				__global float2 *disk_samples,	//18
-				__global float3 *hemisphere_samples) //19
+				t_render_options options, //16
+
+				__global t_sampler *samplers, //17
+				__global float2 *samples, //18
+				__global float2 *disk_samples,	//19
+				__global float3 *hemisphere_samples) //20
 {
 	int					global_id;
 	int					x;
@@ -2150,20 +2302,23 @@ __kernel void	main(__global t_color *image,	//0
 	t_sampler			camera_sampler;
 	t_sampler			ao_sampler;
 
-	/* Инициализируем нужные перменные и структуры */
+	/* Инициализируем нужные переменные и структуры */
 	global_id = get_global_id(0);
 	x = global_id % camera.viewplane.width;
 	y = global_id / camera.viewplane.width;
 	seed.x = global_id;
 	seed.y = get_local_id(0) + get_group_id(0);
 	seed.y = random(&seed);
-	init_scene(&scene, instances, ninstances, objects, nobjects,
+
+	init_scene(&scene,
+				instances, ninstances, objects, nobjects,
 				triangles, ntriangles, matrices, nmatrices,
-				lights, nlights, camera, ambient_light, ambient_occluder);
+				lights, nlights, bvh,
+				camera, ambient_light, ambient_occluder);
 
 	init_sampler_manager(&sampler_manager, samplers, samples, disk_samples, hemisphere_samples);
 
-	/* получаем семплер дляантиалиасинга и текущий шаг. */
+	/* получаем семплер для антиалиасинга и текущий шаг. */
 	ao_sampler = get_sampler(sampler_manager, options.sampler_id);
 	ao_sampler.count = global_id * ao_sampler.num_samples + step;
 
@@ -2189,7 +2344,7 @@ __kernel void	main(__global t_color *image,	//0
 			camera_sampler.jump = (random(&seed) % camera_sampler.num_sets) * camera_sampler.num_samples;
 	}
 
-	if (true && global_id == 0 && step == 0)
+	if (false && global_id == 0 && step == 0)
 	{
 		printf("GPU:\nobj %u\n", sizeof(t_obj));
 		printf("instance %u\n", sizeof(t_instance));
@@ -2201,7 +2356,7 @@ __kernel void	main(__global t_color *image,	//0
 	}
 
 	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed);
-	color = ray_trace(ray, scene, options, sampler_manager, &seed);
+	color = ray_trace(ray, scene, options, sampler_manager, &seed);;;;;
 
 	image[global_id] = color_sum(image[global_id], color);
 }
