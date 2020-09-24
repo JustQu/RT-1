@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 15:55:58 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/24 14:54:37 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 
 # include <assert.h>
 
-# ifdef __unix__
+
+# ifdef __APPLE__
+# include <SDL.h>
+# elif __unix__
 #  include "SDL2/SDL.h"
 # else
 #  include "SDL.h"
@@ -47,7 +50,7 @@
 ** NOTE: нельзя сделать кернел с именем 'main'
 ** на встроенной видеокарте intel
 */
-#define DEFAULT_KERNEL_NAME "main_kernel"
+# define DEFAULT_KERNEL_NAME	"main_kernel"
 
 # define DEFAULT_KERNEL_INCLUDE	"-I ./include -I ./srcs/cl"
 # define DEFAULT_WORK_SIZE		DEFAULT_WIDTH * DEFAULT_HEIGHT

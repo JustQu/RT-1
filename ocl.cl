@@ -370,9 +370,9 @@ void	print_all(t_scene scene)
 #define EQN_EPS 1e-9
 #define IsZero(x) ((x) > -EQN_EPS && (x) < EQN_EPS)
 
-int SolveQuadric(float c[3], float s[2])
+int SolveQuadric(double c[3], double s[2])
 {
-	float p, q, D;
+	double p, q, D;
 
 	/* normal form: x^2 + px + q = 0 */
 
@@ -392,7 +392,7 @@ int SolveQuadric(float c[3], float s[2])
 	}
 	else /* if (D > 0) */
 	{
-		float sqrt_D = sqrt(D);
+		double sqrt_D = sqrt(D);
 
 		s[0] = sqrt_D - p;
 		s[1] = -sqrt_D - p;
@@ -400,13 +400,13 @@ int SolveQuadric(float c[3], float s[2])
 	}
 }
 
-int SolveCubic(float c[4], float s[3])
+int SolveCubic(double c[4], double s[3])
 {
 	int i, num;
-	float sub;
-	float A, B, C;
-	float sq_A, p, q;
-	float cb_p, D;
+	double sub;
+	double A, B, C;
+	double sq_A, p, q;
+	double cb_p, D;
 
 	/* normal form: x^3 + Ax^2 + Bx + C = 0 */
 
@@ -433,9 +433,9 @@ int SolveCubic(float c[4], float s[3])
 			s[0] = 0;
 			num = 1;
 		}
-		else /* one single and one float solution */
+		else /* one single and one double solution */
 		{
-			float u = cbrt(-q);
+			double u = cbrt(-q);
 			s[0] = 2 * u;
 			s[1] = -u;
 			num = 2;
@@ -443,8 +443,8 @@ int SolveCubic(float c[4], float s[3])
 	}
 	else if (D < 0) /* Casus irreducibilis: three real solutions */
 	{
-		float phi = 1.0 / 3 * acos(-q / sqrt(-cb_p));
-		float t = 2 * sqrt(-p);
+		double phi = 1.0 / 3 * acos(-q / sqrt(-cb_p));
+		double t = 2 * sqrt(-p);
 
 		s[0] = t * cos(phi);
 		s[1] = -t * cos(phi + M_PI / 3);
@@ -453,9 +453,9 @@ int SolveCubic(float c[4], float s[3])
 	}
 	else /* one real solution */
 	{
-		float sqrt_D = sqrt(D);
-		float u = cbrt(sqrt_D - q);
-		float v = -cbrt(sqrt_D + q);
+		double sqrt_D = sqrt(D);
+		double u = cbrt(sqrt_D - q);
+		double v = -cbrt(sqrt_D + q);
 
 		s[0] = u + v;
 		num = 1;
@@ -471,12 +471,12 @@ int SolveCubic(float c[4], float s[3])
 	return num;
 }
 
-int SolveQuartic(float c[5], float s[4])
+int SolveQuartic(double c[5], double s[4])
 {
-	float coeffs[4];
-	float z, u, v, sub;
-	float A, B, C, D;
-	float sq_A, p, q, r;
+	double coeffs[4];
+	double z, u, v, sub;
+	double A, B, C, D;
+	double sq_A, p, q, r;
 	int i, num;
 
 	/* normal form: x^4 + Ax^3 + Bx^2 + Cx + D = 0 */

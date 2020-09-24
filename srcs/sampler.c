@@ -208,7 +208,7 @@ int		generate_samples(t_sampler sampler,
 	}
 	else
 	{
-		return ;
+		return (0);
 	}
 	map_samples_to_unit_disk(sampler, samples, disk_samples);
 	map_samples_to_hemisphere(sampler, samples, hemisphere_samples, 1.0f);

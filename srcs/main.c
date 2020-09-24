@@ -12,7 +12,7 @@
 
 # include "rt.h"
 
-#define BANANA 1
+#define BANANA 0
 #define printf(...) if (BANANA) printf(__VA_ARGS__);
 
 FILE *f;
@@ -190,6 +190,7 @@ int main(int ac, char **av)
 	t_rt	rt;
 	int		value;
 
+	fprintf(stdout, "%d\n", CL_DEVICE_MAX_WORK_GROUP_SIZE);
 	f = fopen("ocl.cl", "w+");
 	if (f == NULL)
 	{
