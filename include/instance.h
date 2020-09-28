@@ -6,15 +6,17 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 20:05:10 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 15:32:34 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/28 13:50:45 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INSTANCE_H
 # define INSTANCE_H
 
-#include "material.h"
-#include "objects.h"
+# ifndef __OPENCL_C_VERSION__
+#  include "material.h"
+#  include "objects.h"
+# endif
 
 typedef struct s_instance	t_instance;
 

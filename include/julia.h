@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   julia.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:32:04 by user              #+#    #+#             */
-/*   Updated: 2020/09/15 18:17:31 by alex             ###   ########.fr       */
+/*   Updated: 2020/09/24 16:41:37 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,20 @@
 #include <SDL2/SDL.h>
 
 #define GL_SILENCE_DEPRECATION
-#include <OpenGL/OpenGL.h>
-#include <OpenGL/gl.h>
-#include <OpenGL/CGLDevice.h>
-#include <GLUT/glut.h>
-#include <OpenCL/opencl.h>
+// #include <OpenGL/OpenGL.h>
+// #include <OpenGL/gl.h>
+// #include <OpenGL/CGLDevice.h>
+// #include <GLUT/glut.h>
+// #include <OpenCL/opencl.h>
 
 #define GL_SILENCE_DEPRECATION
-#include <OpenGL/OpenGL.h>
-#include <OpenGL/gl.h>
-#include <OpenGL/CGLDevice.h>
-#include <GLUT/glut.h>
-#include <OpenCL/opencl.h>
+// #include <OpenGL/OpenGL.h>
+// #include <OpenGL/gl.h>
+// #include <OpenGL/CGLDevice.h>
+// #include <GLUT/glut.h>
+// #include <OpenCL/opencl.h>
 
-#include <mach/mach_time.h>
+// #include <mach/mach_time.h>
 #include <math.h>
 
 #include <fcntl.h>
@@ -41,12 +41,14 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+// #include <unistd.h>
 #include <string.h>
-#include <mach/mach_time.h>
+// #include <mach/mach_time.h>
 
 #define COMPUTE_KERNEL_FILENAME	("srcs/qjulia_cl/qjulia_kernel.cl")
 #define COMPUTE_KERNEL_METHOD_NAME ("QJuliaKernel")
+
+#define uint uint32_t
 
 typedef struct			s_julia_color
 {

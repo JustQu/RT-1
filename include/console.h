@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   console.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/25 18:56:18 by ageorgan          #+#    #+#             */
-/*   Updated: 2020/06/29 18:42:24 by user             ###   ########.fr       */
+/*   Created: 2020/09/26 15:40:24 by dmelessa          #+#    #+#             */
+/*   Updated: 2020/09/26 15:41:11 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUFF_SIZE 1
+#ifndef CONSOLE_H
+# define CONSOLE_H
 
-# include <string.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-# include <stdio.h>
+/**
+** @brief взаимодействие с консолью
+**
+*/
 
-int		get_next_line(int fd, char **line);
+//todo
 
 #endif

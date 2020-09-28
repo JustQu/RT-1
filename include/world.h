@@ -6,14 +6,14 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 19:36:22 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 15:36:32 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/27 12:22:24 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WORLD_H
 # define WORLD_H
 
-# include "types.h"
+# include "rt_types.h"
 # include "camera.h"
 # include "objects.h"
 # include "material.h"
@@ -22,27 +22,6 @@
 # include "color.h"
 # include "instance.h"
 # include "bvh.h"
-
-# define DEFAULT_WIDTH 1200
-# define DEFAULT_HEIGHT 600
-# define WORK_GROUP_SIZE 32
-
-typedef struct s_render_options		t_render_options;
-
-struct				s_render_options
-{
-	t_sampler		ambient_occluder_sampler;
-	cl_int			ambient_occlusion;
-
-	t_color			background_color;
-
-	cl_int			depth;
-
-	cl_int			shadows;
-
-	cl_int			area_lightning;
-
-	cl_int			sampler_id; //anti-aliasing sampler
-};
+# include "rt_options.h"
 
 #endif

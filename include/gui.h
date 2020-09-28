@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/09/28 14:16:48 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/28 14:32:38 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <SDL_image.h>
 # include <SDL_ttf.h>
 # include <SDL2_gfxPrimitives.h>
+
+# include "instance_manager.h"
 
 # define WIDTH_MENU WIDTH / 4
 # define WIDTH_OFFSET WIDTH - WIDTH / 4

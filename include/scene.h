@@ -6,18 +6,18 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 00:33:50 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 15:36:00 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/27 14:05:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCENE_H
 # define SCENE_H
 
-# include "sampler_manager.h"
-# include "instance_manager.h"
 # include "light.h"
 # include "camera.h"
 # include "bvh.h"
+# include "instance_manager.h"
+# include "sampler_manager.h"
 
 /**
 ** @brief
@@ -30,9 +30,12 @@ struct					s_scene
 	t_instance_manager	instance_mngr;
 	t_ambient_occluder	ambient_occluder;
 	t_light				ambient_light;
-	t_bvh				bvh;
 	t_light				*lights;
+	t_bvh				bvh;
 	int					nlights;
 };
+
+int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager);
+t_bvh	build_bvh(t_scene *scene);
 
 #endif

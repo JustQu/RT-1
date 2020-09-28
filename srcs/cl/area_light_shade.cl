@@ -2,7 +2,7 @@ t_color		area_light_shade_phong(t_material material,
 									t_shade_rec shade_rec,
 									t_scene scene,
 									t_sampler_manager sampler_manager,
-									t_render_options options,
+									t_rt_options options,
 									uint2 *seed)
 {
 	float4	light_direction;
@@ -71,7 +71,7 @@ t_color		area_light_shade(t_material material,
 							t_shade_rec shade_rec,
 							t_scene scene,
 							t_sampler_manager sampler_manager,
-							t_render_options render_options,
+							t_rt_options render_options,
 							uint2 *seed)
 {
 	t_color	color;

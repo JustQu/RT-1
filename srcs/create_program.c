@@ -6,17 +6,30 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/08/13 18:58:48 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/28 14:46:29 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "libft.h"
+#include "rt_ocl.h"
+
 #include <fcntl.h>
+#include <assert.h>
 
 #define BUFF 100000
 
 static const char *files[] = {
-	"world.h",
+	"rt_types.h",
+	"color.h",
+	"camera.h",
+	"aabb.h",
+	"material.h",
+	"objects.h",
+	"light.h",
+	"sampler.h",
+	"instance.h",
+	"bvh.h",
+	"rt_options.h",
 	"cl_rt.h",
 	"utils.cl",
 	"print.cl",
@@ -36,10 +49,11 @@ static const char *files[] = {
 	"area_light_shade.cl",
 	"ray_tracer.cl",
 	"main_kernel.cl",
-	"util_kernels.cl"};
-int num_files = sizeof(files) / sizeof(char *);
+	"util_kernels.cl"
+};
+static int		g_num_files = sizeof(files) / sizeof(char *);
 
-void		read_file(const char *file_name, char *str)
+static void		read_file(const char *file_name, char *str)
 {
 	char	full_file_name[128];
 	int		ret;
@@ -73,16 +87,16 @@ cl_program	create_program(cl_context context)
 	cl_program program;
 
 	i = 0;
-	str = malloc(sizeof(char *) * num_files);
+	str = malloc(sizeof(char *) * g_num_files);
 	ret = 0;
-	while (i < num_files)
+	while (i < g_num_files)
 	{
 		str[i] = malloc(sizeof(char) * BUFF);
 		read_file(files[i], str[i]);
-		fprintf(f, "%s\n", str[i]);
+		// fprintf(f, "%s\n", str[i]);
 		i++;
 	}
-	program = clCreateProgramWithSource(context, num_files, str, NULL, &ret);
+	program = clCreateProgramWithSource(context, g_num_files, str, NULL, &ret);
 	assert(!ret);
 	while (i--)
 		free(str[i]);

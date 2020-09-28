@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types.h                                            :+:      :+:    :+:   */
+/*   rt_types.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:57:17 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/14 00:22:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/26 21:44:24 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TYPES_H
-# define TYPES_H
+#ifndef RT_TYPES_H
+# define RT_TYPES_H
 
-#define OPEN_CL __OPENCL_C_VERSION__
+# define OPEN_CL __OPENCL_C_VERSION__
 
 /**
 ** @brief Host code
@@ -24,10 +24,17 @@
 #  include "bool.h"
 #  ifdef __APPLE__
 #   include "OpenCL/opencl.h"
-#else
+#  else
 #   include "CL/cl.h"
 #  endif
+
+typedef uint32_t	t_uint;
+typedef int32_t		t_int;
+
 # endif
+
+# define SUCCESS	0
+# define ERROR	-1
 
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846264338327950288

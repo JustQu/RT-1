@@ -6,14 +6,16 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:51:48 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/08/13 01:07:40 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/28 13:48:21 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COLOR_H
 # define COLOR_H
 
-#include "types.h"
+# ifndef __OPENCL_C_VERSION__
+#  include "rt_types.h"
+# endif
 
 typedef struct s_color	t_color;
 
@@ -22,7 +24,7 @@ typedef struct s_color	t_color;
 ** Components are normolized [0.0f, 1.0f]
 **
 */
-struct	s_color
+struct			s_color
 {
 	cl_float	r;
 	cl_float	g;

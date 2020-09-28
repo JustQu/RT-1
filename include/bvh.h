@@ -6,15 +6,17 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 00:27:56 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 23:56:43 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/28 13:51:05 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BVH_H
-#define BVH_H
+# define BVH_H
 
-#include "types.h"
-#include "objects.h"
+# ifndef __OPENCL_C_VERSION__
+#  include "rt_types.h"
+#  include "aabb.h"
+# endif
 
 typedef struct s_bvh_node t_bvh_node;
 
@@ -32,11 +34,12 @@ struct s_bvh_node //48
 	int			gap[2];
 };
 
+/* host prototypes */
 # ifndef __OPENCL_C_VERSION__
 
-#  include "instance_manager.h"
+// #  include "instance_manager.h"
 
-t_bbox	compute_aabb(t_instance_manager instance_mngr, int id);
+// t_bbox	compute_aabb(t_instance_manager instance_mngr, int id);
 
 # endif
 

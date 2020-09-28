@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 19:29:26 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 23:38:05 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/27 14:11:43 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,15 +186,15 @@ t_bvh	build_bvh(t_scene *scene)
 	bvh = malloc(instance_mngr.ninstances * 2 * sizeof(t_bvh_node));
 	temp_nodes = malloc(instance_mngr.ninstances * sizeof(t_bvh_node));
 
-	for (int i = 0; i< instance_mngr.ninstances; i++)
+	for (int i = 0; i < instance_mngr.ninstances; i++)
 	{
 		temp_nodes[i].instance_id = i;
 		temp_nodes[i].aabb = compute_aabb(instance_mngr, i);
-		temp_nodes[i].center.x = 0.5 * (temp_nodes[i].aabb.min.x
+		temp_nodes[i].center.x = 0.5f * (temp_nodes[i].aabb.min.x
 										+ temp_nodes[i].aabb.max.x);
-		temp_nodes[i].center.y = 0.5 * (temp_nodes[i].aabb.min.y
+		temp_nodes[i].center.y = 0.5f * (temp_nodes[i].aabb.min.y
 										+ temp_nodes[i].aabb.max.y);
-		temp_nodes[i].center.z = 0.5 * (temp_nodes[i].aabb.min.z
+		temp_nodes[i].center.z = 0.5f * (temp_nodes[i].aabb.min.z
 										+ temp_nodes[i].aabb.max.z);
 		temp_nodes[i].next = -1;
 		t_instance instance = instance_mngr.instances[i];

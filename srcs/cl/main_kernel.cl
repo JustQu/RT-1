@@ -58,7 +58,7 @@ void main_kernel(__global t_color *image,	//0
 
 				__global t_bvh_node	*bvh, //15
 
-				t_render_options options, //16
+				t_rt_options options, //16
 
 				__global t_sampler *samplers, //17
 				__global float2 *samples, //18
@@ -80,7 +80,7 @@ void main_kernel(__global t_color *image,	//0
 	/* Инициализируем нужные переменные и структуры */
 	global_id = get_global_id(0);
 	x = global_id % camera.viewplane.width;
-	y = global_id / camera.viewplane.width;
+	y = global_id / camera.viewplane.width;;
 	seed.x = global_id;
 	seed.y = get_local_id(0) + get_group_id(0);
 	seed.y = random(&seed);
@@ -94,7 +94,7 @@ void main_kernel(__global t_color *image,	//0
 	init_sampler_manager(&sampler_manager, samplers, samples, disk_samples, hemisphere_samples);
 
 	/* получаем семплер для антиалиасинга и текущий шаг. */
-	ao_sampler = get_sampler(sampler_manager, options.sampler_id);
+	ao_sampler = get_sampler(sampler_manager, options.aa_id);
 	ao_sampler.count = global_id * ao_sampler.num_samples + step;
 
 	/* Если это не первый шаг, то считаем прыжок для семплеров */
@@ -131,7 +131,7 @@ void main_kernel(__global t_color *image,	//0
 	}
 
 	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed);
-	color = ray_trace(ray, scene, options, sampler_manager, &seed);;;;;
+	color = ray_trace(ray, scene, options, sampler_manager, &seed);
 
 	image[global_id] = color_sum(image[global_id], color);
 }

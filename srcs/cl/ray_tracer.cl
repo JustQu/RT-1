@@ -101,7 +101,7 @@ bool	scene_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
 
 #define maximum_tree_depth 16
 
-t_color	ray_trace(t_ray ray, t_scene scene, t_render_options options, t_sampler_manager sampler_manager, uint2 *seed)
+t_color	ray_trace(t_ray ray, t_scene scene, t_rt_options options, t_sampler_manager sampler_manager, uint2 *seed)
 {
 	int			local_id = get_local_id(0);
 	t_shade_rec	shade_rec;
@@ -155,7 +155,6 @@ t_color	ray_trace(t_ray ray, t_scene scene, t_render_options options, t_sampler_
 			color = color_sum(color, options.background_color);
 		}
 		continue_loop = false;
-
 	};
 	return (color);
 }

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/02 18:12:50 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 16:10:28 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/28 14:12:54 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,13 @@ typedef struct			s_instance_manager
 
 int			init_instance_manager(t_instance_manager * instance_manager);
 
-int			add_parsed_object(t_instance_manager *instance_mngr, t_parsed_object parsed_object);
+int			add_parsed_object(t_instance_manager *instance_mngr,
+								t_parsed_object parsed_object);
 
-int			add_instance(t_instance_manager *instance_manager, t_object_info object_info);
-t_instance	get_instance(t_instance_manager instance_mngr, int instance_id);
+t_object_info	get_object_info(t_instance_manager *instance_manager,
+								int id);
+
+t_instance	get_instance(t_instance_manager *instance_mngr, int instance_id);
 
 t_matrix	get_transformation_matrix(t_instance_manager mngr, int instance_id);
 
@@ -56,5 +59,7 @@ t_matrix	*get_matrices(t_instance_manager *instance_manager);
 int			get_num_of_matrices(t_instance_manager *instance_manager);
 t_triangle	*get_triangles(t_instance_manager *instance_manager);
 int			get_num_of_triangles(t_instance_manager *instance_manager);
+
+t_aabb		compute_aabb(t_instance_manager instance_manager, int instance_id);
 
 #endif

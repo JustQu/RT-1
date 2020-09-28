@@ -6,14 +6,14 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 18:37:14 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 16:01:47 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/26 15:15:01 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTIL_H
 # define UTIL_H
 
-# include "types.h"
+# include "rt_types.h"
 
 void	*ft_realloc(void *mem, size_t current_size, size_t new_size);
 

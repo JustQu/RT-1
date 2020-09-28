@@ -6,14 +6,14 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:46:35 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/20 22:41:48 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/26 23:15:55 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CAMERA_H
 # define CAMERA_H
 
-#include "types.h"
+#include "rt_types.h"
 
 typedef enum e_camera_type	t_camera_type;
 typedef struct s_camera		t_camera; //160
@@ -39,10 +39,6 @@ enum	e_camera_type
 		stereo
 };
 
-
-#ifdef _WIN64
-//__declspec(align(4))
-# endif
 /**
 ** @brief Плоскость проецирования
 ** pixel_size - размер пикселя, по умолчанию 1
@@ -62,9 +58,6 @@ struct s_viewplane
 **
 */
 
-#ifdef _WIN64
-//__declspec(align(4))
-# endif
 /**
 ** @brief Класс камеры
 **
@@ -108,5 +101,7 @@ struct	s_camera
 	cl_float			angle;
 	cl_int				fov;
 };
+
+void	compute_uvw(t_camera *camera);
 
 #endif

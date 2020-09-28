@@ -47,7 +47,7 @@ t_color		shade_phong(t_material material,
 						t_shade_rec shade_rec,
 						t_scene scene,
 						t_sampler_manager sampler_manager,
-						t_render_options options,
+						t_rt_options options,
 						uint2 *seed)
 {
 	float4	light_direction;
@@ -122,7 +122,7 @@ inline t_color		shade_matte(t_material material,
 						t_shade_rec shade_rec,
 						t_scene scene,
 						t_sampler_manager sampler_manager,
-						t_render_options options,
+						t_rt_options options,
 						uint2 *seed)
 {
 	float4	light_direction;
@@ -130,17 +130,17 @@ inline t_color		shade_matte(t_material material,
 	t_color	color_tmp;
 	t_color	color;
 
-	if (options.ambient_occlusion) /* ambient occlusion */
-	{
-		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
-		color = color_multi(color, material.color);
-	}
-	else /* compute constant ambient light using ka coefficent of the materail */
-	{
-		color = lambertian_rho(material.ka, material.color);
-		color_tmp = get_light_radiance(scene.ambient_light);
-		color = color_multi(color, color_tmp);
-	}
+	// if (options.ambient_occlusion) /* ambient occlusion */
+	// {
+	// 	color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
+	// 	color = color_multi(color, material.color);
+	// }
+	// else /* compute constant ambient light using ka coefficent of the materail */
+	// {
+	// 	color = lambertian_rho(material.ka, material.color);
+	// 	color_tmp = get_light_radiance(scene.ambient_light);
+	// 	color = color_multi(color, color_tmp);
+	// }
 
 	/* compute sahding for each light source */
 	for (int i = 0; i < scene.nlights; i++)
@@ -151,14 +151,15 @@ inline t_color		shade_matte(t_material material,
 		light_direction = get_light_direction(scene.lights[i], shade_rec);
 
 		/* multiplying by 0.999f to avoid self shadowing error */
-		t_ray	shadow_ray = { .origin = shade_rec.hit_point + 1e-2f * shade_rec.normal, .direction = light_direction };
+		t_ray	shadow_ray = { .origin = shade_rec.hit_point + 1e-2f * shade_rec.normal,
+							   .direction = light_direction };
 
 		if (options.shadows)
 			in_shadow = shadow_hit(scene, scene.lights[i], shadow_ray, shade_rec);
 
 		if (!in_shadow)
 		{
-
+;
 			/* compute angle between normal at the hit point and light direction */
 			dirdotn = dot(shade_rec.normal, light_direction);
 
@@ -193,7 +194,7 @@ inline t_color		shade_object(t_material material,
 						t_shade_rec shade_rec,
 						t_scene scene,
 						t_sampler_manager sampler_manager,
-						t_render_options options,
+						t_rt_options options,
 						uint2 *seed)
 {
 	t_color	color;
@@ -209,7 +210,7 @@ inline t_color		shade_material(t_scene scene,
 							t_sampler_manager sampler_manager,
 							t_material material,
 							t_shade_rec shade_rec,
-							t_render_options options,
+							t_rt_options options,
 							uint2 *seed)
 {
 	t_color	color;

@@ -1,4 +1,18 @@
-#include "rt.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   window.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/24 19:44:32 by dmelessa          #+#    #+#             */
+/*   Updated: 2020/09/28 14:45:59 by dmelessa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "window.h"
+#include "rt_options.h"
+#include "libft.h"
 
 void	quit(char *s)
 {
@@ -10,6 +24,7 @@ void	quit(char *s)
 /**
 ** @brief
 ** init sdl window and image buffer
+** todo(dmelessa): поменять окно, чтобы оно принимало параметры ширины и высоты.
 ** @param window
 ** @return ** int
 */

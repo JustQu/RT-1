@@ -6,20 +6,22 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:20 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 15:34:37 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/28 13:48:48 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
-# include "types.h"
-# include "material.h"
+# ifndef __OPENCL_C_VERSION__
+#  include "rt_types.h"
+#  include "material.h"
+#  include "aabb.h"
+# endif
 
 typedef enum e_types		t_type;
 typedef struct s_obj		t_obj;
 typedef struct s_triangle	t_triangle;
-typedef struct s_bbox		t_bbox;
 enum	e_types
 {
 	cone,
@@ -34,20 +36,6 @@ enum	e_types
 	rectangle,
 	generic_shere
 	//todo(dmelessa): another generic types
-};
-
-/**
-** @brief
-** axis-aligned bounding box for object
-*/
-#ifdef _WIN64
-//__declspec(align(4))
-// #pragma pack(1)
-#endif
-struct					s_bbox
-{
-	cl_float4			min;
-	cl_float4			max;
 };
 
 /**
@@ -70,15 +58,7 @@ struct					s_obj
 	cl_int				sampler_id;
 	cl_int				gap;
 };
-#if OPEN_CL
-// __attribute__ ((packed))
-#endif
-;
-// #pragma pack(pop)
 
-#ifdef _WIN64
-//__declspec(align(4))
-# endif
 struct					s_triangle
 {
 	cl_float4			vertex1;

@@ -6,14 +6,16 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:53:59 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 16:30:16 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/28 13:49:58 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SAMPLER_H
 # define SAMPLER_H
 
-#include "types.h"
+# ifndef __OPENCL_C_VERSION__
+#  include "rt_types.h"
+# endif
 
 typedef enum e_sampler_type			t_sampler_type;
 typedef struct s_sampler			t_sampler;

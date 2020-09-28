@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 19:52:25 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/24 13:43:11 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/27 14:12:21 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int		set_object_info(t_object_info *object_info,
 */
 int		add_parsed_object(t_instance_manager *mngr, t_parsed_object parsed_object)
 {
-	void			*new_memory;
 	t_instance		new_instance;
 	t_object_info	object_info;
 	t_matrix		transformation_matrix;

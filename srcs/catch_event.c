@@ -6,18 +6,13 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/07/25 15:55:19 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/26 23:30:39 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+# include "interface.h"
+# include "rt.h"
 
-/**
-** @brief 
-**
-** @param rt
-** @return ** int
-*/
 int catch_event(t_rt *rt)
 {
 	SDL_Event event;

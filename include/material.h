@@ -6,15 +6,17 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 15:33:36 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/28 13:49:20 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATERIAL_H
 # define MATERIAL_H
 
-# include "types.h"
-# include "color.h"
+# ifndef __OPENCL_C_VERSION__
+#  include "rt_types.h"
+#  include "color.h"
+# endif
 
 typedef enum e_material_type		t_material_type;
 typedef struct s_material			t_material; //64 bytes
