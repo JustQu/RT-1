@@ -2382,11 +2382,11 @@ typedef void (APIENTRY  *GLDEBUGPROC)(GLenum source,GLenum type,GLuint id,GLenum
 #define GL_TESS_EVALUATION_SUBROUTINE_UNIFORM 0x92F0
 #define GL_GEOMETRY_SUBROUTINE_UNIFORM    0x92F1
 #define GL_FRAGMENT_SUBROUTINE_UNIFORM    0x92F2
+<<<<<<< HEAD
 #define GL_COMPUTE_SUBROUTINE_UNIFORM     0x92F3
+=======
+#define GL_compute_SUBROUTINE_UNIFORM     0x92F3
 #define GL_TRANSFORM_FEEDBACK_VARYING     0x92F4
-#define GL_ACTIVE_RESOURCES               0x92F5
-#define GL_MAX_NAME_LENGTH                0x92F6
-#define GL_MAX_NUM_ACTIVE_VARIABLES       0x92F7
 #define GL_MAX_NUM_COMPATIBLE_SUBROUTINES 0x92F8
 #define GL_NAME_LENGTH                    0x92F9
 #define GL_TYPE                           0x92FA
@@ -2686,15 +2686,26 @@ GLAPI void APIENTRY glClampColorARB (GLenum target, GLenum clamp);
 
 #ifndef GL_ARB_compute_shader
 #define GL_ARB_compute_shader 1
+<<<<<<< HEAD
 #define GL_COMPUTE_SHADER_BIT             0x00000020
+=======
+#define GL_compute_SHADER_BIT             0x00000020
+>>>>>>> origin/julia_fractal
 #endif /* GL_ARB_compute_shader */
 
 #ifndef GL_ARB_compute_variable_group_size
 #define GL_ARB_compute_variable_group_size 1
+<<<<<<< HEAD
 #define GL_MAX_COMPUTE_VARIABLE_GROUP_INVOCATIONS_ARB 0x9344
 #define GL_MAX_COMPUTE_FIXED_GROUP_INVOCATIONS_ARB 0x90EB
 #define GL_MAX_COMPUTE_VARIABLE_GROUP_SIZE_ARB 0x9345
 #define GL_MAX_COMPUTE_FIXED_GROUP_SIZE_ARB 0x91BF
+=======
+#define GL_MAX_compute_VARIABLE_GROUP_INVOCATIONS_ARB 0x9344
+#define GL_MAX_compute_FIXED_GROUP_INVOCATIONS_ARB 0x90EB
+#define GL_MAX_compute_VARIABLE_GROUP_SIZE_ARB 0x9345
+#define GL_MAX_compute_FIXED_GROUP_SIZE_ARB 0x91BF
+>>>>>>> origin/julia_fractal
 typedef void (APIENTRYP PFNGLDISPATCHCOMPUTEGROUPSIZEARBPROC) (GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z, GLuint group_size_x, GLuint group_size_y, GLuint group_size_z);
 #ifdef GL_GLEXT_PROTOTYPES
 GLAPI void APIENTRY glDispatchComputeGroupSizeARB (GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z, GLuint group_size_x, GLuint group_size_y, GLuint group_size_z);
@@ -8522,8 +8533,13 @@ GLAPI void APIENTRY glBlendBarrierNV (void);
 
 #ifndef GL_NV_compute_program5
 #define GL_NV_compute_program5 1
+<<<<<<< HEAD
 #define GL_COMPUTE_PROGRAM_NV             0x90FB
 #define GL_COMPUTE_PROGRAM_PARAMETER_BUFFER_NV 0x90FC
+=======
+#define GL_compute_PROGRAM_NV             0x90FB
+#define GL_compute_PROGRAM_PARAMETER_BUFFER_NV 0x90FC
+>>>>>>> origin/julia_fractal
 #endif /* GL_NV_compute_program5 */
 
 #ifndef GL_NV_conditional_render
