@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 22:57:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 14:36:01 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/30 21:12:56 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,7 +328,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 								   .ka = 0.1f,
 								   .ks = 0.1f,
 								   .exp = 100.0f};
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	// add_instance(instance_manager, object_info);
 

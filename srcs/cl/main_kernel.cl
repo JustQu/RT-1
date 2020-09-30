@@ -119,7 +119,7 @@ void main_kernel(__global t_color *image,	//0
 			camera_sampler.jump = (random(&seed) % camera_sampler.num_sets) * camera_sampler.num_samples;
 	}
 
-	if (false && global_id == 0 && step == 0)
+	if (true && global_id == 0 && step == 0)
 	{
 		printf("GPU:\nobj %u\n", sizeof(t_obj));
 		printf("instance %u\n", sizeof(t_instance));

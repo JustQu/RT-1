@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/27 18:28:02 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/30 20:45:14 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "gui.h"
-#include "julia.h"
 #include "app.h"
+#include "julia.h"
+// #include "app.h"
 #include <stdio.h>
 
 SDL_Rect	init_rect_size(int x, int y, int w, int h)
@@ -103,7 +104,7 @@ void	init_colors(t_colors *color)
 	color->green_color.a = 0;
 }
 
-#define BANANA 0
+#define BANANA 1
 #define printf(...) if (BANANA) printf(__VA_ARGS__);
 
 FILE *f;
@@ -209,7 +210,7 @@ void	main_loop(t_app app)
 #include <stdlib.h>
 #include <time.h>
 
-#include "app.h"
+
 
 int main(int ac, char **av)
 {

@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 18:37:14 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/26 15:15:01 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/28 15:24:29 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTIL_H
 # define UTIL_H
 
-# include "rt_types.h"
+# ifndef __OPENCL_C_VERSION__
+#  include "rt_types.h"
+#endif
 
 void	*ft_realloc(void *mem, size_t current_size, size_t new_size);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/09/28 14:32:38 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/28 15:00:19 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,17 @@
 #ifndef GUI_H
 # define GUI_H
 
+#ifndef __DARWIN__
+# include <SDL2/SDL_render.h>
+# include <SDL2/SDL_image.h>
+# include <SDL2/SDL_ttf.h>
+# include <SDL2/SDL2_gfxPrimitives.h>
+#else
 # include <SDL_render.h>
 # include <SDL_image.h>
 # include <SDL_ttf.h>
 # include <SDL2_gfxPrimitives.h>
+#endif
 
 # include "instance_manager.h"
 
