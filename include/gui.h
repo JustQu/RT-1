@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/09/28 15:00:19 by user             ###   ########.fr       */
+/*   Updated: 2020/10/02 16:16:41 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@
 #endif
 
 # include "instance_manager.h"
+# include "window.h"
 
-# define WIDTH_MENU WIDTH / 4
-# define WIDTH_OFFSET WIDTH - WIDTH / 4
+# define WIDTH_MENU DEFAULT_WIDTH / 4
+# define WIDTH_OFFSET DEFAULT_WIDTH - DEFAULT_WIDTH / 4
 # define MARGIN 10
 # define MARGIN_Y 10
 # define FONT_TITLE_SIZE 20
@@ -89,8 +90,9 @@ typedef struct	s_all_rect
 	SDL_Rect	background;
 	SDL_Rect	checkbox_button_shadow;
 	SDL_Rect	checkbox_button_ambient;
-	SDL_Rect	tab_main_button;
-	SDL_Rect	tab_render_button;
+	SDL_Rect	tab_camera_button;
+	SDL_Rect	tab_objects_button;
+	SDL_Rect	tab_options_button;
 	SDL_Rect	specular_button_10;
 	SDL_Rect	fractol_button;
 }				t_all_rect;
@@ -107,9 +109,9 @@ typedef struct 	s_colors
 	SDL_Color	green_color;
 }				t_colors;
 
-int				init_gui(t_gui *gui);
+// int				init_gui(t_gui *gui);
 
-int				main_gui(t_rt *rt, t_all_rect *all_rect, t_colors *color);
+int				main_gui(t_window *win, t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void			draw_background(t_rt *rt);
 void 			render_texture(SDL_Texture *tex, SDL_Renderer *ren,
 								int x, int y);
@@ -120,7 +122,7 @@ void			xyz_text(t_rt *rt, float *xyz, SDL_Color *text_color,
 							int y, int x);
 void			draw_titles_xyz(t_rt *rt, SDL_Color *color);
 void			draw_xyz(t_rt *rt, int y, t_vector *vector, t_colors *color);
-void			draw_fill_rect(t_rt *rt, SDL_Rect *background, SDL_Color *color);
+void			draw_fill_rect(t_window *win, SDL_Rect *background, SDL_Color *color);
 SDL_Texture*	render_text(char *message, char *fontFile, SDL_Color color,
 							int fontSize,	SDL_Renderer *renderer);
 void			draw_button(t_rt *rt, SDL_Rect *rect, char *str,
@@ -133,16 +135,16 @@ void			keyboard(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void			mouse_move(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void			create_xyz_subtitles(t_rt *rt, int x, int y, char *str,
 											t_colors *color);
-void			gui_tab_bar(t_rt *rt, t_all_rect *rect, t_colors *color);
-void			render_tab_bar(t_rt *rt, SDL_Color *color,
+void			gui_tab_bar(t_window *win, t_all_rect *rect, t_colors *color);
+void			render_tab_bar(t_window *win, SDL_Color *color,
 								SDL_Rect *rect, int x, char *str);
 void			draw_main_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void			draw_render_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void			progress_bar(t_rt *rt, t_colors *color, t_all_rect *all_rect);
-void			draw_title_ray_tracing(t_rt *rt, SDL_Color *color);
-void			color_tab_render(t_rt *rt, t_colors *color,
+void			draw_title_ray_tracing(t_window *win, SDL_Color *color);
+void			color_tab_render(t_window *win, t_colors *color,
 									t_all_rect *all_rect);
-void			color_tab_main(t_rt *rt, t_colors *color, t_all_rect *all_rect);
+void			color_tab_main(t_window *win, t_colors *color, t_all_rect *all_rect);
 void			draw_ispressed_checkbox(t_rt *rt, SDL_Rect *rect,
 										char *str, t_colors *color);
 void			draw_render_checkbox(t_rt *rt, SDL_Rect *all_rect,

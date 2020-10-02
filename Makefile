@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
+#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/10/01 17:04:30 by alex             ###   ########.fr        #
+#    Updated: 2020/10/02 16:02:31 by user             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,11 @@ ifeq ($(SYSTEM), $(MACOS))
 			 -framework SDL2\
 			 -framework OpenCL
 
+
+	SDL		= -lSDL2_image\
+			 -lSDL2_ttf\
+			 -lSDL2_gfx
+
 	LDFLAGS = -L$(LIBFTDIR)\
 			  -F $(LIBSDIR)\
 			  -rpath $(LIBSDIR)
@@ -45,6 +50,7 @@ else ifeq ($(SYSTEM), $(LINUX))
 	LDLIBS = -lm\
 			 -l SDL2\
 			 -l OpenCL
+			 -lSDL2_image -lSDL2_ttf -lSDL2_gfx
 
 	LDFLAGS	= $(LIBFT)
 
@@ -76,8 +82,10 @@ color.c                               object_manager.c        rt_options.c\
 create_program.c        init.c                                 sampler.c\
 error_handling.c        instance_manager.c                     sampler_manager.c\
                                  scene.c\
+main_gui.c	gui_render_text.c	gui_tab_bar.c\
 # gui_button.c	gui_checkbox.c	gui_gradient.c	gui_progress_bar.c\
-# gui_render_text.c	gui_tab_bar.c	gui_xyz.c	main_gui.c\
+# gui_render_text.c		gui_xyz.c\
+
 
 OBJSDIR = ./obj/
 OBJS = $(addprefix $(OBJSDIR), $(SRCS:.c=.o))
@@ -86,7 +94,7 @@ all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS) $(INCS) $(LIBFTHEAD)
 	@echo 'making executable'
-	$(CC) -o $@ $(OBJS) $(LDLIBS) $(LDFLAGS)
+	$(CC) -o $@ $(OBJS) $(LDLIBS) $(SDL) $(LDFLAGS)
 	@echo DONE!
 
 

@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/30 20:45:14 by user             ###   ########.fr       */
+/*   Updated: 2020/10/02 16:18:41 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "julia.h"
 // #include "app.h"
 #include <stdio.h>
+#include "libft.h"
 
 SDL_Rect	init_rect_size(int x, int y, int w, int h)
 {
@@ -28,14 +29,14 @@ SDL_Rect	init_rect_size(int x, int y, int w, int h)
 	return (rect);
 }
 
-void	init_rect(t_all_rect *rect)
+void	init_rect(t_all_rect *rect, t_window *win)
 {
 	 rect->color_picker_button = init_rect_size(WIDTH_OFFSET + MARGIN,
 		(FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 6 + HEIGHT_BUTTON,
 		rect->color_picker_button.x + 70,
 		rect->color_picker_button.y + HEIGHT_BUTTON);
 
-	rect->background = init_rect_size(WIDTH_OFFSET, 0, WIDTH_MENU, HEIGHT);
+	rect->background = init_rect_size(win->width - 300, 0, WIDTH_MENU, HEIGHT);
 
 	rect->color_picker = init_rect_size(WIDTH_OFFSET + MARGIN, 500, WIDTH_MENU - MARGIN * 2, 200);
 
@@ -51,11 +52,14 @@ void	init_rect(t_all_rect *rect)
 	rect->specular_button_10 = init_rect_size(WIDTH - MARGIN - HEIGHT_BUTTON, ((FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y) * 2 + MARGIN_Y * 6,
 		WIDTH - MARGIN - HEIGHT_BUTTON + HEIGHT_BUTTON, ((FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y) * 2 + MARGIN_Y * 6 + HEIGHT_BUTTON);
 
-	rect->tab_main_button = init_rect_size(WIDTH_OFFSET + MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON,
+	rect->tab_camera_button = init_rect_size(WIDTH_OFFSET + MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON,
 		WIDTH_OFFSET + MARGIN + WIDTH_MENU / 2, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON + HEIGHT_BUTTON);
 
-	rect->tab_render_button = init_rect_size(rect->tab_main_button.w, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON,
-		rect->tab_main_button.w + WIDTH_MENU / 2, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON + HEIGHT_BUTTON);
+	rect->tab_objects_button = init_rect_size(rect->tab_camera_button.w, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON,
+		rect->tab_camera_button.w + WIDTH_MENU / 2, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON + HEIGHT_BUTTON);
+
+	rect->tab_options_button = init_rect_size(rect->tab_objects_button.w, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON,
+			rect->tab_objects_button.w + WIDTH_MENU / 2, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON + HEIGHT_BUTTON);
 
 	rect->fractol_button = init_rect_size(WIDTH_OFFSET + MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 4 + HEIGHT_BUTTON * 2,
 		WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 4 + HEIGHT_BUTTON * 3);
@@ -147,7 +151,7 @@ void	display_image(t_window *w)
 	SDL_UpdateTexture(w->texture, NULL, w->image, sizeof(uint32_t) * w->width);
 	SDL_RenderClear(w->renderer);
 	SDL_RenderCopy(w->renderer, w->texture, NULL, NULL);
-	SDL_RenderPresent(w->renderer);
+	// SDL_RenderPresent(w->renderer);
 }
 
 void	write_buffers(t_rt rt)
@@ -210,14 +214,37 @@ void	main_loop(t_app app)
 #include <stdlib.h>
 #include <time.h>
 
-
+// void	init_gui(t_window *win)
+// {
+// 	if (!(win->texture = SDL_CreateTexture(win->renderer,
+// 		SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
+// 		WIDTH_MENU, DEFAULT_HEIGHT)))
+// 	{
+// 		SDL_DestroyWindow(win->ptr);
+// 		// quit("SDL_CreateTexture Error");
+// 	}
+// 	win->image = (uint32_t *)malloc(sizeof(uint32_t) *
+// 				WIDTH_MENU * DEFAULT_HEIGHT);
+// 	ft_memset(win->image, 0, sizeof(uint32_t) * WIDTH_MENU * DEFAULT_HEIGHT);
+// 	if (!win->image)
+// 		perror("win->image malloc");
+// 	win->rgb_image = (t_color *)malloc(sizeof(t_color) * WIDTH_MENU * DEFAULT_HEIGHT);
+// 	ft_memset(win->rgb_image, 0, sizeof(t_color) * WIDTH_MENU * DEFAULT_HEIGHT);
+// }
 
 int main(int ac, char **av)
 {
 	t_app	app;
 	int		value;
+	t_window	window_gui;
+	t_all_rect all_rect;
+	t_colors color;
+	t_rt rt;
 
+
+	init_colors(&color);
 	init_app(&app, ac, av);
+	init_rect(&all_rect, &app.window);
 	f = fopen("ocl.cl", "w+");
 	if (f == NULL)
 	{
@@ -238,16 +265,13 @@ int main(int ac, char **av)
 			printf("triangle %zd\n", sizeof(t_triangle));
 			main_loop(app);
 			display_image(&app.window);
+			main_gui(&app.window, &rt, &all_rect, &color);
+			SDL_RenderPresent(app.window.renderer);
 		}
 	}
 	// cleanup(app.rt);
 
 	exit_program(app.window);
-	t_all_rect all_rect;
-	t_colors color;
-
-	init_rect(&all_rect);
-	init_colors(&color);
 
 	//init rt
 	// rt.direction.x = 1.23;
@@ -265,24 +289,19 @@ int main(int ac, char **av)
 	// rt.is_pressed.ambient = 1;
 	// rt.is_pressed.render_tab = 0;
 	// rt.is_pressed.main_tab = 0;
-
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-		printf("Error");
+	// 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+	// 	printf("Error");
 	// IMG_Init(IMG_INIT_PNG);
-	// rt.sdl.win = SDL_CreateWindow("Menu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
-	// if (rt.sdl.win == NULL)
-		// printf("Error");
-	// rt.sdl.render = SDL_CreateRenderer(rt.sdl.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	// if (rt.sdl.render == NULL)
-		// printf("Error");
-	// SDL_SetRenderDrawColor(rt.sdl.render, 255, 255, 255, 255);
-	// SDL_RenderClear(rt.sdl.render);
-	// main_gui(&rt, &all_rect, &color);
-	// while (1)
-	// {
-		// keyboard(&rt, &all_rect, &color);
-		// SDL_RenderPresent(rt.sdl.render);
-	// }
+	// window_gui.ptr = SDL_CreateWindow("Menu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
+	// if (window_gui.ptr == NULL)
+	// 	printf("Error");
+	// window_gui.renderer = SDL_CreateRenderer(window_gui.ptr, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	// if (window_gui.renderer == NULL)
+	// 	printf("Error");
+	// SDL_SetRenderDrawColor(window_gui.renderer, 255, 255, 255, 255);
+	// SDL_RenderClear(window_gui.renderer);
+	// main_gui(&window_gui, &rt, &all_rect, &color);
+
 	SDL_Quit();
 	return (0);
 }

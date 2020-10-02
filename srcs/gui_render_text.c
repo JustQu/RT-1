@@ -6,19 +6,22 @@ SDL_Texture*		render_text(char *message, char *fontFile,
 {
 		TTF_Font *font;
 		SDL_Surface *surf;
+		SDL_Texture *texture;
 
 		font = TTF_OpenFont(fontFile, fontSize);
 		if (font == NULL)
 				return (NULL);
 		surf = TTF_RenderText_Blended(font, message, color);
-		if (surf == NULL){
+		if (surf == NULL)
+		{
 				return (NULL);
 		}
-		SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
-		if (texture == NULL){
+		texture = SDL_CreateTextureFromSurface(renderer, surf);
+		if (texture == NULL)
+		{
 				return (NULL);
 		}
-		SDL_FreeSurface(surf);
+		// SDL_FreeSurface(surf);
 		TTF_CloseFont(font);
 		return texture;
 }
