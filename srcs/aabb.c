@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:24:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/24 00:42:53 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/03 19:19:31 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,14 @@ t_bbox compute_aabb(t_instance_manager instance_mngr, int id)
 	}
 	else if (instance.type == cylinder) //note:caped cylinder
 	{
-		aabb.max = (cl_float4){.x = 1.0f, .y = 1.0f, .z = 1.0f, .w = 0.0f};
-		aabb.min = (cl_float4){.x = -1.0f, .y = 0.0f, .z = 0.0f, .w = 0.0f};
+		aabb.max.x = 4.0f;
+		aabb.max.y = 4;
+		aabb.max.z = 4;
+		aabb.min.x = -4;
+		aabb.min.y = -4;
+		aabb.min.z = -4;;
+		// aabb.max = (cl_float4){.x = 1.0f, .y = 1.0f, .z = 1.0f, .w = 0.0f};
+		// aabb.min = (cl_float4){.x = -1.0f, .y = -1.0f, .z = -1.0f, .w = 0.0f};
 	}
 	else if (instance.type == cone)
 	{
@@ -112,10 +118,15 @@ t_bbox compute_aabb(t_instance_manager instance_mngr, int id)
 	{
 		//todo
 	}
+	else if (instance.type == box)
+	{
+		aabb.max = obj.bounding_box.max;
+		aabb.min = obj.bounding_box.min;
+	}
 	else if (instance.type == torus)
 	{
-		aabb.max = (cl_float4){.x = obj.r + obj.r2, .y = obj.r2, .z = obj.r + obj.r2, .w = 0.0f};
-		aabb.min = (cl_float4){.x = -obj.r - obj.r2, .y = -obj.r2, .z = -obj.r - obj.r2, .w = 0.0f};
+		aabb.max = (cl_float4){.x = obj.r + obj.r2, .y = obj.r + obj.r2, .z = obj.r + obj.r2, .w = 0.0f};
+		aabb.min = (cl_float4){.x = -obj.r - obj.r2, .y = -obj.r - obj.r2, .z = -obj.r - obj.r2, .w = 0.0f};
 	}
 	//todo
 	aabb = transform_aabb(aabb, get_transformation_matrix(instance_mngr, id));

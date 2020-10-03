@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 13:57:38 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/02 23:11:17 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 
 typedef struct s_rt_options		t_rt_options;
 
+/*
+** TODO(dmelessa): move seed to this struct
+*/
 struct				s_rt_options
 {
 	t_sampler		ambient_occluder_sampler;
@@ -37,7 +40,7 @@ struct				s_rt_options
 
 	cl_int			area_lightning;
 
-	// cl_int			spp; //samples per pixel
+	cl_float		spp; //samples per pixel
 	cl_int			aa_id; //anti-aliasing sampler id
 };
 

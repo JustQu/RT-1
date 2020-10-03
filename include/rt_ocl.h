@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 15:45:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/27 12:36:11 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/02 22:03:50 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,11 @@ typedef struct			s_cl_program
 	cl_kernel			kernel;
 	cl_kernel			new_kernel;
 	cl_kernel			help_kernel;
+	cl_kernel			julia_kernel;
 
 	cl_mem				rgb_image;
 	cl_mem				output_image;
+	cl_mem				buff;
 
 	cl_mem				instances;
 	cl_mem				objects;

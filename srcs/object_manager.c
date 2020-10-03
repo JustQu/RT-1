@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 13:22:40 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 16:21:56 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/01 14:52:52 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int		add_obj(t_instance_manager *mngr, t_object_info object_info)
 	object.origin = (cl_float4){0.0f, 0.0f, 0.0f, 0.0f};
 	object.r = object_info.r;
 	object.r2 = object_info.r2;
+	object.bounding_box = object_info.bounding_box;
 
 	mngr->objects[mngr->nobjects] = object;
 	return (++mngr->nobjects - 1);

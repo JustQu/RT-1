@@ -117,7 +117,7 @@ bool	box_intersection(t_ray ray, t_obj box, t_hit_info *hit_info)
 	float tx_max, ty_max, tz_max;
 	float a = 1.0f / dx;
 
-	t_bbox bbox; /* = box.bounding_box; */
+	t_bbox bbox = box.bounding_box;
 
 	if (a >= 0.0f)
 	{
@@ -581,7 +581,7 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle, t_hit_info *hit_info)
 			}
 		}
 	}
-	hit_info->t = t;
+	hit_info->t = t * 0.99f;
 	return (intersect);
 }
 

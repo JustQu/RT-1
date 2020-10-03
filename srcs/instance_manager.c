@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 19:52:25 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/27 14:12:21 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/04 00:08:52 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int			init_instance_manager(t_instance_manager *mngr)
 	int	a;
 
 	a = 1;
+	init_texture_manager(&mngr->texture_manager);
 	*mngr = (t_instance_manager){ .ninstances = 0, .nobjects = 0,
 		.ntriangles = 0, .nmatrices = 0,
 		.instances_malloc_size = a * sizeof(t_instance),
@@ -54,9 +55,9 @@ t_matrix	create_transformation_matrix(t_object_info obj_info)
 	cl_float3	test;
 
 	m = IDENTITY_MATRIX;
-	m = mul_matrix(m, get_inverse_translation_matrix(obj_info.origin));
 	m = mul_matrix(m, get_inverse_scale_matrix(obj_info.scaling));
 	m = mul_matrix(m, get_inverse_rotation_matrix(obj_info.rotation));
+	m = mul_matrix(m, get_inverse_translation_matrix(obj_info.origin));
 	return (m);
 }
 
@@ -69,6 +70,10 @@ int		set_object_info(t_object_info *object_info,
 	object_info->scaling = parsed_object.scaling;
 	object_info->r = parsed_object.r;
 	object_info->r2 = parsed_object.r2;
+	object_info->bounding_box.min = parsed_object.vector1;
+	object_info->bounding_box.max = parsed_object.vector2;
+	object_info->minm = 0.0f;
+	object_info->maxm = 1.0f;
 }
 
 /**

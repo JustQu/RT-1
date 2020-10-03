@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 19:54:03 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/27 14:13:39 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/02 22:04:03 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 static void	set_kernel_args(t_rt rt, int step)
 {
+	static uint32_t a;
 	cl_kernel	k;
 	int			err;
 
@@ -47,27 +48,30 @@ static void	set_kernel_args(t_rt rt, int step)
 	err |= clSetKernelArg(k, 19, sizeof(cl_mem), &rt.ocl_program.disk_samples);
 	err |= clSetKernelArg(k, 20, sizeof(cl_mem),
 							&rt.ocl_program.hemisphere_samples);
+	err |= clSetKernelArg(k, 21, sizeof(uint32_t), &a);
+	a++;
 	assert(!err);
 }
+
 
 void	render_scene(t_rt rt)
 {
 	int	err;
 	int	i;
-
 	i = 0;
 	while (i < NUM_SAMPLES)
 	{
 		set_kernel_args(rt, i);
 		err = clEnqueueNDRangeKernel(rt.ocl_program.info.queue,
-									rt.ocl_program.new_kernel,
-									1, NULL,
-									&rt.ocl_program.work_size,
-									&rt.ocl_program.work_group_size,
-									0, NULL, NULL);
+									 rt.ocl_program.new_kernel,
+									 1, NULL,
+									 &rt.ocl_program.work_size,
+									 &rt.ocl_program.work_group_size,
+									 0, NULL, NULL);
 		cl_error(&rt.ocl_program, &rt.ocl_program.info, err);
 		assert(!err);
 		i++;
+		// printf("RENDERING: %f\n", 100.0f * i / NUM_SAMPLES);
 	}
 }
 

@@ -36,6 +36,12 @@ void	init_sampler_manager(t_sampler_manager *sampler_manager,
 	sampler_manager->hemisphere_samples = hemisphere_samples;
 }
 
+float		hash(float seed)
+{
+	float res;
+	return fract(sin(seed) * 43758.5453123, &res);
+}
+
 /*
 ** Новый кернел.
 ** Поскольку драйвер убивает кернел если он выполняется дольше чем 0,5 секунды,
@@ -63,7 +69,8 @@ void main_kernel(__global t_color *image,	//0
 				__global t_sampler *samplers, //17
 				__global float2 *samples, //18
 				__global float2 *disk_samples,	//19
-				__global float3 *hemisphere_samples) //20
+				__global float3 *hemisphere_samples,
+				uint num) //20
 {
 	int					global_id;
 	int					x;
@@ -79,11 +86,26 @@ void main_kernel(__global t_color *image,	//0
 
 	/* Инициализируем нужные переменные и структуры */
 	global_id = get_global_id(0);
+	if (global_id == 0)
+		printf("Rendering: %f%%\n", step / options.spp * 100.0f);
 	x = global_id % camera.viewplane.width;
 	y = global_id / camera.viewplane.width;;
-	seed.x = global_id;
-	seed.y = get_local_id(0) + get_group_id(0);
+
+	seed.x = global_id + x + num;
+	seed.y = y + get_local_id(0) + get_group_id(0);
 	seed.y = random(&seed);
+
+	float4 state;
+	float2 s;
+
+	s.x = seed.x;
+	s.y = seed.y / ((float)num + 1.0f) * 43534.0f - num;
+
+	state.x = hash(s.x + seed.x);
+	state.y = hash(s.y + state.x);
+	state.z = hash(state.x + state.y);
+	state.w = hash(s.y - state.x * state.y);
+	GPURnd(&state);
 
 	init_scene(&scene,
 				instances, ninstances, objects, nobjects,
@@ -100,11 +122,13 @@ void main_kernel(__global t_color *image,	//0
 	/* Если это не первый шаг, то считаем прыжок для семплеров */
 	if (step != 0)
 	{
-		ao_sampler.jump = (random(&seed) % ao_sampler.num_sets) * ao_sampler.num_samples;
+		ao_sampler.jump = ((num + random(&seed)) % ao_sampler.num_sets) * ao_sampler.num_samples;
 		options.ambient_occluder_sampler.jump = (random(&seed) % options.ambient_occluder_sampler.num_sets) * options.ambient_occluder_sampler.num_samples;
 	}
 	else
+	{
 		image[global_id] = (t_color){.r = 0.0f, .g = 0.0f, .b = 0.0f};
+	}
 
 	/* */
 	float2	sp = sample_unit_square(&ao_sampler, sampler_manager.samples, &seed);
@@ -131,7 +155,49 @@ void main_kernel(__global t_color *image,	//0
 	}
 
 	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed);
-	color = ray_trace(ray, scene, options, sampler_manager, &seed);
+	// color = ray_trace(ray, scene, options, sampler_manager, &seed);
+
+	color = path_tracer2(ray, scene, options, sampler_manager, &seed, &state);
 
 	image[global_id] = color_sum(image[global_id], color);
+}
+
+typedef union cnv
+{
+	uint	a;
+	float4	b;
+}cnv;
+
+__kernel void	noise(__global t_color *img)
+{
+	int		gid = get_global_id(0);
+	int		x = gid % 1200;
+	int		y = gid / 1200;
+
+	float4	state;
+
+	float2 seed;
+
+	seed.x = x;
+	seed.y = y;
+	seed = (seed * 2.0f - (float2)(1200.0f, 600.0f)) / 600.0f;
+
+	state.x = hash(seed.x);
+	state.y = hash(seed.y + state.x);
+	state.z = hash(state.x + state.y);
+	state.w = hash(seed.y + dot(state.xyz, (float3)(1.1f)));
+
+	float	n;
+	for (int i = 0; i < 1; i++)
+	{
+		n = GPURnd(&state);
+	}
+
+	t_color color;
+
+	n = GPURnd(&state);
+	color.r = n;
+	color.g = n;
+	color.b = n;
+	img[gid] = color;
 }

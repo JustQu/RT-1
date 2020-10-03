@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:23:02 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 16:14:12 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/30 00:49:10 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,10 @@ t_matrix x_rotate(cl_float angle)
 	t_matrix matrix;
 
 	matrix = g_default_matrix;
-	matrix.s[5] = cos(angle);
-	matrix.s[6] = -sin(angle);
-	matrix.s[9] = sin(angle);
-	matrix.s[10] = cos(angle);
+	matrix.s[5] = cos(angle* M_PI / 180.0f);
+	matrix.s[6] = -sin(angle* M_PI / 180.0f);
+	matrix.s[9] = sin(angle* M_PI / 180.0f);
+	matrix.s[10] = cos(angle* M_PI / 180.0f);
 	return (matrix);
 }
 
@@ -152,7 +152,7 @@ t_matrix y_rotate(cl_float angle)
 	t_matrix matrix;
 
 	matrix = g_default_matrix;
-	matrix.s[0] = cos(angle);
+	matrix.s[0] = cos(angle * M_PI / 180.0f);
 	matrix.s[2] = sin(angle);
 	matrix.s[8] = -sin(angle);
 	matrix.s[10] = cos(angle);
@@ -175,10 +175,10 @@ t_matrix z_rotate(cl_float angle)
 	t_matrix matrix;
 
 	matrix = g_default_matrix;
-	matrix.s[0] = cos(angle);
-	matrix.s[1] = -sin(angle);
-	matrix.s[4] = sin(angle);
-	matrix.s[5] = cos(angle);
+	matrix.s[0] = cos(angle* M_PI / 180.0f);
+	matrix.s[1] = -sin(angle* M_PI / 180.0f);
+	matrix.s[4] = sin(angle* M_PI / 180.0f);
+	matrix.s[5] = cos(angle* M_PI / 180.0f);
 	return (matrix);
 }
 

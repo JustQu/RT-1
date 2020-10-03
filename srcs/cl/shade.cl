@@ -58,20 +58,20 @@ t_color		shade_phong(t_material material,
 	// /* revert camera ray for specular light */
 	shade_rec.ray.direction = -shade_rec.ray.direction;
 
-	// if (options.ambient_occlusion) /* ambient occlusion */
-	// {
-	// 	color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
-	// 	color = color_multi(color, material.color);
-	// }
-	// else /* compute constant ambient light using ka coefficent of the materail */
-	// {
-	// 	color = lambertian_rho(material.ka, material.color);
-	// 	color_tmp = get_light_radiance(scene.ambient_light);
-	// 	color = color_multi(color, color_tmp);
-	// }
-	color.r = 0.0f;
-	color.g = 0.0f;
-	color.b = 0.0f;
+	if (options.ambient_occlusion) /* ambient occlusion */
+	{
+		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
+		color = color_multi(color, material.color);
+	}
+	else /* compute constant ambient light using ka coefficent of the materail */
+	{
+		color = lambertian_rho(material.ka, material.color);
+		color_tmp = get_light_radiance(scene.ambient_light);
+		color = color_multi(color, color_tmp);
+	}
+	// color.r = 0.0f;
+	// color.g = 0.0f;
+	// color.b = 0.0f;
 
 	/* compute sahding for each light source */
 	for (int i = 0; i < scene.nlights; i++)
@@ -130,17 +130,21 @@ inline t_color		shade_matte(t_material material,
 	t_color	color_tmp;
 	t_color	color;
 
-	// if (options.ambient_occlusion) /* ambient occlusion */
-	// {
-	// 	color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
-	// 	color = color_multi(color, material.color);
-	// }
-	// else /* compute constant ambient light using ka coefficent of the materail */
-	// {
-	// 	color = lambertian_rho(material.ka, material.color);
-	// 	color_tmp = get_light_radiance(scene.ambient_light);
-	// 	color = color_multi(color, color_tmp);
-	// }
+	if (options.ambient_occlusion) /* ambient occlusion */
+	{
+		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
+		color = color_multi(color, material.color);
+	}
+	else /* compute constant ambient light using ka coefficent of the materail */
+	{
+		color = lambertian_rho(material.ka, material.color);
+		color_tmp = get_light_radiance(scene.ambient_light);
+		color = color_multi(color, color_tmp);
+	}
+
+	// color.r = 0.0f;
+	// color.g = 0.0f;
+	// color.b = 0.0f;
 
 	/* compute sahding for each light source */
 	for (int i = 0; i < scene.nlights; i++)

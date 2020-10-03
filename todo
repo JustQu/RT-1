@@ -1,2 +1,17 @@
 1. antialiasing sampler in options
-2. 
+2. julia
+3. gui
+4. plane in bvh and limit other surfaces
+5. color pattern
+6.---------reflections.--------
+	6.1 glossy reflections 25
+7. materal system
+8. path tracer
+9. denoising?
+10. motion blur
+
+literature:
+http://www.realtimerendering.com/
+suffern Ray Tracing from the Ground Up,
+ray tracing in one weekend
+siggraph 2019

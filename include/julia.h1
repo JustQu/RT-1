@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:32:04 by user              #+#    #+#             */
-/*   Updated: 2020/09/24 16:41:37 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/02 23:36:19 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct			s_texture
 	size_t				type_size;
 	uint				active_uint;
 	void				*host_image_buffer;
-}						t_texture;
+}						t_texture2;
 
 typedef struct			s_compute
 {
@@ -94,7 +94,7 @@ typedef struct			s_compute
 
 void					init_julia_color(t_julia_color *color);
 void					init_compute_cl(t_compute *compute);
-void					init_texture_cl(t_texture *texture);
+void					init_texture_cl(t_texture2 *texture);
 void					setup_color(float color[4], float r,
 							float g, float b, float a);
 void					random_color(float v[4]);
@@ -103,16 +103,16 @@ int						divide_up(int a, int b);
 void					interpolate(float m[4], float t, float a[4], float b[4]);
 void					update_color(float t[4], float a[4], float b[4]);
 void					error_julia(int err, char *str);
-void					julia_texture(t_texture *texture);
+void					julia_texture(t_texture2 *texture);
 int						recompute(t_compute *compute, t_julia_color *color);
-int						create_compute_result(t_texture *texture, t_compute *compute);
+int						create_compute_result(t_texture2 *texture, t_compute *compute);
 int						setup_compute_kernel(t_compute *compute);
 int						load_text_from_file(
 							const char *file_name, char **result_string, size_t *string_len);
 int						setup_compute_device(t_compute *compute);
-int						setup_graphics(t_texture *texture);
-void					create_texture(t_texture *texture);
-int						init_cl(t_texture *texture, t_compute *compute,
+int						setup_graphics(t_texture2 *texture);
+void					create_texture(t_texture2 *texture);
+int						init_cl(t_texture2 *texture, t_compute *compute,
 							t_julia_color *color);
 int						main_qjulia();
 #endif

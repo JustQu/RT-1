@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 14:44:59 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/30 22:16:19 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static int	init_kernel(t_cl_program *p)
 	p->new_kernel = clCreateKernel(p->program, KERNEL_NAME, &r);
 	assert(!r);
 	p->help_kernel = clCreateKernel(p->program, "translate_image", &r);
+	assert(!r);
+	p->kernel = clCreateKernel(p->program, "noise", &r);
 	assert(!r);
 	return (r);
 }

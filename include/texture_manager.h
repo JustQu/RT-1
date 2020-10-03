@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   texture_manager.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/16 18:37:14 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/03 13:16:46 by dmelessa         ###   ########.fr       */
+/*   Created: 2020/10/03 14:41:15 by dmelessa          #+#    #+#             */
+/*   Updated: 2020/10/04 00:08:39 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTIL_H
-# define UTIL_H
+#ifndef TEXTURE_MANAGER_H
+# define TEXTURE_MANAGER_H
 
 # include "rt_types.h"
+# include "texture.h"
+typedef struct s_texture_manager	t_texture_manager;
 
-void	*ft_realloc(void *mem, size_t current_size, size_t new_size);
+// struct material
+// {
+// 	type;
+// 	texutre_id;
+// };
 
-float	float_min(float a, float b);
-float	float_max(float a, float b);
+struct	s_texture_manager
+{
+	t_texture	*textures;
+	char		*imgs_data;
+	size_t		textures_malloc_size;
+	size_t		imgs_data_malloc_size;
+	int			nimgs;
+	int			ntextures;
+	int			current_offset;
+};
 
-float	rand_float();
+int		init_texture_manager(t_texture_manager *texture_manager);
 
 #endif

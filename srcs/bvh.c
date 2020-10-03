@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 19:29:26 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/27 14:11:43 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/30 00:02:07 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,18 @@
 
 cl_float4	point_matrix_mul(cl_float4 point, t_matrix matrix);
 
-void	sort_nodes(t_bvh_node *nodes, int size, int (*cmp)(t_bvh_node, t_bvh_node))
+void	sort_nodes(t_bvh_node *nodes, int size,
+					int (*cmp)(t_bvh_node, t_bvh_node))
 {
-	int			l = 0;
-	int			r = size-1;
-	t_bvh_node	node = nodes[(size + 1)/2];
+	int			l;
+	int			r;
+	t_bvh_node	node;
 	t_bvh_node	tmp;
 
-	if (size <= 1)
+	l = 0;
+	if ((r = size - 1) == 0)
 		return ;
+	node = nodes[(size + 1) / 2];
 	while (l < r)
 	{
 		while (cmp(nodes[l], node))

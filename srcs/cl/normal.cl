@@ -14,8 +14,11 @@ float4	get_plane_normal(t_obj plane, t_hit_info hit_info)
 
 float4	get_cylinder_normal(float4 point, t_obj cylinder, t_hit_info hit_info)
 {
-	return (normalize(point - cylinder.origin
-		- dot(cylinder.direction, (point - cylinder.origin)) * cylinder.direction));
+	return (normalize(point
+					- cylinder.origin
+					- dot(cylinder.direction,
+						(point - cylinder.origin))
+					* cylinder.direction));
 	float m = hit_info.dv * hit_info.t + hit_info.xv;
 	return (normalize(point - cylinder.origin - cylinder.direction * m));
 }
@@ -43,7 +46,7 @@ float4	get_paraboloid_normal(float4 point, t_obj paraboloid, t_hit_info hit_info
 
 float4	get_torus_normal(float4 point, t_obj torus, t_hit_info hit_info)
 {
-		point = 1.0f * point;
+	// point = 1.1f * point;
 	float p = torus.r * torus.r + torus.r2 * torus.r2;
 	float s = point.x * point.x + point.y * point.y + point.z * point.z;
 

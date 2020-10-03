@@ -1,2 +1,26 @@
-
+<kernel>:2183:1: warning: control may reach end of non-void function
+}
+^
+<kernel>:2221:1: warning: control may reach end of non-void function
+}
+^
+<kernel>:2266:1: warning: control may reach end of non-void function
+}
+^
+<kernel>:2279:1: warning: control may reach end of non-void function
+}
+^
+<kernel>:2326:33: warning: implicit declaration of function 'dor' is invalid in C99
+        return (float_color_multi(kr / dor(normal, wi), cr));
+                                       ^
+<kernel>:2876:1: warning: control reaches end of non-void function
+}
+^
+<kernel>:2937:45: error: use of undeclared identifier 'shade_recray'; did you mean 'shade_rec'?
+        shade_rec->normal = dot(shade_rec->normal, shade_recray->direction) < 0.0f ?
+                                                   ^~~~~~~~~~~~
+                                                   shade_rec
+<kernel>:2933:19: note: 'shade_rec' declared here
+                                        t_shade_rec *shade_rec,
+                                                     ^
 

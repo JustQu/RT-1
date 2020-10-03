@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/02 18:12:50 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 14:12:54 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/04 00:07:42 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@
 # include "objects.h"
 # include "matrix.h"
 # include "parser.h"
+# include "texture_manager.h"
 
 typedef struct			s_instance_manager
 {
+	t_texture_manager	texture_manager;
 	t_instance			*instances;
 	t_obj				*objects;
 	t_triangle			*triangles;

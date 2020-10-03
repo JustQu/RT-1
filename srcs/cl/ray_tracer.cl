@@ -2,7 +2,7 @@ float4	get_reflected_vector(float4 l, float4 n)
 {
 	float4	r;
 
-	r = -l + 2 * dot(l, n) * n;
+	r = l - 2 * dot(l, n) * n;
 	return normalize(r);
 }
 
@@ -47,6 +47,7 @@ bool	bvh_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
 
 		if (bbox_intersection(ray, current_node.aabb))
 		{
+			// return true;
 			if (current_node.instance_id == -1)
 			{
 				node_id++;
@@ -80,23 +81,23 @@ bool	scene_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
 	return (bvh_intersection(scene, ray, shade_rec));
 
 	/* old code for bruteforcing*/
-	// t_hit_info	last_hit_info;
+	t_hit_info	last_hit_info;
 
-	// last_hit_info.t = K_HUGE_VALUE;
+	last_hit_info.t = K_HUGE_VALUE;
 
-	// shade_rec->id = -1;
-	// for (int i = 0; i < scene.instance_manager.ninstances; i++)
-	// {
-	// 	t_instance instance = get_instance(scene.instance_manager, i);
-	// 	if (instance_hit(scene.instance_manager, ray, &shade_rec->hit_info, instance)
-	// 		&& shade_rec->hit_info.t < last_hit_info.t)
-	// 	{
-	// 		last_hit_info = shade_rec->hit_info;
-	// 		shade_rec->id = i;
-	// 	}
-	// }
-	// shade_rec->hit_info = last_hit_info;
-	// return (shade_rec->id > -1);
+	shade_rec->id = -1;
+	for (int i = 0; i < scene.instance_manager.ninstances; i++)
+	{
+		t_instance instance = get_instance(scene.instance_manager, i);
+		if (instance_hit(scene.instance_manager, ray, &shade_rec->hit_info, instance)
+			&& shade_rec->hit_info.t < last_hit_info.t)
+		{
+			last_hit_info = shade_rec->hit_info;
+			shade_rec->id = i;
+		}
+	}
+	shade_rec->hit_info = last_hit_info;
+	return (shade_rec->id > -1);
 }
 
 #define maximum_tree_depth 16
@@ -109,9 +110,14 @@ t_color	ray_trace(t_ray ray, t_scene scene, t_rt_options options, t_sampler_mana
 	/* computed color */
 	t_color		color = options.background_color;
 	color.r = 0.0f;
-	color.b = 0.0f;
 	color.g = 0.0f;
+	color.b = 0.0f;
+
 	float		color_coef = 1.0f;
+	t_color		clr_coef;
+	clr_coef.r = 1.0f;
+	clr_coef.g = 1.0f;
+	clr_coef.b = 1.0f;
 
 	/* material of hit object*/
 	t_material	instance_material;
@@ -120,11 +126,13 @@ t_color	ray_trace(t_ray ray, t_scene scene, t_rt_options options, t_sampler_mana
 	uchar		tree_depth = 0;
 
 	while (continue_loop)
-	// do
 	{
+		tree_depth++;
+
 		if (scene_intersection(scene, ray, &shade_rec))
 		{
 			t_instance	instance = scene.instance_manager.instances[shade_rec.id];
+
 			shade_rec.ray =  transform_ray(ray,
 				scene.instance_manager.matrices[instance.matrix_id]);
 
@@ -143,18 +151,33 @@ t_color	ray_trace(t_ray ray, t_scene scene, t_rt_options options, t_sampler_mana
 			shade_rec.normal = dot(shade_rec.normal, ray.direction) < 0.0f ?
 				shade_rec.normal : -shade_rec.normal;
 
-			/* NOTE: we can get material in scene_intersection function */
-			instance_material = get_instance_material(scene.instance_manager, instance);
+			instance_material = get_instance_material(scene.instance_manager,
+														instance);
 
-			/* accumulate color */
-			color = color_sum(color, shade_material(scene, sampler_manager, instance_material, shade_rec, options, seed));
+			/* shade material at hit point and accumulate color */
+			color = color_sum(color,
+							float_color_multi(color_coef,
+											shade_material(scene,
+															sampler_manager,
+															instance_material,
+															shade_rec, options,
+															seed)));
+
+			if (instance_material.is_reflective
+				&& tree_depth < 64 && color_coef > 0.01f)
+			{
+				ray.origin = shade_rec.hit_point + 1e-2f * shade_rec.normal;
+				ray.direction = get_reflected_vector(-ray.direction,
+													shade_rec.normal);
+				color_coef *= instance_material.kr;
+			}
+			else
+				continue_loop = false;
 		}
 		else /* no hit */
 		{
 			continue_loop = false;
-			color = color_sum(color, options.background_color);
 		}
-		continue_loop = false;
 	};
 	return (color);
 }

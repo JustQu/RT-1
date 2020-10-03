@@ -6,13 +6,13 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/27 18:28:02 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/02 23:37:42 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "gui.h"
-#include "julia.h"
+// #include "julia.h"
 #include "app.h"
 #include <stdio.h>
 
@@ -144,7 +144,7 @@ void	exit_program(t_window window)
 void	display_image(t_window *w)
 {
 	SDL_UpdateTexture(w->texture, NULL, w->image, sizeof(uint32_t) * w->width);
-	SDL_RenderClear(w->renderer);
+	// SDL_RenderClear(w->renderer);
 	SDL_RenderCopy(w->renderer, w->texture, NULL, NULL);
 	SDL_RenderPresent(w->renderer);
 }
@@ -190,6 +190,7 @@ void	main_loop(t_app app)
 
 	err_code = 0;
 	render_scene(app.rt);
+
 	int	a = NUM_SAMPLES;
 	clSetKernelArg(app.rt.ocl_program.help_kernel, 0, sizeof(cl_mem), &app.rt.ocl_program.rgb_image);
 	clSetKernelArg(app.rt.ocl_program.help_kernel, 1, sizeof(cl_mem), &app.rt.ocl_program.output_image);
@@ -223,6 +224,10 @@ int main(int ac, char **av)
 		printf("ERROR");
 		exit(0);
 	}
+	display_image(&app.window);
+	display_image(&app.window);
+	display_image(&app.window);
+
 	while (1)
 	{
 		value = catch_event(&app.rt);
@@ -236,7 +241,10 @@ int main(int ac, char **av)
 			printf("material %zd\n", sizeof(t_material));
 			printf("triangle %zd\n", sizeof(t_triangle));
 			main_loop(app);
+			_sleep(1);
 			display_image(&app.window);
+			_sleep(1);
+			// scanf("%d");
 		}
 	}
 	// cleanup(app.rt);

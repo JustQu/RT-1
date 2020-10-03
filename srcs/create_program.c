@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/09/28 14:46:29 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/01 20:18:41 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ static const char *files[] = {
 	"shade.cl",
 	"area_light_shade.cl",
 	"ray_tracer.cl",
+	"path_tracer.cl",
 	"main_kernel.cl",
-	"util_kernels.cl"
+	"util_kernels.cl",
 };
 static int		g_num_files = sizeof(files) / sizeof(char *);
 

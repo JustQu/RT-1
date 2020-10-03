@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 19:44:32 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 14:45:59 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/30 15:33:36 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		init_window(t_window *window)
 		quit("SDL_CreateRenderer Error");
 	}
 	if (!(window->texture = SDL_CreateTexture(window->renderer,
-				SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
+				SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING,
 				DEFAULT_WIDTH, DEFAULT_HEIGHT)))
 	{
 		SDL_DestroyWindow(window->ptr);
