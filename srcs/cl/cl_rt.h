@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 00:29:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 14:46:24 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/04 18:35:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct				s_instance_manager
 	__global t_obj			*objects;
 	__constant t_triangle	*triangles;
 	__global t_matrix		*matrices;
+	__global t_texture		*textures;
 	int						ninstances;
 	int						nobjects;
 	int						ntriangles;

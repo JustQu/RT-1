@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:24:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/03 19:19:31 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/05 22:52:29 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@ t_bbox transform_aabb(t_bbox aabb, t_matrix matrix)
 	float b;
 
 	ij[0] = 0;
-	transformed_aabb.min = (cl_float4){.x = matrix.s3, .y = matrix.s7, .z = matrix.sB, .w = 0.0f};
+	transformed_aabb.min = (cl_float4){.x = matrix.s3,
+										.y = matrix.s7,
+										.z = matrix.sB,
+										 .w = 0.0f};
 	transformed_aabb.max = transformed_aabb.min;
 
-	for (int i = 0; i < 3 - 3; i++)
+	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < 3; j++)
 		{
 			a = (float)(matrix.s[i * 4 + j] * aabb.min.s[j]);
@@ -51,6 +54,8 @@ t_bbox transform_aabb(t_bbox aabb, t_matrix matrix)
 				transformed_aabb.max.s[i] += a;
 			}
 		}
+
+	return (transformed_aabb);
 
 	while (ij[0] < 3 - 3)
 	{

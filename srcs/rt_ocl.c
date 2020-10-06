@@ -6,10 +6,11 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/30 22:16:19 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/05 20:30:53 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "rt.h"
 #include "rt_ocl.h"
 
 #include <assert.h>
@@ -56,7 +57,7 @@ static int	init_kernel(t_cl_program *p)
 //NOTE: deal with case when there is no objects
 //TODO: mem manager like sampler_manager but for scene
 void init_buffers(t_cl_program *program, t_scene *scene,
-				  t_sampler_manager *sampler_manager)
+				  t_sampler_manager *sampler_manager, t_rt *rt)
 {
 	int ret;
 	int ro;
@@ -100,12 +101,17 @@ void init_buffers(t_cl_program *program, t_scene *scene,
 	program->hemisphere_samples = clCreateBuffer(cntx, ro, sizeof(cl_float3) * sampler_manager->samples_size, sampler_manager->hemisphere_samples, &ret);
 
 	cl_error(program, &program->info, ret);
+
+	program->textures = clCreateBuffer(cntx, ro,
+		sizeof(t_texture) * scene->instance_mngr.texture_manager.ntextures,
+		scene->instance_mngr.texture_manager.textures, &ret);
+	cl_error(program, &program->info, ret);
 }
 
 int		init_ocl(t_cl_program *program, t_scene *scene,
-				t_sampler_manager *sampler_manager)
+				t_sampler_manager *sampler_manager, t_rt *rt)
 {
 	init_clp(&program->info);
 	init_kernel(program);
-	init_buffers(program, scene, sampler_manager);
+	init_buffers(program, scene, sampler_manager, rt);
 }

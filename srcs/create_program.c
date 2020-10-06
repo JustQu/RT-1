@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/10/01 20:18:41 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/05 00:18:42 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static const char *files[] = {
 	"color.h",
 	"camera.h",
 	"aabb.h",
+	"texture.h",
 	"material.h",
 	"objects.h",
 	"light.h",
@@ -47,6 +48,7 @@ static const char *files[] = {
 	"ambient_occlusion.cl",
 	"shade.cl",
 	"area_light_shade.cl",
+	"material.cl",
 	"ray_tracer.cl",
 	"path_tracer.cl",
 	"main_kernel.cl",

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/03 23:22:03 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/04 01:27:44 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,5 @@ struct					s_material //kd + ks < 1.0
 	cl_uchar			gap[14];							//2		64
 };
 
+int		create_material(t_material	type);
 #endif

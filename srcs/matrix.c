@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:23:02 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/30 00:49:10 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/05 22:06:35 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,9 @@ t_matrix y_rotate(cl_float angle)
 
 	matrix = g_default_matrix;
 	matrix.s[0] = cos(angle * M_PI / 180.0f);
-	matrix.s[2] = sin(angle);
-	matrix.s[8] = -sin(angle);
-	matrix.s[10] = cos(angle);
+	matrix.s[2] = sin(angle * M_PI / 180.0f);
+	matrix.s[8] = -sin(angle * M_PI / 180.0f);
+	matrix.s[10] = cos(angle * M_PI / 180.0f);
 	return (matrix);
 }
 

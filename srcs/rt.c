@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 19:54:03 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/02 22:04:03 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/05 00:28:12 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	set_kernel_args(t_rt rt, int step)
 	err |= clSetKernelArg(k, 20, sizeof(cl_mem),
 							&rt.ocl_program.hemisphere_samples);
 	err |= clSetKernelArg(k, 21, sizeof(uint32_t), &a);
+	err |= clSetKernelArg(k, 22, sizeof(cl_mem), &rt.ocl_program.textures);
 	a++;
 	assert(!err);
 }
@@ -83,5 +84,5 @@ int		init_rt(t_rt *rt, char *scene_file)
 	rt->options.ambient_occluder_sampler
 		= rt->sampler_manager.samplers[rt->scene.ambient_occluder.sampler_id];
 	rt->scene.bvh = build_bvh(&rt->scene);
-	init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager);
+	init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, rt);
 }

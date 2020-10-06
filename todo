@@ -8,10 +8,12 @@
 7. materal system
 8. path tracer
 9. denoising?
-10. motion blur
+------------------------------10. motion blur
+10. transparent parts of texture
 
 literature:
 http://www.realtimerendering.com/
 suffern Ray Tracing from the Ground Up,
 ray tracing in one weekend
 siggraph 2019
+	object.type = sphere;

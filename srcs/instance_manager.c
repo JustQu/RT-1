@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 19:52:25 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/04 00:08:52 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/05 22:22:25 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int			init_instance_manager(t_instance_manager *mngr)
 	int	a;
 
 	a = 1;
-	init_texture_manager(&mngr->texture_manager);
 	*mngr = (t_instance_manager){ .ninstances = 0, .nobjects = 0,
 		.ntriangles = 0, .nmatrices = 0,
 		.instances_malloc_size = a * sizeof(t_instance),
@@ -29,6 +28,7 @@ int			init_instance_manager(t_instance_manager *mngr)
 		.triangles_malloc_size = a * sizeof(t_triangle),
 		.matrices_malloc_size = a * sizeof(t_matrix),
 		.instances_info_malloc_size = a * sizeof(t_object_info)};
+	init_texture_manager(&mngr->texture_manager);
 	mngr->instances = (t_instance *)ft_memalloc(mngr->instances_malloc_size);
 	mngr->objects = (t_obj *)ft_memalloc(mngr->objects_malloc_size);
 	mngr->triangles = (t_triangle *)ft_memalloc(mngr->triangles_malloc_size);

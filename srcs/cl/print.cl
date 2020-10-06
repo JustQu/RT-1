@@ -13,9 +13,9 @@ void	print_material(t_material material)
 		printf("\033[0m");
 	}
 	printf("\n");
-	printf("\t\tColor:\t%f %f %f| %d\n", material.color.r,
-		material.color.g, material.color.b,
-		((int)(material.color.r * 255) << 16) + ((int)(material.color.g * 255) << 8) + material.color.b);
+	// printf("\t\tColor:\t%f %f %f| %d\n", material.color.r,
+	// 	material.color.g, material.color.b,
+	// 	((int)(material.color.r * 255) << 16) + ((int)(material.color.g * 255) << 8) + material.color.b);
 	printf("\t\tKd:\t%f\n", material.kd);
 	printf("\t\tKa:\t%f\n", material.ka);
 	if (material.type == phong)

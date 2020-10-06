@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 15:45:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/02 22:03:50 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/05 01:21:19 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ typedef struct			s_cl_program
 	cl_mem				lights;
 	cl_mem				bvh;
 
+	cl_mem				textures;
+
 	cl_mem				samplers;
 	cl_mem				samples;
 	cl_mem				disk_samples;
@@ -89,8 +91,10 @@ typedef struct			s_cl_program
 	size_t				work_group_size;
 }						t_cl_program;
 
+typedef struct s_rt	t_rt;
+
 int			init_ocl(t_cl_program *program, t_scene *scene,
-					t_sampler_manager *sampler_manager);
+					t_sampler_manager *sampler_manager, t_rt *rt);
 int			cleanup_ocl(t_cl_program *program);
 cl_program	create_program(cl_context context);
 

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:34:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/04 00:09:21 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/04 19:13:26 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		init_texture_manager(t_texture_manager *texture_manager)
 	a = 100;
 	texture_manager->textures = malloc(sizeof(t_texture) * a);
 	texture_manager->imgs_data = NULL;
-	texture_manager->textures_malloc_size = sizeof(t_texture) * 100;
+	texture_manager->textures_malloc_size = sizeof(t_texture) * a;
 	texture_manager->imgs_data_malloc_size = 0;
 	texture_manager->nimgs = 0;
 	texture_manager->ntextures = 0;

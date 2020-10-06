@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/23 15:26:15 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/03 19:30:46 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/06 13:10:43 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # include "sampler.h"
 
-# define NUM_SAMPLES 100
+# define NUM_SAMPLES 256
 # define NUM_SETS 83
 
 typedef struct		s_sampler_manager //only on cpu ?

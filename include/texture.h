@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 22:49:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/04 00:01:24 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/06 13:37:32 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ enum	e_texture_type
 {
 	solid,
 	checker,
+	checker2d,
 	transparent_checker,
 	reflective_checker,
 	perlin,
@@ -57,7 +58,7 @@ struct	s_image_texture
 union							u_texture_data
 {
 	struct	s_solid_texture		solid;
-	struct	s_checker_texture	cheker;
+	struct	s_checker_texture	checker;
 	struct	s_perlin_texture	pelin;
 
 };
@@ -71,6 +72,15 @@ struct						s_texture		//32bytes
 	union u_texture_data	data;		//16 bytes
 	t_texture_type			type;		//4 bytes
 	char					gap[12];	//12 byte gap
+};
+
+struct						s_texture_handler
+{
+	t_texture				*texture;
+	void					(*new)();
+	void					(*set_type)();
+	void					(*set_kd)();
+
 };
 
 t_texture	create_solid_texture(t_color color);

@@ -5,6 +5,7 @@ void	init_scene(t_scene *scene,
 					__global t_matrix *matrices, int nmatrices,
 					__constant t_light *lights, int nlights,
 					__global t_bvh_node *bvh,
+					__global t_texture *textures,
 					t_camera camera, t_light ambient_light,
 					t_ambient_occluder ambient_occluder)
 {
@@ -16,6 +17,7 @@ void	init_scene(t_scene *scene,
 	scene->instance_manager.ntriangles = ntriangles;
 	scene->instance_manager.matrices = matrices;
 	scene->instance_manager.nmatrices = nmatrices;
+	scene->instance_manager.textures = textures;
 	scene->lights = lights;
 	scene->nlights = nlights;
 	scene->bvh = bvh;
@@ -70,7 +72,9 @@ void main_kernel(__global t_color *image,	//0
 				__global float2 *samples, //18
 				__global float2 *disk_samples,	//19
 				__global float3 *hemisphere_samples,
-				uint num) //20
+				uint num,
+
+				__global t_texture *textures) //20
 {
 	int					global_id;
 	int					x;
@@ -104,13 +108,16 @@ void main_kernel(__global t_color *image,	//0
 	state.x = hash(s.x + seed.x);
 	state.y = hash(s.y + state.x);
 	state.z = hash(state.x + state.y);
-	state.w = hash(s.y - state.x * state.y);
+	state.w = hash(num + s.y - state.x * state.y);
+	GPURnd(&state);
+	GPURnd(&state);
 	GPURnd(&state);
 
 	init_scene(&scene,
 				instances, ninstances, objects, nobjects,
 				triangles, ntriangles, matrices, nmatrices,
 				lights, nlights, bvh,
+				textures,
 				camera, ambient_light, ambient_occluder);
 
 	init_sampler_manager(&sampler_manager, samplers, samples, disk_samples, hemisphere_samples);

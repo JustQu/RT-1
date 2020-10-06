@@ -63,7 +63,8 @@ float	schlick(float cosine, float n)
 /**
 ** todo: add to material fuzz
 */
-bool	metal_scatter(t_material material,
+bool	metal_scatter(__global t_texture *textures,
+					t_material material,
 					t_shade_rec *shade_rec,
 					t_color *attenuation,
 					float4 *state)
@@ -74,13 +75,15 @@ bool	metal_scatter(t_material material,
 
 	shade_rec->ray.origin = shade_rec->hit_point + 1e-2f * shade_rec->normal;
 	shade_rec->ray.direction = reflected
-							+ 0.2f * cosine_sampler_hemisphere(state);
+							+ 0.0f * cosine_sampler_hemisphere(state);
 
-	*attenuation = float_color_multi(material.kr, material.color);
+	*attenuation = float_color_multi(material.kr, get_color(textures, material, shade_rec));
+	// *attenuation = float_color_multi(material.kr, material.color);
 	return (dot(reflected, shade_rec->normal) > 0);
 }
 
-bool	lambertian_scater(t_material material,
+bool	lambertian_scater(__global t_texture *textures,
+						t_material material,
 						t_shade_rec *shade_rec,
 						t_color *attenuation,
 						float4 *state)
@@ -92,7 +95,10 @@ bool	lambertian_scater(t_material material,
 	shade_rec->ray.origin = shade_rec->hit_point + 1e-2f * shade_rec->normal;
 	shade_rec->ray.direction = target - shade_rec->hit_point;
 
-	*attenuation = float_color_multi(material.kd, material.color);
+	*attenuation = get_color(textures, material, shade_rec);
+	// attenuation->r = 1.0f;
+	// printf("%f %f %f", attenuation->r, attenuation->g, attenuation->b);
+	// *attenuation = float_color_multi(material.kd, material.color);
 	return (true);
 }
 
@@ -133,7 +139,8 @@ bool	dielectric_scatter2(t_material material,
 	return (true);
 }
 
-bool	dielectric_scatter(t_material material,
+bool	dielectric_scatter(
+							t_material material,
 							t_shade_rec *shade_rec,
 							t_color *attenuation,
 							float4 *state)
@@ -186,21 +193,29 @@ bool	dielectric_scatter(t_material material,
 	return (true);
 }
 
-bool	scatter(t_material material,
+bool	scatter(__global t_texture *textures,
+				t_material material,
 				t_shade_rec *shade_rec,
 				t_color *attenuation,
 				float4 *state)
 {
-
 	if (material.type == matte)
 	{
-		return (lambertian_scater(material, shade_rec, attenuation, state));
+		return (lambertian_scater(textures,
+								material,
+								shade_rec,
+								attenuation,
+								state));
 	}
-	else if (material.type == metal)
+	else if (material.type == metal) //reflections
 	{
-		return (metal_scatter(material, shade_rec, attenuation, state));
+		return (metal_scatter(textures,
+							material,
+							shade_rec,
+							attenuation,
+							state));
 	}
-	else if (material.type == dielectric)
+	else if (material.type == dielectric) //transparance
 	{
 		return (dielectric_scatter(material, shade_rec, attenuation, state));
 	}
@@ -225,10 +240,10 @@ t_color	path_tracer2(t_ray ray, t_scene scene, t_rt_options options,
 	bool continue_loop = 1;
 
 	int	depth = 0;
-do	{
+	do	{
 		t_shade_rec	shade_rec;
 		depth++;
-		if (scene_intersection(scene, ray, &shade_rec) && depth < 50)
+		if (scene_intersection(scene, ray, &shade_rec) && depth < 10)
 		{
 			t_instance	instance = scene.instance_manager.instances[shade_rec.id];
 
@@ -256,7 +271,18 @@ do	{
 													instance);
 
 			t_color	attenuation;
-			if (scatter(material, &shade_rec, &attenuation, state))
+			// cur_attenuation.r *= 0.5f;
+			// cur_attenuation.g *= 0.5f;
+			// cur_attenuation.b *= 0.5f;
+			// ray.origin = shade_rec.hit_point;
+			// ray.direction = shade_rec.hit_point
+			// 			+ shade_rec.normal
+			// 			+ cosine_sampler_hemisphere(state);
+			if (scatter(scene.instance_manager.textures,
+						material,
+						&shade_rec,
+						&attenuation,
+						state))
 			{
 				cur_attenuation = color_multi(cur_attenuation, attenuation);
 				ray = shade_rec.ray;

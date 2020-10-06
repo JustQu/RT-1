@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:41:15 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/04 00:08:39 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/04 19:11:44 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,16 @@ struct	s_texture_manager
 };
 
 int		init_texture_manager(t_texture_manager *texture_manager);
+int		add_texture(t_texture_manager *texture_manager, t_texture texture);
+int		new_texture(t_texture_manager *texture_manager,
+					t_texture_type type,
+					void *data1,
+					void *data2);
+
+/**
+** @brief
+** set new texture for material and delete old
+*/
+// int		set_new_texture(t_te
 
 #endif

@@ -61,11 +61,11 @@ t_color		shade_phong(t_material material,
 	if (options.ambient_occlusion) /* ambient occlusion */
 	{
 		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
-		color = color_multi(color, material.color);
+		// color = color_multi(color, material.color);
 	}
 	else /* compute constant ambient light using ka coefficent of the materail */
 	{
-		color = lambertian_rho(material.ka, material.color);
+		// color = lambertian_rho(material.ka, material.color);
 		color_tmp = get_light_radiance(scene.ambient_light);
 		color = color_multi(color, color_tmp);
 	}
@@ -99,7 +99,7 @@ t_color		shade_phong(t_material material,
 				float a = glossy_specular_f(shade_rec.ray.direction, shade_rec.normal, light_direction, material.ks, material.exp) ;
 
 				/* compute diffuse color */
-				color_tmp = lambertian_f(material.kd, material.color);
+				// color_tmp = lambertian_f(material.kd, material.color);
 
 				/* sum lambertian color and glossy specular color */
 				color_tmp = color_sum(color_tmp, float_color_multi(a, scene.lights[i].color));
@@ -133,11 +133,11 @@ inline t_color		shade_matte(t_material material,
 	if (options.ambient_occlusion) /* ambient occlusion */
 	{
 		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
-		color = color_multi(color, material.color);
+		// color = color_multi(color, material.color);
 	}
 	else /* compute constant ambient light using ka coefficent of the materail */
 	{
-		color = lambertian_rho(material.ka, material.color);
+		// color = lambertian_rho(material.ka, material.color);
 		color_tmp = get_light_radiance(scene.ambient_light);
 		color = color_multi(color, color_tmp);
 	}
@@ -171,7 +171,7 @@ inline t_color		shade_matte(t_material material,
 			if (dirdotn > 0.0f)
 			{
 				/* compute diffuse color */
-				color_tmp = lambertian_f(material.kd, material.color);
+				// color_tmp = lambertian_f(material.kd, material.color);
 
 				/* compute how much light the point receives depends on angle between the normal at this point and light direction */
 				color_tmp.r = scene.lights[i].ls * scene.lights[i].color.r
