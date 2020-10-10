@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/10/10 15:19:15 by user             ###   ########.fr       */
+/*   Updated: 2020/10/10 15:42:20 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,11 @@ typedef struct 	s_colors
 
 // int				init_gui(t_gui *gui);
 
+/* primirives */
+void	draw_hline(t_window *win, int x1, int x2, int y, SDL_Color *color);
+void	draw_vline(t_window *win, int x1, int x2, int y, SDL_Color *color);
+
+/* end primitives */
 int				main_gui(t_window *win, t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void			draw_background(t_rt *rt);
 void 			render_texture(SDL_Texture *tex, SDL_Renderer *ren,
@@ -140,16 +145,13 @@ void			keyboard(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void			mouse_move(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void			create_xyz_subtitles(t_rt *rt, int x, int y, char *str,
 											t_colors *color);
-void			gui_tab_bar(t_window *win, t_all_rect *rect, t_colors *color);
+void			gui_tab_bar(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color);
 void			render_tab_bar(t_window *win, SDL_Color *color,
 								SDL_Rect *rect, char *str);
 void			draw_main_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void			draw_render_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void			progress_bar(t_rt *rt, t_colors *color, t_all_rect *all_rect);
 void			draw_title_ray_tracing(t_window *win, SDL_Color *color);
-void			color_tab_render(t_window *win, t_colors *color,
-									t_all_rect *all_rect);
-void			color_tab_main(t_window *win, t_colors *color, t_all_rect *all_rect);
 void			draw_ispressed_checkbox(t_rt *rt, SDL_Rect *rect,
 										char *str, t_colors *color);
 void			draw_render_checkbox(t_rt *rt, SDL_Rect *all_rect,

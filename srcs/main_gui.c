@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:51:59 by alex              #+#    #+#             */
-/*   Updated: 2020/10/10 15:19:01 by user             ###   ########.fr       */
+/*   Updated: 2020/10/10 15:25:11 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,6 @@ int		main_gui(t_window *win, t_rt *rt, t_all_rect *all_rect, t_colors *color)
 	/* background */
 	draw_fill_rect(win, &all_rect->background, &color->background_color);
 	draw_title_ray_tracing(win, &color->title_text_color);
-	gui_tab_bar(win, all_rect, color);
+	gui_tab_bar(win, rt, all_rect, color);
 	return (0);
 }
