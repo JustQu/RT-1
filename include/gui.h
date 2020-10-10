@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/10/02 16:16:41 by user             ###   ########.fr       */
+/*   Updated: 2020/10/10 14:28:22 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,20 @@
 
 # define WIDTH_MENU DEFAULT_WIDTH / 4
 # define WIDTH_OFFSET DEFAULT_WIDTH - DEFAULT_WIDTH / 4
-# define MARGIN 10
+# define MARGIN 5
 # define MARGIN_Y 10
-# define FONT_TITLE_SIZE 20
-# define FONT_SUBTITLE_SIZE 12
+# define FONT_TITLE_SIZE 25
+# define FONT_SUBTITLE_SIZE 20
+# define FONT_TEXT 12
 # define COLOR_STEP 100
 # define HEIGHT_BUTTON 30
 
 typedef struct s_rt		t_rt;
 typedef struct s_vector	t_vector;
+
+int	camera_tab_pressed;
+int	objects_tab_pressed;
+int	options_tab_pressed;
 
 typedef struct		s_vector
 {
@@ -137,7 +142,7 @@ void			create_xyz_subtitles(t_rt *rt, int x, int y, char *str,
 											t_colors *color);
 void			gui_tab_bar(t_window *win, t_all_rect *rect, t_colors *color);
 void			render_tab_bar(t_window *win, SDL_Color *color,
-								SDL_Rect *rect, int x, char *str);
+								SDL_Rect *rect, char *str);
 void			draw_main_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void			draw_render_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color);
 void			progress_bar(t_rt *rt, t_colors *color, t_all_rect *all_rect);

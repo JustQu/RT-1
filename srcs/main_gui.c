@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:51:59 by alex              #+#    #+#             */
-/*   Updated: 2020/10/02 16:05:42 by user             ###   ########.fr       */
+/*   Updated: 2020/10/10 13:26:36 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,21 @@ void	draw_title_ray_tracing(t_window *win, SDL_Color *color)
 	int w;
 	int h;
 
-	rt_text = render_text("Ray Tracing", "font/Title_font_CAT.ttf",
-	*color, FONT_TITLE_SIZE * 2, win->renderer);
+	if (win->width <= 5000)
+		rt_text = render_text("Ray Tracing", "font/Title_font_CAT.ttf",
+			*color, FONT_TITLE_SIZE * 2, win->renderer);
+	else
+	{
+		rt_text = render_text("Ray Tracing", "font/Title_font_gotic.ttf",
+			*color, FONT_TITLE_SIZE * 2, win->renderer);
+	}
 	SDL_QueryTexture(rt_text, NULL, NULL, &w, &h);
-	render_texture(rt_text, win->renderer, WIDTH_OFFSET + WIDTH_MENU / 2 - w / 2, MARGIN_Y * 2);
+	if (win->width / 4 >= w)
+		render_rect(rt_text, win->renderer, win->width - win->width / 4 + MARGIN, MARGIN_Y, w, h);
+	else
+		render_rect(rt_text, win->renderer, win->width - win->width / 4 + MARGIN, MARGIN_Y, win->width / 4 - MARGIN * 2, h);
+
+	// render_texture(rt_text, win->renderer, win->width - (win->width / 4) / 2 - w / 2, MARGIN_Y * 2);
 }
 
 //t_window, t_rt
@@ -119,21 +130,12 @@ int		main_gui(t_window *win, t_rt *rt, t_all_rect *all_rect, t_colors *color)
 	TTF_Init();
 	int err;
 	err = 0;
-	SDL_SetRenderDrawColor(win->renderer, 255, 255, 255, 255);
+	SDL_SetRenderDrawColor(win->renderer, 240, 240, 240, 255);
 	// SDL_RenderClear(win->renderer);
 
 	/* background */
 	draw_fill_rect(win, &all_rect->background, &color->background_color);
-	SDL_SetRenderDrawColor(win->renderer, 100, 100, 100, 100);
-	SDL_RenderDrawRect(win->renderer, &all_rect->background);
-	// err = vlineRGBA(win->renderer, WIDTH_OFFSET, 0, HEIGHT, color->border_color.r,
-	// 	color->border_color.g, color->border_color.b, 255);
-	// printf("\n %d \n", err);
-	// roundedRectangleRGBA(win->renderer, WIDTH_OFFSET, 0, WIDTH, HEIGHT, 5,
-		// color->border_color.r, color->border_color.g, color->border_color.b, 255);
 	draw_title_ray_tracing(win, &color->title_text_color);
 	gui_tab_bar(win, all_rect, color);
-	// hlineRGBA(win->renderer, WIDTH_OFFSET + MARGIN, WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y, 217, 217, 217, 255);
-	// SDL_RenderPresent(win->renderer);
 	return (0);
 }

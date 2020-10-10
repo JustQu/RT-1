@@ -3,17 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   catch_event.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/26 23:30:39 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/10 15:01:59 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "interface.h"
 # include "rt.h"
+#include "gui.h"
 
-int catch_event(t_rt *rt)
+int		is_press_button(SDL_Event *event, SDL_Rect *rect)
+{
+	if (event->motion.y >= rect->y
+		&& event->motion.y <= rect->y + rect->h
+		&& event->motion.x >= rect->x && event->motion.x <= rect->x + rect->w)
+		return (1);
+	else
+		return (0);
+}
+
+void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
+{
+	if (is_press_button(event, &rect->tab_camera_button))
+	{
+		camera_tab_pressed = 1;
+		objects_tab_pressed = 0;
+		options_tab_pressed = 0;
+	}
+	if (is_press_button(event, &rect->tab_objects_button))
+	{
+		camera_tab_pressed = 0;
+		objects_tab_pressed = 1;
+		options_tab_pressed = 0;
+	}
+	if (is_press_button(event, &rect->tab_options_button))
+	{
+		camera_tab_pressed = 0;
+		objects_tab_pressed = 0;
+		options_tab_pressed = 1;
+	}
+}
+
+int catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
 {
 	SDL_Event event;
 
@@ -40,6 +73,8 @@ int catch_event(t_rt *rt)
 
 			case SDL_WINDOWEVENT_RESIZED:
 			{
+				// win->width = event.window.data1;
+				// win->height = event.window.data2;
 				printf("Window size changed to %dx%d\n",
 					   event.window.data1, event.window.data2);
 			}
@@ -60,6 +95,7 @@ int catch_event(t_rt *rt)
 		}
 		if (event.type == SDL_MOUSEBUTTONDOWN)
 		{
+			catch_tab_bar(&event, rect);
 			printf("Mouse press at %d %d", event.button.x, event.button.y);
 		}
 		if (event.type == SDL_MOUSEBUTTONUP)

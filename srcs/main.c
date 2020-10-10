@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/02 16:18:41 by user             ###   ########.fr       */
+/*   Updated: 2020/10/10 14:54:50 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 // #include "app.h"
 #include <stdio.h>
 #include "libft.h"
+
+
 
 SDL_Rect	init_rect_size(int x, int y, int w, int h)
 {
@@ -40,9 +42,9 @@ void	init_rect(t_all_rect *rect, t_window *win)
 
 	rect->color_picker = init_rect_size(WIDTH_OFFSET + MARGIN, 500, WIDTH_MENU - MARGIN * 2, 200);
 
-	rect->checkbox_button_shadow = init_rect_size(WIDTH_OFFSET + WIDTH_MENU / 2 - HEIGHT_BUTTON - MARGIN,
+	rect->checkbox_button_shadow = init_rect_size(WIDTH_OFFSET + WIDTH_MENU / 1.4 - HEIGHT_BUTTON - MARGIN,
 										(FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y,
-										WIDTH_OFFSET + WIDTH_MENU / 2 - HEIGHT_BUTTON - MARGIN + HEIGHT_BUTTON,
+										WIDTH_OFFSET + WIDTH_MENU / 1.4 - HEIGHT_BUTTON - MARGIN + HEIGHT_BUTTON,
 										(FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y + HEIGHT_BUTTON);
 
 	rect->checkbox_button_ambient = init_rect_size(WIDTH - MARGIN - HEIGHT_BUTTON,
@@ -52,14 +54,14 @@ void	init_rect(t_all_rect *rect, t_window *win)
 	rect->specular_button_10 = init_rect_size(WIDTH - MARGIN - HEIGHT_BUTTON, ((FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y) * 2 + MARGIN_Y * 6,
 		WIDTH - MARGIN - HEIGHT_BUTTON + HEIGHT_BUTTON, ((FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y) * 2 + MARGIN_Y * 6 + HEIGHT_BUTTON);
 
-	rect->tab_camera_button = init_rect_size(WIDTH_OFFSET + MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON,
-		WIDTH_OFFSET + MARGIN + WIDTH_MENU / 2, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON + HEIGHT_BUTTON);
+	rect->tab_camera_button = init_rect_size(win->width - win->width / 4,
+		win->height / 7, (win->width / 4) / 3, 30);
 
-	rect->tab_objects_button = init_rect_size(rect->tab_camera_button.w, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON,
-		rect->tab_camera_button.w + WIDTH_MENU / 2, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON + HEIGHT_BUTTON);
+	rect->tab_objects_button = init_rect_size(win->width - win->width / 4 + rect->tab_camera_button.w,
+		win->height / 7, (win->width / 4) / 3, 30);
 
-	rect->tab_options_button = init_rect_size(rect->tab_objects_button.w, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON,
-			rect->tab_objects_button.w + WIDTH_MENU / 2, (FONT_TITLE_SIZE + MARGIN_Y) * 4 - MARGIN_Y - HEIGHT_BUTTON + HEIGHT_BUTTON);
+	rect->tab_options_button = init_rect_size(win->width - win->width / 4 + rect->tab_camera_button.w + rect->tab_objects_button.w,
+		win->height / 7, (win->width / 4) / 3, 30);
 
 	rect->fractol_button = init_rect_size(WIDTH_OFFSET + MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 4 + HEIGHT_BUTTON * 2,
 		WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 4 + HEIGHT_BUTTON * 3);
@@ -253,17 +255,17 @@ int main(int ac, char **av)
 	}
 	while (1)
 	{
-		value = catch_event(&app.rt);
+		value = catch_event(&app.rt, &app.window, &all_rect, &color);
 		if (value == 1)
 			break;
 		else if (value == 0)
 		{
-			printf("CPU:\nobj %zd\n", sizeof(t_obj));
-			printf("instance %zd\n", sizeof(t_instance));
-			printf("matrix %zd\n", sizeof(t_matrix));
-			printf("material %zd\n", sizeof(t_material));
-			printf("triangle %zd\n", sizeof(t_triangle));
-			main_loop(app);
+			// printf("CPU:\nobj %zd\n", sizeof(t_obj));
+			// printf("instance %zd\n", sizeof(t_instance));
+			// printf("matrix %zd\n", sizeof(t_matrix));
+			// printf("material %zd\n", sizeof(t_material));
+			// printf("triangle %zd\n", sizeof(t_triangle));
+			// main_loop(app);
 			display_image(&app.window);
 			main_gui(&app.window, &rt, &all_rect, &color);
 			SDL_RenderPresent(app.window.renderer);
