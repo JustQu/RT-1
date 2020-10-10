@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/10/10 14:28:22 by user             ###   ########.fr       */
+/*   Updated: 2020/10/10 15:19:15 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define WIDTH_OFFSET DEFAULT_WIDTH - DEFAULT_WIDTH / 4
 # define MARGIN 5
 # define MARGIN_Y 10
-# define FONT_TITLE_SIZE 25
+# define FONT_TITLE_SIZE 22
 # define FONT_SUBTITLE_SIZE 20
 # define FONT_TEXT 12
 # define COLOR_STEP 100

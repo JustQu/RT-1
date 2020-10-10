@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:51:59 by alex              #+#    #+#             */
-/*   Updated: 2020/10/10 13:26:36 by user             ###   ########.fr       */
+/*   Updated: 2020/10/10 15:19:01 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	draw_title_ray_tracing(t_window *win, SDL_Color *color)
 	int w;
 	int h;
 
-	if (win->width <= 5000)
+	if (win->width <= 2000)
 		rt_text = render_text("Ray Tracing", "font/Title_font_CAT.ttf",
 			*color, FONT_TITLE_SIZE * 2, win->renderer);
 	else
@@ -117,9 +117,9 @@ void	draw_title_ray_tracing(t_window *win, SDL_Color *color)
 	}
 	SDL_QueryTexture(rt_text, NULL, NULL, &w, &h);
 	if (win->width / 4 >= w)
-		render_rect(rt_text, win->renderer, win->width - win->width / 4 + MARGIN, MARGIN_Y, w, h);
+		render_rect(rt_text, win->renderer, (win->width - win->width / 4) + (win->width / 4 - w) / 2, MARGIN_Y, w, h);
 	else
-		render_rect(rt_text, win->renderer, win->width - win->width / 4 + MARGIN, MARGIN_Y, win->width / 4 - MARGIN * 2, h);
+		render_rect(rt_text, win->renderer, (win->width - win->width / 4) + MARGIN, MARGIN_Y, win->width / 4 - MARGIN * 2, h);
 
 	// render_texture(rt_text, win->renderer, win->width - (win->width / 4) / 2 - w / 2, MARGIN_Y * 2);
 }
