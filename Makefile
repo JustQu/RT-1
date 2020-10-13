@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
+#    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/10/10 15:39:51 by user             ###   ########.fr        #
+#    Updated: 2020/10/13 09:37:37 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,8 +82,9 @@ color.c                               object_manager.c        rt_options.c\
 create_program.c        init.c                                 sampler.c\
 error_handling.c        instance_manager.c                     sampler_manager.c\
                                  scene.c\
-main_gui.c	gui_render_text.c	gui_tab_bar.c	gui_primitives.c\
-# gui_button.c	gui_checkbox.c	gui_gradient.c	gui_progress_bar.c\
+main_gui.c	gui_render_text.c	gui_tab_bar.c	gui_primitives.c	gui_button.c\
+
+# gui_checkbox.c	gui_gradient.c	gui_progress_bar.c\
 # gui_render_text.c		gui_xyz.c\
 
 

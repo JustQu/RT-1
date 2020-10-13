@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/10/13 09:17:00 by alex             ###   ########.fr       */
+/*   Updated: 2020/10/13 11:17:36 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,35 +39,37 @@ void	render_tab_bar(t_window *win, SDL_Color *color, SDL_Rect *rect, char *str)
 
 }
 
-// /**
-// ** @brief draw horizontal line
-// **
-// ** @param x1 - start hline
-// ** @param x2 - end hline (x1 + x2)
-// ** @param y
-// ** @return ** void
-// */
-// void	draw_hline(t_window *win, int x1, int x2, int y, SDL_Color *color)
-// {
-// 	SDL_SetRenderDrawColor(win->renderer, color->r, color->g, color->b, color->a);
-// 	SDL_RenderDrawLine(win->renderer, x1, y,
-// 			x1 + x2, y);
-// }
-
 // todo - create camera, objects, options inside tab
 void	camera_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 {
+	char *str[2];
+
+	str[0] = "3.12"; //change on data rt
+	str[1] = "2.32";
+	str[2] = "4.32";
 	render_tab_bar(win, &color->green_color, &rect->tab_camera_button, "Camera");
 	draw_hline(win, rect->tab_camera_button.x, rect->tab_camera_button.w,
 		rect->tab_camera_button.y + rect->tab_camera_button.h, &color->green_color);
-	
+	draw_button(rt, win, &rect->type_button, "Type camera", color);
+	draw_button_xyz(win, &rect->position_button, "Position", str, color);
+	draw_button_xyz(win, &rect->direction_button, "Direction", str, color);
+
 }
 
 void	objects_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 {
+	char *str[2];
+
+	str[0] = "3.12"; //change on data rt
+	str[1] = "2.32";
+	str[2] = "4.32";
 	render_tab_bar(win, &color->green_color, &rect->tab_objects_button, "Objects");
 	draw_hline(win, rect->tab_objects_button.x, rect->tab_objects_button.w,
 		rect->tab_objects_button.y + rect->tab_objects_button.h, &color->green_color);
+	draw_button(rt, win, &rect->type_button, "Material", color);
+	draw_button_xyz(win, &rect->position_button, "Position", str, color);
+	draw_button_xyz(win, &rect->direction_button, "Direction", str, color);
+	draw_button(rt, win, &rect->radius_button, "Radius", color);
 }
 
 void	option_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)

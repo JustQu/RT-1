@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/10/12 10:00:38 by alex             ###   ########.fr       */
+/*   Updated: 2020/10/13 11:15:32 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,14 @@ typedef struct	s_pressed
 
 typedef struct	s_all_rect
 {
-	SDL_Rect	color_picker_button;
-	SDL_Rect	color_picker;
 	SDL_Rect	background;
-	SDL_Rect	checkbox_button_shadow;
-	SDL_Rect	checkbox_button_ambient;
 	SDL_Rect	tab_camera_button;
 	SDL_Rect	tab_objects_button;
 	SDL_Rect	tab_options_button;
-	SDL_Rect	specular_button_10;
-	SDL_Rect	fractol_button;
+	SDL_Rect	type_button;
+	SDL_Rect	position_button;
+	SDL_Rect	direction_button;
+	SDL_Rect	radius_button;
 }				t_all_rect;
 
 typedef struct 	s_colors
@@ -113,6 +111,7 @@ typedef struct 	s_colors
 	SDL_Color	tab_pressed_color;
 	SDL_Color	green_color;
 	SDL_Color	red_color;
+	SDL_Color	black_color;
 }				t_colors;
 
 // int				init_gui(t_gui *gui);
@@ -136,10 +135,15 @@ void			draw_xyz(t_rt *rt, int y, t_vector *vector, t_colors *color);
 void			draw_fill_rect(t_window *win, SDL_Rect *background, SDL_Color *color);
 SDL_Texture*	render_text(char *message, char *fontFile, SDL_Color color,
 							int fontSize,	SDL_Renderer *renderer);
-void			draw_button(t_rt *rt, SDL_Rect *rect, char *str,
-							t_colors *color);
+/* gui_button.c */
+void	draw_button(t_rt *rt, t_window *win,
+			SDL_Rect *rect, char *str, t_colors *color);
+void			draw_button_xyz(t_window *win, SDL_Rect *rect,
+					char *str, char **str_xyz, t_colors *color);
 void			draw_checkbox(t_rt *rt, SDL_Rect *rect, char *str,
 								t_colors *color);
+/* end gui_button.c */
+
 void			draw_gradient(SDL_Renderer * renderer,
 									SDL_Rect *back_rect, const SDL_Color c1, const SDL_Color c2);
 void			keyboard(t_rt *rt, t_all_rect *all_rect, t_colors *color);

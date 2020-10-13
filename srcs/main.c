@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/12 09:59:56 by alex             ###   ########.fr       */
+/*   Updated: 2020/10/13 11:16:47 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,38 +33,47 @@ SDL_Rect	init_rect_size(int x, int y, int w, int h)
 
 void	init_rect(t_all_rect *rect, t_window *win)
 {
-	 rect->color_picker_button = init_rect_size(WIDTH_OFFSET + MARGIN,
-		(FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 6 + HEIGHT_BUTTON,
-		rect->color_picker_button.x + 70,
-		rect->color_picker_button.y + HEIGHT_BUTTON);
+	//  rect->color_picker_button = init_rect_size(WIDTH_OFFSET + MARGIN,
+	// 	(FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 6 + HEIGHT_BUTTON,
+	// 	rect->color_picker_button.x + 70,
+	// 	rect->color_picker_button.y + HEIGHT_BUTTON);
 
 	rect->background = init_rect_size(win->width - 300, 0, WIDTH_MENU, HEIGHT);
 
-	rect->color_picker = init_rect_size(WIDTH_OFFSET + MARGIN, 500, WIDTH_MENU - MARGIN * 2, 200);
+	// rect->color_picker = init_rect_size(WIDTH_OFFSET + MARGIN, 500, WIDTH_MENU - MARGIN * 2, 200);
 
-	rect->checkbox_button_shadow = init_rect_size(WIDTH_OFFSET + WIDTH_MENU / 1.4 - HEIGHT_BUTTON - MARGIN,
-										(FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y,
-										WIDTH_OFFSET + WIDTH_MENU / 1.4 - HEIGHT_BUTTON - MARGIN + HEIGHT_BUTTON,
-										(FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y + HEIGHT_BUTTON);
+	// rect->checkbox_button_shadow = init_rect_size(WIDTH_OFFSET + WIDTH_MENU / 1.4 - HEIGHT_BUTTON - MARGIN,
+	// 									(FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y,
+	// 									WIDTH_OFFSET + WIDTH_MENU / 1.4 - HEIGHT_BUTTON - MARGIN + HEIGHT_BUTTON,
+	// 									(FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y + HEIGHT_BUTTON);
 
-	rect->checkbox_button_ambient = init_rect_size(WIDTH - MARGIN - HEIGHT_BUTTON,
-		(FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y, WIDTH - MARGIN - HEIGHT_BUTTON + HEIGHT_BUTTON,
-		(FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y + HEIGHT_BUTTON);
+	// rect->checkbox_button_ambient = init_rect_size(WIDTH - MARGIN - HEIGHT_BUTTON,
+	// 	(FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y, WIDTH - MARGIN - HEIGHT_BUTTON + HEIGHT_BUTTON,
+	// 	(FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y + HEIGHT_BUTTON);
 
-	rect->specular_button_10 = init_rect_size(WIDTH - MARGIN - HEIGHT_BUTTON, ((FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y) * 2 + MARGIN_Y * 6,
-		WIDTH - MARGIN - HEIGHT_BUTTON + HEIGHT_BUTTON, ((FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y) * 2 + MARGIN_Y * 6 + HEIGHT_BUTTON);
+	// rect->specular_button_10 = init_rect_size(WIDTH - MARGIN - HEIGHT_BUTTON, ((FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y) * 2 + MARGIN_Y * 6,
+	// 	WIDTH - MARGIN - HEIGHT_BUTTON + HEIGHT_BUTTON, ((FONT_TITLE_SIZE + MARGIN_Y) * 4 + MARGIN_Y) * 2 + MARGIN_Y * 6 + HEIGHT_BUTTON);
 
 	rect->tab_camera_button = init_rect_size(win->width - win->width / 4,
-		win->height / 7, (win->width / 4) / 3, 30);
+		win->height / 8, (win->width / 4) / 3, 30);
 
 	rect->tab_objects_button = init_rect_size(win->width - win->width / 4 + rect->tab_camera_button.w,
-		win->height / 7, (win->width / 4) / 3, 30);
+		win->height / 8, (win->width / 4) / 3, 30);
 
 	rect->tab_options_button = init_rect_size(win->width - win->width / 4 + rect->tab_camera_button.w + rect->tab_objects_button.w,
-		win->height / 7, (win->width / 4) / 3, 30);
+		win->height / 8, (win->width / 4) / 3, 30);
 
-	rect->fractol_button = init_rect_size(WIDTH_OFFSET + MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 4 + HEIGHT_BUTTON * 2,
-		WIDTH - MARGIN, (FONT_TITLE_SIZE + MARGIN_Y) * 9 + MARGIN_Y * 4 + HEIGHT_BUTTON * 3);
+	rect->type_button = init_rect_size(win->width - win->width / 4,
+		rect->tab_camera_button.y + rect->tab_camera_button.h + MARGIN_Y, win->width / 4, 30);
+
+	rect->position_button = init_rect_size(win->width - win->width / 4,
+		rect->type_button.y + rect->type_button.h + MARGIN_Y,  win->width / 4, 30);
+
+	rect->direction_button = init_rect_size(win->width - win->width / 4,
+		rect->position_button.y + rect->position_button.h + MARGIN_Y * 4, win->width / 4, 30);
+
+	rect->radius_button = init_rect_size(win->width - win->width / 4,
+		rect->direction_button.y + rect->direction_button.h + MARGIN_Y * 4, win->width / 4, 30);
 }
 
 void	init_colors(t_colors *color)
@@ -113,6 +122,11 @@ void	init_colors(t_colors *color)
 	color->red_color.g = 0;
 	color->red_color.b = 0;
 	color->red_color.a = 0;
+
+	color->black_color.r = 0;
+	color->black_color.g = 0;
+	color->black_color.b = 0;
+	color->black_color.a = 0;
 }
 
 #define BANANA 1
