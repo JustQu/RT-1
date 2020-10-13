@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/10 14:54:50 by user             ###   ########.fr       */
+/*   Updated: 2020/10/12 09:59:56 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,11 @@ void	init_colors(t_colors *color)
 	color->green_color.g = 255;
 	color->green_color.b = 0;
 	color->green_color.a = 0;
+
+	color->red_color.r = 255;
+	color->red_color.g = 0;
+	color->red_color.b = 0;
+	color->red_color.a = 0;
 }
 
 #define BANANA 1

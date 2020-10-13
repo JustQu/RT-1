@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/10/10 15:42:20 by user             ###   ########.fr       */
+/*   Updated: 2020/10/12 10:00:38 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct 	s_colors
 	SDL_Color	background_color;
 	SDL_Color	tab_pressed_color;
 	SDL_Color	green_color;
+	SDL_Color	red_color;
 }				t_colors;
 
 // int				init_gui(t_gui *gui);

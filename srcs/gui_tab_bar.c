@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_tab_bar.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/10/10 15:41:35 by user             ###   ########.fr       */
+/*   Updated: 2020/10/13 09:17:00 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	camera_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 	render_tab_bar(win, &color->green_color, &rect->tab_camera_button, "Camera");
 	draw_hline(win, rect->tab_camera_button.x, rect->tab_camera_button.w,
 		rect->tab_camera_button.y + rect->tab_camera_button.h, &color->green_color);
+	
 }
 
 void	objects_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
@@ -78,6 +79,8 @@ void	option_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 
 void	gui_tab_bar(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 {
+	draw_hline(win, rect->tab_camera_button.x, rect->tab_options_button.x + rect->tab_options_button.w,
+				rect->tab_options_button.y + rect->tab_options_button.h, &color->red_color);
 	if (camera_tab_pressed == 1)
 		camera_tab(win, rt, rect, color);
 	else
