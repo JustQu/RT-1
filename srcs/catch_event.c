@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/10 15:01:59 by user             ###   ########.fr       */
+/*   Updated: 2020/10/13 15:30:07 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@ void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 		objects_tab_pressed = 0;
 		options_tab_pressed = 1;
 	}
+	if (is_press_button(event, &rect->type_button) && camera_tab_pressed == 1)
+	{
+		type_pressed = 1;
+	}
+	else
+	{
+		type_pressed = 0;
+	}
+
 }
 
 int catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)

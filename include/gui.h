@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/10/13 11:15:32 by alex             ###   ########.fr       */
+/*   Updated: 2020/10/13 15:21:22 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_vector	t_vector;
 int	camera_tab_pressed;
 int	objects_tab_pressed;
 int	options_tab_pressed;
+int	type_pressed;
 
 typedef struct		s_vector
 {
@@ -78,15 +79,15 @@ typedef struct      s_gui
 	t_object_info	*current_object;
 }                   t_gui;
 
-typedef struct	s_pressed
-{
-	int 		shadow;
-	int			ambient;
-	int			specular;
-	int			and_more;
-	int			render_tab;
-	int			main_tab;
-}				t_pressed;
+// typedef struct	s_pressed
+// {
+// 	int 		shadow;
+// 	int			ambient;
+// 	int			specular;
+// 	int			and_more;
+// 	int			render_tab;
+// 	int			main_tab;
+// }				t_pressed;
 
 typedef struct	s_all_rect
 {
@@ -98,6 +99,16 @@ typedef struct	s_all_rect
 	SDL_Rect	position_button;
 	SDL_Rect	direction_button;
 	SDL_Rect	radius_button;
+	SDL_Rect	rotate_button;
+	SDL_Rect	color_button;
+	SDL_Rect	diffuse_button;
+	SDL_Rect	reflection_button;
+	SDL_Rect	alpha_button;
+	SDL_Rect	samplers_button;
+	SDL_Rect	deep_button;
+	SDL_Rect	background_button;
+	SDL_Rect	resolution_button;
+	SDL_Rect	type_choise_rect;
 }				t_all_rect;
 
 typedef struct 	s_colors
@@ -142,6 +153,8 @@ void			draw_button_xyz(t_window *win, SDL_Rect *rect,
 					char *str, char **str_xyz, t_colors *color);
 void			draw_checkbox(t_rt *rt, SDL_Rect *rect, char *str,
 								t_colors *color);
+void			draw_button_choise(t_window *win, SDL_Rect *rect,
+					char *str, char **str_xyz, t_colors *color);
 /* end gui_button.c */
 
 void			draw_gradient(SDL_Renderer * renderer,

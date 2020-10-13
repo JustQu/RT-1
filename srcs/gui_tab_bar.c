@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_tab_bar.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/10/13 11:17:36 by alex             ###   ########.fr       */
+/*   Updated: 2020/10/13 15:28:55 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	render_tab_bar(t_window *win, SDL_Color *color, SDL_Rect *rect, char *str)
 
 }
 
-// todo - create camera, objects, options inside tab
 void	camera_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 {
 	char *str[2];
@@ -53,7 +52,6 @@ void	camera_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 	draw_button(rt, win, &rect->type_button, "Type camera", color);
 	draw_button_xyz(win, &rect->position_button, "Position", str, color);
 	draw_button_xyz(win, &rect->direction_button, "Direction", str, color);
-
 }
 
 void	objects_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
@@ -70,6 +68,11 @@ void	objects_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 	draw_button_xyz(win, &rect->position_button, "Position", str, color);
 	draw_button_xyz(win, &rect->direction_button, "Direction", str, color);
 	draw_button(rt, win, &rect->radius_button, "Radius", color);
+	draw_button(rt, win, &rect->rotate_button, "Rotate", color);
+	draw_button(rt, win, &rect->color_button, "Color", color);
+	draw_button(rt, win, &rect->diffuse_button, "Diffuse", color);
+	draw_button(rt, win, &rect->reflection_button, "Reflection", color);
+	draw_button(rt, win, &rect->alpha_button, "Alpha", color);
 }
 
 void	option_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
@@ -77,6 +80,27 @@ void	option_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 	render_tab_bar(win, &color->green_color, &rect->tab_options_button, "Options");
 	draw_hline(win, rect->tab_options_button.x, rect->tab_options_button.w,
 		rect->tab_options_button.y + rect->tab_options_button.h, &color->green_color);
+	draw_button(rt, win, &rect->type_button, "Type RT", color);
+	draw_button(rt, win, &rect->samplers_button, "Samplers", color);
+	draw_button(rt, win, &rect->deep_button, "Deep", color);
+	draw_button(rt, win, &rect->background_button, "Background", color);
+	draw_button(rt, win, &rect->resolution_button, "Resolution", color);
+}
+
+//todo: change rect on buttons, create button press inside
+void	draw_inside_button(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
+{
+	char *str[2];
+
+	str[0] = "type1"; //change on data rt
+	str[1] = "type2";
+	str[2] = "type3";
+	if (type_pressed == 1)
+	{
+		SDL_SetRenderDrawColor(win->renderer, 250, 100, 100, 255);
+		SDL_RenderFillRect(win->renderer, &rect->type_choise_rect);
+		draw_button_choise(win, &rect->type_choise_rect, 0, str, color);
+	}
 }
 
 void	gui_tab_bar(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
@@ -95,4 +119,5 @@ void	gui_tab_bar(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 		option_tab(win, rt, rect, color);
 	else
 		render_tab_bar(win, &color->border_color, &rect->tab_options_button, "Options");
+	draw_inside_button(win, rt, rect, color);
 }
