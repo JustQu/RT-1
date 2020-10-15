@@ -6,12 +6,34 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:52:14 by alex              #+#    #+#             */
-/*   Updated: 2020/10/13 15:27:58 by user             ###   ########.fr       */
+/*   Updated: 2020/10/15 13:25:20 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "rt.h"
+
+void	draw_is_pressed_button(t_window *win, SDL_Rect *rect, char *str, t_colors *color)
+{
+	SDL_Texture *text;
+	SDL_Rect	button;
+	int w;
+	int h;
+
+	button.x = rect->x + MARGIN;
+	button.y = rect->y;
+	button.w = rect->w - MARGIN * 2 - 150;
+	button.h = rect->h;
+	SDL_SetRenderDrawColor(win->renderer, 14, 128, 217, 255);
+	SDL_RenderFillRect(win->renderer, &button);
+	SDL_SetRenderDrawColor(win->renderer, 14, 128, 217, 255);
+	SDL_RenderDrawRect(win->renderer, &button);
+	text = render_text(str, "font/Title.ttf",
+		color->text_color, FONT_TEXT, win->renderer);
+	SDL_QueryTexture(text, NULL, NULL, &w, &h);
+	render_rect(text, win->renderer, button.x + button.w / 2 - w / 2,
+		button.y + button.h / 2 - h / 2, w, h);
+}
 
 void	draw_button_rect(t_window *win, SDL_Rect *rect, char *str, t_colors *color)
 {
@@ -19,12 +41,12 @@ void	draw_button_rect(t_window *win, SDL_Rect *rect, char *str, t_colors *color)
 	int w;
 	int h;
 
-	SDL_SetRenderDrawColor(win->renderer, 100, 100, 100, 255);
+	SDL_SetRenderDrawColor(win->renderer, 229, 241, 251, 255);
 	SDL_RenderFillRect(win->renderer, rect);
-	SDL_SetRenderDrawColor(win->renderer, 255, 0, 0, 255);
+	SDL_SetRenderDrawColor(win->renderer, 14, 128, 217, 255);
 	SDL_RenderDrawRect(win->renderer, rect);
 	text = render_text(str, "font/Title.ttf",
-		color->black_color, FONT_TEXT, win->renderer);
+		color->text_color, FONT_TEXT, win->renderer);
 	SDL_QueryTexture(text, NULL, NULL, &w, &h);
 	render_rect(text, win->renderer, rect->x + rect->w / 2 - w / 2,
 		rect->y + rect->h / 2 - h / 2, w, h);
@@ -45,36 +67,28 @@ void	draw_text(t_window *win, SDL_Rect *rect, char *str, t_colors *color)
 	int h;
 
 	text = render_text(str, "font/Title.ttf",
-		color->black_color, FONT_TEXT, win->renderer);
+		color->text_color, FONT_TEXT, win->renderer);
 	SDL_QueryTexture(text, NULL, NULL, &w, &h);
 	render_rect(text, win->renderer, rect->x + MARGIN, rect->y + rect->h / 2 - h / 2, w, h);
 }
 
-void	draw_button_choise(t_window *win, SDL_Rect *rect, char *str, char **str_xyz, t_colors *color)
+void	draw_button_choise(t_window *win, SDL_Rect *rect, char **str_xyz, t_colors *color, int size)
 {
-	SDL_Texture *text;
 	SDL_Rect	button;
-	int w;
-	int h;
+	int i;
 
-	if (str != 0)
+	button.x = rect->x;
+	button.y = rect->y;
+	button.w = rect->w;
+	button.h = rect->h / size;
+	i = 0;
+	while (i < size)
 	{
-		text = render_text(str, "font/Title.ttf",
-		color->black_color, FONT_SUBTITLE_SIZE, win->renderer);
-		SDL_QueryTexture(text, NULL, NULL, &w, &h);
-		render_rect(text, win->renderer, rect->x + MARGIN, rect->y, w, h);
+		draw_button_rect(win, &button, str_xyz[i],color);
+		button.y += button.h - 1;
+		button.h = rect->h / size + 1;
+		i++;
 	}
-	button.x = rect->x + MARGIN;
-	button.y = rect->y + h;
-	button.w = (rect->w - MARGIN * 2) / 3;
-	button.h = rect->h;
-	draw_button_rect(win, &button, str_xyz[0],color);
-	button.x += button.w + MARGIN;
-	button.w = (rect->w - MARGIN * 4) / 3;
-	draw_button_rect(win, &button, str_xyz[1],color);
-	button.x += button.w + MARGIN;
-	button.w = (rect->w - MARGIN * 6) / 3;
-	draw_button_rect(win, &button, str_xyz[2],color);
 }
 
 void	draw_button_xyz(t_window *win, SDL_Rect *rect, char *str, char **str_xyz, t_colors *color)
@@ -87,23 +101,23 @@ void	draw_button_xyz(t_window *win, SDL_Rect *rect, char *str, char **str_xyz, t
 	if (str != 0)
 	{
 		text = render_text(str, "font/Title.ttf",
-		color->black_color, FONT_SUBTITLE_SIZE, win->renderer);
+		color->text_color, FONT_SUBTITLE_SIZE, win->renderer);
 		SDL_QueryTexture(text, NULL, NULL, &w, &h);
-		render_rect(text, win->renderer, rect->x + MARGIN, rect->y, w, h);
+		render_rect(text, win->renderer, win->width - win->width / 4 + MARGIN, rect->y, w, h);
 	}
-	button.x = rect->x + MARGIN;
+	button.x = win->width - win->width / 4 + MARGIN;
 	button.y = rect->y + h;
 	button.w = (rect->w - MARGIN * 2) / 3;
 	button.h = rect->h;
-	draw_button_rect(win, &button, "2.30",color);
+	draw_button_rect(win, &button, str_xyz[0], color);
 	draw_text(win, &button, "x :", color);
 	button.x += button.w + MARGIN;
 	button.w = (rect->w - MARGIN * 4) / 3;
-	draw_button_rect(win, &button, "3.43",color);
+	draw_button_rect(win, &button, str_xyz[1], color);
 	draw_text(win, &button, "y :", color);
 	button.x += button.w + MARGIN;
 	button.w = (rect->w - MARGIN * 6) / 3;
-	draw_button_rect(win, &button, "4.54",color);
+	draw_button_rect(win, &button, str_xyz[2], color);
 	draw_text(win, &button, "z :", color);
 }
 
@@ -118,18 +132,17 @@ void	draw_button(t_rt *rt, t_window *win, SDL_Rect *rect, char *str, t_colors *c
 	if (str != 0)
 	{
 		text = render_text(str, "font/Title.ttf",
-		color->black_color, FONT_SUBTITLE_SIZE, win->renderer);
+		color->text_color, FONT_SUBTITLE_SIZE, win->renderer);
 		SDL_QueryTexture(text, NULL, NULL, &w, &h);
-		render_rect(text, win->renderer, rect->x + MARGIN, rect->y, w, h);
+		render_rect(text, win->renderer, win->width - win->width / 4 + MARGIN, rect->y, w, h);
 		SDL_DestroyTexture(text);
 	}
 	if (w <= win->width)
 	{
-		button.x = rect->x + MARGIN + 150;
+		button.x = rect->x + MARGIN;
 		button.y = rect->y;
 		button.w = rect->w - MARGIN * 2 - 150;
 		button.h = rect->h;
 		draw_button_rect(win, &button, "Your text", color);
 	}
-
 }

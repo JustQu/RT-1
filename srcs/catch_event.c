@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/13 15:30:07 by user             ###   ########.fr       */
+/*   Updated: 2020/10/15 12:32:16 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,35 +24,64 @@ int		is_press_button(SDL_Event *event, SDL_Rect *rect)
 		return (0);
 }
 
+void	catch_is_pressed(SDL_Event *event, SDL_Rect *rect, int size)
+{
+	SDL_Rect	button;
+	int i;
+
+	button.x = rect->x;
+	button.y = rect->y;
+	button.w = rect->w;
+	button.h = rect->h / size;
+	i = 0;
+	while(i < size)
+	{
+		if (is_press_button(event, &button))
+		{
+			inside_is_pressed = i;
+			printf("\n%d position\n", i);
+		}
+		button.y += button.h;
+		button.h = rect->h / size;
+		i++;
+	}
+}
+
 void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 {
-	if (is_press_button(event, &rect->tab_camera_button))
-	{
-		camera_tab_pressed = 1;
-		objects_tab_pressed = 0;
-		options_tab_pressed = 0;
-	}
-	if (is_press_button(event, &rect->tab_objects_button))
-	{
-		camera_tab_pressed = 0;
-		objects_tab_pressed = 1;
-		options_tab_pressed = 0;
-	}
-	if (is_press_button(event, &rect->tab_options_button))
-	{
-		camera_tab_pressed = 0;
-		objects_tab_pressed = 0;
-		options_tab_pressed = 1;
-	}
 	if (is_press_button(event, &rect->type_button) && camera_tab_pressed == 1)
 	{
 		type_pressed = 1;
 	}
-	else
+	else if ((type_pressed == 1 && is_press_button(event, &rect->type_choise_rect)) && camera_tab_pressed == 1)
+	{
+		catch_is_pressed(event, &rect->type_choise_rect, 4);
+	}
+	else if (type_pressed == 1)
 	{
 		type_pressed = 0;
 	}
-
+	else
+	{
+		if (is_press_button(event, &rect->tab_camera_button))
+		{
+			camera_tab_pressed = 1;
+			objects_tab_pressed = 0;
+			options_tab_pressed = 0;
+		}
+		if (is_press_button(event, &rect->tab_objects_button))
+		{
+			camera_tab_pressed = 0;
+			objects_tab_pressed = 1;
+			options_tab_pressed = 0;
+		}
+		if (is_press_button(event, &rect->tab_options_button))
+		{
+			camera_tab_pressed = 0;
+			objects_tab_pressed = 0;
+			options_tab_pressed = 1;
+		}
+	}
 }
 
 int catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)

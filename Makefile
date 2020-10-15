@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
+#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/10/13 09:37:37 by alex             ###   ########.fr        #
+#    Updated: 2020/10/15 13:46:04 by user             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,10 +82,11 @@ color.c                               object_manager.c        rt_options.c\
 create_program.c        init.c                                 sampler.c\
 error_handling.c        instance_manager.c                     sampler_manager.c\
                                  scene.c\
-main_gui.c	gui_render_text.c	gui_tab_bar.c	gui_primitives.c	gui_button.c\
+main_gui.c	gui_render_text.c	gui_tab_bar.c	gui_primitives.c	gui_button.c	gui_init.c\
+gui_utils.c\
 
-# gui_checkbox.c	gui_gradient.c	gui_progress_bar.c\
-# gui_render_text.c		gui_xyz.c\
+	# gui_gradient.c
+
 
 
 OBJSDIR = ./obj/

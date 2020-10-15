@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/10/13 15:21:22 by user             ###   ########.fr       */
+/*   Updated: 2020/10/15 13:50:09 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define FONT_TEXT 12
 # define COLOR_STEP 100
 # define HEIGHT_BUTTON 30
+# define SPACER		150
 
 typedef struct s_rt		t_rt;
 typedef struct s_vector	t_vector;
@@ -46,6 +47,7 @@ int	camera_tab_pressed;
 int	objects_tab_pressed;
 int	options_tab_pressed;
 int	type_pressed;
+int	inside_is_pressed;
 
 typedef struct		s_vector
 {
@@ -113,19 +115,17 @@ typedef struct	s_all_rect
 
 typedef struct 	s_colors
 {
-	SDL_Color	preground;
-	SDL_Color	border_color;
-	SDL_Color	title_text_color;
-	SDL_Color	xyz_text_color;
-	SDL_Color	subtitle_xyz_color;
 	SDL_Color	background_color;
-	SDL_Color	tab_pressed_color;
-	SDL_Color	green_color;
-	SDL_Color	red_color;
-	SDL_Color	black_color;
+	SDL_Color	border_color;
+	SDL_Color	inside_color;
+	SDL_Color	text_color;
 }				t_colors;
 
-// int				init_gui(t_gui *gui);
+/* gui_init */
+void	init_colors(t_colors *color);
+void	init_rect(t_all_rect *rect, t_window *win);
+
+/* gui_init end */
 
 /* primirives */
 void	draw_hline(t_window *win, int x1, int x2, int y, SDL_Color *color);
@@ -133,16 +133,11 @@ void	draw_vline(t_window *win, int x1, int x2, int y, SDL_Color *color);
 
 /* end primitives */
 int				main_gui(t_window *win, t_rt *rt, t_all_rect *all_rect, t_colors *color);
-void			draw_background(t_rt *rt);
 void 			render_texture(SDL_Texture *tex, SDL_Renderer *ren,
 								int x, int y);
 SDL_Texture*	load_texture(char *str, SDL_Renderer *renderer);
 void			render_rect(SDL_Texture *texture, SDL_Renderer *renderer,
 							int x, int y, int w, int h);
-void			xyz_text(t_rt *rt, float *xyz, SDL_Color *text_color,
-							int y, int x);
-void			draw_titles_xyz(t_rt *rt, SDL_Color *color);
-void			draw_xyz(t_rt *rt, int y, t_vector *vector, t_colors *color);
 void			draw_fill_rect(t_window *win, SDL_Rect *background, SDL_Color *color);
 SDL_Texture*	render_text(char *message, char *fontFile, SDL_Color color,
 							int fontSize,	SDL_Renderer *renderer);
@@ -154,25 +149,17 @@ void			draw_button_xyz(t_window *win, SDL_Rect *rect,
 void			draw_checkbox(t_rt *rt, SDL_Rect *rect, char *str,
 								t_colors *color);
 void			draw_button_choise(t_window *win, SDL_Rect *rect,
-					char *str, char **str_xyz, t_colors *color);
+					char **str_xyz, t_colors *color, int size);
+void			draw_is_pressed_button(t_window *win, SDL_Rect *rect,
+					char *str, t_colors *color);
 /* end gui_button.c */
 
-void			draw_gradient(SDL_Renderer * renderer,
-									SDL_Rect *back_rect, const SDL_Color c1, const SDL_Color c2);
-void			keyboard(t_rt *rt, t_all_rect *all_rect, t_colors *color);
-void			mouse_move(t_rt *rt, t_all_rect *all_rect, t_colors *color);
-void			create_xyz_subtitles(t_rt *rt, int x, int y, char *str,
-											t_colors *color);
 void			gui_tab_bar(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color);
-void			render_tab_bar(t_window *win, SDL_Color *color,
-								SDL_Rect *rect, char *str);
-void			draw_main_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color);
-void			draw_render_tab(t_rt *rt, t_all_rect *all_rect, t_colors *color);
-void			progress_bar(t_rt *rt, t_colors *color, t_all_rect *all_rect);
 void			draw_title_ray_tracing(t_window *win, SDL_Color *color);
-void			draw_ispressed_checkbox(t_rt *rt, SDL_Rect *rect,
-										char *str, t_colors *color);
-void			draw_render_checkbox(t_rt *rt, SDL_Rect *all_rect,
-										t_colors *color, char **str, int count);
+/* gui_utils */
 
+SDL_Rect		init_rect_size(int x, int y, int w, int h);
+SDL_Color		init_color(int r, int g, int b, int a);
+
+/* gui_utils end */
 #endif
