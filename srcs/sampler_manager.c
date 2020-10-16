@@ -6,27 +6,12 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 19:14:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/27 00:21:13 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/16 12:03:06 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "libft.h"
-
-//TODO: make error system
-
-void	print_samples(t_sampler_manager *sampler_manager, int id)
-{
-	t_sampler sampler;
-
-	int		offset = id * NUM_SAMPLES * NUM_SETS;
-	printf("Sampler #%d\n", id);
-	for (int i = 0; i < NUM_SAMPLES * NUM_SETS; i++)
-	{
-		printf("%d: %f %f\t", i, sampler_manager->samples[offset+i].x,
-			sampler_manager->samples[offset+i].y);
-	}
-}
 
 int		init_sampler_manager(t_sampler_manager *sampler_manager)
 {

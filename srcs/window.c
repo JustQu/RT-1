@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 19:44:32 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/30 15:33:36 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/16 16:27:19 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,18 @@ int		init_window(t_window *window)
 	}
 	if (!(window->texture = SDL_CreateTexture(window->renderer,
 				SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING,
-				DEFAULT_WIDTH, DEFAULT_HEIGHT)))
+				1920, 1080)))
 	{
 		SDL_DestroyWindow(window->ptr);
 		quit("SDL_CreateTexture Error");
 	}
 	window->image = (uint32_t *)malloc(sizeof(uint32_t) *
-				DEFAULT_WIDTH * DEFAULT_HEIGHT);
-	ft_memset(window->image, 0, sizeof(uint32_t) * DEFAULT_WIDTH * DEFAULT_HEIGHT);
+				1920 * 1080);
+	ft_memset(window->image, 0, sizeof(uint32_t) * 1920 * 1080);
 	if (!window->image)
 		perror("window->image malloc");
 
-	window->rgb_image = (t_color *)malloc(sizeof(t_color) * DEFAULT_WIDTH * DEFAULT_HEIGHT);
-	ft_memset(window->rgb_image, 0, sizeof(t_color) * DEFAULT_WIDTH * DEFAULT_HEIGHT);
+	window->rgb_image = (t_color *)malloc(sizeof(t_color) * 1920 * 1080);
+	ft_memset(window->rgb_image, 0, sizeof(t_color) * 1920 * 1080);
 	return (0);
 }

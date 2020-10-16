@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/02 23:37:42 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/16 16:29:48 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,8 @@ void	exit_program(t_window window)
 */
 void	display_image(t_window *w)
 {
-	SDL_UpdateTexture(w->texture, NULL, w->image, sizeof(uint32_t) * w->width);
-	// SDL_RenderClear(w->renderer);
+	SDL_RenderClear(w->renderer);
+	SDL_UpdateTexture(w->texture, NULL, w->image, sizeof(uint32_t) * 1920);
 	SDL_RenderCopy(w->renderer, w->texture, NULL, NULL);
 	SDL_RenderPresent(w->renderer);
 }
@@ -194,7 +194,7 @@ void	main_loop(t_app app)
 	int	a = NUM_SAMPLES;
 	clSetKernelArg(app.rt.ocl_program.help_kernel, 0, sizeof(cl_mem), &app.rt.ocl_program.rgb_image);
 	clSetKernelArg(app.rt.ocl_program.help_kernel, 1, sizeof(cl_mem), &app.rt.ocl_program.output_image);
-	clSetKernelArg(app.rt.ocl_program.help_kernel, 2, sizeof(cl_int), &a);
+	clSetKernelArg(app.rt.ocl_program.help_kernel, 2, sizeof(cl_float), &app.rt.options.spp);
 	err_code = clEnqueueNDRangeKernel(app.rt.ocl_program.info.queue,
 		app.rt.ocl_program.help_kernel, 1, NULL, &app.rt.ocl_program.work_size,
 		&app.rt.ocl_program.work_group_size, 0, NULL, NULL);
@@ -232,7 +232,7 @@ int main(int ac, char **av)
 	{
 		value = catch_event(&app.rt);
 		if (value == 1)
-			break;
+				break;
 		else if (value == 0)
 		{
 			printf("CPU:\nobj %zd\n", sizeof(t_obj));
@@ -241,10 +241,14 @@ int main(int ac, char **av)
 			printf("material %zd\n", sizeof(t_material));
 			printf("triangle %zd\n", sizeof(t_triangle));
 			main_loop(app);
-			_sleep(1);
 			display_image(&app.window);
-			_sleep(1);
+			app.rt.options.spp += NUM_SAMPLES;
+			app.rt.options.reset = 0;
+			// display_image(&app.window);
 			// scanf("%d");
+		}
+		else
+		{
 		}
 	}
 	// cleanup(app.rt);

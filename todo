@@ -2,14 +2,22 @@
 2. julia
 3. gui
 4. plane in bvh and limit other surfaces
-5. color pattern
+5. --------color pattern--------
+	5.1 -----------Checkboard-------------
+	5.2 -----------Perlin----------------
+		a) Move perlin to local memory???
+		b) ------------smooth perlin---------------
+		c)-------------
+		d)
+
 6.---------reflections.--------
 	6.1 glossy reflections 25
 7. materal system
-8. path tracer
+8. --------------------path tracer-------------------
 9. denoising?
 ------------------------------10. motion blur
 10. transparent parts of texture
+11.
 
 literature:
 http://www.realtimerendering.com/

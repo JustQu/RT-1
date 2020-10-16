@@ -1,0 +1,81 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   texture_manager.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/03 15:34:21 by dmelessa          #+#    #+#             */
+/*   Updated: 2020/10/03 16:47:05 by dmelessa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "texture_manager.h"
+
+struct solid_texture
+{
+	t_color	color;
+}
+
+struct checker_texture
+{
+	t_color	odd;
+	t_color	even;
+}
+
+struct transparent_cheker_texture
+{
+	t_color	odd_color;
+	t_color	even_transparent_color;
+}
+
+struct reflective_checker_texture
+{
+	t_color	odd_color;
+	t_color	evne_reflective_color;
+}
+
+struct	perlin_texure
+{
+}
+
+struct	image_texture
+{
+	int	offset;
+	int	width;
+	int	height;
+}
+
+union	texture_data
+{
+	solid_texture	solid;
+	checker_texture	cheker
+};
+
+struct texture
+{
+	t_texture_type	type;
+	texture_data	data;
+	offset;
+}
+
+struct material
+{
+	type;
+	texutre_id;
+};
+
+struct object
+{
+	type;
+	material_id;
+	info;
+};
+
+t_color	get_material_value_at_point(t_material material, cl_float4 point)
+{
+}
+
+get_color(t_texture texture_id)
+{
+}

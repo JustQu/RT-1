@@ -1,19 +1,13 @@
-<kernel>:2273:1: warning: control may reach end of non-void function
+<kernel>:1445:1: warning: control reaches end of non-void function
 }
 ^
-<kernel>:2311:1: warning: control may reach end of non-void function
+<kernel>:1490:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:2356:1: warning: control may reach end of non-void function
+<kernel>:1528:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:2369:1: warning: control may reach end of non-void function
-}
-^
-<kernel>:2416:33: warning: implicit declaration of function 'dor' is invalid in C99
-        return (float_color_multi(kr / dor(normal, wi), cr));
-                                       ^
-<kernel>:2791:35: error: extraneous ')' before ';'
-                (int)floor(point.z / 1.0f)) % 2));
-                                                ^
+<kernel>:2154:66: error: extraneous ')' before ';'
+                shade_rec->normal = transform_normal(shade_rec->normal, matrix));
+                                                                               ^
 

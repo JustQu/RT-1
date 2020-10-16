@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/02 23:11:17 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/16 14:45:16 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ struct				s_rt_options
 
 	cl_float		spp; //samples per pixel
 	cl_int			aa_id; //anti-aliasing sampler id
+
+	cl_uchar		reset;
 };
 
 # ifndef __OPENCL_C_VERSION__

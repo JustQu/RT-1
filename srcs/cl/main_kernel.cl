@@ -5,7 +5,13 @@ void	init_scene(t_scene *scene,
 					__global t_matrix *matrices, int nmatrices,
 					__constant t_light *lights, int nlights,
 					__global t_bvh_node *bvh,
+
 					__global t_texture *textures,
+					__global float4 *ranvec,
+					__global int *perm_x,
+					__global int *perm_y,
+					__global int *perm_z,
+
 					t_camera camera, t_light ambient_light,
 					t_ambient_occluder ambient_occluder)
 {
@@ -17,7 +23,13 @@ void	init_scene(t_scene *scene,
 	scene->instance_manager.ntriangles = ntriangles;
 	scene->instance_manager.matrices = matrices;
 	scene->instance_manager.nmatrices = nmatrices;
-	scene->instance_manager.textures = textures;
+
+	scene->instance_manager.tex_mngr.textures = textures;
+	scene->instance_manager.tex_mngr.perlin_noise = ranvec;
+	scene->instance_manager.tex_mngr.perm_x  = perm_x;
+	scene->instance_manager.tex_mngr.perm_y = perm_y;
+	scene->instance_manager.tex_mngr.perm_z = perm_z;
+
 	scene->lights = lights;
 	scene->nlights = nlights;
 	scene->bvh = bvh;
@@ -71,10 +83,14 @@ void main_kernel(__global t_color *image,	//0
 				__global t_sampler *samplers, //17
 				__global float2 *samples, //18
 				__global float2 *disk_samples,	//19
-				__global float3 *hemisphere_samples,
-				uint num,
+				__global float3 *hemisphere_samples, //20
+				uint num,	//21
 
-				__global t_texture *textures) //20
+				__global t_texture *textures, //22
+				__global float4 *ranvec,	//23
+				__global int *perm_x,		//24
+				__global int *perm_y,		//25
+				__global int *perm_z)		//26
 {
 	int					global_id;
 	int					x;
@@ -93,7 +109,7 @@ void main_kernel(__global t_color *image,	//0
 	if (global_id == 0)
 		printf("Rendering: %f%%\n", step / options.spp * 100.0f);
 	x = global_id % camera.viewplane.width;
-	y = global_id / camera.viewplane.width;;
+	y = global_id / camera.viewplane.width;
 
 	seed.x = global_id + x + num;
 	seed.y = y + get_local_id(0) + get_group_id(0);
@@ -110,14 +126,14 @@ void main_kernel(__global t_color *image,	//0
 	state.z = hash(state.x + state.y);
 	state.w = hash(num + s.y - state.x * state.y);
 	GPURnd(&state);
-	GPURnd(&state);
-	GPURnd(&state);
+	// GPURnd(&state);
+	// GPURnd(&state);
 
 	init_scene(&scene,
 				instances, ninstances, objects, nobjects,
 				triangles, ntriangles, matrices, nmatrices,
 				lights, nlights, bvh,
-				textures,
+				textures, ranvec, perm_x, perm_y, perm_z,
 				camera, ambient_light, ambient_occluder);
 
 	init_sampler_manager(&sampler_manager, samplers, samples, disk_samples, hemisphere_samples);
@@ -127,27 +143,27 @@ void main_kernel(__global t_color *image,	//0
 	ao_sampler.count = global_id * ao_sampler.num_samples + step;
 
 	/* Если это не первый шаг, то считаем прыжок для семплеров */
-	if (step != 0)
-	{
+/* 	if (step != 0)
+	{ */
 		ao_sampler.jump = ((num + random(&seed)) % ao_sampler.num_sets) * ao_sampler.num_samples;
 		options.ambient_occluder_sampler.jump = (random(&seed) % options.ambient_occluder_sampler.num_sets) * options.ambient_occluder_sampler.num_samples;
-	}
-	else
+/* 	}
+	else */ if (options.reset == 1)
 	{
 		image[global_id] = (t_color){.r = 0.0f, .g = 0.0f, .b = 0.0f};
 	}
 
 	/* */
 	float2	sp = sample_unit_square(&ao_sampler, sampler_manager.samples, &seed);
-	float	dx = x + sp.x;
-	float	dy = y + sp.y;
+	float	dx = x + GPURnd(&state);
+	float	dy = y + GPURnd(&state);
 
 	if (scene.camera.type == thin_lens)
 	{
 		camera_sampler = get_sampler(sampler_manager, scene.camera.sampler_id);
 		camera_sampler.count = global_id * camera_sampler.num_samples + step;
 		if (step != 0)
-			camera_sampler.jump = (random(&seed) % camera_sampler.num_sets) * camera_sampler.num_samples;
+			camera_sampler.jump = ((num + random(&seed)) % camera_sampler.num_sets) * camera_sampler.num_samples;
 	}
 
 	if (false && global_id == 0 && step == 0)
@@ -161,7 +177,8 @@ void main_kernel(__global t_color *image,	//0
 		print_all(scene);
 	}
 
-	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed);
+	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed, &state);
+
 	// color = ray_trace(ray, scene, options, sampler_manager, &seed);
 
 	color = path_tracer2(ray, scene, options, sampler_manager, &seed, &state);

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/05 20:30:53 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/16 16:24:20 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	init_kernel(t_cl_program *p)
 	int	r;
 
 	r = 0;
-	p->work_size = DEFAULT_WORK_SIZE;
+	p->work_size = 1920 * 1080;
 	p->work_group_size = WORK_GROUP_SIZE;
 	p->program = create_program(p->info.context);
 	r = clBuildProgram(p->program, 1, &p->info.de_id, KERNEL_INC, NULL, NULL);
@@ -105,6 +105,23 @@ void init_buffers(t_cl_program *program, t_scene *scene,
 	program->textures = clCreateBuffer(cntx, ro,
 		sizeof(t_texture) * scene->instance_mngr.texture_manager.ntextures,
 		scene->instance_mngr.texture_manager.textures, &ret);
+	cl_error(program, &program->info, ret);
+
+	program->ranvec = clCreateBuffer(cntx, ro,
+		sizeof(*scene->instance_mngr.texture_manager.ranvec) * PERLIN_SIZE,
+		scene->instance_mngr.texture_manager.ranvec, &ret);
+	cl_error(program, &program->info, ret);
+
+	program->perm_x = clCreateBuffer(cntx, ro, sizeof(cl_int) * PERLIN_SIZE,
+		scene->instance_mngr.texture_manager.perm_x, &ret);
+	cl_error(program, &program->info, ret);
+
+	program->perm_y = clCreateBuffer(cntx, ro, sizeof(cl_int) * PERLIN_SIZE,
+		scene->instance_mngr.texture_manager.perm_y, &ret);
+	cl_error(program, &program->info, ret);
+
+	program->perm_z = clCreateBuffer(cntx, ro, sizeof(cl_int) * PERLIN_SIZE,
+		scene->instance_mngr.texture_manager.perm_z, &ret);
 	cl_error(program, &program->info, ret);
 }
 
