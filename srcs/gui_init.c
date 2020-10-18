@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:33:27 by user              #+#    #+#             */
-/*   Updated: 2020/10/15 13:50:25 by user             ###   ########.fr       */
+/*   Updated: 2020/10/18 17:35:34 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 void	init_rect(t_all_rect *rect, t_window *win)
 {
-	rect->background = init_rect_size(win->width - 300, 0, WIDTH_MENU, HEIGHT);
+	rect->background = init_rect_size(win->width - win->width / 4, 0, win->width / 4, DEFAULT_HEIGHT);
 
 	rect->tab_camera_button = init_rect_size(win->width - win->width / 4,
 		win->height / 9, (win->width / 4) / 3, 30);
@@ -69,15 +69,29 @@ void	init_rect(t_all_rect *rect, t_window *win)
 
 	rect->type_choise_rect = init_rect_size(rect->type_button.x + MARGIN,
 		rect->type_button.y - 100, rect->type_button.w - 150 - MARGIN * 2, 100);
+
+	rect->save_img_button = init_rect_size(win->width - win->width / 4 + SPACER,
+		rect->direction_button.y + rect->direction_button.h + MARGIN_Y * 4, win->width / 4, 30);
 }
 
 void	init_colors(t_colors *color)
 {
-	color->background_color = init_color(240, 240, 240, 0);
+	// blue theme (240, 240, 240, 0)
+	// green theme (220, 226, 123, 0)
+	// black theme (0, 0, 0, 0)
+	color->background_color = init_color(0, 0, 0, 0);
 
-	color->border_color = init_color(14, 128, 217, 0);
+	// blue theme (14, 128, 217, 0)
+	// green theme (8, 97, 32, 0)
+	// black theme (43, 43, 45, 0)
+	color->border_color = init_color(43, 43, 45, 0);
 
-	color->inside_color = init_color(226, 241, 252, 0);
+	//  blue theme (226, 241, 252, 0);
+	// green theme (110, 202, 134, 0)
+	// black theme (28, 28, 30, 0)
+	color->inside_color = init_color(28, 28, 30, 0);
 
-	color->text_color = init_color(10, 15, 15, 0);
+	// blue theme (10, 15, 15, 0)
+	// black theme (255, 255, 255, 0)
+	color->text_color = init_color(255, 255, 255, 0);
 }

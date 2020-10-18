@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/10/15 13:27:10 by user             ###   ########.fr       */
+/*   Updated: 2020/10/18 18:04:14 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	render_tab_bar(t_window *win, SDL_Color *color, SDL_Rect *rect, char *str)
 	int w;
 	int h;
 
-	SDL_SetRenderDrawColor(win->renderer, 240, 240, 240, 255);
+	SDL_SetRenderDrawColor(win->renderer, 0, 0, 0, 255);
 	SDL_RenderFillRect(win->renderer, rect);
 	text = create_tab_subtitles(win, str, color);
 	SDL_QueryTexture(text, NULL, NULL, &w, &h);
@@ -46,14 +46,15 @@ void	camera_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 	str[0] = "3.12"; //change on data rt
 	str[1] = "2.32";
 	str[2] = "4.32";
-	render_tab_bar(win, &color->border_color, &rect->tab_camera_button, "Camera");
+	render_tab_bar(win, &color->text_color, &rect->tab_camera_button, "Camera");
 	draw_hline(win, rect->tab_camera_button.x, rect->tab_camera_button.w,
-		rect->tab_camera_button.y + rect->tab_camera_button.h, &color->border_color);
+		rect->tab_camera_button.y + rect->tab_camera_button.h, &color->inside_color);
 	draw_button(rt, win, &rect->type_button, "Type camera", color);
 	if (type_pressed)
-		draw_is_pressed_button(win, &rect->type_button, "Your text", color); //rt-type_camera
+		draw_is_pressed_button(win, &rect->type_button, "Type camera", color); //rt-type_camera
 	draw_button_xyz(win, &rect->position_button, "Position", str, color);
 	draw_button_xyz(win, &rect->direction_button, "Direction", str, color);
+	draw_button(rt, win, &rect->save_img_button, "Save image", color);
 }
 
 void	objects_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
@@ -63,10 +64,12 @@ void	objects_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 	str[0] = "3.12"; //change on data rt
 	str[1] = "2.32";
 	str[2] = "4.32";
-	render_tab_bar(win, &color->border_color, &rect->tab_objects_button, "Objects");
+	render_tab_bar(win, &color->text_color, &rect->tab_objects_button, "Objects");
 	draw_hline(win, rect->tab_objects_button.x, rect->tab_objects_button.w,
 		rect->tab_objects_button.y + rect->tab_objects_button.h, &color->border_color);
 	draw_button(rt, win, &rect->type_button, "Material", color);
+	if (type_pressed)
+		draw_is_pressed_button(win, &rect->type_button, "Material", color);
 	draw_button_xyz(win, &rect->position_button, "Position", str, color);
 	draw_button_xyz(win, &rect->direction_button, "Direction", str, color);
 	draw_button(rt, win, &rect->radius_button, "Radius", color);
@@ -79,7 +82,7 @@ void	objects_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 
 void	option_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 {
-	render_tab_bar(win, &color->border_color, &rect->tab_options_button, "Options");
+	render_tab_bar(win, &color->text_color, &rect->tab_options_button, "Options");
 	draw_hline(win, rect->tab_options_button.x, rect->tab_options_button.w,
 		rect->tab_options_button.y + rect->tab_options_button.h, &color->border_color);
 	draw_button(rt, win, &rect->type_button, "Type RT", color);
@@ -99,29 +102,41 @@ void	draw_inside_button(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *col
 	str[2] = "type3";
 	str[3] = "type4";
 	str[4] = NULL;
-	if (type_pressed == 1)
+	if (type_pressed == 1 && camera_tab_pressed == 1)
 	{
-		SDL_SetRenderDrawColor(win->renderer, 250, 100, 100, 255);
+		SDL_SetRenderDrawColor(win->renderer, 43, 43, 45, 255);
 		SDL_RenderFillRect(win->renderer, &rect->type_choise_rect);
 		draw_button_choise(win, &rect->type_choise_rect, str, color, 4);
+	}
+	if (type_pressed == 1 && objects_tab_pressed == 1)
+	{
+		SDL_SetRenderDrawColor(win->renderer, 43, 43, 45, 255);
+		SDL_RenderFillRect(win->renderer, &rect->type_choise_rect);
+		draw_button_choise(win, &rect->type_choise_rect, str, color, 3);
+	}
+	if (type_pressed == 1 && options_tab_pressed == 1)
+	{
+		SDL_SetRenderDrawColor(win->renderer, 43, 43, 45, 255);
+		SDL_RenderFillRect(win->renderer, &rect->type_choise_rect);
+		draw_button_choise(win, &rect->type_choise_rect, str, color, 2);
 	}
 }
 
 void	gui_tab_bar(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 {
 	draw_hline(win, rect->tab_camera_button.x, rect->tab_options_button.x + rect->tab_options_button.w,
-				rect->tab_options_button.y + rect->tab_options_button.h, &color->inside_color);
+				rect->tab_options_button.y + rect->tab_options_button.h, &color->border_color);
 	if (camera_tab_pressed == 1)
 		camera_tab(win, rt, rect, color);
 	else
-		render_tab_bar(win, &color->text_color, &rect->tab_camera_button, "Camera");
+		render_tab_bar(win, &color->border_color, &rect->tab_camera_button, "Camera");
 	if (objects_tab_pressed == 1)
 		objects_tab(win, rt, rect, color);
 	else
-		render_tab_bar(win, &color->text_color, &rect->tab_objects_button, "Objects");
+		render_tab_bar(win, &color->border_color, &rect->tab_objects_button, "Objects");
 	if (options_tab_pressed == 1)
 		option_tab(win, rt, rect, color);
 	else
-		render_tab_bar(win, &color->text_color, &rect->tab_options_button, "Options");
+		render_tab_bar(win, &color->border_color, &rect->tab_options_button, "Options");
 	draw_inside_button(win, rt, rect, color);
 }

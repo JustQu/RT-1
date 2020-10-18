@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/23 15:26:15 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/15 18:17:09 by user             ###   ########.fr       */
+/*   Updated: 2020/10/18 18:32:57 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # include "sampler.h"
 
-# define NUM_SAMPLES 25
+# define NUM_SAMPLES 1
 # define NUM_SETS 83
 
 typedef struct		s_sampler_manager //only on cpu ?

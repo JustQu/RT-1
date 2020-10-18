@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:51:59 by alex              #+#    #+#             */
-/*   Updated: 2020/10/15 12:47:20 by user             ###   ########.fr       */
+/*   Updated: 2020/10/18 17:17:04 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,20 @@ void	render_rect(SDL_Texture *texture, SDL_Renderer *renderer, int x, int y, int
 	SDL_RenderCopy(renderer, texture, NULL, &dst);
 }
 
-// SDL_Texture*		load_texture(char *str, SDL_Renderer *renderer)
-// {
-// 	SDL_Texture *texture;
+SDL_Texture*		load_texture(char *str, SDL_Renderer *renderer)
+{
+	SDL_Texture *texture;
+	SDL_Surface *surf;
 
-// 	texture = IMG_LoadTexture(renderer, str);
-// 	if (!texture)
-// 	{
-// 		printf("You don't have the power");
-// 	}
-// 	return texture;
-// }
+	surf = IMG_Load(str);
+	if (!surf)
+	{
+		printf("You don't have the power");
+		exit(0);
+	}
+	texture = SDL_CreateTextureFromSurface(renderer, surf);
+	return texture;
+}
 
 void render_texture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y)
 {
@@ -120,21 +123,28 @@ void	draw_title_ray_tracing(t_window *win, SDL_Color *color)
 		render_rect(rt_text, win->renderer, (win->width - win->width / 4) + (win->width / 4 - w) / 2, MARGIN_Y, w, h);
 	else
 		render_rect(rt_text, win->renderer, (win->width - win->width / 4) + MARGIN, MARGIN_Y, win->width / 4 - MARGIN * 2, h);
-
-	// render_texture(rt_text, win->renderer, win->width - (win->width / 4) / 2 - w / 2, MARGIN_Y * 2);
 }
 
 //t_window, t_rt
 int		main_gui(t_window *win, t_rt *rt, t_all_rect *all_rect, t_colors *color)
 {
 	TTF_Init();
+	SDL_Texture *img;
 	int err;
+	int w;
+	int h;
+
 	err = 0;
 	SDL_SetRenderDrawColor(win->renderer, 240, 240, 240, 255);
 	// SDL_RenderClear(win->renderer);
 
+	img = load_texture("/Users/user/Desktop/RT/image/smoke.png", win->renderer);
+	SDL_QueryTexture(img, NULL, NULL, &w, &h);
 	/* background */
 	draw_fill_rect(win, &all_rect->background, &color->background_color);
+	render_rect(img, win->renderer, win->width - win->width / 4, DEFAULT_HEIGHT - 200, win->width / 4, 200);
+	draw_vline(win, all_rect->background.x - 1, all_rect->background.y,
+		all_rect->background.h, &color->border_color);
 	draw_title_ray_tracing(win, &color->text_color);
 	gui_tab_bar(win, rt, all_rect, color);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:52:14 by alex              #+#    #+#             */
-/*   Updated: 2020/10/15 13:25:20 by user             ###   ########.fr       */
+/*   Updated: 2020/10/18 17:12:47 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	draw_is_pressed_button(t_window *win, SDL_Rect *rect, char *str, t_colors *
 	button.y = rect->y;
 	button.w = rect->w - MARGIN * 2 - 150;
 	button.h = rect->h;
-	SDL_SetRenderDrawColor(win->renderer, 14, 128, 217, 255);
+	SDL_SetRenderDrawColor(win->renderer, color->border_color.r, color->border_color.g, color->border_color.b, color->border_color.a);
 	SDL_RenderFillRect(win->renderer, &button);
-	SDL_SetRenderDrawColor(win->renderer, 14, 128, 217, 255);
+	SDL_SetRenderDrawColor(win->renderer, color->border_color.r, color->border_color.g, color->border_color.b, color->border_color.a);
 	SDL_RenderDrawRect(win->renderer, &button);
 	text = render_text(str, "font/Title.ttf",
 		color->text_color, FONT_TEXT, win->renderer);
@@ -38,13 +38,29 @@ void	draw_is_pressed_button(t_window *win, SDL_Rect *rect, char *str, t_colors *
 void	draw_button_rect(t_window *win, SDL_Rect *rect, char *str, t_colors *color)
 {
 	SDL_Texture *text;
+	// SDL_Rect	border;
 	int w;
 	int h;
 
-	SDL_SetRenderDrawColor(win->renderer, 229, 241, 251, 255);
+	// border.x = rect->x + 1;
+	// border.y = rect->y + 1;
+	// border.h = rect->h;
+	// border.w = rect->w;
+	SDL_SetRenderDrawColor(win->renderer, color->inside_color.r, color->inside_color.g, color->inside_color.b, color->inside_color.a);
 	SDL_RenderFillRect(win->renderer, rect);
-	SDL_SetRenderDrawColor(win->renderer, 14, 128, 217, 255);
+	SDL_SetRenderDrawColor(win->renderer, color->border_color.r, color->border_color.g, color->border_color.b, color->border_color.a);
 	SDL_RenderDrawRect(win->renderer, rect);
+	// int i = 0;
+	// while(i < 1)
+	// {
+	// 	SDL_SetRenderDrawColor(win->renderer, 0, 0, 0, 255);
+	// 	SDL_RenderDrawRect(win->renderer, &border);
+	// 	border.x += 1;
+	// 	border.y += 1;
+	// 	border.h -= 2;
+	// 	border.w -= 2;
+	// 	i += 1;
+	// }
 	text = render_text(str, "font/Title.ttf",
 		color->text_color, FONT_TEXT, win->renderer);
 	SDL_QueryTexture(text, NULL, NULL, &w, &h);

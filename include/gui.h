@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/10/15 18:15:25 by user             ###   ########.fr       */
+/*   Updated: 2020/10/18 15:52:27 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct	s_all_rect
 	SDL_Rect	background_button;
 	SDL_Rect	resolution_button;
 	SDL_Rect	type_choise_rect;
+	SDL_Rect	save_img_button;
 }				t_all_rect;
 
 typedef struct 	s_colors
@@ -129,7 +130,7 @@ void	init_rect(t_all_rect *rect, t_window *win);
 
 /* primirives */
 void	draw_hline(t_window *win, int x1, int x2, int y, SDL_Color *color);
-void	draw_vline(t_window *win, int x1, int x2, int y, SDL_Color *color);
+void	draw_vline(t_window *win, int x1, int y2, int y, SDL_Color *color);
 
 /* end primitives */
 int				main_gui(t_window *win, t_rt *rt, t_all_rect *all_rect, t_colors *color);
