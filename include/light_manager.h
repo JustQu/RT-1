@@ -1,41 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.h                                            :+:      :+:    :+:   */
+/*   light_manager.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/16 17:51:48 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 13:48:21 by dmelessa         ###   ########.fr       */
+/*   Created: 2020/10/19 01:40:51 by dmelessa          #+#    #+#             */
+/*   Updated: 2020/10/19 17:04:17 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLOR_H
-# define COLOR_H
+#ifndef LIGHT_MANAGER_H
+# define LIGHT_MANAGER_H
 
 # ifndef __OPENCL_C_VERSION__
 #  include "rt_types.h"
+#  include "light.h"
 # endif
 
-typedef struct s_color	t_color;
-
-/**
-** @brief store color in rgb float compnents.
-** Components are normolized [0.0f, 1.0f]
-**
-*/
-struct			s_color
+typedef struct	s_light_manager
 {
-	cl_float	r;
-	cl_float	g;
-	cl_float	b;
-	cl_float	a;
-};
+	t_light		*lights;
+	size_t		light_malloc_size;
+	int			nlights;
+}				t_light_manager;
 
-# ifndef __OPENCL_C_VERSION__
-void	set_color_int(t_color *color, int value);
-void	set_color_uchar(t_color *color, uint8_t r, uint8_t g, uint8_t b);
-void	set_color_float(t_color *color, float r, float g, float b);
+void	init_light_manager(t_light_manager *light_manger);
+int		add_parsed_light(t_light_manager *light_manager);
+int		new_light(t_light_manager *light_manager, t_light_type type);
+
 # endif
-
-#endif

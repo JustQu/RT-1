@@ -166,62 +166,11 @@ void main_kernel(__global t_color *image,	//0
 			camera_sampler.jump = ((num + random(&seed)) % camera_sampler.num_sets) * camera_sampler.num_samples;
 	}
 
-	if (false && global_id == 0 && step == 0)
-	{
-		printf("GPU:\nobj %u\n", sizeof(t_obj));
-		printf("instance %u\n", sizeof(t_instance));
-		printf("matrix %u\n", sizeof(t_matrix));
-		printf("material %u\n", sizeof(t_material));
-		printf("triangle %u\n", sizeof(t_triangle));
-		printf("N: %d\n", nobjects);
-		print_all(scene);
-	}
-
 	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed, &state);
 
-	// color = ray_trace(ray, scene, options, sampler_manager, &seed);
+	color = ray_trace(ray, scene, options, sampler_manager, &seed);
 
-	color = path_tracer2(ray, scene, options, sampler_manager, &seed, &state);
+	// color = path_tracer2(ray, scene, options, sampler_manager, &seed, &state);
 
 	image[global_id] = color_sum(image[global_id], color);
-}
-
-typedef union cnv
-{
-	uint	a;
-	float4	b;
-}cnv;
-
-__kernel void	noise(__global t_color *img)
-{
-	int		gid = get_global_id(0);
-	int		x = gid % 1200;
-	int		y = gid / 1200;
-
-	float4	state;
-
-	float2 seed;
-
-	seed.x = x;
-	seed.y = y;
-	seed = (seed * 2.0f - (float2)(1200.0f, 600.0f)) / 600.0f;
-
-	state.x = hash(seed.x);
-	state.y = hash(seed.y + state.x);
-	state.z = hash(state.x + state.y);
-	state.w = hash(seed.y + dot(state.xyz, (float3)(1.1f)));
-
-	float	n;
-	for (int i = 0; i < 1; i++)
-	{
-		n = GPURnd(&state);
-	}
-
-	t_color color;
-
-	n = GPURnd(&state);
-	color.r = n;
-	color.g = n;
-	color.b = n;
-	img[gid] = color;
 }

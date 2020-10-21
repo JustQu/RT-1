@@ -6,7 +6,7 @@
 #    By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/09/24 16:17:25 by dmelessa         ###   ########.fr        #
+#    Updated: 2020/10/16 19:11:57 by dmelessa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,6 @@ else ifeq ($(SYSTEM), $(LINUX))
 	LDFLAGS	= $(LIBFT)
 
 endif
-
 
 LIBSDIR = $(CURRENTDIR)/Libs
 

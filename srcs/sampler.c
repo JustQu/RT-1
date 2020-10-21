@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:02:56 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/16 12:03:00 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/19 19:11:48 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,9 +198,7 @@ void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples, cl_float3 
 }
 
 int		generate_samples(t_sampler sampler,
-						cl_float2 *samples,
-						cl_float2 *disk_samples,
-						cl_float3 *hemisphere_samples)
+						cl_float2 *samples)
 {
 	if (sampler.type == regular_grid)
 	{
@@ -222,6 +220,6 @@ int		generate_samples(t_sampler sampler,
 	{
 		return (0);
 	}
-	map_samples_to_unit_disk(sampler, samples, disk_samples);
-	map_samples_to_hemisphere(sampler, samples, hemisphere_samples, 1.0f);
+	// map_samples_to_unit_disk(sampler, samples, disk_samples);
+	// map_samples_to_hemisphere(sampler, samples, hemisphere_samples, 1.0f);
 }

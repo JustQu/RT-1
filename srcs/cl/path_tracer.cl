@@ -1,11 +1,4 @@
 
-/*
-** SUffern path tracer
-*/
-t_color	path_tracer1(t_ray ray, t_scene scene, t_rt_options options,
-					t_sampler_manager sampler_manager, uint2 *seed)
-{}
-
 float	GPURnd(float4 *state)
 {
 	float4 q = (float4)(1225.0f, 1585.0f, 2457.0f, 2098.0f);
@@ -293,6 +286,32 @@ t_color	emitted(t_material material, t_shade_rec *shade_rec,
 	return ((t_color){ .r = 0.0f, .g = 0.0, .b = 0.0f });
 }
 
+/*
+** SUffern path tracer
+*/
+t_color	path_tracer_suffern(t_ray ray, t_scene scene, t_rt_options options,
+							t_sampler_manager sampler_manager, uint2 *seed)
+{
+	t_color	color = (t_color){ .r = 0.0f, .g = 0.0f, .b = 0.0f };
+
+	t_shade_rec	shade_rec;
+	shade_rec.ray = ray;
+
+	int		depth = 0;
+
+	bool	continue_loop = true;
+
+	while (continue_loop)
+	{
+		depth = 0;
+
+		if (scene_intersection(scene, ray, &shade_rec) && depth < 20)
+		{
+			
+		}
+	}
+}
+
 t_color	path_tracer2(t_ray ray, t_scene scene, t_rt_options options,
 					t_sampler_manager sampler_manager, uint2 *seed,
 					float4	*state)
@@ -349,7 +368,7 @@ t_color	path_tracer2(t_ray ray, t_scene scene, t_rt_options options,
 			continue_loop = false;
 			color = color_sum(color,
 						color_multi(cur_attenuation,
-							(t_color){ 0.5, 0.5, 0.7, 0}));
+							(t_color){ 0., 0., 0., 0}));
 		}
 	} while (continue_loop);
 
@@ -500,7 +519,7 @@ t_color	path_trace_pdf(t_ray ray, t_scene scene, t_rt_options options,
 
 			color = color_sum(color,
 						color_multi(cur_attenuation,
-							(t_color){ 0.5, 0.5, 0.5, 0}));
+							(t_color){ 0., 0., 0., 0}));
 		}
 	} while (continue_loop);
 

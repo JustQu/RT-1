@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/23 15:26:15 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/15 23:13:10 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/20 03:05:36 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ int	new_sampler(t_sampler_manager *sampler_manager,
 				int num_sets);
 
 int	generate_samples(t_sampler sampler,
-					cl_float2 *samples,
-					cl_float2 *disk_samples,
-					cl_float3 *hemisphere_samples);
+					cl_float2 *samples);
 
 #endif

@@ -1,13 +1,25 @@
-<kernel>:1445:1: warning: control reaches end of non-void function
+<kernel>:1446:1: warning: control reaches end of non-void function
 }
 ^
-<kernel>:1490:1: warning: control may reach end of non-void function
+<kernel>:1491:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:1528:1: warning: control may reach end of non-void function
+<kernel>:1529:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:2154:66: error: extraneous ')' before ';'
-                shade_rec->normal = transform_normal(shade_rec->normal, matrix));
-                                                                               ^
+<kernel>:2175:1: warning: control may reach end of non-void function
+}
+^
+<kernel>:2188:1: warning: control may reach end of non-void function
+}
+^
+<kernel>:2420:1: warning: control reaches end of non-void function
+}
+^
+<kernel>:2500:1: warning: control may reach end of non-void function
+}
+^
+<kernel>:2806:10: error: expected parameter declarator
+                                                                        )
+                                                                        ^
 

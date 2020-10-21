@@ -31,7 +31,7 @@ void		*ft_realloc(void *mem, size_t current_size, size_t new_size)
 	if (new_mem == NULL)
 		return (NULL);
 	ft_memcpy(new_mem, mem, current_size);
-	free(mem);
+	ft_memdel(&mem);
 	return (new_mem);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 00:35:05 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/04 17:20:13 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/19 00:54:05 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ int		init_material_manager(t_material_manager *material_manager);
 int		new_material(t_material_manager *material_manager /* ... */);
 int		add_material(t_material_manager *material_manager, t_material material);
 
-// int		set_new_texure(t_material_manager *material_manager);
+t_material	*get_material(t_material_manager *material_manager, int id);
+
 #endif

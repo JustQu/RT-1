@@ -25,3 +25,9 @@ suffern Ray Tracing from the Ground Up,
 ray tracing in one weekend
 siggraph 2019
 	object.type = sphere;
+
+
+gui
+parser
+error_management
+cleanup

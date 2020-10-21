@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   swap.c                                             :+:      :+:    :+:   */
+/*   light_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/25 11:32:22 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/04/28 18:27:13 by dmelessa         ###   ########.fr       */
+/*   Created: 2020/10/20 23:40:30 by dmelessa          #+#    #+#             */
+/*   Updated: 2020/10/20 23:41:50 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "CL/cl.h"
+#include "light_manager.h"
 
-void	swap_int(int *a, int *b)
+void	init_light_manager(t_light_manager *light_manager)
 {
-	int	tmp;
-
-	tmp = *b;
-	*b = *a;
-	*a = tmp;
-}
-
-void	swap_float2(cl_float2 *a, cl_float2 *b)
-{
-	cl_float2 tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
+	light_manager->lights = NULL;
+	light_manager->nlights = 0;
+	light_manager->light_malloc_size = 0;
 }

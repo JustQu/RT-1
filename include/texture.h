@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 22:49:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/06 22:48:46 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/19 00:05:54 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,6 @@ t_texture	create_perlin_texture();
 ** @param data
 ** @return ** t_texture
 */
-t_texture	create_img_texture(int mode, void *data);
+// t_texture	create_img_texture(int mode, void *data);
 
 #endif

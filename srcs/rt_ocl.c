@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/16 16:24:20 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/17 16:44:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ static int	init_kernel(t_cl_program *p)
 	assert(!r);
 	p->help_kernel = clCreateKernel(p->program, "translate_image", &r);
 	assert(!r);
-	p->kernel = clCreateKernel(p->program, "noise", &r);
-	assert(!r);
+
+	size_t a;
+	clGetKernelWorkGroupInfo(p->new_kernel, p->info.de_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(size_t), &a, NULL);
+	fprintf(stdout, "Work group kernel - %zd\n", a);
 	return (r);
 }
 
 //NOTE: deal with case when there is no objects
-//TODO: mem manager like sampler_manager but for scene
 void init_buffers(t_cl_program *program, t_scene *scene,
 				  t_sampler_manager *sampler_manager, t_rt *rt)
 {
@@ -92,13 +93,13 @@ void init_buffers(t_cl_program *program, t_scene *scene,
 	program->samplers = clCreateBuffer(cntx, ro, sizeof(t_sampler) * sampler_manager->count, sampler_manager->samplers, &ret);
 	cl_error(program, &program->info, ret);
 
-	program->samples = clCreateBuffer(cntx, ro, sizeof(cl_float2) * sampler_manager->samples_size, sampler_manager->samples, &ret);
+	program->samples = clCreateBuffer(cntx, ro, sampler_manager->samples_size, sampler_manager->samples, &ret);
 	cl_error(program, &program->info, ret);
 
-	program->disk_samples = clCreateBuffer(cntx, ro, sizeof(cl_float2) * sampler_manager->samples_size, sampler_manager->disk_samples, &ret);
+	program->disk_samples = clCreateBuffer(cntx, ro,  sampler_manager->disk_samples_size, sampler_manager->disk_samples, &ret);
 	cl_error(program, &program->info, ret);
 
-	program->hemisphere_samples = clCreateBuffer(cntx, ro, sizeof(cl_float3) * sampler_manager->samples_size, sampler_manager->hemisphere_samples, &ret);
+	program->hemisphere_samples = clCreateBuffer(cntx, ro, sampler_manager->hemisphere_samples_size, sampler_manager->hemisphere_samples, &ret);
 
 	cl_error(program, &program->info, ret);
 

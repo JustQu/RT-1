@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/10/15 16:11:46 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/20 17:47:48 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ cl_program	create_program(cl_context context)
 	{
 		str[i] = malloc(sizeof(char) * BUFF);
 		read_file(files[i], str[i]);
-		// fprintf(f, "%s\n", str[i]);
+		fprintf(f, "%s\n", str[i]);
 		i++;
 	}
 	program = clCreateProgramWithSource(context, g_num_files, str, NULL, &ret);

@@ -67,6 +67,17 @@ t_color		area_light_shade_phong(t_material material,
 	return (color);
 }
 
+t_color		area_light_shade_emissive(t_material material,
+									t_shade_rec shade_rec
+									)
+{
+	// if (shade_rec.normal * shade_rec.ray.direction > 0.0f)
+	// {
+	// 	;
+	// 	// return (float_color_multi(material,
+	// }
+}
+
 t_color		area_light_shade(t_material material,
 							t_shade_rec shade_rec,
 							t_scene scene,
@@ -76,11 +87,16 @@ t_color		area_light_shade(t_material material,
 {
 	t_color	color;
 
+	// if (material.type == matte)
+	// {
+	// }
+	// else if (material.type == emissive)
+	// {
+	// }
+
 	// if (material.type == phong)
 	// 	area_light_shade_phong(material, shade_rec, scene, sampelr_manager, render_options, seed);
 	// else if (material.type == emissive)
-
-	// else
 
 	return (color);
 }
