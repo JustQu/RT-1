@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/10/18 15:52:27 by user             ###   ########.fr       */
+/*   Updated: 2020/10/21 15:27:12 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	objects_tab_pressed;
 int	options_tab_pressed;
 int	type_pressed;
 int	inside_is_pressed;
+int	save_image;
 
 typedef struct		s_vector
 {
@@ -161,6 +162,7 @@ void			draw_title_ray_tracing(t_window *win, SDL_Color *color);
 
 SDL_Rect		init_rect_size(int x, int y, int w, int h);
 SDL_Color		init_color(int r, int g, int b, int a);
+void			save_image_func(t_window *win);
 
 /* gui_utils end */
 #endif

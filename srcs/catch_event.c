@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/18 18:03:55 by user             ###   ########.fr       */
+/*   Updated: 2020/10/21 15:30:48 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ void	catch_is_pressed(SDL_Event *event, SDL_Rect *rect, int size)
 
 void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 {
-	if (is_press_button(event, &rect->type_button) && objects_tab_pressed == 1)
+	if (is_press_button(event, &rect->save_img_button) && camera_tab_pressed == 1)
+	{
+		save_image = 1;
+	}
+	else if (is_press_button(event, &rect->type_button) && objects_tab_pressed == 1)
 	{
 		type_pressed ^= 1;
 	}

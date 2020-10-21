@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:45:42 by user              #+#    #+#             */
-/*   Updated: 2020/10/15 13:50:18 by user             ###   ########.fr       */
+/*   Updated: 2020/10/21 15:35:08 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,17 @@ SDL_Color	init_color(int r, int g, int b, int a)
 	color.b = b;
 	color.a = a;
 	return (color);
+}
+
+void		save_image_func(t_window *win)
+{
+	SDL_Surface surf;
+
+	if (save_image)
+	{
+		// IMG_SavePNG(&surf, "image.pbg");
+		printf("yes bitch \n");
+		save_image = 0;
+	}
+
 }
