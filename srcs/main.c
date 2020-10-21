@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/18 19:38:16 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/21 16:33:38 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
+// #include "julia.h"
+// #include "app.h"
 #include <stdio.h>
+#include "libft.h"
 
 #define BANANA 0
 #define printf(...) if (BANANA) printf(__VA_ARGS__);
@@ -46,7 +49,7 @@ void	display_image(t_window *w)
 	SDL_RenderClear(w->renderer);
 	SDL_UpdateTexture(w->texture, NULL, w->image, sizeof(uint32_t) * 1920);
 	SDL_RenderCopy(w->renderer, w->texture, NULL, NULL);
-	SDL_RenderPresent(w->renderer);
+	// SDL_RenderPresent(w->renderer);
 }
 
 void	write_buffers(t_rt rt)
@@ -110,25 +113,28 @@ void	main_loop(t_app app)
 #include <stdlib.h>
 #include <time.h>
 
-#include "app.h"
-
 int main(int ac, char **av)
 {
 	t_app	app;
 	int		value;
+	t_window	window_gui;
+	t_all_rect all_rect;
+	t_colors color;
+	t_rt rt;
+
 
 	f = fopen("ocl.cl", "w+");
+	init_colors(&color);
 	init_app(&app, ac, av);
-
+	init_rect(&all_rect, &app.window);
 	if (f == NULL)
 	{
 		printf("ERROR");
 		exit(0);
 	}
-
 	while (1)
 	{
-		value = catch_event(&app.rt);
+		value = catch_event(&app.rt, &app.window, &all_rect, &color);
 		if (value == 1)
 				break;
 		else if (value == 0)
@@ -137,6 +143,13 @@ int main(int ac, char **av)
 			display_image(&app.window);
 			app.rt.options.spp += NUM_SAMPLES;
 			app.rt.options.reset = 0;
+			main_gui(&app.window, &rt, &all_rect, &color);
+			SDL_RenderPresent(app.window.renderer);
+		}
+		else
+		{
+			main_gui(&app.window, &rt, &all_rect, &color);
+			SDL_RenderPresent(app.window.renderer);
 		}
 	}
 

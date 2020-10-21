@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 19:54:03 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/15 22:51:20 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/21 15:56:13 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	render_scene(t_rt rt)
 									 0, NULL, NULL);
 		cl_error(&rt.ocl_program, &rt.ocl_program.info, err);
 		assert(!err);
+
 		i++;
 		// printf("RENDERING: %f\n", 100.0f * i / NUM_SAMPLES);
 	}

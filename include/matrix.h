@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 12:47:05 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/26 15:15:34 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/28 15:23:39 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATRIX_H
 # define MATRIX_H
 
-# include "rt_types.h"
+# ifndef __OPENCL_C_VERSION__
+#  include "rt_types.h"
+#endif
 
 typedef cl_float16				t_matrix;
 

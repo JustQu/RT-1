@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aabb.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:24:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/08 21:20:06 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/21 15:52:54 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,18 @@
 #include "matrix.h"
 #include "instance_manager.h"
 
-#include "stdlib.h"
+#include <stdlib.h>
+
+
+float	ft_max(float a, float b)
+{
+	return a > b ? a : b;
+}
+
+float	ft_min(float a, float b)
+{
+	return a > b ? b : a;
+}
 
 /**
 ** @brief Algorithm from https://github.com/erich666/GraphicsGems/blob/master/gems/TransBox.c
@@ -82,12 +93,12 @@ t_bbox transform_aabb(t_bbox aabb, t_matrix matrix)
 	pts[4] = matrix.s2 * aabb.min.z + matrix.s6 * aabb.min.z + matrix.sA * aabb.min.z;
 	pts[5] = matrix.s2 * aabb.max.z + matrix.s6 * aabb.max.z + matrix.sA * aabb.max.z;
 
-	transformed_aabb.min.x = min(pts[0], pts[1]) + matrix.s3;
-	transformed_aabb.min.y = min(pts[2], pts[3]) + matrix.s7;
-	transformed_aabb.min.z = min(pts[4], pts[5]) + matrix.sB;
-	transformed_aabb.max.x = max(pts[0], pts[1]) + matrix.s3;
-	transformed_aabb.max.y = max(pts[2], pts[3]) + matrix.s7;
-	transformed_aabb.max.z = max(pts[4], pts[5]) + matrix.sB;
+	transformed_aabb.min.x = ft_min(pts[0], pts[1]) + matrix.s3;
+	transformed_aabb.min.y = ft_min(pts[2], pts[3]) + matrix.s7;
+	transformed_aabb.min.z = ft_min(pts[4], pts[5]) + matrix.sB;
+	transformed_aabb.max.x = ft_max(pts[0], pts[1]) + matrix.s3;
+	transformed_aabb.max.y = ft_max(pts[2], pts[3]) + matrix.s7;
+	transformed_aabb.max.z = ft_max(pts[4], pts[5]) + matrix.sB;
 	return (transformed_aabb);
 }
 

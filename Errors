@@ -1,25 +1,364 @@
-<kernel>:1446:1: warning: control reaches end of non-void function
+<program source>:895:6: warning: no previous prototype for function 'swap'
+void    swap(float *a, float *b)
+     ^
+<program source>:904:6: warning: no previous prototype for function 'print_material'
+void    print_material(t_material material)
+     ^
+<program source>:930:6: warning: no previous prototype for function 'print_vector'
+void    print_vector(float4     vec)
+     ^
+<program source>:935:6: warning: no previous prototype for function 'print_camera'
+void    print_camera(t_camera camera)
+     ^
+<program source>:941:6: warning: no previous prototype for function 'print_sampler'
+void    print_sampler(t_sampler sampler, int id)
+     ^
+<program source>:954:6: warning: no previous prototype for function 'print_samples'
+void    print_samples(t_sampler_manager *sampler_manager, t_sampler sampler)
+     ^
+<program source>:963:6: warning: no previous prototype for function 'print_instance'
+void    print_instance(t_instance instance)
+     ^
+<program source>:999:6: warning: no previous prototype for function 'print_object'
+void    print_object(t_obj object)
+     ^
+<program source>:1033:6: warning: no previous prototype for function 'print_matrix'
+void    print_matrix(t_matrix matrix)
+     ^
+<program source>:1043:6: warning: no previous prototype for function 'print_all'
+void    print_all(t_scene scene)
+     ^
+<program source>:1102:5: warning: no previous prototype for function 'SolveQuadric'
+int SolveQuadric(double c[3], double s[2])
+    ^
+<program source>:1132:5: warning: no previous prototype for function 'SolveCubic'
+int SolveCubic(double c[4], double s[3])
+    ^
+<program source>:1203:5: warning: no previous prototype for function 'SolveQuartic'
+int SolveQuartic(double c[5], double s[4])
+    ^
+<program source>:1295:7: warning: no previous prototype for function 'random'
+uint            random(uint2 *seed)
+      ^
+<program source>:1307:7: warning: no previous prototype for function 'get_random'
+float get_random(unsigned int *seed0, unsigned int *seed1) {
+      ^
+<program source>:1324:9: warning: no previous prototype for function 'color_sum'
+t_color color_sum(t_color a, t_color b)
+        ^
+<program source>:1333:9: warning: no previous prototype for function 'color_multi'
+t_color color_multi(t_color a, t_color b)
+        ^
+<program source>:1343:9: warning: no previous prototype for function 'float_color_multi'
+t_color float_color_multi(float c, t_color color)
+        ^
+<program source>:1356:8: warning: no previous prototype for function 'sample_unit_square'
+float2  sample_unit_square(t_sampler *sampler, __global float2 *samples, uint2 *seed)
+       ^
+<program source>:1369:8: warning: no previous prototype for function 'sample_unit_disk'
+float2  sample_unit_disk(t_sampler *sampler, __global float2 *disk_samples, uint2 *seed)
+       ^
+<program source>:1382:8: warning: no previous prototype for function 'sample_hemisphere'
+float3  sample_hemisphere(t_sampler *sampler, __global float3 *hemisphere_samples, uint2 *seed)
+       ^
+<program source>:1389:11: warning: no previous prototype for function 'get_sampler'
+t_sampler       get_sampler(t_sampler_manager sampler_manager, int sampler_id)
+          ^
+<program source>:1392:8: warning: unused variable 'offset'
+        int                     offset;
+       ^
+<program source>:1405:8: warning: no previous prototype for function 'vector_matrix_mul'
+float4  vector_matrix_mul(float4 vector, t_matrix matrix)
+       ^
+<program source>:1415:8: warning: no previous prototype for function 'point_matrix_mul'
+float4  point_matrix_mul(float4 point, t_matrix matrix)
+       ^
+<program source>:1424:8: warning: no previous prototype for function 'get_sphere_normal'
+float4  get_sphere_normal(float4 point, t_obj sphere)
+       ^
+<program source>:1429:8: warning: no previous prototype for function 'get_plane_normal'
+float4  get_plane_normal(t_obj plane)
+       ^
+<program source>:1434:8: warning: no previous prototype for function 'get_cylinder_normal'
+float4  get_cylinder_normal(float4 point, t_obj cylinder)
+       ^
+<program source>:1441:8: warning: no previous prototype for function 'get_cone_normal'
+float4  get_cone_normal(float4 point, t_obj cone, t_hit_info hit_info)
+       ^
+<program source>:1447:8: warning: no previous prototype for function 'get_paraboloid_normal'
+float4  get_paraboloid_normal(float4 point, t_obj paraboloid, t_hit_info hit_info)
+       ^
+<program source>:1455:1: warning: control reaches end of non-void function
 }
 ^
-<kernel>:1491:1: warning: control may reach end of non-void function
+<program source>:1457:9: warning: no previous prototype for function 'get_triangle_normal'
+ float4 get_triangle_normal(t_triangle triangle)
+        ^
+<program source>:1462:8: warning: no previous prototype for function 'get_torus_normal'
+float4  get_torus_normal(float4 point, t_obj torus)
+       ^
+<program source>:1474:8: warning: no previous prototype for function 'get_box_normal'
+float4  get_box_normal(float4 point, t_obj box, t_hit_info hit_info)
+       ^
+<program source>:1500:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:1529:1: warning: control may reach end of non-void function
+<program source>:1502:8: warning: no previous prototype for function 'get_object_normal'
+float4  get_object_normal(float4 point, t_obj object, t_hit_info hit_info, t_type type)
+       ^
+<program source>:1538:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:2175:1: warning: control may reach end of non-void function
+<program source>:1540:8: warning: no previous prototype for function 'transform_normal'
+float4  transform_normal(float4 normal, t_matrix matrix)
+       ^
+<program source>:1549:8: warning: no previous prototype for function 'get_instance_normal'
+float4  get_instance_normal(t_instance_manager instance_mngr,
+       ^
+<program source>:1567:6: warning: no previous prototype for function 'bbox_intersection'
+bool    bbox_intersection(t_ray ray, t_bbox bbox)
+     ^
+<program source>:1666:6: warning: no previous prototype for function 'box_intersection'
+bool    box_intersection(t_ray ray, t_obj box, t_shade_rec *const shade_rec,
+     ^
+<program source>:1795:6: warning: no previous prototype for function 'generic_plane_intersection'
+bool    generic_plane_intersection(t_ray ray, float *const tmin)
+     ^
+<program source>:1817:6: warning: no previous prototype for function 'disk_intersection'
+bool    disk_intersection(t_ray ray, t_obj disk, t_hit_info *hit_info)
+     ^
+<program source>:1848:6: warning: no previous prototype for function 'rectangle_intersection'
+bool    rectangle_intersection(t_ray ray, t_obj rectangle,
+     ^
+<program source>:1891:7: warning: no previous prototype for function 'cylinder_intersection'
+ bool cylinder_intersection(t_ray ray, t_obj cylinder, t_shade_rec *shade_rec, float *const tmin)
+      ^
+<program source>:1932:7: warning: no previous prototype for function 'cone_intersection'
+ bool   cone_intersection(t_ray ray, t_obj cone, t_hit_info *hit_info)
+      ^
+<program source>:1984:7: warning: no previous prototype for function 'paraboloid_intersection'
+ bool   paraboloid_intersection(t_ray ray, t_obj paraboloid, t_hit_info *hit_info)
+      ^
+<program source>:2028:7: warning: no previous prototype for function 'torus_intersecion'
+ bool   torus_intersecion(t_ray ray, t_obj torus, t_shade_rec *shade_rec, float *const tmin)
+      ^
+<program source>:2069:6: warning: no previous prototype for function 'triangle_intersection'
+bool    triangle_intersection(t_ray ray, t_triangle triangle,
+     ^
+<program source>:2092:6: warning: no previous prototype for function 'is_intersect'
+bool    is_intersect(t_obj obj, t_type type, t_ray ray, t_shade_rec *shade_rec, float *const tmin)
+     ^
+<program source>:2133:7: warning: no previous prototype for function 'transform_ray'
+t_ray   transform_ray(t_ray ray, t_matrix transformation_matrix)
+      ^
+<program source>:2142:6: warning: no previous prototype for function 'instance_hit'
+bool    instance_hit(t_instance_manager instance_mngr, t_instance instance,
+     ^
+<program source>:2172:8: warning: no previous prototype for function 'get_light_direction'
+float4  get_light_direction(t_light light, t_shade_rec shade_rec)
+       ^
+<program source>:2184:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:2188:1: warning: control may reach end of non-void function
+<program source>:2186:10: warning: no previous prototype for function 'get_light_radiance'
+ t_color        get_light_radiance(t_light light)
+         ^
+<program source>:2197:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:2420:1: warning: control reaches end of non-void function
+<program source>:2215:9: warning: no previous prototype for function 'lambertian_f'
+t_color lambertian_f(float kd, t_color color)
+        ^
+<program source>:2220:9: warning: no previous prototype for function 'lambertian_rho'
+t_color lambertian_rho(float kd, t_color color)
+        ^
+<program source>:2228:7: warning: no previous prototype for function 'glossy_specular_f'
+float   glossy_specular_f(float4 camera_direction, float4 normal, float4 light_direction, float ks, float exp)
+      ^
+<program source>:2239:9: warning: no previous prototype for function 'perfect_specular_f'
+t_color perfect_specular_f(float4 ray_dir, float4 normal, float kr, t_color cr)
+        ^
+<program source>:2246:8: warning: no previous prototype for function 'get_ambient_occluder_direction'
+float4  get_ambient_occluder_direction(t_ambient_occluder ambient_occluder,
+       ^
+<program source>:2257:6: warning: no previous prototype for function 'in_shadow'
+bool    in_shadow(t_ray shadow_ray, t_scene scene)
+     ^
+<program source>:2259:13: warning: unused variable 'ht'
+        t_hit_info ht;
+            ^
+<program source>:2269:9: warning: no previous prototype for function 'ambient_occlusion_l'
+t_color ambient_occlusion_l(t_scene scene,
+        ^
+<program source>:2292:7: warning: no previous prototype for function 'trilinear_interp'
+float   trilinear_interp(float c[2][2][2], float u, float v, float w)
+      ^
+<program source>:2305:7: warning: no previous prototype for function 'perlin_interp'
+float   perlin_interp(float3 c[2][2][2], float u, float v, float w)
+      ^
+<program source>:2324:7: warning: no previous prototype for function 'perlin_noise'
+float   perlin_noise(__global float4 *perlin_noise,
+      ^
+<program source>:2342:7: warning: no previous prototype for function 'smooth_perlin_noise'
+float   smooth_perlin_noise(__global float4 *ranvec,
+      ^
+<program source>:2365:7: warning: no previous prototype for function 'turbulence_perlin_noise'
+float   turbulence_perlin_noise(__global float4 *ranvec,
+      ^
+<program source>:2381:11: warning: no previous prototype for function 'get_texture'
+t_texture       get_texture(t_texture_manager texture_manager, int texture_id)
+          ^
+<program source>:2386:10: warning: no previous prototype for function 'get_solid_texture_color'
+t_color         get_solid_texture_color(t_texture texture)
+         ^
+<program source>:2394:10: warning: no previous prototype for function 'get_checker_texture_color'
+t_color         get_checker_texture_color(t_texture texture, float4 point)
+         ^
+<program source>:2422:10: warning: no previous prototype for function 'get_checker2d_texture_color'
+t_color         get_checker2d_texture_color(t_texture texture, float4 point)
+         ^
+<program source>:2427:8: warning: unused variable 'fx'
+        float   fx = point.x / 1.0f - ix;
+       ^
+<program source>:2428:8: warning: unused variable 'fz'
+        float   fz = point.z / 1.0f - iz;
+       ^
+<program source>:2429:1: warning: control reaches end of non-void function
 }
 ^
-<kernel>:2500:1: warning: control may reach end of non-void function
+<program source>:2431:10: warning: no previous prototype for function 'get_perlin_texture_color'
+t_color         get_perlin_texture_color(t_texture_manager mngr,
+         ^
+<program source>:2439:9: warning: no previous prototype for function 'get_smooth_perlin_texture_color'
+t_color get_smooth_perlin_texture_color(t_texture_manager mngr,
+        ^
+<program source>:2450:9: warning: no previous prototype for function 'get_turbulence_perlin_texture_color'
+t_color get_turbulence_perlin_texture_color(t_texture_manager mngr,
+        ^
+<program source>:2460:10: warning: no previous prototype for function 'get_wave_perlin_texture_color'
+t_color         get_wave_perlin_texture_color(t_texture_manager mngr,
+         ^
+<program source>:2473:10: warning: no previous prototype for function 'get_color'
+t_color         get_color(t_texture_manager texture_manager,
+         ^
+<program source>:2509:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:2806:10: error: expected parameter declarator
-                                                                        )
-                                                                        ^
+<program source>:2510:7: warning: no previous prototype for function 'shadow_hit'
+bool            shadow_hit(t_scene scene, t_light light, t_ray shadow_ray, t_shade_rec shade_rec)
+      ^
+<program source>:2512:8: warning: unused variable 't'
+        float   t;
+       ^
+<program source>:2559:10: warning: no previous prototype for function 'shade_phong'
+t_color         shade_phong(t_material material,
+         ^
+<program source>:2744:10: warning: no previous prototype for function 'area_light_shade_phong'
+t_color         area_light_shade_phong(t_material material,
+         ^
+<program source>:2813:10: warning: no previous prototype for function 'area_light_shade_emissive'
+t_color         area_light_shade_emissive(t_material material,
+         ^
+<program source>:2822:1: warning: control reaches end of non-void function
+}
+^
+<program source>:2883:6: warning: no previous prototype for function 'bvh_intersection'
+bool    bvh_intersection(t_scene scene, t_shade_rec *shade_rec)
+     ^
+<program source>:2925:6: warning: no previous prototype for function 'scene_intersection'
+bool    scene_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
+     ^
+<program source>:2954:9: warning: no previous prototype for function 'ray_trace'
+t_color ray_trace(t_ray ray, t_scene scene, t_rt_options options, t_sampler_manager sampler_manager, uint2 *seed)
+        ^
+<program source>:2956:8: warning: unused variable 'local_id'
+        int                     local_id = get_local_id(0);
+       ^
+<program source>:3020:7: warning: no previous prototype for function 'GPURnd'
+float   GPURnd(float4 *state)
+      ^
+<program source>:3038:8: warning: no previous prototype for function 'cosine_sampler_hemisphere'
+float4  cosine_sampler_hemisphere(float4 *state)
+       ^
+<program source>:3048:8: warning: no previous prototype for function 'random_cosin_direction'
+float4  random_cosin_direction(float4 *state)
+       ^
+<program source>:3059:8: warning: no previous prototype for function 'random_in_unit_sphere'
+float4  random_in_unit_sphere(float4 *state)
+       ^
+<program source>:3114:6: warning: no previous prototype for function 'refract'
+bool    refract(float4 v, float4 n, float ni_over_nt, float4 *refracted)
+     ^
+<program source>:3129:7: warning: no previous prototype for function 'schlick'
+float   schlick(float cosine, float n)
+      ^
+<program source>:3140:6: warning: no previous prototype for function 'metal_scatter'
+bool    metal_scatter(t_texture_manager texture_manager,
+     ^
+<program source>:3161:6: warning: no previous prototype for function 'lambertian_scater'
+bool    lambertian_scater(t_texture_manager texture_manager,
+     ^
+<program source>:3179:6: warning: no previous prototype for function 'dielectric_scatter2'
+bool    dielectric_scatter2(t_material material,
+     ^
+<program source>:3216:6: warning: no previous prototype for function 'dielectric_scatter'
+bool    dielectric_scatter(
+     ^
+<program source>:3270:6: warning: no previous prototype for function 'scatter'
+bool    scatter(t_texture_manager texture_manager,
+     ^
+<program source>:3299:9: warning: no previous prototype for function 'emitted'
+t_color emitted(t_material material, t_shade_rec *shade_rec,
+        ^
+<program source>:3310:9: warning: no previous prototype for function 'path_tracer_suffern'
+t_color path_tracer_suffern(t_ray ray, t_scene scene, t_rt_options options,
+        ^
+<program source>:3313:10: warning: unused variable 'color'
+        t_color color = (t_color){ .r = 0.0f, .g = 0.0f, .b = 0.0f };
+         ^
+<program source>:3331:1: warning: control reaches end of non-void function
+}
+^
+<program source>:3333:9: warning: no previous prototype for function 'path_tracer2'
+t_color path_tracer2(t_ray ray, t_scene scene, t_rt_options options,
+        ^
+<program source>:3396:6: warning: no previous prototype for function 'build_from_w'
+void    build_from_w(float4 *const u, float4 *const v, float4 *const w,
+     ^
+<program source>:3410:8: warning: no previous prototype for function 'local_dir'
+float4  local_dir(float4 const *const u,
+       ^
+<program source>:3418:6: warning: no previous prototype for function 'lambertian_scater2'
+bool    lambertian_scater2(t_texture_manager const texture_manager,
+     ^
+<program source>:3431:9: warning: unused variable 'target'
+        float4  target = shade_rec->hit_point + shade_rec->normal
+        ^
+<program source>:3442:7: warning: no previous prototype for function 'lambertian_pdf'
+float   lambertian_pdf(t_shade_rec const *const shade_rec,
+      ^
+<program source>:3453:6: warning: no previous prototype for function 'scatter2'
+bool    scatter2(const t_texture_manager texture_manager,
+     ^
+<program source>:3468:7: warning: no previous prototype for function 'scattering_pdf'
+float   scattering_pdf(t_material const material,
+      ^
+<program source>:3479:9: warning: no previous prototype for function 'path_trace_pdf'
+t_color path_trace_pdf(t_ray ray, t_scene scene, t_rt_options options,
+        ^
+<program source>:3550:7: warning: no previous prototype for function 'cast_camera_ray'
+t_ray cast_camera_ray(t_camera camera, float x, float y,
+      ^
+<program source>:3663:6: warning: no previous prototype for function 'init_scene'
+void    init_scene(t_scene *scene,
+     ^
+<program source>:3703:6: warning: no previous prototype for function 'init_sampler_manager'
+void    init_sampler_manager(t_sampler_manager *sampler_manager,
+     ^
+<program source>:3715:8: warning: no previous prototype for function 'hash'
+float           hash(float seed)
+       ^
+<program source>:3819:9: warning: unused variable 'sp'
+        float2  sp = sample_unit_square(&ao_sampler, sampler_manager.samples, &seed);
+        ^
 

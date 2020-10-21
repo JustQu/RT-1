@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 18:10:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/26 16:14:21 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/09/28 15:03:03 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void ft_clerror(cl_int ret)
 {
 	if (ret != CL_SUCCESS)
 	{
-		ft_putendl(getErrorString(ret));
+		// ft_putendl(getErrorString(ret));
 		exit(0);
 	}
 }
@@ -126,7 +126,7 @@ void cl_error(t_cl_program *program, t_clp *clp, int code)
 		log = (char *)malloc(log_size);
 		if (!log)
 		{
-			ft_putendl("malloc error");
+			// ft_putendl("malloc error");
 			// exit (0);
 		}
 		// Get the log

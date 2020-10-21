@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bvh.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 19:29:26 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/30 00:02:07 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/21 15:52:57 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 #include "bvh.h"
 #include "scene.h"
 #include "utils.h"
+
+//del
+#include <stdio.h>
 
 cl_float4	point_matrix_mul(cl_float4 point, t_matrix matrix);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/10/20 17:47:48 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/21 15:53:11 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static const char *files[] = {
 	"main_kernel.cl",
 	"util_kernels.cl",
 };
+
 static int		g_num_files = sizeof(files) / sizeof(char *);
 
 static void		read_file(const char *file_name, char *str)
