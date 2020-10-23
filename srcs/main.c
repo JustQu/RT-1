@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/21 16:33:38 by user             ###   ########.fr       */
+/*   Updated: 2020/10/21 16:58:12 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ int main(int ac, char **av)
 	t_window	window_gui;
 	t_all_rect all_rect;
 	t_colors color;
-	t_rt rt;
 
 
 	f = fopen("ocl.cl", "w+");
@@ -143,12 +142,12 @@ int main(int ac, char **av)
 			display_image(&app.window);
 			app.rt.options.spp += NUM_SAMPLES;
 			app.rt.options.reset = 0;
-			main_gui(&app.window, &rt, &all_rect, &color);
+			main_gui(&app.window, &app.rt, &all_rect, &color);
 			SDL_RenderPresent(app.window.renderer);
 		}
 		else
 		{
-			main_gui(&app.window, &rt, &all_rect, &color);
+			main_gui(&app.window, &app.rt, &all_rect, &color);
 			SDL_RenderPresent(app.window.renderer);
 		}
 	}

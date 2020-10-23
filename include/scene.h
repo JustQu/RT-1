@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 00:33:50 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/27 14:05:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/21 16:39:01 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,8 @@ struct					s_scene
 
 int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager);
 t_bvh	build_bvh(t_scene *scene);
+
+
+t_camera *get_camera(t_scene scn);
 
 #endif

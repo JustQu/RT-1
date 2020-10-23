@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/10/18 18:04:14 by user             ###   ########.fr       */
+/*   Updated: 2020/10/21 17:25:08 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,23 @@ void	render_tab_bar(t_window *win, SDL_Color *color, SDL_Rect *rect, char *str)
 
 }
 
+#include <stdlib.h>
+#include <stdio.h>
 void	camera_tab(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color)
 {
-	char *str[2];
+	char *str[3];
+	t_camera *camera;
 
-	str[0] = "3.12"; //change on data rt
-	str[1] = "2.32";
-	str[2] = "4.32";
+	str[0] = malloc(15);
+	str[1] = malloc(15);
+	str[2] = malloc(15);
+	camera = get_camera(rt->scene);
+	sprintf(str[0], "%.3f", camera->origin.x);
+	sprintf(str[1], "%.3f", camera->origin.y);
+	sprintf(str[2], "%.3f", camera->origin.z);
+	// gcvt(camera->origin.x, 3, str[0]); //change on data rt
+	// gcvt(camera->origin.y, 3, str[1]);
+	// gcvt(camera->origin.z, 3, str[2]);
 	render_tab_bar(win, &color->text_color, &rect->tab_camera_button, "Camera");
 	draw_hline(win, rect->tab_camera_button.x, rect->tab_camera_button.w,
 		rect->tab_camera_button.y + rect->tab_camera_button.h, &color->inside_color);

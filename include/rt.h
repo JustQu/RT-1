@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/21 16:35:55 by user             ###   ########.fr       */
+/*   Updated: 2020/10/21 16:39:19 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ float		rand_float();
 int			rand_int();
 void		swap_int(int *a, int *b);
 void		swap_float2(cl_float2 *a, cl_float2 *b);
-
 
 
 // #include <SDL2/SDL.h>

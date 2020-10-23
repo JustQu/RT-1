@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 22:57:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/21 16:12:55 by user             ###   ########.fr       */
+/*   Updated: 2020/10/21 16:38:57 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -638,4 +638,9 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	scene->lights[2].origin.y = 5.0f;
 
 	scene->lights[2].ls = 1.0f;
+}
+
+t_camera *get_camera(t_scene scn)
+{
+	return(&scn.camera);
 }

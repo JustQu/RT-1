@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 19:54:03 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/21 15:56:13 by user             ###   ########.fr       */
+/*   Updated: 2020/10/21 17:05:30 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	render_scene(t_rt rt)
 									 rt.ocl_program.new_kernel,
 									 1, NULL,
 									 &rt.ocl_program.work_size,
-									 &rt.ocl_program.work_group_size,
+									 NULL,
 									 0, NULL, NULL);
 		cl_error(&rt.ocl_program, &rt.ocl_program.info, err);
 		assert(!err);

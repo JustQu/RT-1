@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/21 15:53:30 by user             ###   ########.fr       */
+/*   Updated: 2020/10/21 17:04:51 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	init_clp(t_clp *clp)
 	clp->de_id = NULL;
 	clp->ret = clGetPlatformIDs(1, &pl_id, NULL);
 	assert(!clp->ret);
-	clp->ret = clGetDeviceIDs(pl_id, CL_DEVICE_TYPE_GPU, 1, &clp->de_id, &nde);
+	clp->ret = clGetDeviceIDs(pl_id, CL_DEVICE_TYPE_CPU, 1, &clp->de_id, &nde);
 	assert(!clp->ret);
 	clp->context = clCreateContext(NULL, 1, &clp->de_id, NULL, NULL, &clp->ret);
 	assert(!clp->ret);
