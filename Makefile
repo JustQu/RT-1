@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
+#    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/10/21 16:01:05 by user             ###   ########.fr        #
+#    Updated: 2020/10/28 20:36:16 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ else ifeq ($(SYSTEM), $(LINUX))
 	LDLIBS = -lm\
 			 -l SDL2\
 			 -l OpenCL
-			 -lSDL2_image -lSDL2_ttf -lSDL2_gfx
+			 -lSDL2_image -lSDL2_ttf
 
 	LDFLAGS	= $(LIBFT)
 
@@ -81,8 +81,8 @@ color.c                               object_manager.c        rt_options.c\
 create_program.c        init.c                                 sampler.c\
 error_handling.c        instance_manager.c                     sampler_manager.c\
                                  scene.c\
-main_gui.c	gui_render_text.c	gui_tab_bar.c	gui_primitives.c	gui_button.c	gui_init.c\
-gui_utils.c	texture_manager.c	texture.c	perlin.c\
+main_gui.c	gui_render_text.c	gui_tab_bar.c	gui_button.c	gui_init.c\
+gui_utils.c	texture_manager.c	texture.c	perlin.c	gui_utils_2.c\
 
 	# gui_gradient.c
 
