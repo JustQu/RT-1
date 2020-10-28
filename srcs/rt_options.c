@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_options.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:37:09 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/15 22:52:50 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/17 16:48:24 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int		init_default_options(t_rt_options *options,
 						 /* перенести в сэттер */
 						 t_sampler_manager *sampler_manager)
 {
+	options->reset = 1;
 	options->shadows = TRUE;
 	options->ambient_occlusion = FALSE;
 	options->area_lightning = FALSE;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   instance_manager.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 19:52:25 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/07 20:15:47 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/16 19:58:26 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 #include "utils.h"
 
 #include <assert.h>
+
+int		init_texture_manager(t_texture_manager *texture_manager);
+int		add_texture(t_texture_manager *texture_manager,
+					t_texture texture);
 
 int			init_instance_manager(t_instance_manager *mngr)
 {

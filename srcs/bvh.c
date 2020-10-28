@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bvh.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 19:29:26 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/30 00:02:07 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/17 17:01:57 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,10 +185,8 @@ t_bvh	build_bvh(t_scene *scene)
 	int					id;
 
 	instance_mngr = scene->instance_mngr;
-	/* malloc 2 times more nodes of bvh tree*/
 	bvh = malloc(instance_mngr.ninstances * 2 * sizeof(t_bvh_node));
 	temp_nodes = malloc(instance_mngr.ninstances * sizeof(t_bvh_node));
-
 	for (int i = 0; i < instance_mngr.ninstances; i++)
 	{
 		temp_nodes[i].instance_id = i;
@@ -202,24 +200,9 @@ t_bvh	build_bvh(t_scene *scene)
 		temp_nodes[i].next = -1;
 		t_instance instance = instance_mngr.instances[i];
 		t_object_info instance_info = instance_mngr.instances_info[i];
-		// printf("========\tInstance :%d\t==========\n", i);
-		// printf("\ttype:\t\t%d\n", instance.type);
-		// printf("\torigin:\t\t%f, %f, %f\n", instance_info.origin.x, instance_info.origin.y, instance_info.origin.z);
-		// printf("\trotation:\t%f, %f, %f\n", instance_info.rotation.x, instance_info.rotation.y, instance_info.rotation.z);
-		// printf("\tscaling:\t%f, %f, %f\n", instance_info.scaling.x, instance_info.scaling.y, instance_info.scaling.z);
-		// printf("Bounding Box:\n", 0);
-		// printf("\tmin:\t\t%f, %f, %f\n", temp_nodes[i-1].aabb.min.x, temp_nodes[i-1].aabb.min.y, temp_nodes[i-1].aabb.min.z);
-		// printf("\tmax:\t\t%f, %f, %f\n", temp_nodes[i-1].aabb.max.x, temp_nodes[i-1].aabb.max.y, temp_nodes[i-1].aabb.max.z);
 	}
 	id = 0;
 	build_internal_node(bvh, &id, temp_nodes, instance_mngr.ninstances);
-	for (int i = 0; i < instance_mngr.ninstances*2-1; i++)
-	{
-		printf("==node #%d==\n", i);
-		print_node(bvh[i]);
-		printf("\n");
-	}
-
 	free(temp_nodes);
 	scene->bvh = bvh;
 	return bvh;

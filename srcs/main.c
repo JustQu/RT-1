@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/16 16:29:48 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/16 20:16:41 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,6 +230,8 @@ int main(int ac, char **av)
 
 	while (1)
 	{
+		clock_t	t1 = clock();
+
 		value = catch_event(&app.rt);
 		if (value == 1)
 				break;
@@ -250,6 +252,8 @@ int main(int ac, char **av)
 		else
 		{
 		}
+		clock_t	t2 = clock();
+		fprintf(stdout, "%f\n", (t2 - t1) / (float)CLOCKS_PER_SEC);
 	}
 	// cleanup(app.rt);
 

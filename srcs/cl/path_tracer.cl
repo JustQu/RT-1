@@ -349,7 +349,7 @@ t_color	path_tracer2(t_ray ray, t_scene scene, t_rt_options options,
 			continue_loop = false;
 			color = color_sum(color,
 						color_multi(cur_attenuation,
-							(t_color){ 0.5, 0.5, 0.7, 0}));
+							(t_color){ 0.0, 0.0, 0.0, 0}));
 		}
 	} while (continue_loop);
 
@@ -500,7 +500,7 @@ t_color	path_trace_pdf(t_ray ray, t_scene scene, t_rt_options options,
 
 			color = color_sum(color,
 						color_multi(cur_attenuation,
-							(t_color){ 0.5, 0.5, 0.5, 0}));
+							(t_color){ 0.0, 0.0, 0.0, 0}));
 		}
 	} while (continue_loop);
 

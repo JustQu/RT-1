@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   app.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 17:02:27 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/26 23:44:54 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/16 19:57:13 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ struct	s_app
 
 int			init_app(t_app *app, int ac, char **av);
 void		cleanup_app(t_app *app);
+int		init_texture_manager(t_texture_manager *texture_manager);
+int		add_texture(t_texture_manager *texture_manager,
+					t_texture texture);
 
 /* errors */
 void cl_error(t_cl_program *program, t_clp *clp, int code);

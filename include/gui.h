@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/09/28 14:32:38 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/16 19:47:46 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 # define GUI_H
 
 # include <SDL_render.h>
-# include <SDL_image.h>
-# include <SDL_ttf.h>
-# include <SDL2_gfxPrimitives.h>
+# include <SDL.h>
+// # include <SDL_image.h>
+// # include <SDL_ttf.h>
+// # include <SDL2_gfxPrimitives.h>
 
 # include "instance_manager.h"
 

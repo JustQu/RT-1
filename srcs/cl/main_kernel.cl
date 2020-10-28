@@ -183,7 +183,10 @@ void main_kernel(__global t_color *image,	//0
 
 	color = path_tracer2(ray, scene, options, sampler_manager, &seed, &state);
 
+	// color = (t_color){0.0f, 0.0f, 255.0f};
+
 	image[global_id] = color_sum(image[global_id], color);
+	// image[global_id] = color;
 }
 
 typedef union cnv
@@ -220,8 +223,8 @@ __kernel void	noise(__global t_color *img)
 	t_color color;
 
 	n = GPURnd(&state);
-	color.r = n;
-	color.g = n;
-	color.b = n;
+	color.r = 0.0f;
+	color.g = 0.0f;
+	color.b = 255.0f;
 	img[gid] = color;
 }

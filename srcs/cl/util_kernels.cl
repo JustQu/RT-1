@@ -28,6 +28,8 @@ __kernel void translate_image(__global float4 *rgb_image,
 	a.z = old.z / 255.99f;
 	a.w = old.w / 255.99f;
 
+
+	// printf("Color - %f_%f_%f_%f\n", color.x, color.y, color.z, color.w);
 	// float4 c = (a + color) / (num_samples + 1);
 	// float4 c = mix(color, a, 0.5f);
 	// float4 max_v = max(a, color);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_ocl.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/16 16:24:20 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/17 17:40:59 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@ static int	init_clp(t_clp *clp)
 	clp->de_id = NULL;
 	clp->ret = clGetPlatformIDs(1, &pl_id, NULL);
 	assert(!clp->ret);
-	clp->ret = clGetDeviceIDs(pl_id, CL_DEVICE_TYPE_ALL, 1, &clp->de_id, &nde);
+	clp->ret = clGetDeviceIDs(pl_id, CL_DEVICE_TYPE_DEFAULT, 1, &clp->de_id, &nde);
 	assert(!clp->ret);
 	clp->context = clCreateContext(NULL, 1, &clp->de_id, NULL, NULL, &clp->ret);
 	assert(!clp->ret);
 	clp->queue = clCreateCommandQueue(clp->context, clp->de_id,
-		CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &clp->ret);
+		0, &clp->ret);
+	// fprintf(stdin, "%d\n", clp->ret);
 	assert(!clp->ret);
 	return (0);
 }
@@ -40,7 +41,7 @@ static int	init_kernel(t_cl_program *p)
 
 	r = 0;
 	p->work_size = 1920 * 1080;
-	p->work_group_size = WORK_GROUP_SIZE;
+	p->work_group_size = 256;
 	p->program = create_program(p->info.context);
 	r = clBuildProgram(p->program, 1, &p->info.de_id, KERNEL_INC, NULL, NULL);
 	cl_error(p, &p->info, r);
@@ -51,6 +52,14 @@ static int	init_kernel(t_cl_program *p)
 	assert(!r);
 	p->kernel = clCreateKernel(p->program, "noise", &r);
 	assert(!r);
+	size_t	a;
+	cl_ulong b;
+	clGetKernelWorkGroupInfo(p->new_kernel, p->info.de_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(size_t), &a, NULL);
+	fprintf(stdout, "Work group kernel - %zd\n", a);
+	clGetKernelWorkGroupInfo(p->new_kernel, p->info.de_id, CL_KERNEL_LOCAL_MEM_SIZE, sizeof(cl_ulong), &b, NULL);
+	fprintf(stdout, "Local - %lu\n", b);
+	clGetKernelWorkGroupInfo(p->new_kernel, p->info.de_id, CL_KERNEL_PRIVATE_MEM_SIZE, sizeof(cl_ulong), &b, NULL);
+	fprintf(stdout, "Private - %lu\n", b);
 	return (r);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 22:57:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/16 16:32:19 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/27 19:23:06 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 #include "sampler_manager.h"
 #include "libft.h"
 #include "texture_manager.h"
+
+int		init_texture_manager(t_texture_manager *texture_manager);
+int		add_texture(t_texture_manager *texture_manager,
+					t_texture texture);
 
 static const t_camera default_camera = {
 	.viewplane = {
@@ -306,7 +310,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.kd = 0.9f;
 	object.material.ka = 0.25f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	/* #1 BOTTOM BOX */
 	object.type = box;
@@ -325,7 +329,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.kd = 1.0f;
 	object.material.ka = 0.25f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 //
 	/* #2 ELIPSE 1 */
 	object.type = sphere;
@@ -341,7 +345,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.kd = 1.0f;
 	object.material.ka = 0.25f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	/* #3 TORUS 	1 */
 	object.type = torus;
@@ -356,7 +360,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.kt = 2.4f;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = cylinder;
 	object.r = 1.0f;
@@ -368,7 +372,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = metal;
 	object.material.kr = 0.95f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = sphere;
 	object.r = 2.0f;
@@ -380,7 +384,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = matte;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = sphere;
 	object.r = 1.0f;
@@ -391,7 +395,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = matte;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = sphere;
 	object.r = 1.0f;
@@ -403,7 +407,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = matte;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = sphere;
 	object.r = 0.25f;
@@ -415,7 +419,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = matte;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = rectangle;
 	object.r = 2.0f;
@@ -430,7 +434,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = diffuse_light;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = sphere;
 	object.r = 1.0f;
@@ -442,21 +446,21 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = diffuse_light;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	/* Cornell box */
-	// scene->camera.type = perspective;
-	// scene->camera.viewplane.pixel_size = 1.0f;
-	// scene->camera.viewplane.width = DEFAULT_WIDTH;
-	// scene->camera.viewplane.height = DEFAULT_HEIGHT;
-	// scene->camera.origin =
-	// 	(cl_float4){ .x = 278.0f, .y = 278.0f, .z = -800.0f, .w = 0.0f };
-	// scene->camera.direction =
-	// 	(cl_float4){ .x = 0.0f, .y = 0.0f, .z = 1.0f, .w = 0.0f };
-	// scene->camera.d = 800 ;
-	// scene->camera.zoom = 1.0f;
-	// scene->camera.normalized = FALSE;
-	// compute_uvw(&scene->camera);
+	scene->camera.type = perspective;
+	scene->camera.viewplane.pixel_size = 1.0f;
+	scene->camera.viewplane.width = 1920;
+	scene->camera.viewplane.height = 1080;
+	scene->camera.origin =
+		(cl_float4){ .x = 278.0f, .y = 278.0f, .z = -800.0f, .w = 0.0f };
+	scene->camera.direction =
+		(cl_float4){ .x = 0.0f, .y = 0.0f, .z = 1.0f, .w = 0.0f };
+	scene->camera.d = 1600 ;
+	scene->camera.zoom = 1.0f;
+	scene->camera.normalized = FALSE;
+	compute_uvw(&scene->camera);
 
 	object.type = sphere;
 	object.r = 1.0f;
@@ -468,7 +472,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = diffuse_light;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	object.type = box;
 	object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
@@ -476,11 +480,12 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
 	object.vector2 = (cl_float4){.x = 0.01f, .y = 555.0f, .z = 555.0f};
 	texture.type = solid;
-	texture.data.solid.color = (t_color){ .r = 0.0f, .g = 1.0f, .b = 0.0f };
-	object.material.type = matte;
-	object.material.kd = 1.0f;
+	texture.data.solid.color = (t_color){ .r = 1.0f, .g = 0.0f, .b = 0.0f };
+	object.material.type = dielectric;
+	object.material.kr = 1.0f;
+	object.material.kt = 1.5f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	object.type = box;
 	object.origin = (cl_float4){.x = 555.0f, .y = 0.0f, .z = 0.0f};
@@ -488,11 +493,13 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
 	object.vector2 = (cl_float4){.x = 0.001f, .y = 555.0f, .z = 555.0f};
 	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 1.0f, .g = 0.0f, .b = 0.0f};
-	object.material.type = matte;
+	texture.data.solid.color = (t_color){.r = 0.0f, .g = 1.0f, .b = 0.0f};
+	object.material.type = dielectric;
 	object.material.kd = 1.0f;
+	object.material.kr = 1.0f;
+	object.material.kt = 1.5f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	object.type = box;
 	object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
@@ -504,7 +511,22 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = matte;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
+
+
+	//delete this
+	object.type = box;
+	object.origin = (cl_float4){ .x = -200.0f, .y = -200.0f, .z = -801.0f, .w = 0.0f };
+	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
+	object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
+	object.vector2 = (cl_float4){.x = 1000.0f, .y = 1000.0f, .z = 0.001f};
+	texture.type = solid;
+	texture.data.solid.color = (t_color){.r = 0.0f, .g = 0.0f, .b = 1.0f};
+	object.material.type = dielectric;
+	object.material.kr = 1.0f;
+	object.material.kt = 1.5f;
+	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	add_parsed_object(instance_manager, object);
 
 	object.type = box;
 	object.origin = (cl_float4){.x = 0.0f, .y = 555.0f, .z = 0.0f};
@@ -512,11 +534,12 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
 	object.vector2 = (cl_float4){.x = 555.0f, .y = 0.001f, .z = 555.0f};
 	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = matte;
-	object.material.kd = 1.0f;
+	texture.data.solid.color = (t_color){.r = 0.0f, .g = 0.0f, .b = 1.0f};
+	object.material.type = dielectric;
+	object.material.kr = 1.0f;
+	object.material.kt = 1.5f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	object.type = box;
 	object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 555.0f};
@@ -524,11 +547,12 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
 	object.vector2 = (cl_float4){.x = 555.0f, .y = 555.0f, .z = 0.001f};
 	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = matte;
-	object.material.kd = 1.0f;
+	texture.data.solid.color = (t_color){.r = 0.0f, .g = 1.0f, .b = 1.0f};
+	object.material.type = dielectric;
+	object.material.kr = 1.0f;
+	object.material.kt = 1.5f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	object.type = rectangle;
 	object.origin = (cl_float4){ .x = 213.0f, .y = 554.0f, .z = 227.0f, .w = 0.0f };
@@ -543,7 +567,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = diffuse_light;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	/* boxes inside */
 	object.type = box;
@@ -567,11 +591,12 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
 	texture.type = solid;
 	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = metal;
+	object.material.type = dielectric;
 	object.material.kr = 1.0f;
 	object.material.kd = 1.0f;
+	object.material.kt = 1.5f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	object.type = sphere;
 	object.r = 1.0f;
@@ -585,7 +610,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.kr = 1.0f;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	object.type = torus;
 	object.r = 1.0f;
