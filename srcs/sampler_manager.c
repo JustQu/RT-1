@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sampler_manager.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 19:14:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/22 13:34:06 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 13:03:20 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,9 @@ int		new_sampler1(t_sampler_manager *sampler_manager,
 		realloc_samplers(sampler_manager, sampler_manager->count * 2);
 
 	generate_samples(sampler,
-					sampler_manager->samples + sampler_manager->samples_size,
-					sampler_manager->disk_samples + sampler_manager->samples_size,
-					sampler_manager->hemisphere_samples + sampler_manager->samples_size);
+					sampler_manager->samples + sampler_manager->samples_size);
+					// sampler_manager->disk_samples + sampler_manager->samples_size,
+					// sampler_manager->hemisphere_samples + sampler_manager->samples_size);
 
 	sampler_manager->samples_size += sampler.num_sets * sampler.num_samples;
 	sampler_manager->samplers[sampler_manager->count - 1] = sampler;

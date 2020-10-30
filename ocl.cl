@@ -138,10 +138,10 @@ struct					s_aabb
 /*                                                        :::      ::::::::   */
 /*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:46:35 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/29 18:30:24 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 13:34:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ struct s_viewplane
 ** exposure_time - экспозиция
 ** type - тип камеры
 ** sampler_id - идентификатор сэмплера для тонкой линзы
-** normalized - флаг остоянияЮ указывающий на нормализованные координаты
+** normalized - флаг cостояния, указывающий на нормализованные координаты
 ** l - Радиус тонкой линзы, либо коэффициент в сферической камере, либо расстояние между изображениями в стерео камере
 ** f - расстояние до фокальной плоскости тонкой линзы, либо максимальное угловое поле в рыбьем глазе.
 */
@@ -4171,9 +4171,9 @@ void main_kernel(__global t_color *image,	//0
 
 	// color = area_light_tracer(ray, scene, options, sampler_manager, &seed);
 
-	color = ray_trace(ray, scene, options, sampler_manager, &seed);
+	// color = ray_trace(ray, scene, options, sampler_manager, &seed);
 
-	// color = path_tracer2(ray, scene, options, sampler_manager, &seed, &state);
+	color = path_tracer2(ray, scene, options, sampler_manager, &seed, &state);
 
 	image[global_id] = color_sum(image[global_id], color);
 }

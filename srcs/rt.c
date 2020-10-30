@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 19:54:03 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/28 17:33:47 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 13:32:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	render_scene(t_rt rt)
 									 rt.ocl_program.new_kernel,
 									 1, NULL,
 									 &rt.ocl_program.work_size,
-									 &rt.ocl_program.work_group_size,
+									 NULL,
 									 0, NULL, NULL);
 		cl_error(&rt.ocl_program, &rt.ocl_program.info, err);
 		assert(!err);
