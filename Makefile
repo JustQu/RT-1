@@ -6,7 +6,7 @@
 #    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/10/28 20:36:16 by alex             ###   ########.fr        #
+#    Updated: 2020/10/30 20:40:02 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,10 +81,9 @@ color.c                               object_manager.c        rt_options.c\
 create_program.c        init.c                                 sampler.c\
 error_handling.c        instance_manager.c                     sampler_manager.c\
                                  scene.c\
-main_gui.c	gui_render_text.c	gui_tab_bar.c	gui_button.c	gui_init.c\
+gui.c	gui_render_text.c	gui_tab_bar.c	gui_button.c	gui_init.c\
 gui_utils.c	texture_manager.c	texture.c	perlin.c	gui_utils_2.c\
-
-	# gui_gradient.c
+gui_get_data.c\
 
 
 

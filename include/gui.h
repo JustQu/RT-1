@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/10/28 20:33:50 by alex             ###   ########.fr       */
+/*   Updated: 2020/10/30 21:15:22 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int				g_type_pressed;
 int				g_inside_is_pressed;
 int				g_save_image;
 int				g_size;
+int				g_font_size;
 
 typedef struct	s_all_rect
 {
@@ -83,7 +84,7 @@ typedef struct	s_colors
 
 void			init_colors(t_colors *color);
 void			init_rect(t_all_rect *rect, t_window *win);
-void			main_gui(t_window *win, t_rt *rt, t_all_rect *all_rect,
+void			gui(t_window *win, t_rt *rt, t_all_rect *all_rect,
 					t_colors *color);
 void			render_texture(SDL_Texture *tex, SDL_Renderer *ren,
 								int x, int y);
@@ -93,9 +94,9 @@ void			render_rect(SDL_Texture *texture, SDL_Renderer *renderer,
 void			draw_fill_rect(t_window *win, SDL_Rect *background,
 					SDL_Color *color);
 SDL_Texture		*render_text(char *message, char *font_file, SDL_Color color,
-							int font_size, SDL_Renderer *renderer);
+							SDL_Renderer *renderer);
 void			draw_button(t_window *win,
-				SDL_Rect *rect, char *str, t_colors *color);
+				SDL_Rect *rect, char **str, t_colors *color);
 void			draw_button_xyz(t_window *win, SDL_Rect *rect,
 					char **str_xyz, t_colors *color);
 void			draw_checkbox(t_rt *rt, SDL_Rect *rect, char *str,
@@ -111,8 +112,16 @@ void			render_tab_bar(t_window *win, SDL_Color *color,
 					SDL_Rect *rect, char *str);
 SDL_Rect		init_rect_size(int x, int y, int w, int h);
 SDL_Color		init_color(int r, int g, int b, int a);
-void			g_save_image_func(t_window *win);
+void			save_image_func(t_window *win);
 SDL_Texture		*create_tab_subtitles(t_window *win, char *str,
 					SDL_Color *color);
+char			*itoa_float(float num);
+void			get_material_data(int ptr, char *string,
+					char **str);
+void			get_camera_type_data(int ptr, char *string,
+					char **str);
+void			get_str_data(char *str1, char *string, char **str);
+void			get_float_data(float ptr, char *string, char **str);
+void			get_float4_data(cl_float4 ptr, char *string, char **str);
 
 #endif

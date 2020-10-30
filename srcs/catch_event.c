@@ -6,12 +6,12 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/28 20:27:38 by alex             ###   ########.fr       */
+/*   Updated: 2020/10/30 21:29:41 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "interface.h"
-# include "rt.h"
+#include "interface.h"
+#include "rt.h"
 #include "gui.h"
 
 int		is_press_button(SDL_Event *event, SDL_Rect *rect)
@@ -24,6 +24,7 @@ int		is_press_button(SDL_Event *event, SDL_Rect *rect)
 		return (0);
 }
 
+/*
 void	catch_is_pressed(SDL_Event *event, SDL_Rect *rect, int size)
 {
 	SDL_Rect	button;
@@ -46,6 +47,7 @@ void	catch_is_pressed(SDL_Event *event, SDL_Rect *rect, int size)
 		i++;
 	}
 }
+*/
 
 void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 {
@@ -53,6 +55,7 @@ void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 	{
 		g_save_image = 1;
 	}
+	/*
 	else if (is_press_button(event, &rect->type_button) && g_objects_tab_pressed == 1)
 	{
 		g_type_pressed ^= 1;
@@ -83,6 +86,7 @@ void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 	}
 	else
 	{
+		*/
 		if (is_press_button(event, &rect->tab_camera_button))
 		{
 			g_camera_tab_pressed = 1;
@@ -101,7 +105,7 @@ void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 			g_objects_tab_pressed = 0;
 			g_options_tab_pressed = 1;
 		}
-	}
+	/* } */
 }
 
 int catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
