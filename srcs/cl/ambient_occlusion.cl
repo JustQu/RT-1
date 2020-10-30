@@ -11,14 +11,42 @@ float4	get_ambient_occluder_direction(t_ambient_occluder ambient_occluder,
 
 bool	in_shadow(t_ray shadow_ray, t_scene scene)
 {
-	t_hit_info ht;
+	float	t;
+	float	tmin = 100000;
+	int			node_id = 0;
+	t_bvh_node	current_node;
 
-	for (int i = 0; i < scene.instance_manager.ninstances; i++)
+	t_shade_rec	sr;
+	sr.ray = shadow_ray;
+
+	while (node_id != -1)
 	{
-		// if (instance_hit(scene.instance_manager, shadow_ray, i, &ht))
-			// return (true);
+		current_node = scene.bvh[node_id];
+
+		if (bbox_intersection(shadow_ray, current_node.aabb))
+		{
+			if (current_node.instance_id == -1)
+			{
+				node_id++;
+			}
+			else /* leaf node*/
+			{
+				t_instance instance = get_instance(scene.instance_manager,
+													current_node.instance_id);
+				if (instance_hit(scene.instance_manager, instance,
+								&tmin, &sr))
+				{
+					return (true);
+				}
+				node_id = current_node.next;
+			}
+		}
+		else
+		{
+			node_id = current_node.next;
+		}
 	}
-	return false;
+	return (false);
 }
 
 t_color	ambient_occlusion_l(t_scene scene,
@@ -34,10 +62,10 @@ t_color	ambient_occlusion_l(t_scene scene,
 	scene.ambient_occluder.u = cross(scene.ambient_occluder.v, scene.ambient_occluder.w);
 
 	t_ray shadow_ray;
-	shadow_ray.origin = shade_rec.hit_point;
+	shadow_ray.origin = shade_rec.hit_point + 1e-2f * shade_rec.normal;
 	shadow_ray.direction = get_ambient_occluder_direction(scene.ambient_occluder, sampler_manager, sampler, seed);
 	color = float_color_multi(scene.ambient_occluder.ls, scene.ambient_occluder.color);
 	if (in_shadow(shadow_ray, scene))
-		color = float_color_multi(0.1, color);
+		color = float_color_multi(0.0f, color);
 	return (color);
 }

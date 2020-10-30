@@ -6,13 +6,14 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 19:52:25 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/07 20:15:47 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/29 23:38:49 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "instance_manager.h"
 #include "libft.h"
 #include "utils.h"
+#include "math.h"
 
 #include <assert.h>
 
@@ -42,7 +43,7 @@ int			init_instance_manager(t_instance_manager *mngr)
 }
 
 /**
-** @brief Get the transformation matrix for object
+** @brief Get inverse transformation matrix for object
 ** 1) scaling
 ** 2) rotation
 ** 3) translation
@@ -72,10 +73,15 @@ int		set_object_info(t_object_info *object_info,
 	object_info->vector2 = parsed_object.vector2;
 	object_info->r = parsed_object.r;
 	object_info->r2 = parsed_object.r2;
+	if (parsed_object.type == cone)
+	{
+		object_info->r2 = tanf(parsed_object.r2 * M_PI / 360.0f);
+		object_info->r2 = object_info->r2 * object_info->r2 + 1;
+	}
 	object_info->bounding_box.min = parsed_object.vector1;
 	object_info->bounding_box.max = parsed_object.vector2;
 	object_info->minm = 0.0f;
-	object_info->maxm = 1.0f;
+	object_info->maxm = 1.5f;
 }
 
 /**

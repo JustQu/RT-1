@@ -74,7 +74,7 @@ t_color	get_turbulence_perlin_texture_color(t_texture_manager mngr,
 				turbulence_perlin_noise(mngr.perlin_noise, mngr.perm_x,
 										mngr.perm_y, mngr.perm_z,
 										tex.data.smooth_perlin.scale * point),
-				(t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f }));
+				(t_color){ .r = 0.0f, .g = 0.8f, .b = 1.0f }));
 }
 
 t_color		get_wave_perlin_texture_color(t_texture_manager mngr,

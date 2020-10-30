@@ -10,7 +10,8 @@ t_sampler	get_sampler(t_sampler_manager sampler_manager, int sampler_id)
 	// 	tmp = sampler_manager.samplers[i];
 	// 	offset += tmp.num_sets * tmp.num_samples;
 	// }
-	tmp = sampler_manager.samplers[i];
+	tmp = sampler_manager.samplers[sampler_id];
+	tmp.count = get_global_id(0);
 	// tmp.offset = offset;
 	return (tmp);
 }

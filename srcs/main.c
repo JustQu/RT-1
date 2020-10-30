@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/18 19:38:16 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/22 00:02:18 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,6 @@ void	display_image(t_window *w)
 	SDL_UpdateTexture(w->texture, NULL, w->image, sizeof(uint32_t) * 1920);
 	SDL_RenderCopy(w->renderer, w->texture, NULL, NULL);
 	SDL_RenderPresent(w->renderer);
-}
-
-void	write_buffers(t_rt rt)
-{
-	clEnqueueWriteBuffer(rt.ocl_program.info.queue, rt.ocl_program.samplers,
-		CL_FALSE, 0, sizeof(t_sampler) * rt.sampler_manager.count,
-		rt.sampler_manager.samplers, 0, 0, 0);
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 00:05:29 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/20 22:44:00 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/29 00:07:13 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,21 @@
 # include "material.h"
 # include "objects.h"
 # include "light.h"
+# include "texture.h"
 
 typedef enum	e_parsed_type
 {
 	object,
-	light
+	light,
+	material,
+	texture,
+	camera,
 }				t_parsed_type;
 
 typedef struct s_parsed_object
 {
 	t_material	material;
+	t_texture	texture;
 	cl_float4	origin;
 	cl_float4	vector1;
 	cl_float4	vector2;
@@ -41,10 +46,11 @@ typedef struct s_parsed_object
 
 typedef struct	s_parsed_light
 {
-	cl_float4	origin;
-	cl_float4	direction;
-	t_color		color;
-	cl_float	ls;
+	cl_float4		origin;
+	cl_float4		direction;
+	t_color			color;
+	cl_float		ls;
+	t_light_type	type;
 }				t_parsed_light;
 
 typedef union	u_parsed_data

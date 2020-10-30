@@ -15,10 +15,10 @@ float4	get_cylinder_normal(float4 point, t_obj cylinder)
 						* cylinder.direction));
 }
 
-float4	get_cone_normal(float4 point, t_obj cone, t_hit_info hit_info)
+float4	get_cone_normal(float4 point, t_obj cone, float m)
 {
-	float m = hit_info.dv * hit_info.t + hit_info.xv;
-	return (normalize(point - cone.origin - cone.r2 * cone.direction * m));
+	// float m = hit_info.dv * hit_info.t + hit_info.xv;
+	return (normalize(point - cone.r2 * (float4)(0.0f, 1.0f, 0.0f, 0.0f) * m));
 }
 
 float4	get_paraboloid_normal(float4 point, t_obj paraboloid, t_hit_info hit_info)
@@ -92,7 +92,7 @@ float4	get_object_normal(float4 point, t_obj object, t_hit_info hit_info, t_type
 	}
 	else if (type == cone)
 	{
-		return (get_cone_normal(point, object, hit_info));
+		// return (get_cone_normal(point, object, hit_info));
 	}
 	else if (type == paraboloid)
 	{

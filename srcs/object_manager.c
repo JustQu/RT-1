@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 13:22:40 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/07 20:32:29 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/25 22:01:33 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 #include "instance_manager.h"
 #include "utils.h"
 
-static const t_triangle default_triangle;
-static const t_obj default_obj;
+static const t_triangle	default_triangle;
+static const t_obj		default_obj;
 
 int	add_triangle(t_instance_manager *mngr, t_object_info triangle_info)
 {
@@ -42,6 +42,7 @@ int	add_triangle(t_instance_manager *mngr, t_object_info triangle_info)
 	return (++mngr->ntriangles - 1);
 }
 
+//TODO(dmelessa): check if the object already in array
 int		add_obj(t_instance_manager *mngr, t_object_info object_info)
 {
 	t_obj	object;
@@ -78,7 +79,7 @@ int		add_obj(t_instance_manager *mngr, t_object_info object_info)
 ** @param object_info
 ** @return ** int
 */
-int add_object(t_instance_manager *mngr, t_object_info object_info)
+int		add_object(t_instance_manager *mngr, t_object_info object_info)
 {
 	if (object_info.type == triangle)
 	{
@@ -89,4 +90,12 @@ int add_object(t_instance_manager *mngr, t_object_info object_info)
 		return	add_obj(mngr, object_info);
 	}
 	//mesh obj???
+}
+
+void
+set_sampler(t_instance_manager *instance_manager,
+			int id,
+			int sampler_id)
+{
+	instance_manager->objects[instance_manager->instances[id].object_id].sampler_id = sampler_id;
 }

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 00:29:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/06 22:00:53 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/22 17:51:01 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,7 @@ struct			s_shade_rec
 };
 
 float4 get_reflected_vector(float4 l, float4 n);
-t_color area_light_shade(t_material material,
-						 t_shade_rec shade_rec,
-						 t_scene scene,
-						 t_sampler_manager sampler_manager,
-						 t_rt_options render_options,
-						 uint2 *seed);
+
 
 t_instance get_instance(t_instance_manager instance_manager, int id);
 

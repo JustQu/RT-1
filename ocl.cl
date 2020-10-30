@@ -249,7 +249,7 @@ void	compute_uvw(t_camera *camera);
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 22:49:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/19 00:05:54 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 00:08:38 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,7 +325,6 @@ struct						s_texture_handler
 	void					(*new)();
 	void					(*set_type)();
 	void					(*set_kd)();
-
 };
 
 t_texture	create_solid_texture(t_color color);
@@ -518,7 +517,7 @@ typedef struct			s_object_info
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 17:35:29 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 13:49:35 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/27 16:35:31 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -547,13 +546,14 @@ enum	e_light_types
 
 struct				s_light
 {
+	cl_float16		matrix;
 	cl_float4		origin;
 	cl_float4		direction;
 	t_color			color;
 	cl_float		ls; //radiance scaling factor [0, inf)
 	t_light_type	type;
 	cl_int			object_id; //for area lights
-	cl_int			gap;
+	cl_float		pdf;
 };
 
 struct				s_ambient_occluder
@@ -638,7 +638,7 @@ struct				s_sampler
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 20:05:10 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 13:50:45 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/25 21:45:45 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -654,11 +654,15 @@ typedef struct s_instance	t_instance;
 
 struct	s_instance
 {
-	t_material			material;	// todo: сделать менеджер материалов. Зачем? чтобы не загружать полностью материал каждый раз
+	t_material			material;
+
 	cl_int				object_id; //triangle_id if type == triangle
-	cl_int				matrix_id;
+									// может быть надо назвать geometry?
+	cl_int				matrix_id; //менеджер матрицы не нужен, избавиться
 	t_type				type;
-	cl_int				gap[5];
+	cl_int				gap[4];
+	cl_uchar			uchar_gap[3];
+	cl_uchar			shadows;
 };
 
 #endif
@@ -777,7 +781,7 @@ int	init_default_options(t_rt_options *options,
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 00:29:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/06 22:00:53 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/22 17:51:01 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -879,12 +883,7 @@ struct			s_shade_rec
 };
 
 float4 get_reflected_vector(float4 l, float4 n);
-t_color area_light_shade(t_material material,
-						 t_shade_rec shade_rec,
-						 t_scene scene,
-						 t_sampler_manager sampler_manager,
-						 t_rt_options render_options,
-						 uint2 *seed);
+
 
 t_instance get_instance(t_instance_manager instance_manager, int id);
 
@@ -1364,8 +1363,8 @@ t_color	float_color_multi(float	c, t_color color)
 */
 float2	sample_unit_square(t_sampler *sampler, __global float2 *samples, uint2 *seed)
 {
-	if (sampler->count % sampler->num_samples == 0) // ?????? ?????? ???????
-		sampler->jump = (random(seed) % sampler->num_sets) * sampler->num_samples;
+	// if (sampler->count % sampler->num_samples == 0) // ?????? ?????? ???????
+	// 	sampler->jump = (random(seed) % sampler->num_sets) * sampler->num_samples;
 
 	return ((samples + sampler->offset)[sampler->jump +  (random(seed) + sampler->count++) % sampler->num_samples]);
 
@@ -1377,12 +1376,15 @@ float2	sample_unit_square(t_sampler *sampler, __global float2 *samples, uint2 *s
 */
 float2	sample_unit_disk(t_sampler *sampler, __global float2 *disk_samples, uint2 *seed)
 {
-	if (sampler->count % sampler->num_samples == 0)
-		sampler->jump = (random(seed) % sampler->num_sets) * sampler->num_samples;
+	// if (sampler->count % sampler->num_samples == 0)
+	// 	sampler->jump = (random(seed) % sampler->num_sets) * sampler->num_samples;
 
 	return ((disk_samples + sampler->offset)[sampler->jump + (random(seed) + sampler->count++) % sampler->num_samples]);;
 
-	return ((disk_samples + sampler->offset)[sampler->jump + sampler->count++ % sampler->num_samples]);
+	// return ((disk_samples + sampler->offset)[sampler->jump + (sampler->count++) % sampler->num_samples]);
+
+	// printf("j: %d %d %d %d %d", sampler->jump, sampler->count, sampler->num_samples, sampler->num_sets, sampler->offset);
+	// return ((disk_samples + sampler->offset)[sampler->jump + sampler->count++ % (sampler->num_samples)]);
 }
 
 /*
@@ -1390,10 +1392,10 @@ float2	sample_unit_disk(t_sampler *sampler, __global float2 *disk_samples, uint2
 */
 float3	sample_hemisphere(t_sampler *sampler, __global float3 *hemisphere_samples, uint2 *seed)
 {
-	if (sampler->count % sampler->num_samples == 0)
-		sampler->jump = (random(seed) % sampler->num_sets) * sampler->num_samples;
+	// if (sampler->count % sampler->num_samples == 0)
+	// sampler->jump = (random(seed) % sampler->num_sets) * sampler->num_samples;
 
-	return ((hemisphere_samples + sampler->offset)[sampler->jump + sampler->count++ % sampler->num_samples]);
+	return ((hemisphere_samples)[sampler->jump + (random(seed) + sampler->count++) % sampler->num_samples]);
 }
 
 t_sampler	get_sampler(t_sampler_manager sampler_manager, int sampler_id)
@@ -1408,7 +1410,8 @@ t_sampler	get_sampler(t_sampler_manager sampler_manager, int sampler_id)
 	// 	tmp = sampler_manager.samplers[i];
 	// 	offset += tmp.num_sets * tmp.num_samples;
 	// }
-	tmp = sampler_manager.samplers[i];
+	tmp = sampler_manager.samplers[sampler_id];
+	tmp.count = get_global_id(0);
 	// tmp.offset = offset;
 	return (tmp);
 }
@@ -1450,10 +1453,10 @@ float4	get_cylinder_normal(float4 point, t_obj cylinder)
 						* cylinder.direction));
 }
 
-float4	get_cone_normal(float4 point, t_obj cone, t_hit_info hit_info)
+float4	get_cone_normal(float4 point, t_obj cone, float m)
 {
-	float m = hit_info.dv * hit_info.t + hit_info.xv;
-	return (normalize(point - cone.origin - cone.r2 * cone.direction * m));
+	// float m = hit_info.dv * hit_info.t + hit_info.xv;
+	return (normalize(point - cone.r2 * (float4)(0.0f, 1.0f, 0.0f, 0.0f) * m));
 }
 
 float4	get_paraboloid_normal(float4 point, t_obj paraboloid, t_hit_info hit_info)
@@ -1527,7 +1530,7 @@ float4	get_object_normal(float4 point, t_obj object, t_hit_info hit_info, t_type
 	}
 	else if (type == cone)
 	{
-		return (get_cone_normal(point, object, hit_info));
+		// return (get_cone_normal(point, object, hit_info));
 	}
 	else if (type == paraboloid)
 	{
@@ -1805,11 +1808,18 @@ inline bool	generic_sphere_instersection(t_ray ray, t_obj sphere,
 	return (false);
 }
 
-bool	generic_plane_intersection(t_ray ray, float *const tmin)
+bool	generic_plane_intersection(t_ray ray, float *const tmin,
+									t_shade_rec *const shade_rec)
 {
 	bool	ret = false;
 	float	denom = ray.direction.y;
 	float	t;
+
+//    t = -X|V / D|V
+
+// 	t = -dot(object.origin - ray.origin, (0, 1, 0, 0)) / dot(ray.direction, plane.direction);
+// 	t = -dot(-ray.origin, (0, 1, 0, 0)) / dot(ray.direction, plane.direction);
+// 	t = ray.origin.y / ray.direction.y
 
 	if (denom != 0.0f)
 	{
@@ -1820,6 +1830,8 @@ bool	generic_plane_intersection(t_ray ray, float *const tmin)
 			if (t >= EPSILON && t < *tmin)
 			{
 				*tmin = t;
+				shade_rec->local_hit_point = ray.direction * t + ray.origin;
+				shade_rec->normal = (float4)(0.0f, 1.0f, 0.0f, 0.0f);
 				ret = true;
 			}
 		}
@@ -1827,7 +1839,8 @@ bool	generic_plane_intersection(t_ray ray, float *const tmin)
 	return (ret);
 }
 
-bool	disk_intersection(t_ray ray, t_obj disk, t_hit_info *hit_info)
+bool	disk_intersection(t_ray ray, t_obj disk, t_shade_rec *const shade_rec,
+							float *const tmin)
 {
 	float4	a;
 	float	t;
@@ -1835,21 +1848,22 @@ bool	disk_intersection(t_ray ray, t_obj disk, t_hit_info *hit_info)
 	bool	ret;
 
 	ret = false;
-	denom = dot(ray.direction, disk.direction);
+	denom = dot(ray.direction, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
 	if (denom != 0)
 	{
 		a = disk.origin - ray.origin;
-		t = dot(a, disk.direction);
+		t = dot(a, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
 		if (t * denom > 0.0f) //different signes
 		{
-			hit_info->t = t / denom;
-
-			if (hit_info->t >= EPSILON)
+			t = t / denom;
+			if (t >= EPSILON && t < *tmin)
 			{
-				float4 point = hit_info->t * ray.direction + ray.origin;
+				float4 point = t * ray.direction + ray.origin;
 				if (dot(point - disk.origin, point - disk.origin) < disk.r2)
 				{
-					hit_info->dv = denom;
+					*tmin = t;
+					shade_rec->local_hit_point = point;
+					shade_rec->normal = (float4)(0.0f, 1.0f, 0.0f, 0.0f);
 					ret = true;
 				}
 			}
@@ -1888,7 +1902,7 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 				if (ddotb < 0.0f || ddotb > rectangle.r2)
 					return (false);
 
-				// printf("rt");
+				*tmin = t;
 				shade_rec->local_hit_point = ray.direction * t + ray.origin;
 				shade_rec->normal = (float4)(0.0f, 0.0f, 1.0f, 0.0f);
 				return (true);
@@ -1942,51 +1956,48 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 /*
 ** TODO(dmelessa): cap cone with disc
 */
- bool	cone_intersection(t_ray ray, t_obj cone, t_hit_info *hit_info)
+ bool	cone_intersection(t_ray ray, t_obj cone, float *const tmin,
+ 						t_shade_rec *const shade_rec)
 {
 	float4	x;
 	float	dv, xv, a, b, c, disc;
 
-	x = ray.origin - cone.origin;
-	dv = dot(ray.direction, cone.direction);
-	xv = dot(x, cone.direction);
+	x = ray.origin;
+	dv = ray.direction.y;
+	xv = ray.origin.y;
 	a = dot(ray.direction, ray.direction) - cone.r2 * dv * dv;
 	b = 2.0f * (dot(ray.direction, x) - cone.r2 * dv * xv);
 	c = dot(x, x) - cone.r2 * xv * xv;
-	disc = b * b - 4 * a * c;
+	disc = b * b - 4.0f * a * c;
+
 	if (disc >= EPSILON)
 	{
 		a *= 2.0f;
 		disc = sqrt(disc);
-		hit_info->t = (-b - disc) / a;
-		if (hit_info->t < EPSILON)
-			hit_info->t = (-b + disc) / a;
-		if (hit_info->t > EPSILON)
+		float	t = (-b - disc) / a;
+		if (t > EPSILON && t < *tmin)
 		{
-			if (cone.maxm != 0.0f || cone.minm != 0)
+			float	m = ray.direction.y * t + ray.origin.y;
+			if (m >= cone.minm && m <= cone.maxm)
 			{
-				hit_info->m = dv * hit_info->t + xv;
-				if (hit_info->m >= cone.minm + EPSILON &&
-					hit_info->m <= cone.maxm)
-				{
-					hit_info->dv = dv;
-					hit_info->xv = xv;
-					return true;
-				}
-				hit_info->t = (-b + disc) / a;
-				hit_info->m = dv * hit_info->t + xv;
-				if (hit_info->m >= cone.minm + EPSILON &&
-					hit_info->m <= cone.maxm)
-				{
-					hit_info->dv = dv;
-					hit_info->xv = xv;
-					return true;
-				}
+				*tmin = t;
+				shade_rec->local_hit_point = ray.direction * t + ray.origin;
+				shade_rec->normal = get_cone_normal(shade_rec->local_hit_point,
+													cone, m);
+				return (true);
 			}
-			else
+		}
+
+		t = (-b + disc) / a;
+		if (t > EPSILON && t < *tmin)
+		{
+			float	m = ray.direction.y * t + ray.origin.y;
+			if (m >= cone.minm && m <= cone.maxm)
 			{
-				hit_info->dv = dv;
-				hit_info->xv = xv;
+				*tmin = t;
+				shade_rec->local_hit_point = ray.direction * t + ray.origin;
+				shade_rec->normal = get_cone_normal(shade_rec->local_hit_point,
+													cone, m);
 				return (true);
 			}
 		}
@@ -2102,24 +2113,26 @@ bool	triangle_intersection(t_ray ray, t_triangle triangle,
 	return hit_info->t > EPSILON;
 }
 
-bool	is_intersect(t_obj obj, t_type type, t_ray ray, t_shade_rec *shade_rec, float *const tmin)
+bool
+is_intersect(t_obj const obj, t_type const type, t_ray const ray,
+			t_shade_rec *const shade_rec, float *const tmin)
 {
 	if (type == sphere)
 	{
 		return (generic_sphere_instersection(ray, obj, shade_rec, tmin));
 	}
-	// else if (type == plane)
-	// {
-	// 	return (generic_plane_intersection(ray, hit_info));
-	// }
+	else if (type == plane)
+	{
+		return (generic_plane_intersection(ray, tmin, shade_rec));
+	}
 	else if (type == cylinder)
 	{
 		return cylinder_intersection(ray, obj, shade_rec, tmin);
 	}
-	// else if (type == cone)
-	// {
-	// 	return (cone_intersection(ray, obj, hit_info));
-	// }
+	else if (type == cone)
+	{
+		return (cone_intersection(ray, obj, tmin, shade_rec));
+	}
 	// else if (type == paraboloid)
 	// {
 	// 	return (paraboloid_intersection(ray, obj, hit_info));
@@ -2132,10 +2145,10 @@ bool	is_intersect(t_obj obj, t_type type, t_ray ray, t_shade_rec *shade_rec, flo
 	{
 		return box_intersection(ray, obj, shade_rec, tmin);
 	}
-	// else if (type == disk)
-	// {
-	// 	return (disk_intersection(ray, obj, hit_info));
-	// }
+	else if (type == disk)
+	{
+		return (disk_intersection(ray, obj, shade_rec, tmin));
+	}
 	else if (type == rectangle)
 	{
 		return (rectangle_intersection(ray, obj, shade_rec, tmin));
@@ -2152,13 +2165,14 @@ t_ray	transform_ray(t_ray ray, t_matrix transformation_matrix)
 	return (inv_ray);
 }
 
-bool	instance_hit(t_instance_manager instance_mngr, t_instance instance,
-					float *const tmin, t_shade_rec *shade_rec)
+bool	instance_hit(t_instance_manager instance_mngr,
+					t_instance instance,
+					float *const tmin,
+					t_shade_rec *shade_rec)
 {
 	bool		intersect = false;
 	t_matrix	matrix = get_instance_matrix(instance_mngr, instance);
 	t_ray		ray = transform_ray(shade_rec->ray, matrix);
-	t_obj		object = instance_mngr.objects[instance.object_id];
 
 	if (instance.type == triangle)
 	{
@@ -2168,20 +2182,42 @@ bool	instance_hit(t_instance_manager instance_mngr, t_instance instance,
 	}
 	else
 	{
+		t_obj		object = instance_mngr.objects[instance.object_id];
 		intersect = (is_intersect(object, instance.type, ray,
 								shade_rec,tmin));
 	}
 
 	if (intersect)
 	{
-		shade_rec->normal = normalize(transform_normal(shade_rec->normal, matrix));
-		// if (instance.type == sphere)
-		// {
-		// 	printf("%v3f ", shade_rec->normal);
-		// }
+		shade_rec->normal = normalize(transform_normal(shade_rec->normal,
+														matrix));
 	}
 	return (intersect);
 }
+
+float4	sample_object(t_instance_manager instance_manager,
+						t_sampler_manager sampler_manager,
+						t_instance instance,
+						t_obj object,
+						t_matrix matrix,
+						uint2 *seed)
+{
+	t_sampler	sampler = get_sampler(sampler_manager, object.sampler_id);
+
+	if (instance.type == rectangle)
+	{
+		sampler.jump = (random(seed) % sampler.num_sets)
+					* sampler.num_samples;
+		sampler.count = get_global_id(0) + instance.object_id;
+
+		float2 sp = sample_unit_square(&sampler, sampler_manager.samples, seed);
+		float4 point = object.origin
+					+ sp.x * object.direction
+					+ sp.y * object.dir2;
+		return (point);
+	}
+}
+
 
 float4	get_light_direction(t_light light, t_shade_rec shade_rec)
 {
@@ -2191,13 +2227,54 @@ float4	get_light_direction(t_light light, t_shade_rec shade_rec)
 		return (normalize(light.origin - shade_rec.hit_point));
 	else if (light.type == directional)
 		return -normalize(light.direction);
-	else if (light.type == area)
+	else
+		return ((float4)(0.0f));
+}
+
+float4	get_light_direction2(t_scene scene, t_light *light,
+							t_shade_rec shade_rec,
+							t_sampler_manager sampler_manager, uint2 *seed)
+{
+	if (light->type == ambient)
+		return ((float4)(0.0f, 0.0f, 0.0f, 0.0f));
+	else if (light->type == point)
+		return (normalize(light->origin - shade_rec.hit_point));
+	else if (light->type == directional)
+		return -normalize(light->direction);
+	else if (light->type == area)
 	{
-		;//todo
+		t_instance	instance = get_instance(scene.instance_manager,
+											light->object_id);
+		t_obj		obj = get_object_info(scene.instance_manager,
+									instance);
+		t_matrix	matrix = get_instance_matrix(scene.instance_manager,
+												instance);
+
+		if (instance.type == rectangle)
+		{
+			//NOTE: origin is sample point
+			light->origin = sample_object(scene.instance_manager,
+												sampler_manager,
+												instance,
+												obj,
+												matrix,
+												seed);
+			light->origin = point_matrix_mul(light->origin, light->matrix);
+			//NOTE:store light normal in light direction
+			light->direction = vector_matrix_mul(
+								(float4)(0.0f, 0.0f, 1.0f, 0.0f),
+								light->matrix);
+
+			float4 wi = light->origin - shade_rec.hit_point;
+			normalize(wi);
+			//NOTE: also compute inverse area which is pdf
+			light->pdf = 1.0f / (length(obj.direction) * length(obj.dir2));
+			return (wi);
+		}
 	}
 }
 
- t_color	get_light_radiance(t_light light)
+t_color	get_light_radiance(t_light light)
 {
 	t_color	color;
 
@@ -2210,8 +2287,59 @@ float4	get_light_direction(t_light light, t_shade_rec shade_rec)
 	}
 }
 
+t_color	light_l(t_light light, float4 wi)
+{
+	t_color	color;
+
+
+	if (light.type == area)
+	{
+		float ndotd = dot(-light.direction, wi);
+
+		if (ndotd > 0.0f)
+		{
+			return (float_color_multi(light.ls, light.color));
+		}
+		else
+		{
+			return ((t_color){ 0.0f, 0.0f, 0.0f, 0.0f });
+		}
+	}
+	else
+	{
+		color = float_color_multi(light.ls, light.color);
+	}
+	return (color);
+}
+
+float	light_g(t_light light, float4 wi, t_shade_rec shade_rec)
+{
+	float g = 1.0f;
+	if (light.type == area)
+	{
+		//NOTE: direction is normal in this case
+		float ndotd = dot(-light.direction, wi);
+		float d2 = distance(light.origin, shade_rec.hit_point);
+		d2 = 1.0f / d2;
+		g = ndotd * d2 * d2;
+	}
+	return g;
+}
+
+float	light_pdf(t_light light)
+{
+	float	pdf = 1.0f;
+
+	if (light.type == area)
+	{
+		pdf = light.pdf;
+	}
+	return (pdf);
+}
+
 /*
 ** BRDF - bidirectional reflectance distributuin functions
+
 ** the function f returns the BRDF itself, unless it contains the delta function
 **
 ** the function sample_f is used to compute the direction of reflected rays for
@@ -2227,6 +2355,29 @@ float4	get_light_direction(t_light light, t_shade_rec shade_rec)
 ** 	GlossySpecular
 */
 
+t_color
+f(t_shade_rec const shade_rec,
+	t_material const material,
+	float4 const wi, float4 const wo)
+{
+	if (material.type == matte)
+	{
+		;
+	}
+	else if (material.type == phong)
+	{
+		;
+	}
+	else
+	{
+		;
+	}
+}
+
+t_color	sample_f();
+
+t_color	rho();
+
 t_color	lambertian_f(float kd, t_color color)
 {
 	return (float_color_multi(kd * (float)M_1_PI, color));
@@ -2234,21 +2385,21 @@ t_color	lambertian_f(float kd, t_color color)
 
 t_color	lambertian_rho(float kd, t_color color)
 {
-	t_color	res;
-
-	res = float_color_multi(kd, color);
-	return (res);
+	return (float_color_multi(kd, color));
 }
 
-float	glossy_specular_f(float4 camera_direction, float4 normal, float4 light_direction, float ks, float exp)
+t_color	glossy_specular_f(float4 camera_direction, float4 normal,
+						float4 wi, float ndotwi,
+						float ks, float exp)
 {
-	float	res = 0;
-	float4	r = get_reflected_vector(light_direction, normal);
+	float l = 0.0f;
+	/* get reflected ray */
+	float4	r = -wi + 2.0f * normal * ndotwi;
 	float	rdotdir = dot(r, camera_direction);
 
-	if (rdotdir > 0)
-		res = ks * pow(rdotdir, exp);
-	return res;
+	if (rdotdir > 0.0f)
+		l = ks * pow(rdotdir, exp);
+	return ((t_color){ .r = l, .g = l, .b = l });
 }
 
 t_color	perfect_specular_f(float4 ray_dir, float4 normal, float kr, t_color cr)
@@ -2272,14 +2423,42 @@ float4	get_ambient_occluder_direction(t_ambient_occluder ambient_occluder,
 
 bool	in_shadow(t_ray shadow_ray, t_scene scene)
 {
-	t_hit_info ht;
+	float	t;
+	float	tmin = 100000;
+	int			node_id = 0;
+	t_bvh_node	current_node;
 
-	for (int i = 0; i < scene.instance_manager.ninstances; i++)
+	t_shade_rec	sr;
+	sr.ray = shadow_ray;
+
+	while (node_id != -1)
 	{
-		// if (instance_hit(scene.instance_manager, shadow_ray, i, &ht))
-			// return (true);
+		current_node = scene.bvh[node_id];
+
+		if (bbox_intersection(shadow_ray, current_node.aabb))
+		{
+			if (current_node.instance_id == -1)
+			{
+				node_id++;
+			}
+			else /* leaf node*/
+			{
+				t_instance instance = get_instance(scene.instance_manager,
+													current_node.instance_id);
+				if (instance_hit(scene.instance_manager, instance,
+								&tmin, &sr))
+				{
+					return (true);
+				}
+				node_id = current_node.next;
+			}
+		}
+		else
+		{
+			node_id = current_node.next;
+		}
 	}
-	return false;
+	return (false);
 }
 
 t_color	ambient_occlusion_l(t_scene scene,
@@ -2295,11 +2474,11 @@ t_color	ambient_occlusion_l(t_scene scene,
 	scene.ambient_occluder.u = cross(scene.ambient_occluder.v, scene.ambient_occluder.w);
 
 	t_ray shadow_ray;
-	shadow_ray.origin = shade_rec.hit_point;
+	shadow_ray.origin = shade_rec.hit_point + 1e-2f * shade_rec.normal;
 	shadow_ray.direction = get_ambient_occluder_direction(scene.ambient_occluder, sampler_manager, sampler, seed);
 	color = float_color_multi(scene.ambient_occluder.ls, scene.ambient_occluder.color);
 	if (in_shadow(shadow_ray, scene))
-		color = float_color_multi(0.1, color);
+		color = float_color_multi(0.0f, color);
 	return (color);
 }
 
@@ -2472,7 +2651,7 @@ t_color	get_turbulence_perlin_texture_color(t_texture_manager mngr,
 				turbulence_perlin_noise(mngr.perlin_noise, mngr.perm_x,
 										mngr.perm_y, mngr.perm_z,
 										tex.data.smooth_perlin.scale * point),
-				(t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f }));
+				(t_color){ .r = 0.0f, .g = 0.8f, .b = 1.0f }));
 }
 
 t_color		get_wave_perlin_texture_color(t_texture_manager mngr,
@@ -2530,11 +2709,13 @@ bool		shadow_hit(t_scene scene, t_light light, t_ray shadow_ray, t_shade_rec sha
 {
 	float	t;
 	float	tmin = distance(light.origin, shadow_ray.origin);
-
+	// if (light.type == directional)
+	// 	tmin = 0;
 	int			node_id = 0;
 	t_bvh_node	current_node;
 
 	t_shade_rec	sr;
+	sr.id = shade_rec.id;
 	sr.ray = shadow_ray;
 
 	while (node_id != -1)
@@ -2554,7 +2735,10 @@ bool		shadow_hit(t_scene scene, t_light light, t_ray shadow_ray, t_shade_rec sha
 				if (instance_hit(scene.instance_manager, instance,
 								&tmin, &sr))
 				{
-					return (true);
+					//NOTE: for area lights, don't intersect if it is the object emitting the light
+					if (light.object_id != current_node.instance_id)
+						return (true);
+					tmin = distance(light.origin, shadow_ray.origin);
 				}
 				node_id = current_node.next;
 			}
@@ -2628,13 +2812,13 @@ t_color		shade_phong(t_material material,
 			if (dirdotn > 0.0f)
 			{
 				/* compute glossy_specular coefficient */
-				float a = glossy_specular_f(shade_rec.ray.direction, shade_rec.normal, light_direction, material.ks, material.exp) ;
+			color_tmp = glossy_specular_f(shade_rec.ray.direction, shade_rec.normal, light_direction, dirdotn, material.ks, material.exp) ;
 
 				/* compute diffuse color */
 				// color_tmp = lambertian_f(material.kd, material.color);
 
 				/* sum lambertian color and glossy specular color */
-				color_tmp = color_sum(color_tmp, float_color_multi(a, scene.lights[i].color));
+				color_tmp = color_sum(color_tmp, color_multi(color_tmp, scene.lights[i].color));
 
 				/* compute how much light the point receives depends on angle between the normal at this point and light direction */
 				color_tmp.r = scene.lights[i].ls * scene.lights[i].color.r
@@ -2665,7 +2849,8 @@ inline t_color		shade_matte(t_material material,
 	if (options.ambient_occlusion) /* ambient occlusion */
 	{
 		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
-		// color = color_multi(color, material.color);
+		color = color_multi(color, get_color(scene.instance_manager.tex_mngr,
+											material, &shade_rec));
 	}
 	else /* compute constant ambient light using ka coefficent of the materail */
 	{
@@ -2689,7 +2874,7 @@ inline t_color		shade_matte(t_material material,
 		light_direction = get_light_direction(scene.lights[i], shade_rec);
 
 		/* multiplying by 0.999f to avoid self shadowing error */
-		t_ray	shadow_ray = { .origin = shade_rec.hit_point + 1e-1f * shade_rec.normal,
+		t_ray	shadow_ray = { .origin = shade_rec.hit_point + 1e-2f * shade_rec.normal,
 							   .direction = light_direction };
 
 		if (options.shadows)
@@ -2722,29 +2907,6 @@ inline t_color		shade_matte(t_material material,
 	return (color);
 }
 
-/*
-lights can optionally cast shadows
-objects can optionally cast shadows
-materials can optionally cast shadows
-*/
-//note: we don't need pass an object. We can pass  only material and compute normal
-//in function before
-inline t_color		shade_object(t_material material,
-						t_shade_rec shade_rec,
-						t_scene scene,
-						t_sampler_manager sampler_manager,
-						t_rt_options options,
-						uint2 *seed)
-{
-	t_color	color;
-
-	if (material.type == phong)
-		color = shade_phong(material, shade_rec, scene, sampler_manager, options, seed);
-	else
-		color = shade_matte(material, shade_rec, scene, sampler_manager, options, seed);
-	return color;
-}
-
 inline t_color		shade_material(t_scene scene,
 							t_sampler_manager sampler_manager,
 							t_material material,
@@ -2768,61 +2930,72 @@ t_color		area_light_shade_phong(t_material material,
 									t_rt_options options,
 									uint2 *seed)
 {
-	float4	light_direction;
-	float	dirdotn;
+	t_color	color = (t_color){ .r = 0.0f, .g = 0.0f, .b = 0.0f };
 	t_color	color_tmp;
-	t_color	color;
 
 	/* revert camera ray for specular light */
 	shade_rec.ray.direction = -shade_rec.ray.direction;
 
-	if (options.ambient_occlusion) /* ambient occlusion */
-	{
-		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
-		// color = color_multi(color, material.color);
-	}
-	else /* compute constant ambient light using ka coefficent of the materail */
-	{
-		// color = lambertian_rho(material.ka, material.color);
-		color_tmp = get_light_radiance(scene.ambient_light);
-		color = color_multi(color, color_tmp);
-	}
+	// if (options.ambient_occlusion) /* ambient occlusion */
+	// {
+	// 	color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
+	// 	// color = color_multi(color, material.color);
+	// }
+	// else /* compute constant ambient light using ka coefficent of the materail */
+	// {
+	// 	// color = lambertian_rho(material.ka, material.color);
+	// 	color_tmp = get_light_radiance(scene.ambient_light);
+	// 	color = color_multi(color, color_tmp);
+	// }
 
 	/* compute sahding for each light source */
 	for (int i = 0; i < scene.nlights; i++)
 	{
+		t_light	light = scene.lights[i];
+
 		bool	in_shadow = false;
 
 		/* compute light direction at hit point */
-		light_direction = get_light_direction(scene.lights[i], shade_rec);
-
-		/* multiplying by 0.999f to avoid self shadowing error */
-		t_ray	shadow_ray = {.origin = shade_rec.hit_point * 0.999f, .direction = light_direction };
+		float4	wi = get_light_direction2(scene,
+										&light,
+										shade_rec,
+										sampler_manager,
+										seed);
 
 		if (options.shadows)
-			in_shadow = shadow_hit(scene, scene.lights[i], shadow_ray, shade_rec);
+		{
+			t_ray	shadow_ray = { .origin = shade_rec.hit_point +
+										1e-3f * shade_rec.normal,
+									.direction = wi };
+			in_shadow = shadow_hit(scene, light, shadow_ray, shade_rec);
+		}
 
 		if (!in_shadow)
 		{
 			/* compute angle between normal at the hit point and light direction */
-			dirdotn = dot(shade_rec.normal, light_direction);
+			float ndotwi = dot(shade_rec.normal, wi);
 
 			/* if angle > 0 then hit point is receivingl light */
-			if (dirdotn > 0.0f)
+			if (ndotwi > 0.0f)
 			{
 				/* compute glossy_specular coefficient */
-				float a = glossy_specular_f(shade_rec.ray.direction, shade_rec.normal, light_direction, material.ks, material.exp) ;
+				// float k = glossy_specular_f(shade_rec.ray.direction, shade_rec.normal, wi, material.ks, material.exp) ;
+				color_tmp = glossy_specular_f(shade_rec.ray.direction,
+											shade_rec.normal, wi, ndotwi,
+											material.ks, material.exp);
 
-				/* compute diffuse color */
-				// color_tmp = lambertian_f(material.kd, material.color);
 
 				/* sum lambertian color and glossy specular color */
-				color_tmp = color_sum(color_tmp, float_color_multi(a, scene.lights[i].color));
-
-				/* compute how much light the point receives depends on angle between the normal at this point and light direction */
-				color_tmp.r = clamp(scene.lights[i].ls * scene.lights[i].color.r * color_tmp.r / 255.0f * dirdotn, 0.0f, 255.0f);
-				color_tmp.b = clamp(scene.lights[i].ls * scene.lights[i].color.b * color_tmp.b / 255.0f * dirdotn, 0.0f, 255.0f);
-				color_tmp.g = clamp(scene.lights[i].ls * scene.lights[i].color.g * color_tmp.g / 255.0f * dirdotn, 0.0f, 255.0f);
+				color_tmp = color_sum(lambertian_f(material.kd,
+												get_color(scene.instance_manager.tex_mngr,
+														material, &shade_rec)),
+										color_tmp);
+				float k = ndotwi
+						* light_g(light, wi, shade_rec)
+						/ light_pdf(light);
+				color_tmp = float_color_multi(k,
+											color_multi(light_l(light, wi),
+														 color_tmp));
 				color = color_sum(color_tmp, color);
 			}
 		}
@@ -2830,36 +3003,113 @@ t_color		area_light_shade_phong(t_material material,
 	return (color);
 }
 
-t_color		area_light_shade_emissive(t_material material,
-									t_shade_rec shade_rec
-									)
+t_color		area_light_shade_matte(t_material material,
+								t_shade_rec shade_rec,
+								t_scene scene,
+								t_sampler_manager sampler_manager,
+								t_rt_options options,
+								uint2 *seed)
 {
-	// if (shade_rec.normal * shade_rec.ray.direction > 0.0f)
-	// {
-	// 	;
-	// 	// return (float_color_multi(material,
-	// }
+	float4	wo = -shade_rec.ray.direction;
+
+	t_color	color;
+	t_color	color_tmp;
+
+	//TODO: ambient_light
+	color = (t_color){ .r = 0.0f, .g = 0.0f, .b = 0.0f };
+
+	for (int i = 0; i < scene.nlights; i++)
+	{
+		t_light	light = scene.lights[i];
+
+		bool	in_shadow = false;
+
+		float4	light_direction = get_light_direction2(scene,
+													&light,
+													shade_rec,
+													sampler_manager,
+													seed);
+
+		if (options.shadows)
+		{
+			t_ray	shadow_ray = { .origin = shade_rec.hit_point +
+											1e-2f * shade_rec.normal,
+									.direction = light_direction };
+			in_shadow = shadow_hit(scene,
+								light,
+								shadow_ray,
+								shade_rec);
+		}
+
+
+		if (!in_shadow)
+		{
+			float	ndotwi = dot(shade_rec.normal, light_direction);
+
+			if (ndotwi > 0.0f)
+			{
+				color_tmp = lambertian_f(material.kd,
+									get_color(scene.instance_manager.tex_mngr,
+											material, &shade_rec));
+
+				float k = ndotwi
+						* light_g(light, light_direction, shade_rec)
+						/ light_pdf(light);
+				color_tmp = float_color_multi(k,
+								color_multi(light_l(light, light_direction),
+											color_tmp));
+				color = color_sum(color, color_tmp);
+			}
+		}
+	}
+	return (color);
 }
 
-t_color		area_light_shade(t_material material,
-							t_shade_rec shade_rec,
-							t_scene scene,
+t_color		area_light_shade_emissive(t_scene scene,
+									t_material material,
+									t_shade_rec shade_rec)
+{
+	if (dot(-shade_rec.normal, shade_rec.ray.direction) > 0.0f)
+	{
+		return (float_color_multi(material.ls,
+								get_color(scene.instance_manager.tex_mngr,
+										material, &shade_rec)));
+	}
+	else
+		return ((t_color){ .r = 0.0f, .g = 0.0f, .b = 0.0f });
+}
+
+t_color		area_light_shade(t_scene scene,
 							t_sampler_manager sampler_manager,
-							t_rt_options render_options,
+							t_material material,
+							t_shade_rec shade_rec,
+							t_rt_options options,
 							uint2 *seed)
 {
 	t_color	color;
 
-	// if (material.type == matte)
-	// {
-	// }
-	// else if (material.type == emissive)
-	// {
-	// }
-
-	// if (material.type == phong)
-	// 	area_light_shade_phong(material, shade_rec, scene, sampelr_manager, render_options, seed);
-	// else if (material.type == emissive)
+	if (material.type == phong)
+	{
+		color = area_light_shade_phong(material,
+									shade_rec,
+									scene,
+									sampler_manager,
+									options,
+									seed);
+	}
+	else if (material.type == emissive)
+	{
+		color = area_light_shade_emissive(scene, material, shade_rec);
+	}
+	else
+	{
+		color = area_light_shade_matte(material,
+									shade_rec,
+									scene,
+									sampler_manager,
+									options,
+									seed);
+	}
 
 	return (color);
 }
@@ -2889,7 +3139,7 @@ inline t_matrix	get_instance_matrix(t_instance_manager instance_manager,
 	return (instance_manager.matrices[instance.matrix_id]);
 }
 
-inline t_obj		get_object_info(t_instance_manager instance_manager,
+inline t_obj	get_object_info(t_instance_manager instance_manager,
 									t_instance instance)
 {
 	return (instance_manager.objects[instance.object_id]);
@@ -3020,10 +3270,10 @@ t_color	ray_trace(t_ray ray, t_scene scene, t_rt_options options, t_sampler_mana
 															seed)));
 
 			if (instance_material.is_reflective
-				&& tree_depth < 64 && color_coef > 0.01f)
+				&& tree_depth < 10 && color_coef > 0.01f)
 			{
-				ray.origin = shade_rec.hit_point + 1e-2f * shade_rec.normal;
-				ray.direction = get_reflected_vector(-ray.direction,
+				ray.origin = shade_rec.hit_point + 1e-1f * shade_rec.normal;
+				ray.direction = get_reflected_vector(ray.direction,
 													shade_rec.normal);
 				color_coef *= instance_material.kr;
 			}
@@ -3035,6 +3285,53 @@ t_color	ray_trace(t_ray ray, t_scene scene, t_rt_options options, t_sampler_mana
 			continue_loop = false;
 		}
 	};
+	return (color);
+}
+
+t_color	area_light_tracer(t_ray ray, t_scene scene, t_rt_options options,
+						t_sampler_manager sampler_manager, uint2 *seed)
+{
+	t_shade_rec	shade_rec;
+
+	t_color	color;
+	color = (t_color){ .r = 0.0f, .g = 0.0f, .b = 0.0f };
+
+	t_color	clr_coef;
+	clr_coef = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
+
+	bool	continue_loop = true;
+
+	uchar	depth = 0;
+
+	shade_rec.ray = ray;
+	while (continue_loop)
+	{
+		depth++;
+
+		if (scene_intersection(scene, ray, &shade_rec))
+		{
+			if (dot(shade_rec.normal, ray.direction) > 0.0f)
+			{
+				shade_rec.normal = -shade_rec.normal;
+			}
+
+			t_instance instance = get_instance(scene.instance_manager,
+											shade_rec.id);
+			t_material material = get_instance_material(
+									scene.instance_manager,
+									instance);
+
+			color = color_sum(color,
+							color_multi(clr_coef,
+									area_light_shade(scene,
+													sampler_manager,
+													material,
+													shade_rec,
+													options,
+													seed)));
+		}
+		continue_loop = false;
+	}
 	return (color);
 }
 
@@ -3171,7 +3468,7 @@ bool	metal_scatter(t_texture_manager texture_manager,
 
 	shade_rec->ray.origin = shade_rec->hit_point + 0.1f * shade_rec->normal;
 	shade_rec->ray.direction = reflected
-							+ 0.0f * random_in_unit_sphere(state);
+							+ 0.3f * random_in_unit_sphere(state);
 
 	*attenuation = float_color_multi(
 						material.kr,
@@ -3321,7 +3618,7 @@ bool	scatter(t_texture_manager texture_manager,
 t_color	emitted(t_material material, t_shade_rec *shade_rec,
 				float u, float v, float4 point)
 {
-	if (material.type == diffuse_light)
+	if (material.type == diffuse_light || material.type == emissive)
 		return ((t_color){ .r = 3.0f, .g = 3.0f, .b = 3.0f });
 	return ((t_color){ .r = 0.0f, .g = 0.0, .b = 0.0f });
 }
@@ -3347,7 +3644,7 @@ t_color	path_tracer_suffern(t_ray ray, t_scene scene, t_rt_options options,
 
 		if (scene_intersection(scene, ray, &shade_rec) && depth < 20)
 		{
-			
+
 		}
 	}
 }
@@ -3374,8 +3671,8 @@ t_color	path_tracer2(t_ray ray, t_scene scene, t_rt_options options,
 
 	do	{
 		depth++;
-		if (scene_intersection(scene, ray, &shade_rec) && depth < 13
-		&& cur_attenuation.r + cur_attenuation.g + cur_attenuation.b > 0.2f)
+		if (scene_intersection(scene, ray, &shade_rec) && depth < 10
+		&& cur_attenuation.r + cur_attenuation.g + cur_attenuation.b > 0.0f)
 		{
 			t_instance	instance = scene.instance_manager.instances[shade_rec.id];
 
@@ -3601,7 +3898,7 @@ t_ray cast_camera_ray(t_camera camera, float x, float y,
 	else if (camera.type == thin_lens)
 	{
 		float2 dp = sample_unit_disk(camera_sampler, sampler_manager.disk_samples, seed);
-		// printf("#%d: %f %f\n", get_global_id(0), dp.x, dp.y);
+		// printf("#%d: %f %f\t", get_global_id(0), dp.x, dp.y);
 		// dp.x = GPURnd(state);
 		// dp.y = GPURnd(state);
 		float2 lp = dp * camera.l; //lens_point
@@ -3832,7 +4129,10 @@ void main_kernel(__global t_color *image,	//0
 /* 	if (step != 0)
 	{ */
 		ao_sampler.jump = ((num + random(&seed)) % ao_sampler.num_sets) * ao_sampler.num_samples;
+		ao_sampler.count = global_id + num;
+
 		options.ambient_occluder_sampler.jump = (random(&seed) % options.ambient_occluder_sampler.num_sets) * options.ambient_occluder_sampler.num_samples;
+		options.ambient_occluder_sampler.count = global_id;
 /* 	}
 	else */ if (options.reset == 1)
 	{
@@ -3841,18 +4141,35 @@ void main_kernel(__global t_color *image,	//0
 
 	/* */
 	float2	sp = sample_unit_square(&ao_sampler, sampler_manager.samples, &seed);
+	// float dx = x + sp.x;
+	// float dy = y + sp.y;
 	float	dx = x + GPURnd(&state);
 	float	dy = y + GPURnd(&state);
+	// float	dx = x;
+	// float	dy = y;
 
 	if (scene.camera.type == thin_lens)
 	{
 		camera_sampler = get_sampler(sampler_manager, scene.camera.sampler_id);
-		camera_sampler.count = global_id * camera_sampler.num_samples + step;
-		if (step != 0)
-			camera_sampler.jump = ((num + random(&seed)) % camera_sampler.num_sets) * camera_sampler.num_samples;
+		camera_sampler.count = global_id;
+		// if (camera_sampler.count % camera_sampler.num_samples == 0)
+		camera_sampler.jump = ((random(&seed)) % camera_sampler.num_sets) * camera_sampler.num_samples;
+		// if (step != 0)
+		// 	camera_sampler.jump = ((num + random(&seed)) % camera_sampler.num_sets) * camera_sampler.num_samples;
+	}
+	if (global_id == 0)
+	{
+		for (int i = 0; i < camera_sampler.num_sets * camera_sampler.num_samples;
+			i++)
+		{
+			// printf("--%d--",  scene.camera.sampler_id);
+			// printf("#%d %f %f\t", i, sampler_manager.disk_samples[i].x, sampler_manager.disk_samples[i].y);
+		}
 	}
 
 	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed, &state);
+
+	// color = area_light_tracer(ray, scene, options, sampler_manager, &seed);
 
 	color = ray_trace(ray, scene, options, sampler_manager, &seed);
 

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/02 18:12:50 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/18 20:25:14 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/25 22:09:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,9 @@ t_aabb		compute_aabb(t_instance_manager instance_manager, int instance_id);
 //
 void	get_instance_id(t_instance_manager *instance_manager, int x, int y);
 void	get_instance_type(t_instance_manager *instance_manager, int id);
+
+void set_sampler(t_instance_manager *instance_manager,
+				 int id,
+				 int sampler_id);
 
 #endif

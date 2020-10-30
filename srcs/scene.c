@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 22:57:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/16 19:38:32 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 00:39:35 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "sampler_manager.h"
 #include "libft.h"
 #include "texture_manager.h"
+#include "light_manager.h"
 
 static const t_camera default_camera = {
 	.viewplane = {
@@ -244,13 +245,14 @@ static const t_light default_ambient_light = {
 static const t_light default_directional_light = {
 	.type = directional,
 	.origin = {
-		.x = 0.0f,
-		.y = 0.0f,
-		.z = 0.0f,
+		.x = 1000000,
+		.y = 1000000,
+		.z = 1000000,
 		.w = 0.0f,
 	},
-	.direction = {.x = 0.0f, .y = -1.0f, .z = -1.0f, .w = 0.0f},
-	.ls = 3.0f,
+	.direction = {.x = -1.0f, .y = -1.0f, .z = 1.0f, .w = 0.0f},
+	.ls = 0.8f,
+	.color = {.r = 1.0f, .g = 1.0f, .b = 1.0f}
 	// .color = 0x00ffffff
 };
 
@@ -273,17 +275,15 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 
 	instance_manager = &scene->instance_mngr;
 	init_instance_manager(instance_manager);
+	init_light_manager(&scene->light_manager);
 
 	// scene->camera = default_thin_lens_camera;
 	// scene->camera = default_fisheye_camera;
 	// scene->camera = default_spherical_camera;
 	// scene->camera = default_stereo_camera;
-	scene->camera.sampler_id = new_sampler(sampler_manager, rand_jitter, 1024, DISK_SAMPLES);
+	scene->camera.sampler_id = new_sampler(sampler_manager, rand_jitter, 25, DISK_SAMPLES);
 
 	compute_uvw(&scene->camera);
-
-	scene->nlights = 1;
-	scene->lights = (t_light *)malloc(sizeof(t_light) * (scene->nlights + 10));
 
 	//default_scene
 	//Объекты
@@ -306,10 +306,10 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.kd = 0.9f;
 	object.material.ka = 0.25f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	/* #1 BOTTOM BOX */
-	object.type = box;
+	object.type = plane;
 	object.origin = (cl_float4){ .x = -10.0f, .y = -1.0f, .z = -10.0f };
 	object.scaling = (cl_float4){ 1.0f, 1.0f, 1.0f };
 	object.vector1 = (cl_float4){ .x = 0.0f, .y = 0.0f,.z = 0.0f };
@@ -318,7 +318,25 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	// texture.data.smooth_perlin.scale = 5.0f;
 	texture.type = checker;
 	texture.data.checker.odd = (t_color){ .r = 0.0f, .g = 0.0f, .b = 1.0f };
-	texture.data.checker.even = (t_color){ .r = 0.5f, .g = 0.5f, .b = 0.0f };
+	texture.data.checker.even = (t_color){ .r = 0.5f, .g = 0.5f, .b = 0.5f };
+	// texture.type = wave_perlin;
+	// texture.data.smooth_perlin.scale = 10.0f;
+	object.material.type = matte;
+	object.material.kd = 1.0f;
+	object.material.ka = 0.25f;
+	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	add_parsed_object(instance_manager, object);
+
+	object.type = box;
+	object.origin = (cl_float4){.x = -10.0f, .y = 5.0f, .z = -10.0f};
+	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
+	object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
+	object.vector2 = (cl_float4){.x = 20.0f, .y = .01f, .z = 20.0f};
+	// texture.type = smooth_perlin;
+	// texture.data.smooth_perlin.scale = 5.0f;
+	texture.type = checker;
+	texture.data.checker.odd = (t_color){.r = 0.0f, .g = 0.0f, .b = 1.0f};
+	texture.data.checker.even = (t_color){.r = 0.5f, .g = 0.5f, .b = 0.0f};
 	// texture.type = wave_perlin;
 	// texture.data.smooth_perlin.scale = 10.0f;
 	object.material.type = matte;
@@ -326,7 +344,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.ka = 0.25f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
 	// add_parsed_object(instance_manager, object);
-//
+
 	/* #2 ELIPSE 1 */
 	object.type = sphere;
 	object.r = 1.0f;
@@ -341,7 +359,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.kd = 1.0f;
 	object.material.ka = 0.25f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	/* #3 TORUS 	1 */
 	object.type = torus;
@@ -356,19 +374,38 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.kt = 2.4f;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	object.type = cylinder;
 	object.r = 1.0f;
 	object.origin = (cl_float4){ .x = -2.5f, .y = -1.0f, .z = 0.0f, .w = 0.0f };
-	object.rotation = (cl_float3){ .x = 0.0f, .y = 0.0f, .z = 0.0f };
+	object.rotation = (cl_float3){ .x = -30.0f, .y = 0.0f, .z = -45.0f };
 	object.scaling = (cl_float3){ .x = 1.0f, .y = 4.0f, .z = 1.0f };
 	texture.type = solid;
 	texture.data.solid.color = (t_color){ .r = 0.8f, .g = 0.6f, .b = 0.2f };
-	object.material.type = metal;
+	object.material.type = matte;
 	object.material.kr = 0.95f;
+	object.material.kd = 0.8f;
+	object.material.ks = 0.1f;
+	object.material.exp = 100000.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
+
+	object.type = cone;
+	object.origin = (cl_float4){ .x = -3.0f, .y = 2.0f, .z = -4.0f, .w = 0.0f };
+	object.rotation = (cl_float4){ 180.0f, 0.0f, 0.0f, 0.0f };
+	object.scaling = (cl_float4){ .x = 1.0f, .y = 1.0f, .z = 1.0f, .w = 0.0f };
+	texture.type = turbulence_perlin;
+	texture.data.smooth_perlin.scale = 0.5f;
+	object.material.type = metal;
+	object.material.kr = 1.0f;
+	object.material.kt = 1.333f;
+	object.material.kd = 2.0f;
+	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	object.r2 = 60.0f;
+	object.minm = 0.0f;
+	object.maxm = 1.0f;
+	add_parsed_object(instance_manager, object);
 
 	object.type = sphere;
 	object.r = 2.0f;
@@ -380,18 +417,24 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = matte;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	object.type = sphere;
 	object.r = 1.0f;
 	object.origin = (cl_float4){ .x = -3.0f, .y = 0.0f, .z = -4.0f };
 	object.rotation = (cl_float3){ .x = 0.0f, .y = 0.0f, .z = 0.0f };
 	object.scaling = (cl_float3){ .x = 1.0f, .y = 1.0f, .z = 1.0f };
-	texture.type = perlin;
+	texture.type = turbulence_perlin;
+	texture.data.smooth_perlin.scale = 0.5f;
 	object.material.type = matte;
-	object.material.kd = 1.0f;
+	object.material.type = dielectric;
+	object.material.type = metal;
+	object.material.is_reflective = TRUE;
+	object.material.kr = 1.0f;
+	object.material.kt = 1.333f;
+	object.material.kd = 2.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	object.type = sphere;
 	object.r = 1.0f;
@@ -403,7 +446,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = matte;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	object.type = sphere;
 	object.r = 0.25f;
@@ -415,22 +458,62 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = matte;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
+
+	object.type = disk;
+	object.r = 1.0f;
+	object.r2 = 1.0f;
+	object.origin = (cl_float4){.x = 5.0f, .y = 2.0f, .z = 0.0f, .w = 0.0f};
+	object.rotation = (cl_float3){.x = 90.0f, .y = 0.0f, .z = 0.0f};
+	object.scaling = (cl_float3){.x = 1.0f, .y = 1.0f, .z = 1.0f};
+	texture.type = solid;
+	texture.data.solid.color = (t_color){.r = 0.8f, .g = 0.6f, .b = 0.2f};
+	object.material.type = matte;
+	object.material.kr = 0.95f;
+	object.material.kd = 0.8f;
+	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	add_parsed_object(instance_manager, object);
+
+	object.type = paraboloid;
+	object.r = 1.0f;
+	object.r2 = 1.0f;
+	object.origin = (cl_float4){.x = 5.0f, .y = 2.0f, .z = 0.0f, .w = 0.0f};
+	object.rotation = (cl_float3){.x = 90.0f, .y = 0.0f, .z = 0.0f};
+	object.scaling = (cl_float3){.x = 1.0f, .y = 1.0f, .z = 1.0f};
+	texture.type = solid;
+	texture.data.solid.color = (t_color){.r = 0.8f, .g = 0.6f, .b = 0.2f};
+	object.material.type = matte;
+	object.material.kr = 0.95f;
+	object.material.kd = 0.8f;
+	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	add_parsed_object(instance_manager, object);
 
 	object.type = rectangle;
-	object.r = 2.0f;
-	object.r2 = 2.0f;
-	object.origin = (cl_float4){ -1.5f, 2.0f, -5.0f, 0.0f };
+	object.r = 5.0f;
+	object.r2 = 5.0f;
+	object.origin = (cl_float4){ -0.5f, 10.0f, 0.0f, 0.0f };
 	object.scaling = (cl_float3){ 1.0f, 1.0f, 1.0f };
-	object.rotation = (cl_float3){ .x = 45.0f, .y = 00.0f, .z = 0.0f};
+	object.rotation = (cl_float3){ .x = 90.0f, .y = 0.0f, .z = 0.0f};
 	object.vector1 = (cl_float4){ .x = 1.0f, .y = 0.0f,.z = 0.0f };
 	object.vector2 = (cl_float4){ .x = 0.0f, .y = 1.0f, .z = 0.0f };
 	texture.type = solid;
-	texture.data.solid.color = (t_color){ .r = 1.0f, .g = 0.0f, .b = 0.0f };
-	object.material.type = diffuse_light;
+	texture.data.solid.color = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
+	object.material.type = emissive;
 	object.material.kd = 1.0f;
+	object.material.ls = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	int i = add_parsed_object(instance_manager, object);
+
+	set_sampler(instance_manager, i, new_sampler(sampler_manager, rand_jitter, 100, 0));
+
+	t_parsed_light light;
+
+	light.type = area;
+	light.ls = 1.0f;
+	light.color = (t_color){ .r = 1.0f, .b = 1.0f, .g = 1.0f};
+	int j = add_parsed_light(&scene->light_manager, light);
+	scene->light_manager.lights[j].object_id = i;
+	scene->light_manager.lights[j].matrix = get_transformation_matrix(*instance_manager, i);
 
 	object.type = sphere;
 	object.r = 1.0f;
@@ -439,24 +522,27 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.rotation = (cl_float3){ 0.0f, 0.0f, 0.0f };
 	texture.type = solid;
 	texture.data.solid.color = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
-	object.material.type = diffuse_light;
+	object.material.type = emissive;
 	object.material.kd = 1.0f;
+	object.material.ls = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
 	// add_parsed_object(instance_manager, object);
 
 	/* Cornell box */
-	scene->camera.type = perspective;
-	scene->camera.viewplane.pixel_size = 1.0f;
-	scene->camera.viewplane.width = 1920;
-	scene->camera.viewplane.height = 1080;
-	scene->camera.origin =
-		(cl_float4){ .x = 278.0f, .y = 278.0f, .z = -800.0f, .w = 0.0f };
-	scene->camera.direction =
-		(cl_float4){ .x = 0.0f, .y = 0.0f, .z = 1.0f, .w = 0.0f };
-	scene->camera.d = 1600 ;
-	scene->camera.zoom = 1.0f;
-	scene->camera.normalized = FALSE;
-	compute_uvw(&scene->camera);
+	// scene->camera.type = thin_lens;
+	// scene->camera.l = 0.0f;
+	// scene->camera.f = 1000.0f;
+	// scene->camera.viewplane.pixel_size = 1.0f;
+	// scene->camera.viewplane.width = 1920;
+	// scene->camera.viewplane.height = 1080;
+	// scene->camera.origin =
+	// 	(cl_float4){ .x = 278.0f, .y = 278.0f, .z = -800.0f, .w = 0.0f };
+	// scene->camera.direction =
+	// 	(cl_float4){ .x = 0.0f, .y = 0.0f, .z = 1.0f, .w = 0.0f };
+	// scene->camera.d = 1600 ;
+	// scene->camera.zoom = 1.0f;
+	// scene->camera.normalized = FALSE;
+	// compute_uvw(&scene->camera);
 
 	object.type = sphere;
 	object.r = 1.0f;
@@ -468,7 +554,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = diffuse_light;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = box;
 	object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
@@ -480,7 +566,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = matte;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = box;
 	object.origin = (cl_float4){.x = 555.0f, .y = 0.0f, .z = 0.0f};
@@ -492,7 +578,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = matte;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = box;
 	object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
@@ -504,7 +590,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = matte;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = box;
 	object.origin = (cl_float4){.x = 0.0f, .y = 555.0f, .z = 0.0f};
@@ -516,7 +602,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = matte;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = box;
 	object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 555.0f};
@@ -528,7 +614,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = matte;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = rectangle;
 	object.origin = (cl_float4){ .x = 213.0f, .y = 554.0f, .z = 227.0f, .w = 0.0f };
@@ -543,7 +629,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = diffuse_light;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	/* boxes inside */
 	object.type = box;
@@ -571,7 +657,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.kr = 1.0f;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = sphere;
 	object.r = 1.0f;
@@ -580,10 +666,11 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.rotation = (cl_float3){.x = 0.0f, .y = 0.0f, .z = 0.0f};
 	texture.type = solid;
 	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = dielectric;
+	object.material.type = diffuse_light;
 	object.material.kt = 1.5f;
 	object.material.kr = 1.0f;
 	object.material.kd = 1.0f;
+	object.material.ka = 0.2f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
 	// add_parsed_object(instance_manager, object);
 
@@ -598,7 +685,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = dielectric;
 	object.material.kt = 1.5f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = torus;
 	object.r = 1.0f;
@@ -611,31 +698,46 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = dielectric;
 	object.material.kt = 1.5f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	//Освещение
 
 	scene->ambient_occluder.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	scene->ambient_occluder.ls = 0.01f;
+	scene->ambient_occluder.ls = 0.2f;
 	scene->ambient_occluder.min_amount = (t_color){.r = 0.0f, .g = 0.0f, .b = 0.0f};
-	scene->ambient_occluder.sampler_id = new_sampler(sampler_manager, pure_random, NUM_SAMPLES, HEMISPHERE_SAMPLES);
+	scene->ambient_occluder.sampler_id = new_sampler(sampler_manager, rand_jitter, 25, HEMISPHERE_SAMPLES);
 
 	scene->ambient_light = (t_light){
 		.type = ambient,
 		.ls = 0.2f,
 		.color = {.r = 1.0f, .b = 1.0f, .g = 1.0f}};
-	scene->lights[0] = default_point_light;
+	light.type = point;
+	light.origin = default_point_light.origin;
+	// light.origin.y = 1000.0f;
+	light.direction = default_point_light.direction;
+	light.ls = default_point_light.ls;
+	light.color = default_point_light.color;
+	// add_parsed_light(&scene->light_manager, light);
+	// scene->lights[0] = default_point_light;
 
-	scene->lights[1] = default_directional_light;
-	scene->lights[1].ls = 0.2f;
-	scene->lights[1].origin.x = INFINITY;
-	scene->lights[1].origin.y = INFINITY;
-	scene->lights[1].origin.z = INFINITY;
+	light.type = default_directional_light.type;
+	light.origin = default_directional_light.origin;
+	light.direction = default_directional_light.direction;
+	light.ls = default_directional_light.ls;
+	light.ls = 1.0f;
+	light.color = default_directional_light.color;
+	add_parsed_light(&scene->light_manager, light);
 
-	scene->lights[2] = default_point_light;
-	scene->lights[2].origin.x = 0.0f;
-	scene->lights[2].origin.y = 5.0f;
-	scene->lights[2].origin.y = 5.0f;
+	// scene->lights[1] = default_directional_light;
+	// scene->lights[1].ls = 0.2f;
+	// scene->lights[1].origin.x = INFINITY;
+	// scene->lights[1].origin.y = INFINITY;
+	// scene->lights[1].origin.z = INFINITY;
 
-	scene->lights[2].ls = 1.0f;
+	// scene->lights[2] = default_point_light;
+	// scene->lights[2].origin.x = 0.0f;
+	// scene->lights[2].origin.y = 5.0f;
+	// scene->lights[2].origin.y = 5.0f;
+
+	// scene->lights[2].ls = 1.0f;
 }

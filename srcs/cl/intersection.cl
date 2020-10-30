@@ -229,11 +229,18 @@ inline bool	generic_sphere_instersection(t_ray ray, t_obj sphere,
 	return (false);
 }
 
-bool	generic_plane_intersection(t_ray ray, float *const tmin)
+bool	generic_plane_intersection(t_ray ray, float *const tmin,
+									t_shade_rec *const shade_rec)
 {
 	bool	ret = false;
 	float	denom = ray.direction.y;
 	float	t;
+
+//    t = -X|V / D|V
+
+// 	t = -dot(object.origin - ray.origin, (0, 1, 0, 0)) / dot(ray.direction, plane.direction);
+// 	t = -dot(-ray.origin, (0, 1, 0, 0)) / dot(ray.direction, plane.direction);
+// 	t = ray.origin.y / ray.direction.y
 
 	if (denom != 0.0f)
 	{
@@ -244,6 +251,8 @@ bool	generic_plane_intersection(t_ray ray, float *const tmin)
 			if (t >= EPSILON && t < *tmin)
 			{
 				*tmin = t;
+				shade_rec->local_hit_point = ray.direction * t + ray.origin;
+				shade_rec->normal = (float4)(0.0f, 1.0f, 0.0f, 0.0f);
 				ret = true;
 			}
 		}
@@ -251,7 +260,8 @@ bool	generic_plane_intersection(t_ray ray, float *const tmin)
 	return (ret);
 }
 
-bool	disk_intersection(t_ray ray, t_obj disk, t_hit_info *hit_info)
+bool	disk_intersection(t_ray ray, t_obj disk, t_shade_rec *const shade_rec,
+							float *const tmin)
 {
 	float4	a;
 	float	t;
@@ -259,21 +269,22 @@ bool	disk_intersection(t_ray ray, t_obj disk, t_hit_info *hit_info)
 	bool	ret;
 
 	ret = false;
-	denom = dot(ray.direction, disk.direction);
+	denom = dot(ray.direction, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
 	if (denom != 0)
 	{
 		a = disk.origin - ray.origin;
-		t = dot(a, disk.direction);
+		t = dot(a, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
 		if (t * denom > 0.0f) //different signes
 		{
-			hit_info->t = t / denom;
-
-			if (hit_info->t >= EPSILON)
+			t = t / denom;
+			if (t >= EPSILON && t < *tmin)
 			{
-				float4 point = hit_info->t * ray.direction + ray.origin;
+				float4 point = t * ray.direction + ray.origin;
 				if (dot(point - disk.origin, point - disk.origin) < disk.r2)
 				{
-					hit_info->dv = denom;
+					*tmin = t;
+					shade_rec->local_hit_point = point;
+					shade_rec->normal = (float4)(0.0f, 1.0f, 0.0f, 0.0f);
 					ret = true;
 				}
 			}
@@ -312,7 +323,7 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 				if (ddotb < 0.0f || ddotb > rectangle.r2)
 					return (false);
 
-				// printf("rt");
+				*tmin = t;
 				shade_rec->local_hit_point = ray.direction * t + ray.origin;
 				shade_rec->normal = (float4)(0.0f, 0.0f, 1.0f, 0.0f);
 				return (true);
@@ -366,51 +377,48 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 /*
 ** TODO(dmelessa): cap cone with disc
 */
- bool	cone_intersection(t_ray ray, t_obj cone, t_hit_info *hit_info)
+ bool	cone_intersection(t_ray ray, t_obj cone, float *const tmin,
+ 						t_shade_rec *const shade_rec)
 {
 	float4	x;
 	float	dv, xv, a, b, c, disc;
 
-	x = ray.origin - cone.origin;
-	dv = dot(ray.direction, cone.direction);
-	xv = dot(x, cone.direction);
+	x = ray.origin;
+	dv = ray.direction.y;
+	xv = ray.origin.y;
 	a = dot(ray.direction, ray.direction) - cone.r2 * dv * dv;
 	b = 2.0f * (dot(ray.direction, x) - cone.r2 * dv * xv);
 	c = dot(x, x) - cone.r2 * xv * xv;
-	disc = b * b - 4 * a * c;
+	disc = b * b - 4.0f * a * c;
+
 	if (disc >= EPSILON)
 	{
 		a *= 2.0f;
 		disc = sqrt(disc);
-		hit_info->t = (-b - disc) / a;
-		if (hit_info->t < EPSILON)
-			hit_info->t = (-b + disc) / a;
-		if (hit_info->t > EPSILON)
+		float	t = (-b - disc) / a;
+		if (t > EPSILON && t < *tmin)
 		{
-			if (cone.maxm != 0.0f || cone.minm != 0)
+			float	m = ray.direction.y * t + ray.origin.y;
+			if (m >= cone.minm && m <= cone.maxm)
 			{
-				hit_info->m = dv * hit_info->t + xv;
-				if (hit_info->m >= cone.minm + EPSILON &&
-					hit_info->m <= cone.maxm)
-				{
-					hit_info->dv = dv;
-					hit_info->xv = xv;
-					return true;
-				}
-				hit_info->t = (-b + disc) / a;
-				hit_info->m = dv * hit_info->t + xv;
-				if (hit_info->m >= cone.minm + EPSILON &&
-					hit_info->m <= cone.maxm)
-				{
-					hit_info->dv = dv;
-					hit_info->xv = xv;
-					return true;
-				}
+				*tmin = t;
+				shade_rec->local_hit_point = ray.direction * t + ray.origin;
+				shade_rec->normal = get_cone_normal(shade_rec->local_hit_point,
+													cone, m);
+				return (true);
 			}
-			else
+		}
+
+		t = (-b + disc) / a;
+		if (t > EPSILON && t < *tmin)
+		{
+			float	m = ray.direction.y * t + ray.origin.y;
+			if (m >= cone.minm && m <= cone.maxm)
 			{
-				hit_info->dv = dv;
-				hit_info->xv = xv;
+				*tmin = t;
+				shade_rec->local_hit_point = ray.direction * t + ray.origin;
+				shade_rec->normal = get_cone_normal(shade_rec->local_hit_point,
+													cone, m);
 				return (true);
 			}
 		}
@@ -526,24 +534,26 @@ bool	triangle_intersection(t_ray ray, t_triangle triangle,
 	return hit_info->t > EPSILON;
 }
 
-bool	is_intersect(t_obj obj, t_type type, t_ray ray, t_shade_rec *shade_rec, float *const tmin)
+bool
+is_intersect(t_obj const obj, t_type const type, t_ray const ray,
+			t_shade_rec *const shade_rec, float *const tmin)
 {
 	if (type == sphere)
 	{
 		return (generic_sphere_instersection(ray, obj, shade_rec, tmin));
 	}
-	// else if (type == plane)
-	// {
-	// 	return (generic_plane_intersection(ray, hit_info));
-	// }
+	else if (type == plane)
+	{
+		return (generic_plane_intersection(ray, tmin, shade_rec));
+	}
 	else if (type == cylinder)
 	{
 		return cylinder_intersection(ray, obj, shade_rec, tmin);
 	}
-	// else if (type == cone)
-	// {
-	// 	return (cone_intersection(ray, obj, hit_info));
-	// }
+	else if (type == cone)
+	{
+		return (cone_intersection(ray, obj, tmin, shade_rec));
+	}
 	// else if (type == paraboloid)
 	// {
 	// 	return (paraboloid_intersection(ray, obj, hit_info));
@@ -556,10 +566,10 @@ bool	is_intersect(t_obj obj, t_type type, t_ray ray, t_shade_rec *shade_rec, flo
 	{
 		return box_intersection(ray, obj, shade_rec, tmin);
 	}
-	// else if (type == disk)
-	// {
-	// 	return (disk_intersection(ray, obj, hit_info));
-	// }
+	else if (type == disk)
+	{
+		return (disk_intersection(ray, obj, shade_rec, tmin));
+	}
 	else if (type == rectangle)
 	{
 		return (rectangle_intersection(ray, obj, shade_rec, tmin));
@@ -576,13 +586,14 @@ t_ray	transform_ray(t_ray ray, t_matrix transformation_matrix)
 	return (inv_ray);
 }
 
-bool	instance_hit(t_instance_manager instance_mngr, t_instance instance,
-					float *const tmin, t_shade_rec *shade_rec)
+bool	instance_hit(t_instance_manager instance_mngr,
+					t_instance instance,
+					float *const tmin,
+					t_shade_rec *shade_rec)
 {
 	bool		intersect = false;
 	t_matrix	matrix = get_instance_matrix(instance_mngr, instance);
 	t_ray		ray = transform_ray(shade_rec->ray, matrix);
-	t_obj		object = instance_mngr.objects[instance.object_id];
 
 	if (instance.type == triangle)
 	{
@@ -592,17 +603,15 @@ bool	instance_hit(t_instance_manager instance_mngr, t_instance instance,
 	}
 	else
 	{
+		t_obj		object = instance_mngr.objects[instance.object_id];
 		intersect = (is_intersect(object, instance.type, ray,
 								shade_rec,tmin));
 	}
 
 	if (intersect)
 	{
-		shade_rec->normal = normalize(transform_normal(shade_rec->normal, matrix));
-		// if (instance.type == sphere)
-		// {
-		// 	printf("%v3f ", shade_rec->normal);
-		// }
+		shade_rec->normal = normalize(transform_normal(shade_rec->normal,
+														matrix));
 	}
 	return (intersect);
 }

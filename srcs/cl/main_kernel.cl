@@ -146,7 +146,10 @@ void main_kernel(__global t_color *image,	//0
 /* 	if (step != 0)
 	{ */
 		ao_sampler.jump = ((num + random(&seed)) % ao_sampler.num_sets) * ao_sampler.num_samples;
+		ao_sampler.count = global_id + num;
+
 		options.ambient_occluder_sampler.jump = (random(&seed) % options.ambient_occluder_sampler.num_sets) * options.ambient_occluder_sampler.num_samples;
+		options.ambient_occluder_sampler.count = global_id;
 /* 	}
 	else */ if (options.reset == 1)
 	{
@@ -155,18 +158,35 @@ void main_kernel(__global t_color *image,	//0
 
 	/* */
 	float2	sp = sample_unit_square(&ao_sampler, sampler_manager.samples, &seed);
+	// float dx = x + sp.x;
+	// float dy = y + sp.y;
 	float	dx = x + GPURnd(&state);
 	float	dy = y + GPURnd(&state);
+	// float	dx = x;
+	// float	dy = y;
 
 	if (scene.camera.type == thin_lens)
 	{
 		camera_sampler = get_sampler(sampler_manager, scene.camera.sampler_id);
-		camera_sampler.count = global_id * camera_sampler.num_samples + step;
-		if (step != 0)
-			camera_sampler.jump = ((num + random(&seed)) % camera_sampler.num_sets) * camera_sampler.num_samples;
+		camera_sampler.count = global_id;
+		// if (camera_sampler.count % camera_sampler.num_samples == 0)
+		camera_sampler.jump = ((random(&seed)) % camera_sampler.num_sets) * camera_sampler.num_samples;
+		// if (step != 0)
+		// 	camera_sampler.jump = ((num + random(&seed)) % camera_sampler.num_sets) * camera_sampler.num_samples;
+	}
+	if (global_id == 0)
+	{
+		for (int i = 0; i < camera_sampler.num_sets * camera_sampler.num_samples;
+			i++)
+		{
+			// printf("--%d--",  scene.camera.sampler_id);
+			// printf("#%d %f %f\t", i, sampler_manager.disk_samples[i].x, sampler_manager.disk_samples[i].y);
+		}
 	}
 
 	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed, &state);
+
+	// color = area_light_tracer(ray, scene, options, sampler_manager, &seed);
 
 	color = ray_trace(ray, scene, options, sampler_manager, &seed);
 

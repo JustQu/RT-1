@@ -33,7 +33,7 @@ t_ray cast_camera_ray(t_camera camera, float x, float y,
 	else if (camera.type == thin_lens)
 	{
 		float2 dp = sample_unit_disk(camera_sampler, sampler_manager.disk_samples, seed);
-		// printf("#%d: %f %f\n", get_global_id(0), dp.x, dp.y);
+		// printf("#%d: %f %f\t", get_global_id(0), dp.x, dp.y);
 		// dp.x = GPURnd(state);
 		// dp.y = GPURnd(state);
 		float2 lp = dp * camera.l; //lens_point

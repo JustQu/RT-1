@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:24:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/08 21:20:06 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 00:04:18 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,22 +106,47 @@ t_bbox compute_aabb(t_instance_manager instance_mngr, int id)
 	}
 	else if (instance.type == cylinder) //note:caped cylinder
 	{
-		aabb.max.x = 4.0f;
-		aabb.max.y = 4;
-		aabb.max.z = 4;
-		aabb.min.x = -4;
-		aabb.min.y = -4;
-		aabb.min.z = -4;;
+		aabb.max = (cl_float4){ .x = obj.r * obj.maxm * obj.maxm, .y = obj.r * obj.maxm, .z = obj.r * obj.maxm, .w = 0.0f };
+		aabb.min = (cl_float4){ .x = -obj.r * obj.maxm, .y = -obj.r * obj.maxm, .z = -obj.r * obj.maxm, .w = 0.0f };
+		// aabb.max.x = 4.0f;
+		// aabb.max.y = 4;
+		// aabb.max.z = 4;
+		// aabb.min.x = -4;
+		// aabb.min.y = -4;
+		// aabb.min.z = -4;;
 		// aabb.max = (cl_float4){.x = 1.0f, .y = 1.0f, .z = 1.0f, .w = 0.0f};
 		// aabb.min = (cl_float4){.x = -1.0f, .y = -1.0f, .z = -1.0f, .w = 0.0f};
 	}
+	else if (instance.type == plane)
+	{
+		aabb.max = (cl_float4){ .x = 100.0f,
+								.y = 100.f,
+								.z = 100.0f,
+								.w = 0.0f };
+		aabb.min = (cl_float4){ .x = -100.0f,
+								.y = -100.f,
+								.z = -100.0f,
+								.w = 0.0f };
+	}
 	else if (instance.type == cone)
 	{
-		//todo
+		aabb.max = (cl_float4){.x = 100.0f,
+							   .y = 100.f,
+							   .z = 100.0f,
+							   .w = 0.0f};
+		aabb.min = (cl_float4){.x = -100.0f,
+							   .y = -100.f,
+							   .z = -100.0f,
+							   .w = 0.0f};
 	}
 	else if (instance.type == triangle)
 	{
 		//todo
+	}
+	else if (instance.type == disk)
+	{
+		aabb.max = (cl_float4){ .x = obj.r, .y = obj.r, .z = obj.r, .w = 0.0f };
+		aabb.min = (cl_float4){ .x = -obj.r, .y = -obj.r, .z = -obj.r, .w = 0.0f };
 	}
 	else if (instance.type == box)
 	{
@@ -139,7 +164,6 @@ t_bbox compute_aabb(t_instance_manager instance_mngr, int id)
 								.w = 0.0f };
 		aabb.max = (cl_float4){.x = obj.r + obj.r2, .y = obj.r + obj.r2, .z = obj.r + obj.r2, .w = 0.0f};
 	}
-	//todo
 	aabb = transform_aabb(aabb, get_transformation_matrix(instance_mngr, id));
 	return (aabb);
 }

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/17 16:44:40 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/21 20:12:26 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	init_clp(t_clp *clp)
 	clp->de_id = NULL;
 	clp->ret = clGetPlatformIDs(1, &pl_id, NULL);
 	assert(!clp->ret);
-	clp->ret = clGetDeviceIDs(pl_id, CL_DEVICE_TYPE_ALL, 1, &clp->de_id, &nde);
+	clp->ret = clGetDeviceIDs(pl_id, CL_DEVICE_TYPE_GPU, 1, &clp->de_id, &nde);
 	assert(!clp->ret);
 	clp->context = clCreateContext(NULL, 1, &clp->de_id, NULL, NULL, &clp->ret);
 	assert(!clp->ret);
@@ -87,7 +87,9 @@ void init_buffers(t_cl_program *program, t_scene *scene,
 	program->bvh = clCreateBuffer(cntx, ro, sizeof(t_bvh_node) * (scene->instance_mngr.ninstances * 2), scene->bvh, &ret);
 	cl_error(program, &program->info, ret);
 
-	program->lights = clCreateBuffer(cntx, ro, sizeof(t_light) * scene->nlights, scene->lights, &ret);
+	program->lights = clCreateBuffer(cntx, ro,
+		sizeof(t_light) * scene->light_manager.nlights,
+		scene->light_manager.lights, &ret);
 	cl_error(program, &program->info, ret);
 
 	program->samplers = clCreateBuffer(cntx, ro, sizeof(t_sampler) * sampler_manager->count, sampler_manager->samplers, &ret);

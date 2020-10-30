@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 19:14:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/20 23:39:55 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/22 13:34:06 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ void	map_sp(t_sampler_manager *m, t_sampler *s)
 			m->hemisphere_samples = ft_realloc(m->hemisphere_samples, a,
 				m->hemisphere_samples_malloc_size = 2 * m->hemisphere_samples_size);
 		map_samples_to_hemisphere(*s, m->samples + s->offset,
-			m->hemisphere_samples + s->hemisphere_samples_offset, 1.0f);
+			m->hemisphere_samples + s->hemisphere_samples_offset, 0.0f);
 	}
 }
 

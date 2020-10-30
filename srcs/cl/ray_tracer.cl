@@ -23,7 +23,7 @@ inline t_matrix	get_instance_matrix(t_instance_manager instance_manager,
 	return (instance_manager.matrices[instance.matrix_id]);
 }
 
-inline t_obj		get_object_info(t_instance_manager instance_manager,
+inline t_obj	get_object_info(t_instance_manager instance_manager,
 									t_instance instance)
 {
 	return (instance_manager.objects[instance.object_id]);
@@ -154,10 +154,10 @@ t_color	ray_trace(t_ray ray, t_scene scene, t_rt_options options, t_sampler_mana
 															seed)));
 
 			if (instance_material.is_reflective
-				&& tree_depth < 64 && color_coef > 0.01f)
+				&& tree_depth < 10 && color_coef > 0.01f)
 			{
-				ray.origin = shade_rec.hit_point + 1e-2f * shade_rec.normal;
-				ray.direction = get_reflected_vector(-ray.direction,
+				ray.origin = shade_rec.hit_point + 1e-1f * shade_rec.normal;
+				ray.direction = get_reflected_vector(ray.direction,
 													shade_rec.normal);
 				color_coef *= instance_material.kr;
 			}

@@ -131,7 +131,7 @@ bool	metal_scatter(t_texture_manager texture_manager,
 
 	shade_rec->ray.origin = shade_rec->hit_point + 0.1f * shade_rec->normal;
 	shade_rec->ray.direction = reflected
-							+ 0.0f * random_in_unit_sphere(state);
+							+ 0.3f * random_in_unit_sphere(state);
 
 	*attenuation = float_color_multi(
 						material.kr,
@@ -281,7 +281,7 @@ bool	scatter(t_texture_manager texture_manager,
 t_color	emitted(t_material material, t_shade_rec *shade_rec,
 				float u, float v, float4 point)
 {
-	if (material.type == diffuse_light)
+	if (material.type == diffuse_light || material.type == emissive)
 		return ((t_color){ .r = 3.0f, .g = 3.0f, .b = 3.0f });
 	return ((t_color){ .r = 0.0f, .g = 0.0, .b = 0.0f });
 }
@@ -307,7 +307,7 @@ t_color	path_tracer_suffern(t_ray ray, t_scene scene, t_rt_options options,
 
 		if (scene_intersection(scene, ray, &shade_rec) && depth < 20)
 		{
-			
+
 		}
 	}
 }
@@ -334,8 +334,8 @@ t_color	path_tracer2(t_ray ray, t_scene scene, t_rt_options options,
 
 	do	{
 		depth++;
-		if (scene_intersection(scene, ray, &shade_rec) && depth < 13
-		&& cur_attenuation.r + cur_attenuation.g + cur_attenuation.b > 0.2f)
+		if (scene_intersection(scene, ray, &shade_rec) && depth < 10
+		&& cur_attenuation.r + cur_attenuation.g + cur_attenuation.b > 0.0f)
 		{
 			t_instance	instance = scene.instance_manager.instances[shade_rec.id];
 

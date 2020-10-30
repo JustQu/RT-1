@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 19:54:03 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/15 22:51:20 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/28 17:33:47 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static void	set_kernel_args(t_rt rt, int step)
 	err |= clSetKernelArg(k, 9, sizeof(cl_int),
 							&rt.scene.instance_mngr.nmatrices);
 	err |= clSetKernelArg(k, 10, sizeof(cl_mem), &rt.ocl_program.lights);
-	err |= clSetKernelArg(k, 11, sizeof(cl_int), &rt.scene.nlights);
+	err |= clSetKernelArg(k, 11, sizeof(cl_int),
+							&rt.scene.light_manager.nlights);
 	err |= clSetKernelArg(k, 12, sizeof(t_camera), &rt.scene.camera);
 	err |= clSetKernelArg(k, 13, sizeof(t_light), &rt.scene.ambient_light);
 	err |= clSetKernelArg(k, 14, sizeof(t_ambient_occluder),
@@ -76,7 +77,6 @@ void	render_scene(t_rt rt)
 		cl_error(&rt.ocl_program, &rt.ocl_program.info, err);
 		assert(!err);
 		i++;
-		// printf("RENDERING: %f\n", 100.0f * i / NUM_SAMPLES);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 22:49:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/19 00:05:54 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 00:08:38 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ struct						s_texture_handler
 	void					(*new)();
 	void					(*set_type)();
 	void					(*set_kd)();
-
 };
 
 t_texture	create_solid_texture(t_color color);

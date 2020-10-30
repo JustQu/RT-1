@@ -1,25 +1,13 @@
-<kernel>:1446:1: warning: control reaches end of non-void function
+<kernel>:1450:1: warning: control reaches end of non-void function
 }
 ^
-<kernel>:1491:1: warning: control may reach end of non-void function
+<kernel>:1495:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:1529:1: warning: control may reach end of non-void function
+<kernel>:1533:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:2175:1: warning: control may reach end of non-void function
-}
-^
-<kernel>:2188:1: warning: control may reach end of non-void function
-}
-^
-<kernel>:2420:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:2500:1: warning: control may reach end of non-void function
-}
-^
-<kernel>:2806:10: error: expected parameter declarator
-                                                                        )
-                                                                        ^
+<kernel>:1844:6: error: use of undeclared identifier 'hit_info'
+                                        hit_info->dv = denom;
+                                        ^
 
