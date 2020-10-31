@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   catch_event.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/15 23:05:23 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 17:02:17 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ int catch_event(t_rt *rt)
 				rt->options.reset = 1;
 				rt->options.spp = NUM_SAMPLES;
 			}
+			else if (event.key.keysym.sym == SDLK_w)
+			{
+				// rt->scene.camera.origin.
+			}
 		}
 		if (event.type == SDL_KEYUP)
 		{
@@ -70,6 +74,7 @@ int catch_event(t_rt *rt)
 		if (event.type == SDL_MOUSEBUTTONUP)
 		{
 		}
+		
 		//check input
 		//switch kernel here?
 		return -1;

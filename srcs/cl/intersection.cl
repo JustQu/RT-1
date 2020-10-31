@@ -426,15 +426,16 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 	return (false);
 }
 
- bool	paraboloid_intersection(t_ray ray, t_obj paraboloid, t_hit_info *hit_info)
+ bool	paraboloid_intersection(t_ray ray, t_obj paraboloid,
+ 							t_shade_rec *const shade_rec, float *const tmin)
 {
 	float4	x;
 	float	a, b, c, dv, xv, disc;
 
 	x = ray.origin - paraboloid.origin;
-	dv = dot(ray.direction, paraboloid.direction);
-	xv = dot(x, paraboloid.direction);
-	a = 1.0f - dv * dv;
+	dv = dot(ray.direction, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
+	xv = dot(x, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
+	a = dot(ray.direction, ray.direction) - dv * dv;
 	b = 2.0f * (dot(ray.direction, x) - dv * (xv + 2.0f * paraboloid.r));
 	c = dot(x, x) - xv * (xv + 4.0f * paraboloid.r);
 	disc = b * b - 4.0f * a * c;
@@ -442,29 +443,31 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 	{
 		a *= 2;
 		disc = sqrt(disc);
-		hit_info->t = (-b - disc) / a;
-		if (hit_info->t < EPSILON)
-			hit_info->t = (-b + disc) / a;
-		if (hit_info->t > EPSILON)
+		float	t = (-b - disc) / a;
+		if (t > EPSILON && t < *tmin)
 		{
-			if (paraboloid.maxm > 0.0f)
+			float	m = ray.direction.y * t + ray.origin.y;
+			if (m >= 0.0f && m <= paraboloid.maxm)
 			{
-				hit_info->m = dv * hit_info->t + xv;
-				if (hit_info->m >= paraboloid.minm &&
-					hit_info->m <= paraboloid.maxm)
-					return true;
-				hit_info->t = (-b + disc) / a;
-				hit_info->m = dv * hit_info->t + xv;
-				if (hit_info->m >= paraboloid.minm &&
-					hit_info->m <= paraboloid.maxm)
-					return true;
-			}
-			else
-			{
-				hit_info->dv = dv;
-				hit_info->xv = xv;
+				*tmin = t;
+				shade_rec->local_hit_point = ray.direction * t + ray.origin;
+				shade_rec->normal = get_paraboloid_normal(shade_rec->local_hit_point, paraboloid, m);
 				return (true);
 			}
+		}
+
+		t = (-b + disc) / a;
+		if (t > EPSILON && t < *tmin)
+		{
+			float	m = ray.direction.y * t + ray.origin.y;
+			if (m >= 0.0f && m <= paraboloid.maxm)
+			{
+				*tmin = t;
+				shade_rec->local_hit_point = ray.direction * t + ray.origin;
+				shade_rec->normal = get_paraboloid_normal(shade_rec->local_hit_point, paraboloid, m);
+				return (true);
+			}
+
 		}
 	}
 	return (false);
@@ -512,10 +515,12 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 ** TODO(dmelessa): change later
 */
 bool	triangle_intersection(t_ray ray, t_triangle triangle,
-								t_hit_info *hit_info)
+								t_shade_rec *const shade_rec,
+								float *const tmin)
 {
 	float4	pvec = cross(ray.direction, triangle.vector2);
 	float	det = dot(triangle.vector1, pvec);
+	float	t;
 
 	if (det < 1e-8 && det > -1e-8)
 		return false;
@@ -530,8 +535,15 @@ bool	triangle_intersection(t_ray ray, t_triangle triangle,
 	float	v = dot(ray.direction, qvec) * inv_det;
 	if (v < EPSILON || u + v > 1)
 		return false;
-	hit_info->t = dot(triangle.vector2, qvec) * inv_det;
-	return hit_info->t > EPSILON;
+	t = dot(triangle.vector2, qvec) * inv_det;
+	if (t > EPSILON && t < *tmin)
+	{
+		*tmin = t;
+		shade_rec->local_hit_point = ray.direction * t + ray.origin;
+		shade_rec->normal = cross(triangle.vector1, triangle.vector2);
+		return true;
+	}
+	return false;
 }
 
 bool
@@ -554,10 +566,10 @@ is_intersect(t_obj const obj, t_type const type, t_ray const ray,
 	{
 		return (cone_intersection(ray, obj, tmin, shade_rec));
 	}
-	// else if (type == paraboloid)
-	// {
-	// 	return (paraboloid_intersection(ray, obj, hit_info));
-	// }
+	else if (type == paraboloid)
+	{
+		return (paraboloid_intersection(ray, obj, shade_rec, tmin));
+	}
 	else if (type == torus)
 	{
 		return torus_intersecion(ray, obj, shade_rec, tmin);
@@ -598,8 +610,8 @@ bool	instance_hit(t_instance_manager instance_mngr,
 	if (instance.type == triangle)
 	{
 		intersect = (triangle_intersection(ray,
-										instance_mngr.triangles[instance.object_id],
-										&shade_rec->hit_info));
+										instance_mngr.triangles[0],
+										shade_rec, tmin));
 	}
 	else
 	{

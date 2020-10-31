@@ -2,6 +2,8 @@ bool		shadow_hit(t_scene scene, t_light light, t_ray shadow_ray, t_shade_rec sha
 {
 	float	t;
 	float	tmin = distance(light.origin, shadow_ray.origin);
+	printf("%f ", tmin);
+	// float	tmin = dot(light.origin - shadow_ray.origin, shadow_ray.direction);
 	// if (light.type == directional)
 	// 	tmin = 0;
 	int			node_id = 0;
@@ -29,7 +31,7 @@ bool		shadow_hit(t_scene scene, t_light light, t_ray shadow_ray, t_shade_rec sha
 								&tmin, &sr))
 				{
 					//NOTE: for area lights, don't intersect if it is the object emitting the light
-					if (light.object_id != current_node.instance_id)
+					if (light.object_id != current_node.instance_id && tmin > 0.01)
 						return (true);
 					tmin = distance(light.origin, shadow_ray.origin);
 				}

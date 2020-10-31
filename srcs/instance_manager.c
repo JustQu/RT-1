@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   instance_manager.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 19:52:25 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/29 23:38:49 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 21:06:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ t_matrix	create_transformation_matrix(t_object_info obj_info)
 int		set_object_info(t_object_info *object_info,
 								t_parsed_object parsed_object)
 {
+	object_info->type = parsed_object.type;
 	object_info->origin = parsed_object.origin;
 	object_info->rotation = parsed_object.rotation;
 	object_info->scaling = parsed_object.scaling;
@@ -80,8 +81,8 @@ int		set_object_info(t_object_info *object_info,
 	}
 	object_info->bounding_box.min = parsed_object.vector1;
 	object_info->bounding_box.max = parsed_object.vector2;
-	object_info->minm = 0.0f;
-	object_info->maxm = 1.5f;
+	object_info->minm = parsed_object.minm;
+	object_info->maxm = parsed_object.maxm;
 }
 
 /**

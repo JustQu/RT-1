@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 18:38:04 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 16:02:32 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 18:58:57 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,14 @@ float	float_min(float a, float b)
 float	float_max(float a, float b)
 {
 	return (a > b ? a : b);
+}
+
+int		int_max(int	a, int b)
+{
+	return (a > b ? a : b);
+}
+
+int		int_min(int a, int b)
+{
+	return (a < b ? a : b);
 }

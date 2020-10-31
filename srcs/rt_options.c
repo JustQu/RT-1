@@ -6,7 +6,7 @@
 /*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:37:09 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/30 13:12:04 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/31 04:24:52 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int		init_default_options(t_rt_options *options,
 {
 	options->reset = 1;
 	options->shadows = TRUE;
-	options->ambient_occlusion = TRUE;
+	options->ambient_occlusion = FALSE;
 	options->area_lightning = FALSE;
 	set_color_uchar(&options->background_color, 0x05, 0x05, 0xAF);
 	options->depth = 1;
 	options->spp = NUM_SAMPLES;
-	options->aa_id = new_sampler(sampler_manager, nrooks, 1000, DEFAULT_SAMPLES);
+	options->aa_id = new_sampler(sampler_manager, rand_jitter, 1024, DEFAULT_SAMPLES);
 	return (SUCCESS);
 }

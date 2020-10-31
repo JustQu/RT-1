@@ -15,8 +15,8 @@ float4	sample_object(t_instance_manager instance_manager,
 
 		float2 sp = sample_unit_square(&sampler, sampler_manager.samples, seed);
 		float4 point = object.origin
-					+ sp.x * object.direction
-					+ sp.y * object.dir2;
+					+ sp.x * object.direction * object.r
+					+ sp.y * object.dir2 * object.r2;
 		return (point);
 	}
 }
@@ -71,7 +71,7 @@ float4	get_light_direction2(t_scene scene, t_light *light,
 			float4 wi = light->origin - shade_rec.hit_point;
 			normalize(wi);
 			//NOTE: also compute inverse area which is pdf
-			light->pdf = 1.0f / (length(obj.direction) * length(obj.dir2));
+			light->pdf = 1.0f / (length(obj.direction) * length(obj.dir2) * obj.r * obj.r2);
 			return (wi);
 		}
 	}

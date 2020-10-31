@@ -66,6 +66,6 @@ t_color	ambient_occlusion_l(t_scene scene,
 	shadow_ray.direction = get_ambient_occluder_direction(scene.ambient_occluder, sampler_manager, sampler, seed);
 	color = float_color_multi(scene.ambient_occluder.ls, scene.ambient_occluder.color);
 	if (in_shadow(shadow_ray, scene))
-		color = float_color_multi(0.0f, color);
+		color = float_color_multi(0.1f, color);
 	return (color);
 }

@@ -27,7 +27,7 @@ float4	cosine_sampler_hemisphere(float4 *state)
 	return (float4)(cos(phi) * theta, sin(phi) * theta, sqrt(1 - e1), 0.0f);
 }
 
-float4	random_cosin_direction(float4 *state)
+float4	random_cosine_direction(float4 *state)
 {
 	float r2 = GPURnd(state);
 	float z = sqrt(1.0f - r2);
@@ -53,44 +53,6 @@ float4	random_in_unit_sphere(float4 *state)
 	float	y = r * sinPhi * sinTheta;
 	float	z = r * cosPhi;
 	return ((float4)(x, y, z, 0.0f));
-
-	float4 tg = (float4)(GPURnd(state), GPURnd(state), GPURnd(state), 0.0f)
-			* 2.0f - (float4)(1.0f, 1.0f, 1.0f, 0.0);
-	if (dot(tg, tg) > 1.0f) tg = tg / 2.0f;
-	if (dot(tg, tg) > 1.0f) tg = (float4)(GPURnd(state),
-				GPURnd(state), GPURnd(state), 0.0f) * 2.0f
-				- (float4)(1.0f, 1.0f, 1.0f, 0.0);
-	if (dot(tg, tg) > 1.0f) tg = (float4)(GPURnd(state),
-				GPURnd(state), GPURnd(state), 0.0f) * 2.0f
-				- (float4)(1.0f, 1.0f, 1.0f, 0.0);
-	if (dot(tg, tg) > 1.0f) tg = (float4)(GPURnd(state),
-				GPURnd(state), GPURnd(state), 0.0f) * 2.0f
-				- (float4)(1.0f, 1.0f, 1.0f, 0.0);
-	if (dot(tg, tg) > 1.0f) tg = (float4)(GPURnd(state),
-				GPURnd(state), GPURnd(state), 0.0f) * 2.0f
-				- (float4)(1.0f, 1.0f, 1.0f, 0.0);
-	if (dot(tg, tg) > 1.0f) tg = (float4)(GPURnd(state),
-				GPURnd(state), GPURnd(state), 0.0f) * 2.0f
-				- (float4)(1.0f, 1.0f, 1.0f, 0.0);
-	if (dot(tg, tg) > 1.0f) tg = (float4)(GPURnd(state),
-				GPURnd(state), GPURnd(state), 0.0f) * 2.0f
-				- (float4)(1.0f, 1.0f, 1.0f, 0.0);
-	if (dot(tg, tg) > 1.0f) tg = (float4)(GPURnd(state),
-				GPURnd(state), GPURnd(state), 0.0f) * 2.0f
-				- (float4)(1.0f, 1.0f, 1.0f, 0.0);
-	if (dot(tg, tg) > 1.0f) tg = (float4)(GPURnd(state),
-				GPURnd(state), GPURnd(state), 0.0f) * 2.0f
-				- (float4)(1.0f, 1.0f, 1.0f, 0.0);
-	if (dot(tg, tg) > 1.0f) tg = (float4)(GPURnd(state),
-				GPURnd(state), GPURnd(state), 0.0f) * 2.0f
-				- (float4)(1.0f, 1.0f, 1.0f, 0.0);
-	if (dot(tg, tg) > 1.0f) tg = (float4)(GPURnd(state),
-				GPURnd(state), GPURnd(state), 0.0f) * 2.0f
-				- (float4)(1.0f, 1.0f, 1.0f, 0.0);
-	if (dot(tg, tg) > 1.0f) tg = (float4)(GPURnd(state),
-				GPURnd(state), GPURnd(state), 0.0f) * 2.0f
-				- (float4)(1.0f, 1.0f, 1.0f, 0.0);
-	return tg;
 }
 
 bool	refract(float4 v, float4 n, float ni_over_nt, float4 *refracted)
@@ -140,20 +102,68 @@ bool	metal_scatter(t_texture_manager texture_manager,
 	return (dot(reflected, shade_rec->normal) > 0.0f);
 }
 
+void	build_from_w(float4 *const u, float4 *const v, float4 *const w,
+					float4 const n)
+{
+	float4 a;
+
+	*w = normalize(n);
+	if (fabs(w->x) > 0.9f)
+		a = (float4)(0.0f, 1.0f, 0.0f, 0.0f);
+	else
+		a = (float4)(1.0f, 0.0f, 0.0f, 0.0f);
+	*v = normalize(cross(*w, a));
+	*u = cross(*w, *v);
+}
+
+float4	local_dir(float4 const *const u,
+				float4 const *const v,
+				float4 const *const w,
+				float4 const a)
+{
+	return a.x * *u + a.y * *v + a.z * *w;
+}
+
 bool	lambertian_scater(t_texture_manager texture_manager,
 						t_material material,
 						t_shade_rec *shade_rec,
 						t_color *attenuation,
-						float4 *state)
+						float *pdf,
+						float4 *state,
+						t_sampler_manager sampler_manager,
+						t_sampler *sampler, uint2 *seed)
 {
+
 	float4 target = shade_rec->hit_point
 					+ shade_rec->normal
 					+ random_in_unit_sphere(state);
-
+//
 	shade_rec->ray.origin = shade_rec->hit_point + 1e-2f * shade_rec->normal;
 	shade_rec->ray.direction = normalize(target - shade_rec->hit_point);
+//
+	// *attenuation = get_color(texture_manager, material, shade_rec);
+	// *pdf = 0.5f / M_PI;
+
+	float4 u, v, w; // onb
+
+	// build_from_w(&u, &v, &w, shade_rec->normal);
+	// float4 direction = local_dir(&u, &v, &w, cosine_sampler_hemisphere(state));
+
+	w = shade_rec->normal;
+	// v = normalize(cross(w, (float4)(0.0072f, 1.0f, 0.0034f, 0.0f)));
+	// u = cross(v, w);
+
+	// float3 sp = sample_hemisphere(sampler, sampler_manager.hemisphere_samples, seed);
+	// shade_rec->direction = normalize(sp.x * u + sp.y * v + sp.z * w);
+	// shadow_ray.origin = shade_rec.hit_point + 1e-2f * shade_rec.normal;
+
+	// shade_rec->ray.origin = (float4)(0.0f, 0.0f, 0.0f, 0.0f);
+	// shade_rec->ray.direction = normalize(direction);
 
 	*attenuation = get_color(texture_manager, material, shade_rec);
+	// *pdf = 0.5f / M_PI_F;
+	// *pdf = dot(w, shade_rec->direction) / M_PI;
+
 	// *attenuation = float_color_multi(material.kd, material.color);
 	return (true);
 }
@@ -253,7 +263,10 @@ bool	scatter(t_texture_manager texture_manager,
 				t_material material,
 				t_shade_rec *shade_rec,
 				t_color *attenuation,
-				float4 *state)
+				float *pdf,
+				float4 *state,
+				t_sampler_manager sampler_manager,
+						t_sampler *sampler, uint2 *seed)
 {
 	if (material.type == matte)
 	{
@@ -261,7 +274,10 @@ bool	scatter(t_texture_manager texture_manager,
 								material,
 								shade_rec,
 								attenuation,
-								state));
+								pdf,
+								state,
+								sampler_manager,
+								sampler, seed));
 	}
 	else if (material.type == metal) //reflections
 	{
@@ -282,7 +298,7 @@ t_color	emitted(t_material material, t_shade_rec *shade_rec,
 				float u, float v, float4 point)
 {
 	if (material.type == diffuse_light || material.type == emissive)
-		return ((t_color){ .r = 3.0f, .g = 3.0f, .b = 3.0f });
+		return ((t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f });
 	return ((t_color){ .r = 0.0f, .g = 0.0, .b = 0.0f });
 }
 
@@ -312,9 +328,35 @@ t_color	path_tracer_suffern(t_ray ray, t_scene scene, t_rt_options options,
 	}
 }
 
+float	lambertian_pdf(t_shade_rec const *const shade_rec,
+						t_ray const scattered_ray)
+{
+	float	cosine;
+
+	cosine = dot(shade_rec->normal, scattered_ray.direction);
+
+	if (cosine < 0.0f)
+	{
+		cosine = 0.0f;
+	}
+	return (cosine / M_PI);
+}
+
+float	scattering_pdf(t_material const material,
+					t_shade_rec *const shade_rec,
+					t_ray const scattered_ray)
+{
+	if (material.type == matte)
+	{
+		return (lambertian_pdf(shade_rec, scattered_ray));
+	}
+	return 0.0f;
+}
+
 t_color	path_tracer2(t_ray ray, t_scene scene, t_rt_options options,
 					t_sampler_manager sampler_manager, uint2 *seed,
-					float4	*state)
+					float4	*state,
+					t_sampler *sampler)
 {
 	t_color	color;
 	color.r = 0.0f;
@@ -339,7 +381,6 @@ t_color	path_tracer2(t_ray ray, t_scene scene, t_rt_options options,
 		{
 			t_instance	instance = scene.instance_manager.instances[shade_rec.id];
 
-			/* save ray for specular reflection */
 
 			t_material material = get_instance_material(scene.instance_manager,
 														instance);
@@ -348,13 +389,22 @@ t_color	path_tracer2(t_ray ray, t_scene scene, t_rt_options options,
 			t_color	emit = color_multi(cur_attenuation,
 									emitted(material, &shade_rec,
 											0, 0, shade_rec.hit_point));
+			float	pdf = 0.5f / M_PI;
 			if (scatter(scene.instance_manager.tex_mngr,
 						material,
 						&shade_rec,
 						&attenuation,
-						state))
+						&pdf,
+						state, sampler_manager, sampler, seed))
 			{
-				cur_attenuation = color_multi(cur_attenuation, attenuation);
+				cur_attenuation = color_multi(
+									float_color_multi(
+										scattering_pdf(material,
+													&shade_rec,
+													shade_rec.ray) / pdf,
+										attenuation),
+									cur_attenuation);
+				// cur_attenuation = color_multi(cur_attenuation, attenuation);
 				color = color_sum(emit, color);
 			}
 			else
@@ -375,69 +425,34 @@ t_color	path_tracer2(t_ray ray, t_scene scene, t_rt_options options,
 	return (color);
 }
 
-void	build_from_w(float4 *const u, float4 *const v, float4 *const w,
-					float4 const n)
+inline bool	lambertian_scater2(t_texture_manager  texture_manager,
+						t_material  material,
+						t_shade_rec * shade_rec,
+						t_color * attenuation,
+						float * pdf,
+						float4 * state)
 {
-	float4 a;
+	// float4 u, v, w; // onb
 
-	*w = normalize(n);
-	if (fabs(w->x) > 0.9f)
-		a = (float4)(0.0f, 1.0f, 0.0f, 0.0f);
-	else
-		a = (float4)(1.0f, 0.0f, 0.0f, 0.0f);
-	*v = normalize(cross(*w, a));
-	*u = cross(*w, *v);
-}
+	// build_from_w(&u, &v, &w, shade_rec->normal);
+	// float4 direction = local_dir(&u, &v, &w, (float4)(0.0f, 0.0f, 0.0f, 0.0f));
 
-float4	local_dir(float4 const *const u,
-				float4 const *const v,
-				float4 const *const w,
-				float4 const a)
-{
-	return a.x * *u + a.y * *v + a.z * *w;
-}
-
-bool	lambertian_scater2(t_texture_manager const texture_manager,
-						t_material const material,
-						t_shade_rec *const shade_rec,
-						t_color *const attenuation,
-						float *const pdf,
-						float4 *const state)
-{
-	float4 u, v, w; // onb
-
-	build_from_w(&u, &v, &w, shade_rec->normal);
-
-	float4 direction = local_dir(&u, &v, &w, random_cosin_direction(state));
-
-	float4	target = shade_rec->hit_point + shade_rec->normal
-					+ random_in_unit_sphere(state);
-	shade_rec->ray.origin = shade_rec->hit_point + 1e-2f * shade_rec->normal;
-	shade_rec->ray.direction = normalize(direction);
+	// shade_rec->ray.origin = (float4)(0.0f, 0.0f, 0.0f, 0.0f);
+	// shade_rec->ray.direction = normalize(direction);
 
 	*attenuation = get_color(texture_manager, material, shade_rec);
-	*pdf = dot(w, direction) / M_PI;
+	// *pdf = 0.5f / M_PI_F;
+	// *pdf = dot(w, direction) / M_PI;
 
 	return (true);
 }
 
-float	lambertian_pdf(t_shade_rec const *const shade_rec,
-						t_ray const scattered_ray)
-{
-	float	cosine;
-
-	cosine = dot(shade_rec->normal, scattered_ray.direction);
-
-	if (cosine < 0.0f) cosine = 0;
-	return (cosine / M_PI);
-}
-
-bool	scatter2(const t_texture_manager texture_manager,
-				const t_material material,
-				t_shade_rec *const shade_rec,
-				t_color *const attenuation,
-				float *const pdf,
-				float4 *const state)
+bool	scatter2(t_texture_manager texture_manager,
+				t_material material,
+				t_shade_rec * shade_rec,
+				t_color * attenuation,
+				float *pdf,
+				float4 * state)
 {
 	if (material.type == matte)
 	{
@@ -445,17 +460,6 @@ bool	scatter2(const t_texture_manager texture_manager,
 						attenuation, pdf, state));
 	}
 	return false;
-}
-
-float	scattering_pdf(t_material const material,
-					t_shade_rec *const shade_rec,
-					t_ray const scattered_ray)
-{
-	if (material.type == matte)
-	{
-		return (lambertian_pdf(shade_rec, scattered_ray));
-	}
-	return 0.0f;
 }
 
 t_color	path_trace_pdf(t_ray ray, t_scene scene, t_rt_options options,
@@ -471,14 +475,13 @@ t_color	path_trace_pdf(t_ray ray, t_scene scene, t_rt_options options,
 	bool continue_loop = true;
 
 	int	depth = 0;
-
 	t_shade_rec	shade_rec;
 	shade_rec.ray = ray;
+
 	do
 	{
 		depth++;
-
-		if (scene_intersection(scene, ray, &shade_rec) && depth < 20 && cur_attenuation.r + cur_attenuation.g + cur_attenuation.b > 0.05f)
+		if (scene_intersection(scene, ray, &shade_rec) && depth < 5 && cur_attenuation.r + cur_attenuation.g + cur_attenuation.b > 0.05f)
 		{
 			t_instance	instance = scene.instance_manager.instances[shade_rec.id];
 
@@ -486,16 +489,16 @@ t_color	path_trace_pdf(t_ray ray, t_scene scene, t_rt_options options,
 													instance);
 
 			t_color	attenuation;
-			float	pdf;
+			float	pdf = 0.5f / M_PI;
 			t_color	emit = emitted(material, &shade_rec,
 									0, 0, shade_rec.hit_point);
 			emit = color_multi(cur_attenuation, emit);
 			if (scatter2(scene.instance_manager.tex_mngr,
-						material,
-						&shade_rec,
-						&attenuation,
-						&pdf,
-						state))
+				material,
+				&shade_rec,
+				&attenuation,
+				&pdf,
+				state))
 			{
 				cur_attenuation = color_multi(
 									float_color_multi(
@@ -505,7 +508,6 @@ t_color	path_trace_pdf(t_ray ray, t_scene scene, t_rt_options options,
 										attenuation),
 									cur_attenuation);
 				color = color_sum(emit, color);
-				ray = shade_rec.ray;
 			}
 			else
 			{

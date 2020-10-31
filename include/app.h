@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   app.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 17:02:27 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/26 23:44:54 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 23:38:49 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@
 # include "window.h"
 # include "interface.h"
 # include "parser.h"
+# include "resource_manager.h"
 
 typedef struct s_app	t_app;
 
 struct	s_app
 {
+	t_res_mngr		resource_manager;
 	t_rt			rt;
 	t_window		window;
 	t_gui			gui;

@@ -186,11 +186,14 @@ void main_kernel(__global t_color *image,	//0
 
 	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed, &state);
 
-	// color = area_light_tracer(ray, scene, options, sampler_manager, &seed);
+	color = area_light_tracer(ray, scene, options, sampler_manager, &seed);
 
 	// color = ray_trace(ray, scene, options, sampler_manager, &seed);
 
-	color = path_tracer2(ray, scene, options, sampler_manager, &seed, &state);
+	// color = path_tracer2(ray, scene, options, sampler_manager, &seed, &state,
+						// &options.ambient_occluder_sampler);
+
+	// color = path_trace_pdf(ray, scene, options, sampler_manager, &seed, &state);
 
 	image[global_id] = color_sum(image[global_id], color);
 }

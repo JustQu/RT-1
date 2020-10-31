@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 23:40:30 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/21 19:13:57 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 23:44:26 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 void	init_light_manager(t_light_manager *light_manager)
 {
-	light_manager->lights = NULL;
+	light_manager->lights = malloc(sizeof(t_light));
 	light_manager->nlights = 0;
-	light_manager->light_malloc_size = 0;
+	light_manager->light_malloc_size = sizeof(t_light);
 }
 
 int		add_parsed_light(t_light_manager *light_manager, t_parsed_light

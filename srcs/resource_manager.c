@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   resource_manager.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:55:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/28 20:27:42 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 23:40:00 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "resource_manager.h"
+
+int		init_resource_manager(t_res_mngr *resource_manager, t_rt *rt)
+{
+	resource_manager->scene = &rt->scene;
+	resource_manager->sampler_manager = &rt->sampler_manager;
+	resource_manager->rt_options = &rt->options;
+}
 
 void	add_parsed(t_res_mngr *const mngr, t_parsed_info asset)
 {

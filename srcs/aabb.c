@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aabb.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:24:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/30 00:04:18 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 23:24:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_bbox transform_aabb(t_bbox aabb, t_matrix matrix)
 
 	ij[0] = 0;
 	transformed_aabb.min = (cl_float4){.x = matrix.s3,
-										.y = matrix.s7,
-										.z = matrix.sB,
-										 .w = 0.0f};
+									.y = matrix.s7,
+									.z = matrix.sB,
+									.w = 0.0f};
 	transformed_aabb.max = transformed_aabb.min;
 
 	for (int i = 0; i < 3; i++)
@@ -93,9 +93,10 @@ t_bbox transform_aabb(t_bbox aabb, t_matrix matrix)
 
 t_bbox compute_aabb(t_instance_manager instance_mngr, int id)
 {
-	t_bbox aabb;
-	t_instance instance;
+	t_bbox			aabb;
+	t_instance		instance;
 	t_object_info	obj;
+	float			a;
 
 	instance = instance_mngr.instances[id];
 	obj = instance_mngr.instances_info[id];
@@ -106,16 +107,14 @@ t_bbox compute_aabb(t_instance_manager instance_mngr, int id)
 	}
 	else if (instance.type == cylinder) //note:caped cylinder
 	{
-		aabb.max = (cl_float4){ .x = obj.r * obj.maxm * obj.maxm, .y = obj.r * obj.maxm, .z = obj.r * obj.maxm, .w = 0.0f };
-		aabb.min = (cl_float4){ .x = -obj.r * obj.maxm, .y = -obj.r * obj.maxm, .z = -obj.r * obj.maxm, .w = 0.0f };
-		// aabb.max.x = 4.0f;
-		// aabb.max.y = 4;
-		// aabb.max.z = 4;
-		// aabb.min.x = -4;
-		// aabb.min.y = -4;
-		// aabb.min.z = -4;;
-		// aabb.max = (cl_float4){.x = 1.0f, .y = 1.0f, .z = 1.0f, .w = 0.0f};
-		// aabb.min = (cl_float4){.x = -1.0f, .y = -1.0f, .z = -1.0f, .w = 0.0f};
+		aabb.max = (cl_float4){ .x = float_max(obj.r,obj.maxm),
+								.y = float_max(obj.r,obj.maxm),
+								.z = float_max(obj.r,obj.maxm),
+								.w = 0.0f };
+		aabb.min = (cl_float4){ .x = -float_max(obj.r,obj.maxm),
+								.y = -float_max(obj.r,obj.maxm),
+								.z = -float_max(obj.r,obj.maxm),
+								.w = 0.0f };
 	}
 	else if (instance.type == plane)
 	{
@@ -130,6 +129,14 @@ t_bbox compute_aabb(t_instance_manager instance_mngr, int id)
 	}
 	else if (instance.type == cone)
 	{
+		a = obj.maxm;
+		if (obj.r2 > 1.0f)
+			a = obj.maxm * obj.r2;
+		aabb.max = (cl_float4){ .x = a, .y = a, .z = a, .w = 0.0f };
+		aabb.min = (cl_float4){ .x = -a, .y = -a, .z = -a, .w = 0.0f };
+	}
+	else if (instance.type == triangle)
+	{
 		aabb.max = (cl_float4){.x = 100.0f,
 							   .y = 100.f,
 							   .z = 100.0f,
@@ -139,14 +146,11 @@ t_bbox compute_aabb(t_instance_manager instance_mngr, int id)
 							   .z = -100.0f,
 							   .w = 0.0f};
 	}
-	else if (instance.type == triangle)
-	{
-		//todo
-	}
 	else if (instance.type == disk)
 	{
 		aabb.max = (cl_float4){ .x = obj.r, .y = obj.r, .z = obj.r, .w = 0.0f };
-		aabb.min = (cl_float4){ .x = -obj.r, .y = -obj.r, .z = -obj.r, .w = 0.0f };
+		aabb.min = (cl_float4){ .x = -obj.r, .y = -obj.r,
+								.z = -obj.r, .w = 0.0f };
 	}
 	else if (instance.type == box)
 	{
@@ -160,9 +164,20 @@ t_bbox compute_aabb(t_instance_manager instance_mngr, int id)
 	}
 	else if (instance.type == rectangle)
 	{
-		aabb.min = (cl_float4){ .x = 0.0f, .y = 0.0f, .z = -0.1f,
-								.w = 0.0f };
-		aabb.max = (cl_float4){.x = obj.r + obj.r2, .y = obj.r + obj.r2, .z = obj.r + obj.r2, .w = 0.0f};
+		aabb.min = (cl_float4){ .x = 0.0f, .y = 0.0f, .z = -0.1f, .w = 0.0f };
+		aabb.max = (cl_float4){ .x = obj.r + obj.r2, .y = obj.r + obj.r2,
+								.z = obj.r + obj.r2, .w = 0.0f};
+	}
+	else if (instance.type == paraboloid)
+	{
+		aabb.max = (cl_float4){.x = 100.0f,
+							   .y = 100.f,
+							   .z = 100.0f,
+							   .w = 0.0f};
+		aabb.min = (cl_float4){.x = -100.0f,
+							   .y = -100.f,
+							   .z = -100.0f,
+							   .w = 0.0f};
 	}
 	aabb = transform_aabb(aabb, get_transformation_matrix(instance_mngr, id));
 	return (aabb);

@@ -21,9 +21,7 @@ t_color	area_light_tracer(t_ray ray, t_scene scene, t_rt_options options,
 		if (scene_intersection(scene, ray, &shade_rec))
 		{
 			if (dot(shade_rec.normal, ray.direction) > 0.0f)
-			{
 				shade_rec.normal = -shade_rec.normal;
-			}
 
 			t_instance instance = get_instance(scene.instance_manager,
 											shade_rec.id);
@@ -31,6 +29,7 @@ t_color	area_light_tracer(t_ray ray, t_scene scene, t_rt_options options,
 									scene.instance_manager,
 									instance);
 
+			//direct lightning
 			color = color_sum(color,
 							color_multi(clr_coef,
 									area_light_shade(scene,
@@ -39,8 +38,14 @@ t_color	area_light_tracer(t_ray ray, t_scene scene, t_rt_options options,
 													shade_rec,
 													options,
 													seed)));
+
+			continue_loop = false;
+
 		}
-		continue_loop = false;
+		else
+		{
+			continue_loop = false;
+		}
 	}
 	return (color);
 }

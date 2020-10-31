@@ -76,10 +76,8 @@ bool	bvh_intersection(t_scene scene, t_shade_rec *shade_rec)
 	return (shade_rec->id > -1);
 }
 
-//TODO(dmelessa): shading both sides of surface à¸¢à¸‡14
 bool	scene_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
 {
-
 	bool ret = bvh_intersection(scene, shade_rec);
 
 	return (ret);

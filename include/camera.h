@@ -6,14 +6,16 @@
 /*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:46:35 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/30 13:34:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/30 18:03:32 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CAMERA_H
 # define CAMERA_H
 
-#include "rt_types.h"
+# ifndef __OPENCL_C_VERSION__
+#  include "rt_types.h"
+# endif
 
 typedef enum e_camera_type	t_camera_type;
 typedef struct s_camera		t_camera; //160
