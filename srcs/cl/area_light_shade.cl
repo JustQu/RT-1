@@ -116,16 +116,16 @@ t_color		area_light_shade_matte(t_material material,
 
 		bool	in_shadow = false;
 
-		float4	light_direction = get_light_direction2(scene,
+		float4	light_direction = (get_light_direction2(scene,
 													&light,
 													shade_rec,
 													sampler_manager,
-													seed);
+													seed));
 
 		if (options.shadows)
 		{
 			t_ray	shadow_ray = { .origin = shade_rec.hit_point +
-											1e-2f * shade_rec.normal,
+											1e-4f * shade_rec.normal,
 									.direction = light_direction };
 			in_shadow = shadow_hit(scene,
 								light,

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 18:10:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/26 16:14:21 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/03 22:35:43 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 const char	*getErrorString(cl_int error)
 {
 switch(error){
+	
 	// run-time and JIT compiler errors
 	case 0: return "CL_SUCCESS";
 	case -1: return "CL_DEVICE_NOT_FOUND";
@@ -139,4 +140,4 @@ void cl_error(t_cl_program *program, t_clp *clp, int code)
 		ft_clerror(code);
 		fclose(err_file);
 	}
-	}
+}

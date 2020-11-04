@@ -67,12 +67,9 @@ float4	get_light_direction2(t_scene scene, t_light *light,
 			light->direction = vector_matrix_mul(
 								(float4)(0.0f, 0.0f, 1.0f, 0.0f),
 								light->matrix);
-
-			float4 wi = light->origin - shade_rec.hit_point;
-			normalize(wi);
 			//NOTE: also compute inverse area which is pdf
 			light->pdf = 1.0f / (length(obj.direction) * length(obj.dir2) * obj.r * obj.r2);
-			return (wi);
+			return (normalize(light->origin - shade_rec.hit_point));
 		}
 	}
 }

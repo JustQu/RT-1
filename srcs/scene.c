@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 22:57:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/31 05:28:56 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/04 19:46:16 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -420,7 +420,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.type = matte;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = sphere;
 	object.r = 1.0f;

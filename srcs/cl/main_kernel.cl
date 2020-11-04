@@ -186,7 +186,9 @@ void main_kernel(__global t_color *image,	//0
 
 	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed, &state);
 
-	color = area_light_tracer(ray, scene, options, sampler_manager, &seed);
+	color = global_shade(ray, scene, options, sampler_manager, &seed, &state);
+
+	// color = area_light_tracer(ray, scene, options, sampler_manager, &seed);
 
 	// color = ray_trace(ray, scene, options, sampler_manager, &seed);
 
