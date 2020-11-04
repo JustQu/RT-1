@@ -70,7 +70,7 @@ typedef enum
 typedef enum
 {
     SDL_CONTROLLER_BINDTYPE_NONE = 0,
-    SDL_CONTROLLER_BINDTYPE_BUTTON,
+    SDL_CONTROLLER_BINDFIRST_BUTTON,
     SDL_CONTROLLER_BINDTYPE_AXIS,
     SDL_CONTROLLER_BINDTYPE_HAT
 } SDL_GameControllerBindType;
@@ -125,7 +125,7 @@ typedef struct SDL_GameControllerButtonBind
  *  A community sourced database of controllers is available at https://raw.github.com/gabomdq/SDL_GameControllerDB/master/gamecontrollerdb.txt
  *
  *  If \c freerw is non-zero, the stream will be closed after being read.
- * 
+ *
  * \return number of mappings added, -1 on error
  */
 extern DECLSPEC int SDLCALL SDL_GameControllerAddMappingsFromRW(SDL_RWops * rw, int freerw);

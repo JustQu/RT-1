@@ -6,7 +6,7 @@
 #    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/10/30 20:40:02 by alex             ###   ########.fr        #
+#    Updated: 2020/11/03 15:17:22 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,7 @@ error_handling.c        instance_manager.c                     sampler_manager.c
                                  scene.c\
 gui.c	gui_render_text.c	gui_tab_bar.c	gui_button.c	gui_init.c\
 gui_utils.c	texture_manager.c	texture.c	perlin.c	gui_utils_2.c\
-gui_get_data.c\
+gui_get_data.c	gui_object_vision.c\
 
 
 

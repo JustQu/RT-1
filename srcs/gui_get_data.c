@@ -6,13 +6,67 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 20:39:11 by alex              #+#    #+#             */
-/*   Updated: 2020/10/30 20:54:48 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/04 14:42:11 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "libft.h"
 #include "rt.h"
+
+void			get_texture_data(int ptr, char *string, char **str)
+{
+	str[0] = ft_strdup(string);
+	if (ptr == 0)
+		str[1] = ft_strdup("solid");
+	else if (ptr == 1)
+		str[1] = ft_strdup("checker");
+	else if (ptr == 2)
+		str[1] = ft_strdup("checker2d");
+	else if (ptr == 3)
+		str[1] = ft_strdup("transparent_checker");
+	else if (ptr == 4)
+		str[1] = ft_strdup("reflective_checker");
+	else if (ptr == 5)
+		str[1] = ft_strdup("perlin");
+	else if (ptr == 6)
+		str[1] = ft_strdup("smooth_perlin");
+	else if (ptr == 7)
+		str[1] = ft_strdup("turbulence_perlin");
+	else if (ptr == 8)
+		str[1] = ft_strdup("wave_perlin");
+	else if (ptr == 9)
+		str[1] = ft_strdup("image");
+}
+
+void			get_shape_data(int ptr, char *string, char **str)
+{
+	str[0] = ft_strdup(string);
+	if (ptr == 0)
+		str[1] = ft_strdup("cone");
+	else if (ptr == 1)
+		str[1] = ft_strdup("cylinder");
+	else if (ptr == 2)
+		str[1] = ft_strdup("paraboloid");
+	else if (ptr == 3)
+		str[1] = ft_strdup("plane");
+	else if (ptr == 4)
+		str[1] = ft_strdup("sphere");
+	else if (ptr == 5)
+		str[1] = ft_strdup("torus");
+	else if (ptr == 6)
+		str[1] = ft_strdup("triangle");
+	else if (ptr == 7)
+		str[1] = ft_strdup("box");
+	else if (ptr == 8)
+		str[1] = ft_strdup("disk");
+	else if (ptr == 9)
+		str[1] = ft_strdup("rectangle");
+	else if (ptr == 10)
+		str[1] = ft_strdup("generic_shere");
+	else
+		str[1] = ft_strdup("no shape");
+}
 
 void			get_material_data(int ptr, char *string, char **str)
 {
@@ -29,6 +83,8 @@ void			get_material_data(int ptr, char *string, char **str)
 		str[1] = ft_strdup("metal");
 	else if (ptr == 5)
 		str[1] = ft_strdup("dielectric");
+	else
+		str[1] = ft_strdup("no material");
 	str[2] = NULL;
 	str[3] = NULL;
 }

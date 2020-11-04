@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/30 21:29:41 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/03 15:25:54 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 		g_save_image = 1;
 	}
 	/*
-	else if (is_press_button(event, &rect->type_button) && g_objects_tab_pressed == 1)
+	else if (is_press_button(event, &rect->first_button) && g_objects_tab_pressed == 1)
 	{
 		g_type_pressed ^= 1;
 	}
@@ -64,7 +64,7 @@ void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 	{
 		catch_is_pressed(event, &rect->type_choise_rect, 3);
 	}
-	else if (is_press_button(event, &rect->type_button) && g_options_tab_pressed == 1)
+	else if (is_press_button(event, &rect->first_button) && g_options_tab_pressed == 1)
 	{
 		g_type_pressed ^= 1;
 	}
@@ -72,7 +72,7 @@ void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 	{
 		catch_is_pressed(event, &rect->type_choise_rect, 2);
 	}
-	else if (is_press_button(event, &rect->type_button) && g_camera_tab_pressed == 1)
+	else if (is_press_button(event, &rect->first_button) && g_camera_tab_pressed == 1)
 	{
 		g_type_pressed ^= 1;
 	}

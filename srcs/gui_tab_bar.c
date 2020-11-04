@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/10/30 21:35:05 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/04 14:43:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,65 @@ void			camera_tab(t_window *win, t_rt *rt, t_all_rect *rect,
 		rect->tab_camera_button.x + rect->tab_camera_button.w,
 		rect->tab_camera_button.y + rect->tab_camera_button.h);
 	get_camera_type_data(rt->scene.camera.type, "Type camera", &str);
-	draw_button(win, &rect->type_button, str, color);
+	draw_button(win, &rect->first_button, str, color);
 	/* if (g_type_pressed) */
-	 	/* draw_is_pressed_button(win, &rect->type_button, str[1], color); */
+	 	/* draw_is_pressed_button(win, &rect->first_button, str[1], color); */
 	get_float4_data(rt->scene.camera.origin, "Position", &str);
-	draw_button_xyz(win, &rect->position_button, str, color);
+	draw_button_xyz(win, &rect->second_button, str, color);
 	get_float4_data(rt->scene.camera.direction, "Direction", &str);
-	draw_button_xyz(win, &rect->direction_button, str, color);
+	draw_button_xyz(win, &rect->third_button, str, color);
 	get_str_data("save", "Save image", &str);
 	draw_button(win, &rect->save_img_button, str, color);
+}
+
+void			shape_type_vision(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color)
+{
+	if (rt->scene.instance_mngr.instances_info->type == 0)
+		gui_cone_vision(win, rt, rect, color);
+	else if (rt->scene.instance_mngr.instances_info->type == 1)
+		gui_cylinder_vision(win, rt, rect, color);
+	// else if (rt->scene.instance_mngr.instances_info->type == 2)
+	// 	str[1] = ft_strdup("paraboloid");
+	// else if (rt->scene.instance_mngr.instances_info->type == 3)
+	// 	str[1] = ft_strdup("plane");
+	// else if (rt->scene.instance_mngr.instances_info->type == 4)
+	// 	str[1] = ft_strdup("sphere");
+	else if (rt->scene.instance_mngr.instances_info->type == 5)
+		gui_torus_vision(win, rt, rect, color);
+	// else if (rt->scene.instance_mngr.instances_info->type == 6)
+	// 	str[1] = ft_strdup("triangle");
+	else if (rt->scene.instance_mngr.instances_info->type == 7)
+		gui_box_vision(win, rt, rect, color);
+	else if (rt->scene.instance_mngr.instances_info->type == 8)
+		gui_disk_vision(win, rt, rect, color);
+	else if (rt->scene.instance_mngr.instances_info->type == 9)
+		gui_rectangle_vision(win, rt, rect, color);
+}
+
+void			gui_material_type(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color)
+{
+	char *str[4];
+
+	if (rt->scene.instance_mngr.instances_info->material.type == 5)
+	{
+		get_float_data(rt->scene.instance_mngr.instances_info->material.kr,
+			"reflective", &str);	//eflective coefficient
+		draw_button(win, &rect->nine_button, str, color);
+	}
+	if (rt->scene.instance_mngr.instances_info->material.type == 4)
+	{
+		get_float_data(rt->scene.instance_mngr.instances_info->material.kt,
+			"transparent", &str);	//transparent coefficient
+		draw_button(win, &rect->nine_button, str, color);
+	}
+	if (rt->scene.instance_mngr.instances_info->material.type == 2)
+	{
+		get_float_data(rt->scene.instance_mngr.instances_info->material.ks,
+			"specular", &str);	//transparent coefficient
+		draw_button(win, &rect->nine_button, str, color);
+	}
 }
 
 void			objects_tab_cont(t_window *win, t_rt *rt,
@@ -45,22 +95,17 @@ void			objects_tab_cont(t_window *win, t_rt *rt,
 {
 	char		*str[4];
 
-	get_float4_data(rt->scene.camera.origin, "Position", &str);
-	draw_button_xyz(win, &rect->position_button, str, color);
-	get_float4_data(rt->scene.camera.direction, "Direction", &str);
-	draw_button_xyz(win, &rect->direction_button, str, color);
-	get_float_data(rt->scene.camera.l, "Radius", &str);
-	draw_button(win, &rect->radius_button, str, color);
-	get_float_data(rt->scene.camera.ratio, "Rotate", &str); //need radius
-	draw_button(win, &rect->rotate_button, str, color);
-	get_float_data(rt->scene.camera.d, "Color", &str);	//need color
-	draw_button(win, &rect->color_button, str, color);
-	get_float_data(rt->scene.camera.d, "Diffuse", &str); // need diffuse
-	draw_button(win, &rect->diffuse_button, str, color);
-	get_float_data(rt->scene.camera.zoom, "Reflection", &str); // need reflection
-	draw_button(win, &rect->reflection_button, str, color);
-	get_float_data(rt->scene.camera.f, "Alpha", &str);	//need alpha
-	draw_button(win, &rect->alpha_button, str, color);
+	// printf("\n%d\n", rt->scene.instance_mngr.instances_info->material.type);
+	get_material_data(rt->scene.instance_mngr.instances_info->material.type,
+		"Material", &str); // material type
+	draw_button(win, &rect->seven_button, str, color);
+	get_float_data(rt->scene.instance_mngr.instances_info->material.ka,
+		"ambient", &str); // ambient reflect
+	draw_button(win, &rect->eight_button, str, color);
+	gui_material_type(win, rt, rect, color);
+	get_texture_data(rt->scene.instance_mngr.texture_manager.textures->type,
+		"texture", &str); // texture type
+	draw_button(win, &rect->ten_button, &str, color);
 }
 
 void			objects_tab(t_window *win, t_rt *rt,
@@ -69,7 +114,7 @@ void			objects_tab(t_window *win, t_rt *rt,
 	char		*str[4];
 
 	render_tab_bar(win, &color->text_color, &rect->tab_objects_button,
-		"Objects");
+		"Object");
 	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
 		color->text_color.g,
 		color->text_color.b, color->text_color.a);
@@ -77,11 +122,19 @@ void			objects_tab(t_window *win, t_rt *rt,
 		rect->tab_objects_button.y + rect->tab_objects_button.h,
 		rect->tab_objects_button.x + rect->tab_objects_button.w,
 		rect->tab_objects_button.y + rect->tab_objects_button.h);
-	get_material_data(1,
-		"Material", &str); // rt->scene.instance_mngr.instances_info->material.type dont work
-	draw_button(win, &rect->type_button, str, color);
+	get_shape_data(rt->scene.instance_mngr.instances_info->type,
+		"Shape", &str); // objects type
+	draw_button(win, &rect->first_button, str, color);
 	/* if (g_type_pressed) */
-	 	/* draw_is_pressed_button(win, &rect->type_button, str[1], color); */
+	 	/* draw_is_pressed_button(win, &rect->first_button, str[1], color); */
+	get_float4_data(rt->scene.camera.origin, "Origin", &str);
+	draw_button_xyz(win, &rect->second_button, str, color);
+	get_float4_data(rt->scene.camera.direction, "Rotation", &str);
+	draw_button_xyz(win, &rect->third_button, str, color);
+	get_float4_data(rt->scene.instance_mngr.instances_info->scaling,
+		"Scalling", &str); // scaling data
+	draw_button_xyz(win, &rect->fourth_button, str, color);
+	shape_type_vision(win, rt, rect, color);
 	objects_tab_cont(win, rt, rect, color);
 }
 
@@ -99,7 +152,7 @@ void			option_tab(t_window *win, t_rt *rt,
 		rect->tab_options_button.x + rect->tab_options_button.w,
 		rect->tab_options_button.y + rect->tab_options_button.h);
 	get_float_data(1, "Type RT", &str); // need type rt
-	draw_button(win, &rect->type_button, str, color);
+	draw_button(win, &rect->first_button, str, color);
 	get_float_data(rt->scene.camera.sampler_id, "Samplers", &str); //samplers
 	draw_button(win, &rect->samplers_button, str, color);
 	get_float_data(rt->scene.camera.d, "Deep", &str);
@@ -162,7 +215,7 @@ void			gui_tab_bar(t_window *win, t_rt *rt,
 		objects_tab(win, rt, rect, color);
 	else
 		render_tab_bar(win, &color->border_color,
-			&rect->tab_objects_button, "Objects");
+			&rect->tab_objects_button, "Object");
 	if (g_options_tab_pressed == 1)
 		option_tab(win, rt, rect, color);
 	else

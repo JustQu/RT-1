@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/10/30 21:15:22 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/04 14:29:14 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,16 @@ typedef struct	s_all_rect
 	SDL_Rect	tab_camera_button;
 	SDL_Rect	tab_objects_button;
 	SDL_Rect	tab_options_button;
-	SDL_Rect	type_button;
-	SDL_Rect	position_button;
-	SDL_Rect	direction_button;
-	SDL_Rect	radius_button;
-	SDL_Rect	rotate_button;
-	SDL_Rect	color_button;
-	SDL_Rect	diffuse_button;
-	SDL_Rect	reflection_button;
-	SDL_Rect	alpha_button;
+	SDL_Rect	first_button;
+	SDL_Rect	second_button;
+	SDL_Rect	third_button;
+	SDL_Rect	fourth_button;
+	SDL_Rect	fifth_button;
+	SDL_Rect	sixth_button;
+	SDL_Rect	seven_button;
+	SDL_Rect	eight_button;
+	SDL_Rect	nine_button;
+	SDL_Rect	ten_button;
 	SDL_Rect	samplers_button;
 	SDL_Rect	deep_button;
 	SDL_Rect	background_button;
@@ -123,5 +124,19 @@ void			get_camera_type_data(int ptr, char *string,
 void			get_str_data(char *str1, char *string, char **str);
 void			get_float_data(float ptr, char *string, char **str);
 void			get_float4_data(cl_float4 ptr, char *string, char **str);
+void			get_shape_data(int ptr, char *string, char **str);
+void			get_texture_data(int ptr, char *string, char **str);
+void			gui_cone_vision(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
+void			gui_cylinder_vision(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
+void			gui_torus_vision(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
+void			gui_box_vision(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
+void			gui_disk_vision(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
+void			gui_rectangle_vision(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
 
 #endif
