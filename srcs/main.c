@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/22 00:02:18 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/07 16:08:45 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	exit_program(t_window window)
 void	display_image(t_window *w)
 {
 	SDL_RenderClear(w->renderer);
-	SDL_UpdateTexture(w->texture, NULL, w->image, sizeof(uint32_t) * 1920);
+	SDL_UpdateTexture(w->texture, NULL, w->image, sizeof(uint32_t) * IMG_WIDTH);
 	SDL_RenderCopy(w->renderer, w->texture, NULL, NULL);
 	SDL_RenderPresent(w->renderer);
 }

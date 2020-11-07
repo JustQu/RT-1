@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/31 15:40:55 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/07 16:08:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,14 @@ static int	init_kernel(t_cl_program *p)
 	int	r;
 
 	r = 0;
-	p->work_size = 1920 * 1080;
+	p->work_size = IMG_WIDTH * IMG_HEIGHT;
 	p->work_group_size = WORK_GROUP_SIZE;
 	p->program = create_program(p->info.context);
 	r = clBuildProgram(p->program, 1, &p->info.de_id, "-cl-std=CL2.0", NULL, NULL);
 	cl_error(p, &p->info, r);
 	assert(!r);
 	p->new_kernel = clCreateKernel(p->program, KERNEL_NAME, &r);
+	cl_error(p, &p->info, r);
 	assert(!r);
 	p->help_kernel = clCreateKernel(p->program, "translate_image", &r);
 	assert(!r);

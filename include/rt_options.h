@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/16 19:16:14 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/07 16:09:54 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@
 #  include "sampler.h"
 # endif
 
-# define DEFAULT_WIDTH 1280
-# define DEFAULT_HEIGHT 720
+# define DEFAULT_WIDTH 800
+# define DEFAULT_HEIGHT 640
+
+# define IMG_WIDTH 800
+# define IMG_HEIGHT 640
 
 typedef struct s_rt_options		t_rt_options;
 

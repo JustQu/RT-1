@@ -25,10 +25,10 @@
 <kernel>:2991:1: warning: control reaches end of non-void function
 }
 ^
-<kernel>:3768:24: error: expected ')'
-                                                &f, &pdf, state) false)
-                                                                 ^
-<kernel>:3767:7: note: to match this '('
-                        if (scatter2(scene.instance_manager.tex_mngr, material, &shade_rec,
-                           ^
+<kernel>:4063:46: error: expected ')'
+                                                                                                sampler_manager,  options, seed));
+                                                                                                                                 ^
+<kernel>:4060:21: note: to match this '('
+                        color = color_sum(color,
+                                         ^
 

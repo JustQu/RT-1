@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 22:57:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/04 19:46:16 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/07 16:10:52 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 static const t_camera default_camera = {
 	.viewplane = {
 		.pixel_size = 1.0f,
-		.width = 1920,
-		.height = 1080},
+		.width = IMG_WIDTH,
+		.height = IMG_HEIGHT},
 	.type = perspective,
 	.origin = {.x = 0.0f, .y = 1.0f, .z = -8.0f, .w = 0.0f},
 	.direction = {.x = 0.0f, .y = -0.1f, .z = 1.0f, .w = 0.0f},
@@ -34,8 +34,8 @@ static const t_camera default_camera = {
 static const t_camera default_thin_lens_camera = {
 	.viewplane = {
 		.pixel_size = 1.0f,
-		.width = 1920,
-		.height = 1080,
+		.width = IMG_WIDTH,
+		.height = IMG_HEIGHT,
 	},
 	.type = thin_lens,
 	.origin = {.x = 0.0f, .y = 0.0f, .z = -8.0f, .w = 0.0f},
@@ -51,8 +51,8 @@ static const t_camera default_thin_lens_camera = {
 static const t_camera default_fisheye_camera = {
 	.viewplane = {
 		.pixel_size = 1.0f,
-		.width = 1920,
-		.height = 1080,
+		.width = IMG_WIDTH,
+		.height = IMG_HEIGHT,
 	},
 	.type = fisheye,
 	.origin = {.x = 0.0f, .y = 0.0f, .z = -8.0f, .w = 0.0f},
@@ -549,13 +549,13 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	scene->camera.l = 0.0f;
 	scene->camera.f = 1000.0f;
 	scene->camera.viewplane.pixel_size = 1.0f;
-	scene->camera.viewplane.width = 1920;
-	scene->camera.viewplane.height = 1080;
+	scene->camera.viewplane.width = IMG_WIDTH;
+	scene->camera.viewplane.height = IMG_HEIGHT;
 	scene->camera.origin =
 		(cl_float4){ .x = 278.0f, .y = 278.0f, .z = -800.0f, .w = 0.0f };
 	scene->camera.direction =
 		(cl_float4){ .x = 0.0f, .y = 0.0f, .z = 1.0f, .w = 0.0f };
-	scene->camera.d = 1600 ;
+	scene->camera.d = 900;
 	scene->camera.zoom = 1.0f;
 	scene->camera.normalized = FALSE;
 	compute_uvw(&scene->camera);
@@ -658,7 +658,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 
 	/* boxes inside */
 	object.type = box;
-	object.origin = (cl_float4){ .x = 265.0f, .y = 0.0f, .z = 65.0f, .w = 0.0f };
+	object.origin = (cl_float4){ .x = 265.0f, .y = 0.0f, .z = 135.0f, .w = 0.0f };
 	object.vector1 = (cl_float4){ .x = 0.0f, .y = 0.0f, .z = 0.0f, .w = 0.0f };
 	object.vector2 = (cl_float4){ .x = 165.0f, .y = 165.0f, .z = 165.0f, .w = 0.0f };
 	object.rotation = (cl_float3){ .x = 0.0f, .y = 18.0f, .z = 0.0f };
@@ -671,14 +671,15 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	add_parsed_object(instance_manager, object);
 
 	object.type = box;
-	object.origin = (cl_float4){.x = 130.0f, .y = 0.0f, .z = 295.0f, .w = 0.0f};
+	object.origin = (cl_float4){.x = 130.0f, .y = 0.0f, .z = 265.0f, .w = 0.0f};
 	object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f, .w = 0.0f};
 	object.vector2 = (cl_float4){.x = 165.0f, .y = 330.0f, .z = 165.0f, .w = 0.0f};
-	object.rotation = (cl_float3){.x = 0.0f, .y = -30.0f, .z = 0.0f};
+	object.rotation = (cl_float3){.x = 0.0f, .y = -18.0f, .z = 0.0f};
 	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
 	texture.type = solid;
 	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
 	object.material.type = matte;
+	// object.material.type = metal;
 	object.material.kr = 1.0f;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);

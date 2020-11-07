@@ -171,7 +171,7 @@ bool	lambertian_scater(t_texture_manager texture_manager,
 	return (true);
 }
 
-bool	dielectric_scatter2(t_material material,
+bool	dielectric_scatter1(t_material material,
 							t_shade_rec *shade_rec,
 							t_color *attenuation,
 							float4 *state)
@@ -208,8 +208,7 @@ bool	dielectric_scatter2(t_material material,
 	return (true);
 }
 
-bool	dielectric_scatter(
-							t_material material,
+bool	dielectric_scatter(t_material material,
 							t_shade_rec *shade_rec,
 							t_color *attenuation,
 							float4 *state)
@@ -319,6 +318,12 @@ float	lambertian_pdf(t_shade_rec const *const shade_rec,
 	return (cosine / M_PI);
 }
 
+float	metal_pdf(t_shade_rec const *const shade_rec,
+				t_ray const scattered_ray)
+{
+	return (dot(scattered_ray.direction, shade_rec->normal));
+}
+
 float	scattering_pdf(t_material const material,
 					t_shade_rec *const shade_rec,
 					t_ray const scattered_ray)
@@ -327,28 +332,11 @@ float	scattering_pdf(t_material const material,
 	{
 		return (lambertian_pdf(shade_rec, scattered_ray));
 	}
-	return 0.0f;
-}
-
-bool	scatter3(t_texture_manager texture_manger,
-				t_material material,
-				t_shade_rec *shade_rec,
-				t_color *attenuation,
-				float *pdf,
-				float4 *state)
-{
-	if (material.type == matte)
-	{
-		// return (scatter_lambertian());
-	}
 	else if (material.type == metal)
 	{
+		return (metal_pdf(shade_rec, scattered_ray));
 	}
-	else if (material.type == dielectric)
-	{
-
-	}
-	return (false);
+	return 0.0f;
 }
 
 inline bool	lambertian_scater2(t_texture_manager  texture_manager,
@@ -373,23 +361,50 @@ inline bool	lambertian_scater2(t_texture_manager  texture_manager,
 	return (true);
 }
 
+bool	metal_scatter2(t_texture_manager texture_manager,
+					t_material material,
+					t_shade_rec *shade_rec,
+					t_color *attenuation,
+					float *pdf,
+					float4 *state)
+{
+	shade_rec->normal = dot(shade_rec->normal, shade_rec->ray.direction) < 0.0f ?
+							shade_rec->normal : -shade_rec->normal;
+	float4 reflected = get_reflected_vector(shade_rec->ray.direction, shade_rec->normal);
+
+	shade_rec->ray.origin = shade_rec->hit_point + 1e-2f * shade_rec->normal;
+	shade_rec->ray.direction = reflected
+							+ 0.0f * random_cosine_direction(state);
+
+	*attenuation = float_color_multi(
+						material.kr,
+						get_color(texture_manager, material, shade_rec));
+	*pdf = dot(reflected, shade_rec->normal);
+	// *attenuation = float_color_multi(material.kr, material.color);
+	return (dot(reflected, shade_rec->normal) > 0.0f);
+}
+
 bool	scatter2(t_texture_manager texture_manager,
 				t_material material,
-				t_shade_rec * shade_rec,
-				t_color * attenuation,
+				t_shade_rec *shade_rec,
+				t_color *attenuation,
 				float *pdf,
-				float4 * state)
+				float4 *state)
 {
 	if (material.type == matte)
 	{
 		return (lambertian_scater2(texture_manager, material, shade_rec,
-						attenuation, pdf, state));
+									attenuation, pdf, state));
 	}
 	else if (material.type == dielectric)
 	{
+		// return (dielectric_scatter2(texture_manager, material, shade_rec,
+									// attenuatuin, pdf, state));
 	}
 	else if (material.type == metal)
 	{
+		return (metal_scatter2(texture_manager, material, shade_rec,
+								attenuation, pdf, state));
 	}
 	return false;
 }
@@ -410,9 +425,10 @@ t_color	global_shade(t_ray ray, t_scene scene, t_rt_options options,
 	t_shade_rec	shade_rec;
 	shade_rec.ray = ray;
 
+	bool	specular_bounce = false;
+
 	do
 	{
-		depth++;
 		//TODO: RUSSIAN ROULETTE?
 
 		if (scene_intersection(scene, ray, &shade_rec) &&
@@ -424,12 +440,13 @@ t_color	global_shade(t_ray ray, t_scene scene, t_rt_options options,
 			t_material	material = get_instance_material(scene.instance_manager,
 														instance);
 
-			if (depth == 1)
+			if (depth == 0 || specular_bounce)
 			{
 				color = color_sum(color,
-								area_light_shade(scene, sampler_manager,
-												material, shade_rec, options,
-												seed));
+								color_multi(beta,
+											area_light_shade(scene, sampler_manager,
+															material, shade_rec,
+															options, seed)));
 				// return (color);
 			}
 
@@ -447,17 +464,21 @@ t_color	global_shade(t_ray ray, t_scene scene, t_rt_options options,
 			}
 			else
 			{
+				// if (depth != 1)
 				color = color_sum(color,
 								color_multi(emitted(material, &shade_rec,
 													0, 0, shade_rec.hit_point),
 										beta));
 				continue_loop = false;
 			}
+
+			specular_bounce = material.type == metal;
 		}
 		else
 		{
 			continue_loop = false;
 		}
+		depth++;
 	} while (continue_loop);
 
 	return (color);

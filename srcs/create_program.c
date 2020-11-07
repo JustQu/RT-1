@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/10/30 13:30:30 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/07 15:33:53 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static const char *files[] = {
 	"ray_tracer.cl",
 	"area_light_tracer.cl",
 	"path_tracer.cl",
+	"trace.cl",
 	"camera.cl",
 	"main_kernel.cl",
 	"util_kernels.cl",
