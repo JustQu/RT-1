@@ -17,7 +17,7 @@ float	GPURnd(float4 *state)
 	return fract(dot(state_copy / m, (float4)(1.0f, -1.0f, 1.0f, -1.0f)), &res);
 }
 
-float4	cosine_sampler_hemisphere(float4 *state)
+float4	cosine_sample_hemisphere(float4 *state)
 {
 	float e1 = GPURnd(state);
 	float e2 = GPURnd(state);
@@ -107,7 +107,7 @@ void	build_from_w(float4 *const u, float4 *const v, float4 *const w,
 {
 	float4 a;
 
-	*w = normalize(n);
+	*w = n;
 	if (fabs(w->x) > 0.9f)
 		a = (float4)(0.0f, 1.0f, 0.0f, 0.0f);
 	else
@@ -116,12 +116,13 @@ void	build_from_w(float4 *const u, float4 *const v, float4 *const w,
 	*u = cross(*w, *v);
 }
 
+/* return normalized direcrtion in u,v,w coordinate system */
 float4	local_dir(float4 const *const u,
 				float4 const *const v,
 				float4 const *const w,
 				float4 const a)
 {
-	return a.x * *u + a.y * *v + a.z * *w;
+	return normalize(a.x * *u + a.y * *v + a.z * *w);
 }
 
 bool	lambertian_scater(t_texture_manager texture_manager,
@@ -147,7 +148,7 @@ bool	lambertian_scater(t_texture_manager texture_manager,
 	float4 u, v, w; // onb
 
 	build_from_w(&u, &v, &w, shade_rec->normal);
-	float4 direction = local_dir(&u, &v, &w, cosine_sampler_hemisphere(state));
+	float4 direction = local_dir(&u, &v, &w, cosine_sample_hemisphere(state));
 
 	shade_rec->ray.direction = normalize(direction);
 

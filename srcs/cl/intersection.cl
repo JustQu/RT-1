@@ -207,25 +207,49 @@ inline bool	generic_sphere_instersection(t_ray ray, t_obj sphere,
 										float *const tmin)
 {
 	float a = dot(ray.direction, ray.direction);
-	float b = 2.0f * dot(ray.direction,  ray.origin);
-	float c = dot(ray.origin,  ray.origin) - 1.0f;
+	float b = 2.0f * dot(ray.direction, ray.origin);
+	float c = dot(ray.origin, ray.origin) - 1.0f;
 	c = b * b - 4.0f * a * c; // DISC = (b/2)^2-ac
 
 	if (c < 0.0f)
 		return (false);
 	c = sqrt(c);
 	float t = (-b - c) / (2.0f * a);
-	if (t < 0.0f)
-	{
-		t = (-b + c) / (2.0f * a);
-	}
 	if (t > 0.0f && t < *tmin)
 	{
-		*tmin = t;
 		shade_rec->local_hit_point = ray.direction * t + ray.origin;
-		shade_rec->normal = get_sphere_normal(shade_rec->local_hit_point, sphere);
-		return (true);
+		// float phi = atan2(shade_rec->local_hit_point.x,
+						// shade_rec->local_hit_point.z);
+		// if (phi < 0.0f)
+			// phi += M_PI * 2.0f;
+		// if (phi >= 0.0f && phi <= M_PI / 2)
+		// {
+			shade_rec->normal = get_sphere_normal(shade_rec->local_hit_point,
+												sphere);
+			*tmin = t;
+			return (true);
+		// }
 	}
+
+	/* second root */
+	t = (-b + c) / (2.0f * a);
+
+	if (t > 0.0f && t < *tmin)
+	{
+		shade_rec->local_hit_point = ray.direction * t + ray.origin;
+		// float phi = atan2(shade_rec->local_hit_point.x,
+						// shade_rec->local_hit_point.z);
+		// if (phi < 0.0f)
+			// phi += M_PI * 2.0f;
+		// if (phi >= 0.0f && phi <= M_PI / 2)
+		// {
+			shade_rec->normal = get_sphere_normal(shade_rec->local_hit_point,
+												sphere);
+			*tmin = t;
+			return (true);
+		// }
+	}
+
 	return (false);
 }
 

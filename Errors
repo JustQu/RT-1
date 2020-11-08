@@ -1,34 +1,35 @@
-<kernel>:1495:1: warning: control may reach end of non-void function
+<kernel>:1502:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:1533:1: warning: control may reach end of non-void function
+<kernel>:1540:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:2209:1: warning: control may reach end of non-void function
+<kernel>:2240:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:2262:1: warning: control may reach end of non-void function
+<kernel>:2293:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:2275:1: warning: control may reach end of non-void function
+<kernel>:2306:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:2361:1: warning: control reaches end of non-void function
+<kernel>:2392:1: warning: control reaches end of non-void function
 }
 ^
-<kernel>:2609:1: warning: control reaches end of non-void function
+<kernel>:2640:1: warning: control reaches end of non-void function
 }
 ^
-<kernel>:2689:1: warning: control may reach end of non-void function
+<kernel>:2720:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:2991:1: warning: control reaches end of non-void function
+<kernel>:3022:1: warning: control reaches end of non-void function
 }
 ^
-<kernel>:4063:46: error: expected ')'
-                                                                                                sampler_manager,  options, seed));
-                                                                                                                                 ^
-<kernel>:4060:21: note: to match this '('
-                        color = color_sum(color,
-                                         ^
+<kernel>:4111:1: warning: control reaches end of non-void function
+}
+^
+<kernel>:4149:22: error: member reference type 't_shade_rec *__attribute__((address_space(16776963)))' (aka 'struct s_shade_rec *__attribute__((address_space(16776963)))') is a pointer; maybe you meant to use '->'?
+                                                                                                shade_rec.normal);
+                                                                                                ~~~~~~~~~^
+                                                                                                         ->
 

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 22:57:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/07 16:10:52 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/08 21:56:46 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -596,6 +596,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
 	add_parsed_object(instance_manager, object);
 
+	/* BOTTOM */
 	object.type = box;
 	object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
 	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
@@ -603,7 +604,8 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.vector2 = (cl_float4){.x = 555.0f, .y = 0.001f, .z = 555.0f};
 	texture.type = solid;
 	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = matte;
+	object.material.type = mirror;
+	object.material.exp = 2.01f;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
 	add_parsed_object(instance_manager, object);
@@ -665,10 +667,10 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.scaling = (cl_float4){ 1.0f, 1.0f, 1.0f };
 	texture.type = solid;
 	texture.data.solid.color = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
-	object.material.type = matte;
+	object.material.type = mirror;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// add_parsed_object(instance_manager, object);
 
 	object.type = box;
 	object.origin = (cl_float4){.x = 130.0f, .y = 0.0f, .z = 265.0f, .w = 0.0f};
@@ -678,8 +680,9 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
 	texture.type = solid;
 	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = matte;
+	object.material.type = conductor;
 	// object.material.type = metal;
+	object.material.exp = 0.1f;
 	object.material.kr = 1.0f;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
@@ -689,16 +692,17 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.r = 1.0f;
 	object.origin = (cl_float4){.x = 350.0f, .y = 90.0f, .z = 160.0f, .w = 0.0f};
 	object.scaling = (cl_float4){80.0f, 80.0f, 80.0f};
-	object.rotation = (cl_float3){.x = 0.0f, .y = 0.0f, .z = 0.0f};
+	object.rotation = (cl_float3){.x = 90.0f, .y = 0.0f, .z = 0.0f};
 	texture.type = solid;
 	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = matte;
+	object.material.type = mirror;
+	object.material.exp = 0.9f;
 	object.material.kt = 1.5f;
 	object.material.kr = 1.0f;
 	object.material.kd = 1.0f;
 	object.material.ka = 0.1f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	add_parsed_object(instance_manager, object);
 
 	object.type = torus;
 	object.r = 1.0f;
@@ -754,17 +758,4 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	light.ls = 1.0f;
 	light.color = default_directional_light.color;
 	// add_parsed_light(&scene->light_manager, light);
-
-	// scene->lights[1] = default_directional_light;
-	// scene->lights[1].ls = 0.2f;
-	// scene->lights[1].origin.x = INFINITY;
-	// scene->lights[1].origin.y = INFINITY;
-	// scene->lights[1].origin.z = INFINITY;
-
-	// scene->lights[2] = default_point_light;
-	// scene->lights[2].origin.x = 0.0f;
-	// scene->lights[2].origin.y = 5.0f;
-	// scene->lights[2].origin.y = 5.0f;
-
-	// scene->lights[2].ls = 1.0f;
 }
