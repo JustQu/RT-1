@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   qjulia_color.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 16:07:23 by user              #+#    #+#             */
-/*   Updated: 2020/09/10 16:09:56 by user             ###   ########.fr       */
+/*   Updated: 2020/11/08 14:50:46 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,13 @@
 void	update_color(float t[4], float a[4], float b[4])
 {
 	*t += 0.01f;
-
 	if (*t >= 1.0f)
 	{
 		*t = 0.0f;
-
 		a[0] = b[0];
 		a[1] = b[1];
 		a[2] = b[2];
 		a[3] = b[3];
-
 		random_color(b);
 	}
 }
@@ -48,19 +45,17 @@ void	interpolate(float m[4], float t, float a[4], float b[4])
 
 void	update_mu(float t[4], float a[4], float b[4])
 {
+	uint seed;
+
 	*t += 0.01f;
-
-	uint seed = (uint)mach_absolute_time();
-
+	seed = (uint)mach_absolute_time();
 	if (*t >= 1.0f)
 	{
 		*t = 0.0f;
-
 		a[0] = b[0];
 		a[1] = b[1];
 		a[2] = b[2];
 		a[3] = b[3];
-
 		b[0] = 2.0f * rand_r(&seed) / (float)RAND_MAX - 1.0f;
 		b[1] = 2.0f * rand_r(&seed) / (float)RAND_MAX - 1.0f;
 		b[2] = 2.0f * rand_r(&seed) / (float)RAND_MAX - 1.0f;
@@ -72,9 +67,9 @@ void	random_color(float v[4])
 {
 	uint seed;
 
-	seed = (uint)mach_absolute_time(); /* get current time */
-	v[0] = 5.0f * rand_r(&seed) / (float) RAND_MAX - 1.0f;
-	v[1] = 5.0f * rand_r(&seed) / (float) RAND_MAX - 1.0f;
-	v[2] = 5.0f * rand_r(&seed) / (float) RAND_MAX - 1.0f;
+	seed = (uint)mach_absolute_time();
+	v[0] = 5.0f * rand_r(&seed) / (float)RAND_MAX - 1.0f;
+	v[1] = 5.0f * rand_r(&seed) / (float)RAND_MAX - 1.0f;
+	v[2] = 5.0f * rand_r(&seed) / (float)RAND_MAX - 1.0f;
 	v[3] = 1.0f;
 }

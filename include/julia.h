@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:32:04 by user              #+#    #+#             */
-/*   Updated: 2020/11/08 14:38:55 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/08 16:07:38 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ typedef struct			s_compute
 void					init_julia_color(t_julia_color *color);
 void					init_compute_cl(t_compute *compute);
 void					init_texture_cl(t_texture2 *texture);
-void					setup_color(float color[4], float r,
-							float g, float b, float a);
+void					setup_color(float color[4], SDL_Color *colors);
 void					random_color(float v[4]);
 void					update_mu(float t[4], float a[4], float b[4]);
 int						divide_up(int a, int b);
