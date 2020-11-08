@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   instance_manager.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 19:52:25 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/07 20:15:47 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/05 14:42:07 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int		set_object_info(t_object_info *object_info,
 	object_info->bounding_box.max = parsed_object.vector2;
 	object_info->minm = 0.0f;
 	object_info->maxm = 1.0f;
+	object_info->type = parsed_object.type;
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:28:34 by user              #+#    #+#             */
-/*   Updated: 2020/09/17 13:16:46 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/08 14:33:56 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "gui.h"
 #include "rt.h"
 
-void	create_texture(t_texture *texture)
+void	create_texture(t_texture2 *texture)
 {
 	if (texture->id)
 		glDeleteTextures(1, &texture->id);
@@ -31,7 +31,7 @@ void	create_texture(t_texture *texture)
 	glBindTexture(texture->target, 0);
 }
 
-int		setup_graphics(t_texture *texture)
+int		setup_graphics(t_texture2 *texture)
 {
 	create_texture(texture);
 
@@ -200,7 +200,7 @@ int		setup_compute_kernel(t_compute *compute)
 	return CL_SUCCESS;
 }
 
-int		create_compute_result(t_texture *texture, t_compute *compute)
+int		create_compute_result(t_texture2 *texture, t_compute *compute)
 {
 	int err = 0;
 
@@ -292,7 +292,7 @@ int		recompute(t_compute *compute, t_julia_color *color)
 	return CL_SUCCESS;
 }
 
-void	qjulia_render_texture(t_texture *texture)
+void	qjulia_render_texture(t_texture2 *texture)
 {
 	glDisable(GL_LIGHTING);
 	glViewport(0, 0, J_WIDTH, J_HEIGHT);
@@ -390,7 +390,7 @@ void		setup_color(float color[4], float r, float g, float b, float a)
 	color[3] = a;
 }
 
-int					main_qjulia() /* is julia main */
+void					main_qjulia() /* is julia main */
 {
 	t_compute		compute;
 	t_texture		texture;
@@ -402,7 +402,6 @@ int					main_qjulia() /* is julia main */
 	init_compute_cl(&compute);
 	init_julia_color(&color);
 
-	/*  SDL  */
 	SDL_Window *window;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -412,24 +411,24 @@ int					main_qjulia() /* is julia main */
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
 
-	window = SDL_CreateWindow("sdl_julia", 100, 100, J_WIDTH, J_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+	window = SDL_CreateWindow("sdl_julia", 100, 100, J_WIDTH,
+		J_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 	SDL_GLContext glcontext = SDL_GL_CreateContext(window);
 	if (window == NULL)
 		printf("error window");
-
 	if (init_cl(&texture, &compute, &color) == GL_NO_ERROR)
 	{
 		while (loop)
 		{
 			SDL_Event event;
-			while(SDL_PollEvent(&event))
+			while (SDL_PollEvent(&event))
 			{
-				if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
+				if (event.type == SDL_QUIT ||
+					event.key.keysym.sym == SDLK_ESCAPE)
 				{
-
 					loop = 0;
-					// SDL_DestroyWindow(window);
-					// SDL_Quit();
+					SDL_DestroyWindow(window);
+					SDL_Quit();
 				}
 				if (event.type == SDL_KEYDOWN)
 				{
@@ -443,5 +442,4 @@ int					main_qjulia() /* is julia main */
 	}
 	SDL_DestroyWindow(window);
 	SDL_Quit();
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/30 22:21:09 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/08 13:37:52 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ int main(int ac, char **av)
 	t_window	window_gui;
 	t_all_rect	all_rect;
 	t_colors color;
-
 
 	f = fopen("ocl.cl", "w+");
 	init_colors(&color);

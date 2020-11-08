@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   qjulia_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 16:05:53 by user              #+#    #+#             */
-/*   Updated: 2020/09/10 16:35:43 by user             ###   ########.fr       */
+/*   Updated: 2020/11/08 14:21:07 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "julia.h"
 
-int		init_cl(t_texture *texture, t_compute *compute, t_julia_color *color)
+int		init_cl(t_texture2 *texture, t_compute *compute, t_julia_color *color)
 {
 	int err;
 	cl_bool image_support;
@@ -54,7 +54,7 @@ void	init_julia_color(t_julia_color *color)
 	setup_color(color->color_c, 0.25f, 0.45f, 1.0f, 1.0f);
 }
 
-void	init_texture_cl(t_texture *texture)
+void	init_texture_cl(t_texture2 *texture)
 {
 	texture->id = 0;
 	texture->target = GL_TEXTURE_2D;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_options.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:37:09 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/21 15:53:37 by user             ###   ########.fr       */
+/*   Updated: 2020/11/05 14:16:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ int		init_default_options(t_rt_options *options,
 	options->depth = 1;
 	options->spp = NUM_SAMPLES;
 	options->aa_id = new_sampler(sampler_manager, rand_jitter, NUM_SAMPLES, NUM_SETS);
+	options->current_id = 0;
 	return (SUCCESS);
 }

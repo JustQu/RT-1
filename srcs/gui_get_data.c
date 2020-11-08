@@ -6,13 +6,38 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 20:39:11 by alex              #+#    #+#             */
-/*   Updated: 2020/11/04 14:42:11 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/08 13:49:24 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "libft.h"
 #include "rt.h"
+
+void			get_void_data(char *string, char **str)
+{
+	str[0] = ft_strdup(string);
+	str[1] = NULL;
+	str[2] = NULL;
+	str[3] = NULL;
+}
+
+void			get_intensive_data(int ptr, char *string, char **str)
+{
+	str[0] = ft_strdup(string);
+	if (ptr == 0)
+		str[1] = ft_strdup("ambient");
+	else if (ptr == 1)
+		str[1] = ft_strdup("ambient_occluder");
+	else if (ptr == 2)
+		str[1] = ft_strdup("directional");
+	else if (ptr == 3)
+		str[1] = ft_strdup("point");
+	else if (ptr == 4)
+		str[1] = ft_strdup("area");
+	else if (ptr == 5)
+		str[1] = ft_strdup("enviromental");
+}
 
 void			get_texture_data(int ptr, char *string, char **str)
 {

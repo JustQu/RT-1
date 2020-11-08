@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/03 15:25:54 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/08 14:29:43 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 	if (is_press_button(event, &rect->save_img_button) && g_camera_tab_pressed == 1)
 	{
 		g_save_image = 1;
+	}
+	if (is_press_button(event, &rect->ten_button) && g_camera_tab_pressed == 1)
+	{
+		g_fractal_hide = 1;
 	}
 	/*
 	else if (is_press_button(event, &rect->first_button) && g_objects_tab_pressed == 1)
@@ -155,6 +159,18 @@ int catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
 			{
 				rt->options.reset = 1;
 				rt->options.spp = NUM_SAMPLES;
+			}
+			else if (event.key.keysym.sym == SDLK_TAB)
+			{
+				rt->options.current_id++;
+				if (rt->options.current_id >= rt->scene.instance_mngr.ninstances)
+					rt->options.current_id = 0;
+			}
+			else if (event.key.keysym.sym == SDLK_q)
+			{
+				rt->options.current_id++;
+				if (rt->options.current_id >= rt->scene.nlights)
+					rt->options.current_id = 0;
 			}
 		}
 		if (event.type == SDL_KEYUP)

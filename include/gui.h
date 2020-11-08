@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/11/04 14:29:14 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/08 14:25:37 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int				g_inside_is_pressed;
 int				g_save_image;
 int				g_size;
 int				g_font_size;
+int				g_fractal_hide;
 
 typedef struct	s_all_rect
 {
@@ -138,5 +139,9 @@ void			gui_disk_vision(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color);
 void			gui_rectangle_vision(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color);
-
+void			get_intensive_data(int ptr, char *string,
+					char **str);
+void			get_void_data(char *string, char **str);
+void			light_tab(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
 #endif

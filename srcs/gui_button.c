@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:52:14 by alex              #+#    #+#             */
-/*   Updated: 2020/10/30 20:11:15 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/08 13:50:34 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void			draw_button(t_window *win, SDL_Rect *rect,
 		render_rect(text, win->renderer, &ptr);
 		SDL_DestroyTexture(text);
 	}
-	if (w <= win->width)
+	if (w <= win->width && str[1] != NULL)
 	{
 		button = init_rect_size(rect->x + MARGIN, rect->y,
 			rect->w - MARGIN * 2 - 150, rect->h);
