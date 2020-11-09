@@ -57,7 +57,7 @@ t_color	sample_light(t_material material, t_shade_rec shade_rec, t_scene scene,
 					t_sampler_manager sampler_manager, t_rt_options options,
 					uint2 *seed)
 {
-	if (material.type == matte)
+	if (material.type == matte || material.type == plastic)
 	{
 		return (matte_sample_light(material, shade_rec, scene, sampler_manager,
 									options, seed));
@@ -68,6 +68,10 @@ t_color	sample_light(t_material material, t_shade_rec shade_rec, t_scene scene,
 		return ((t_color) { 0.0f, 0.0f, 0.0f, 0.0f });
 	}
 	else if (material.type == conductor)
+	{
+		return ((t_color) { 0.0f, 0.0f, 0.0f, 0.0f });
+	}
+	else if (material.type == dielectric)
 	{
 		return ((t_color) { 0.0f, 0.0f, 0.0f, 0.0f });
 	}
@@ -136,10 +140,54 @@ float	ggx_visibility_term(float roughness_sq, float t0, float t1)
 	return (ggx_visibility(roughness_sq, t0) * ggx_visibility(roughness_sq, t1));
 }
 
+float	ggx_visibility2(float a_sq, float4 w, float4 n, float4 m)
+{
+	float NdotW = dot(n, w);
+	float MdotW = dot(m, w);
+	if (MdotW * NdotW <= 0.0f)
+		return 0.0f;
+
+	float cosThetaSquared = NdotW * NdotW;
+	float tanThetaSquared = (1.0f - cosThetaSquared) / cosThetaSquared;
+	if (tanThetaSquared == 0.0f)
+		return 1.0f;
+
+	return 2.0f / (1.0f + sqrt(1.0f + a_sq * tanThetaSquared));
+}
+
+float	ggx_visibility_term2(float a_sq, float4 wo, float4 wi,
+							float4 n, float4 m)
+{
+	return (ggx_visibility2(a_sq, wo, n, m) * ggx_visibility2(a_sq, wi, n, m));
+}
+
 float	ggx_normal_distribution(float roughness_sq, float cos_theta)
 {
 	float denom = (roughness_sq - 1.0f) * cos_theta * cos_theta + 1.0f;
 	return (roughness_sq / (M_PI * denom * denom));
+}
+
+float	ggx_normal_distribution2(float a_sq, float4 n, float4 m)
+{
+	float	cos_theta = dot(n, m);
+	float	cos_theta_sq = cos_theta * cos_theta;
+	float	denom = cos_theta_sq * (a_sq - 1.0f) + 1.0f;
+	return ((cos_theta > 0.0f) ? a_sq * M_1_PI_F / (denom * denom) : 0.0f);
+}
+
+float4	sample_ggx_distriburion(float4 wi, float cos_theta, float4 *state)
+{
+	float e1 = GPURnd(state);
+	float e2 = GPURnd(state);
+	cos_theta = sqrt((1.0f - e1)
+					/ (e1 * (cos_theta - 1.0f) + 1.0f));
+	float phi = e2 * M_PI_F * 2.0f;
+	float sin_theta = sqrt(1.0f - cos_theta * cos_theta);
+	float4 u, v, w;
+	build_from_w(&u, &v, &w, wi);
+	return ((float4)((u * cos(phi) +
+					v * sin(phi)) * sin_theta +
+					w * cos_theta));
 }
 
 //wo from ray
@@ -154,21 +202,9 @@ t_color	conductor_sample_material(t_material material, t_shade_rec *shade_rec,
 	shade_rec->ray.origin = shade_rec->hit_point + 1e-2f * shade_rec->normal;
 	float4 wo = -shade_rec->ray.direction;
 
-	{ /* sample ggx distribution */
-		float4 reflected = get_reflected_vector(shade_rec->ray.direction,
-												shade_rec->normal);
-		float e1 = GPURnd(state);
-		float e2 = GPURnd(state);
-		float cos_theta = sqrt((1.0f - e1)
-						/ (e1 * (material.exp * material.exp - 1.0f) + 1.0f));
-		float phi = e2 * M_PI_F * 2.0f;
-		float sin_theta = sqrt(1.0f - cos_theta * cos_theta);
-		float4 u, v, w;
-		build_from_w(&u, &v, &w, reflected);
-		shade_rec->ray.direction = (float4)((u * cos(phi) +
-											v * sin(phi)) * sin_theta +
-											w * cos_theta);
-	}
+	shade_rec->ray.direction = sample_ggx_distriburion(
+		get_reflected_vector(shade_rec->ray.direction, shade_rec->normal),
+		material.exp * material.exp, state);
 
 	float4 h = normalize(wo + shade_rec->ray.direction);
 
@@ -186,6 +222,197 @@ t_color	conductor_sample_material(t_material material, t_shade_rec *shade_rec,
 								get_color(texture_manager, material, shade_rec));
 		*pdf = d * ndoth / (4.0f * hdotwi);
 	}
+}
+
+float	fresnel_dielectric(float4 wo, float4 m, float eta)
+{
+	float	result = 1.0f;
+	float	cos_theta_wo = dot(wo, m);
+	if (cos_theta_wo < 0.0f)
+		cos_theta_wo = -cos_theta_wo;
+	float	sin_theta_os_squared = eta * eta
+								* (1.0f - cos_theta_wo * cos_theta_wo);
+	if (sin_theta_os_squared <= 1.0f)
+	{
+		float cos_theta = sqrt(clamp(1.0f - sin_theta_os_squared, 0.0f, 1.0f));
+		float Rs = (cos_theta_wo - eta * cos_theta)
+				/ (cos_theta_wo + eta * cos_theta);
+		float Rp = (eta * cos_theta_wo - cos_theta)
+				/ (eta * cos_theta_wo + cos_theta);
+		result = 0.5f * (Rs * Rs + Rp * Rp);
+	}
+	return (result);
+}
+
+float	remap_roughness(float roughness, float ndotwo)
+{
+	if (ndotwo < 0.0f)
+		ndotwo = -ndotwo;
+	float alpha = (1.2f - 0.2f * sqrt(ndotwo)) * roughness;
+	return (alpha * alpha);
+}
+
+float	sqr(float a)
+{
+	return (a * a);
+}
+
+t_color	evaluate_dielectric(t_material material, t_shade_rec *shade_rec,
+							t_color *f, float *pdf, float *weight,
+							t_texture_manager texture_manager, float4 *state,
+							float4 wi)
+{
+	bool entering_material = dot(shade_rec->normal,
+							shade_rec->ray.direction) < 0.0f;
+	float4 n = entering_material ? shade_rec->normal : -shade_rec->normal;
+
+	float ndotwo = -dot(n, shade_rec->ray.direction);
+	float ndotwi = dot(n, wi);
+	bool reflection = ndotwi * ndotwo > 0.0f;
+
+	float eta = entering_material ? (1.0f / material.kt)
+									: (material.kt / 1.0f);
+
+	float4 m = normalize(reflection ? (wi - shade_rec->ray.direction)
+									: (shade_rec->ray.direction * eta - wi));
+	m *= (dot(n, m) < 0.0f) ? -1.0f : 1.0f;
+
+	float MdotI = -dot(m, shade_rec->ray.direction);
+	float MdotO = dot(m, wi);
+	float NdotM = dot(n, m);
+	float alpha = remap_roughness(material.exp, ndotwo);
+
+	float F = fresnel_dielectric(shade_rec->ray.direction, m, eta);
+	float D = ggx_normal_distribution2(alpha, n, m);
+	float G = ggx_visibility_term2(alpha, shade_rec->ray.direction, wi, n, m);
+
+	if (reflection)
+	{
+		float J = 1.0f / (4.0f * MdotO);
+
+		shade_rec->ray.origin = shade_rec->hit_point + 1e-2f * m;
+		*f = (t_color){1.5f, 1.5f, 0.0f, 0.0f};
+		// *f = float_color_multi(D * G * F / (4.0f * ndotwo),
+							// (t_color){1.0f, 1.0f, 1.0f, 0.0f});
+		*pdf = F * J;
+		// *f =
+	}
+	else
+	{
+		float J = MdotI / sqr(MdotI * eta + MdotO);
+
+		float value = (1.0f - F) * D * G * MdotI * MdotO / (ndotwo * sqr(MdotI * eta + MdotO));
+		if (value < 0.0f)
+			value = -value;
+		*f = (t_color){1.0f, 1.0f, 0.0f, 0.0f};
+
+		// *f = float_color_multi(value, (t_color){1.0f, 1.0f, 1.0f, 0.0f});
+		*pdf = (1.0f - F) * J;
+		shade_rec->ray.origin = shade_rec->hit_point - 1e-2f * m;
+	}
+	*f = float_color_multi(G * MdotI / (ndotwo * NdotM), *f);
+	// *pdf *= D * NdotM;
+	*pdf = 1.0f;
+}
+
+t_color	dielectric_sample_material(t_material material, t_shade_rec *shade_rec,
+								t_color *f, float *pdf, float *weight,
+								t_texture_manager texture_manager, float4 *state)
+{
+	bool	entering_material =
+		dot(shade_rec->normal, shade_rec->ray.direction) < 0.0f;
+
+	float4	n = entering_material ? shade_rec->normal : -shade_rec->normal;
+	float	a = remap_roughness(material.exp, dot(n, shade_rec->ray.direction));
+	float4	m = sample_ggx_distriburion(n, a, state);
+
+	float eta_i = entering_material ? 1.0f : material.kt;
+	float eta_o = entering_material ? material.kt : 1.0f;
+	float eta = eta_i / eta_o;
+
+	float fr = fresnel_dielectric(shade_rec->ray.direction, m, eta);
+
+	float4 wi;
+	if (GPURnd(state) > fr) //refraction
+	{
+		float cos_theta_i = dot(m, -shade_rec->ray.direction);
+		float sin_theta_os_squared = (eta * eta)
+								* (1.0f - cos_theta_i * cos_theta_i);
+		float cosThetaO = sqrt(clamp(1.0f - sin_theta_os_squared, 0.0f, 1.0f));
+		wi = normalize(eta * shade_rec->ray.direction +
+						m * (eta * cos_theta_i - cosThetaO));
+		// shade_rec->ray.origin = shade_rec->hit_point - 1e-4f * n;
+	}
+	else
+	{
+		wi = get_reflected_vector(shade_rec->ray.direction, m);
+	}
+	evaluate_dielectric(material, shade_rec, f, pdf, weight,
+								texture_manager, state,
+								wi);
+	shade_rec->ray.direction = wi;
+}
+
+t_color	plastic_evaluate(t_material material, t_shade_rec *shade_rec,
+						t_color *f, float *pdf, float *weight,
+						t_texture_manager texture_manager, float4 *state,
+						float4 wi)
+{
+	float NdotI = -dot(shade_rec->normal, shade_rec->ray.direction);
+	float NdotO = dot(shade_rec->normal, wi);
+	float4 m = normalize(wi - shade_rec->ray.direction);
+	float NdotM = dot(shade_rec->normal, m);
+	float MdotO = dot(m, wi);
+
+	float a = material.exp * material.exp;
+	float F = fresnel_dielectric(shade_rec->ray.direction, m,
+								material.kr);
+	float D = ggx_normal_distribution2(a, shade_rec->normal, m);
+	float G = ggx_visibility_term2(a, shade_rec->ray.direction, wi,
+									 shade_rec->normal, m);
+	float J = 1.0f / (4.0 * MdotO);
+
+	t_color c = get_color(texture_manager, material, shade_rec);
+
+	*f = color_sum(float_color_multi(M_1_PI_F * NdotO * (1.0f - F), c),
+					float_color_multi(F * D * G / (4.0 * NdotI) * material.kr,
+									(t_color){1.0, 1.0f, 1.0f, 0.0f}));
+
+	// *pdf = 1.0f;
+	*pdf = M_1_PI_F * NdotO * (1.0f - F) + D * NdotM * J * F;
+
+	shade_rec->ray.origin = shade_rec->hit_point + 1e-2f * m;
+	shade_rec->ray.direction = wi;
+}
+
+
+t_color	plastic_sample_material(t_material material, t_shade_rec *shade_rec,
+								t_color *f, float *pdf, float *weight,
+								t_texture_manager texture_manager, float4 *state)
+{
+	// sample microfacet at given point
+	float alphaSquared = material.exp * material.exp;
+	float4 m = sample_ggx_distriburion(shade_rec->normal, alphaSquared, state);
+
+	// calculate Fresnel equation for given microfacet
+	float eta = material.kr;
+	float F = fresnel_dielectric(shade_rec->ray.direction, m, eta);
+
+	float4 wi;
+	if (GPURnd(state) < F)
+	{
+		wi = get_reflected_vector(shade_rec->ray.direction, m);
+	}
+	else
+	{
+		float4 u, v, w;
+
+		build_from_w(&u, &v, &w, shade_rec->normal);
+		wi = local_dir(&u, &v, &w, random_cosine_direction(state));
+	}
+
+	plastic_evaluate(material, shade_rec, f, pdf, weight,
+					texture_manager, state, wi);
 }
 
 /* sample f*/
@@ -208,6 +435,16 @@ t_color	sample_material(t_material material, t_shade_rec *shade_rec,
 	{
 		return (conductor_sample_material(material, shade_rec, f, pdf, weight,
 										texture_manager, state));
+	}
+	else if (material.type == plastic)
+	{
+		return (plastic_sample_material(material, shade_rec, f, pdf, weight,
+										texture_manager, state));
+	}
+	else if (material.type == dielectric)
+	{
+		return (dielectric_sample_material(material, shade_rec, f, pdf, weight,
+									texture_manager, state));
 	}
 	else if(material.type == emissive)
 	{
@@ -236,7 +473,7 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 
 	bool	specular_hit = false;
 
-	while (depth < 5)
+	while (depth < 10)
 	{
 		if (scene_intersection(scene, ray, &shade_rec))
 		{
@@ -248,6 +485,7 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 			t_instance instance = _get_instance();
 			t_material material = _get_instance_material();
 
+			// if (material.type == emissive)
 			color = color_sum(color,
 							color_multi(beta,
 										sample_light(material, shade_rec, scene,

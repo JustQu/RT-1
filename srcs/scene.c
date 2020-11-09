@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 22:57:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/08 21:56:46 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/09 18:57:49 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -572,6 +572,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
 	// add_parsed_object(instance_manager, object);
 
+	/* LEFT WALL */
 	object.type = box;
 	object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
 	object.scaling = (cl_float4){ 1.0f, 1.0f, 1.0f };
@@ -579,11 +580,13 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.vector2 = (cl_float4){.x = 0.01f, .y = 555.0f, .z = 555.0f};
 	texture.type = solid;
 	texture.data.solid.color = (t_color){ .r = 0.0f, .g = 1.0f, .b = 0.0f };
-	object.material.type = matte;
-	object.material.kd = 1.0f;
+	object.material.type = plastic;
+	object.material.exp = 0.3f;
+	object.material.kr = 0.5f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
 	add_parsed_object(instance_manager, object);
 
+	/* RIGHT WALL*/
 	object.type = box;
 	object.origin = (cl_float4){.x = 555.0f, .y = 0.0f, .z = 0.0f};
 	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
@@ -591,7 +594,9 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.vector2 = (cl_float4){.x = 0.001f, .y = 555.0f, .z = 555.0f};
 	texture.type = solid;
 	texture.data.solid.color = (t_color){.r = 1.0f, .g = 0.0f, .b = 0.0f};
-	object.material.type = matte;
+	object.material.type = plastic;
+	object.material.kr = 0.2f;
+	object.material.exp = 0.15f;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
 	add_parsed_object(instance_manager, object);
@@ -604,7 +609,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.vector2 = (cl_float4){.x = 555.0f, .y = 0.001f, .z = 555.0f};
 	texture.type = solid;
 	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = mirror;
+	object.material.type = matte;
 	object.material.exp = 2.01f;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
@@ -622,6 +627,7 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
 	add_parsed_object(instance_manager, object);
 
+	/* BACK WALL */
 	object.type = box;
 	object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 555.0f};
 	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
@@ -629,13 +635,16 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.vector2 = (cl_float4){.x = 555.0f, .y = 555.0f, .z = 0.001f};
 	texture.type = solid;
 	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = matte;
+	object.material.type = plastic;
+	object.material.exp = 0.01f;
+	object.material.kt = 1.8f;
+	object.material.kr = 1.8f;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
 	add_parsed_object(instance_manager, object);
 
 	object.type = rectangle;
-	object.origin = (cl_float4){ .x = 213.0f, .y = 553.0f, .z = 227.0f, .w = 0.0f };
+	object.origin = (cl_float4){ .x = 213.0f, .y = 553.0f, .z = 250.0f, .w = 0.0f };
 	object.r = 130.0f;
 	object.r2 = 105.0f;
 	object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
@@ -680,9 +689,9 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
 	texture.type = solid;
 	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = conductor;
+	object.material.type = matte;
 	// object.material.type = metal;
-	object.material.exp = 0.1f;
+	object.material.exp = 0.5f;
 	object.material.kr = 1.0f;
 	object.material.kd = 1.0f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
@@ -690,15 +699,15 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 
 	object.type = sphere;
 	object.r = 1.0f;
-	object.origin = (cl_float4){.x = 350.0f, .y = 90.0f, .z = 160.0f, .w = 0.0f};
+	object.origin = (cl_float4){.x = 350.0f, .y = 80.0f, .z = 190.0f, .w = 0.0f};
 	object.scaling = (cl_float4){80.0f, 80.0f, 80.0f};
-	object.rotation = (cl_float3){.x = 90.0f, .y = 0.0f, .z = 0.0f};
+	object.rotation = (cl_float3){.x = 00.0f, .y = 0.0f, .z = 0.0f};
 	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = mirror;
-	object.material.exp = 0.9f;
-	object.material.kt = 1.5f;
-	object.material.kr = 1.0f;
+	texture.data.solid.color = (t_color){.r = 0.4f, .g = 0.4f, .b = 1.0f};
+	object.material.type = plastic;
+	object.material.exp = 0.01f;
+	object.material.kt = 0.2f;
+	object.material.kr = 0.8f;
 	object.material.kd = 1.0f;
 	object.material.ka = 0.1f;
 	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);

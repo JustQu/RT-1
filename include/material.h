@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/08 19:36:04 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/09 17:46:45 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ enum e_material_type
 	matte, //kd, ka
 	phong,
 
+	plastic,
+
 	emissive,
 	diffuse_light,
 
@@ -35,6 +37,7 @@ enum e_material_type
 	conductor,
 
 	dielectric,	//transparance
+	rough_dielectric,
 };
 
 /**
