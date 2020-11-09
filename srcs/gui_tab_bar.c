@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/11/08 14:29:34 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/09 19:03:08 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,26 @@ void			is_type_lights(t_window *win, t_rt *rt,
 
 	if (rt->scene.lights[rt->options.current_id].type == directional)
 	{
-		get_float4_data(rt->scene.lights[rt->options.current_id].direction, "Direction", &str);
+		get_float4_data(rt->scene.lights[rt->options.current_id].direction,
+			"Direction", &str);
 		draw_button_xyz(win, &rect->eight_button, str, color);
 	}
 	if (rt->scene.lights[rt->options.current_id].type == point)
 	{
-		get_float4_data(rt->scene.lights[rt->options.current_id].origin, "Origin", &str);
+		get_float4_data(rt->scene.lights[rt->options.current_id].origin,
+			"Origin", &str);
 		draw_button_xyz(win, &rect->eight_button, str, color);
 	}
 	if (rt->scene.lights[rt->options.current_id].type == area)
 	{
-		get_float_data(rt->scene.lights[rt->options.current_id].object_id, "Object_id", &str);
+		get_float_data(rt->scene.lights[rt->options.current_id].object_id,
+			"Object_id", &str);
 		draw_button(win, &rect->eight_button, str, color);
 	}
 	if (rt->scene.lights[rt->options.current_id].type == ambient_occluder)
 	{
-		get_float_data(rt->scene.lights[rt->options.current_id].ls, "Min light", &str);
+		get_float_data(rt->scene.lights[rt->options.current_id].ls,
+			"Min light", &str);
 		draw_button(win, &rect->eight_button, str, color);
 	}
 }
@@ -100,23 +104,25 @@ void			shape_type_vision(t_window *win, t_rt *rt,
 void			gui_material_type(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color)
 {
-	char *str[4];
+	char		*str[4];
+	int			ptr;
 
-	if (rt->scene.instance_mngr.instances_info[rt->options.current_id].material.type == metal)
+	ptr = rt->options.current_id;
+	if (rt->scene.instance_mngr.instances_info[ptr].material.type == metal)
 	{
-		get_float_data(rt->scene.instance_mngr.instances_info[rt->options.current_id].material.kr,
+		get_float_data(rt->scene.instance_mngr.instances_info[ptr].material.kr,
 			"reflective", &str);	//reflective coefficient
 		draw_button(win, &rect->nine_button, str, color);
 	}
-	if (rt->scene.instance_mngr.instances_info[rt->options.current_id].material.type == dielectric)
+	if (rt->scene.instance_mngr.instances_info[ptr].material.type == dielectric)
 	{
-		get_float_data(rt->scene.instance_mngr.instances_info[rt->options.current_id].material.kt,
+		get_float_data(rt->scene.instance_mngr.instances_info[ptr].material.kt,
 			"transparent", &str);	//transparent coefficient
 		draw_button(win, &rect->nine_button, str, color);
 	}
-	if (rt->scene.instance_mngr.instances_info[rt->options.current_id].material.type == 2)
+	if (rt->scene.instance_mngr.instances_info[ptr].material.type == 2)
 	{
-		get_float_data(rt->scene.instance_mngr.instances_info[rt->options.current_id].material.ks,
+		get_float_data(rt->scene.instance_mngr.instances_info[ptr].material.ks,
 			"specular", &str);	//transparent coefficient
 		draw_button(win, &rect->nine_button, str, color);
 	}
@@ -126,13 +132,13 @@ void			objects_tab_cont(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color)
 {
 	char		*str[4];
+	int			ptr;
 
-	// rt->scene.instance_mngr.instances_info[rt->options.current_id].material.type;
-	// printf("\n%d\n", rt->scene.instance_mngr.instances_info[rt->options.current_id].material.type);
-	get_material_data(rt->scene.instance_mngr.instances_info[rt->options.current_id].material.type,
+	ptr = rt->options.current_id;
+	get_material_data(rt->scene.instance_mngr.instances_info[ptr].material.type,
 		"Material", &str); // material type
 	draw_button(win, &rect->seven_button, str, color);
-	get_float_data(rt->scene.instance_mngr.instances_info[rt->options.current_id].material.ka,
+	get_float_data(rt->scene.instance_mngr.instances_info[ptr].material.ka,
 		"ambient", &str); // ambient reflect
 	draw_button(win, &rect->eight_button, str, color);
 	gui_material_type(win, rt, rect, color);
@@ -155,22 +161,21 @@ void			objects_tab(t_window *win, t_rt *rt,
 		rect->tab_objects_button.y + rect->tab_objects_button.h,
 		rect->tab_objects_button.x + rect->tab_objects_button.w,
 		rect->tab_objects_button.y + rect->tab_objects_button.h);
-	get_shape_data(rt->scene.instance_mngr.instances_info[rt->options.current_id].type,
+	get_shape_data(
+	rt->scene.instance_mngr.instances_info[rt->options.current_id].type,
 		"Shape", &str); // objects type
 	draw_button(win, &rect->first_button, str, color);
-	/* if (g_type_pressed) */
-	 	/* draw_is_pressed_button(win, &rect->first_button, str[1], color); */
 	get_float4_data(rt->scene.camera.origin, "Origin", &str);
 	draw_button_xyz(win, &rect->second_button, str, color);
 	get_float4_data(rt->scene.camera.direction, "Rotation", &str);
 	draw_button_xyz(win, &rect->third_button, str, color);
-	get_float4_data(rt->scene.instance_mngr.instances_info[rt->options.current_id].scaling,
+	get_float4_data(
+	rt->scene.instance_mngr.instances_info[rt->options.current_id].scaling,
 		"Scalling", &str); // scaling data
 	draw_button_xyz(win, &rect->fourth_button, str, color);
 	shape_type_vision(win, rt, rect, color);
 	objects_tab_cont(win, rt, rect, color);
 }
-
 
 void			light_tab(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color)
@@ -183,9 +188,11 @@ void			light_tab(t_window *win, t_rt *rt,
 		rect->fifth_button.y + rect->fifth_button.h,
 		rect->fifth_button.x + rect->fifth_button.w,
 		rect->fifth_button.y + rect->fifth_button.h);
-	get_intensive_data(rt->scene.lights[rt->options.current_id].type, "Type", &str);
+	get_intensive_data(rt->scene.lights[rt->options.current_id].type,
+		"Type", &str);
 	draw_button(win, &rect->sixth_button, str, color);
-	get_float_data(rt->scene.lights[rt->options.current_id].ls, "Intensity", &str);
+	get_float_data(rt->scene.lights[rt->options.current_id].ls,
+		"Intensity", &str);
 	draw_button(win, &rect->seven_button, str, color);
 	is_type_lights(win, rt, rect, color);
 	get_str_data("julia", "Fractal", &str);
@@ -196,7 +203,6 @@ void			light_tab(t_window *win, t_rt *rt,
 		rect->ten_button.x + rect->ten_button.w,
 		rect->ten_button.y - MARGIN_Y);
 	draw_button(win, &rect->ten_button, str, color);
-
 }
 
 void			option_tab(t_window *win, t_rt *rt,
@@ -282,10 +288,4 @@ void			gui_tab_bar(t_window *win, t_rt *rt,
 	else
 		render_tab_bar(win, &color->border_color,
 			&rect->tab_options_button, "Options");
-	// draw_inside_button(win, rt, rect, color);
-	if (g_fractal_hide == 1)
-	{
-		main_qjulia();
-		g_fractal_hide = 0;
-	}
 }

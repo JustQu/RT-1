@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:32:04 by user              #+#    #+#             */
-/*   Updated: 2020/11/08 16:07:38 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/09 19:47:24 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,16 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include "rt.h"
 
 # define COMPUTE_KERNEL_FILENAME ("srcs/cl/qjulia_kernel.cl")
 # define COMPUTE_KERNEL_METHOD_NAME ("QJuliaKernel")
+
+typedef	struct			s_julia
+{
+	SDL_Window		*window;
+	SDL_Event		*event;
+}						t_julia;
 
 typedef struct			s_julia_color
 {
@@ -80,10 +87,17 @@ typedef struct			s_compute
 	int					work_group_items;
 }						t_compute;
 
+SDL_Window				*qjulia_sdl_init(void);
+void					gl_render_init(t_texture2 *texture);
 void					init_julia_color(t_julia_color *color);
 void					init_compute_cl(t_compute *compute);
 void					init_texture_cl(t_texture2 *texture);
+int						recompute(t_compute *compute,
+							t_julia_color *color);
 void					setup_color(float color[4], SDL_Color *colors);
+int						setup_compute_device(t_compute *compute);
+void					setup_preprocessor(t_compute *compute,
+							char *source);
 void					random_color(float v[4]);
 void					update_mu(float t[4], float a[4], float b[4]);
 int						divide_up(int a, int b);
@@ -104,6 +118,14 @@ int						setup_graphics(t_texture2 *texture);
 void					create_texture(t_texture2 *texture);
 int						init_cl(t_texture2 *texture, t_compute *compute,
 							t_julia_color *color);
-void					main_qjulia();
+void					main_qjulia(void);
+void					display(t_texture2 *texture, t_compute *compute,
+							t_julia_color *color);
+void					qjulia_render_texture(t_texture2 *texture);
+void					shutdown(t_compute *compute);
+void					cleanup(t_compute *compute);
+int						origin_region(t_compute *compute);
+void					ft_values(t_compute *compute,
+							t_julia_color *color);
 
 #endif
