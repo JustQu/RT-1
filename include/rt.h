@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/09 19:46:34 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/10 14:52:07 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct			s_rt
 	t_rt_options		options;
 	t_cl_program		ocl_program;
 }						t_rt;
+
+
 
 // typedef struct		s_rt
 // {

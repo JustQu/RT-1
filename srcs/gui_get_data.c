@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 20:39:11 by alex              #+#    #+#             */
-/*   Updated: 2020/11/08 13:49:24 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/10 15:11:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void			get_intensive_data(int ptr, char *string, char **str)
 		str[1] = ft_strdup("area");
 	else if (ptr == 5)
 		str[1] = ft_strdup("enviromental");
+	str[2] = NULL;
+	str[3] = NULL;
 }
 
 void			get_texture_data(int ptr, char *string, char **str)
@@ -62,6 +64,8 @@ void			get_texture_data(int ptr, char *string, char **str)
 		str[1] = ft_strdup("wave_perlin");
 	else if (ptr == 9)
 		str[1] = ft_strdup("image");
+	str[2] = NULL;
+	str[3] = NULL;
 }
 
 void			get_shape_data(int ptr, char *string, char **str)
@@ -91,6 +95,8 @@ void			get_shape_data(int ptr, char *string, char **str)
 		str[1] = ft_strdup("generic_shere");
 	else
 		str[1] = ft_strdup("no shape");
+	str[2] = NULL;
+	str[3] = NULL;
 }
 
 void			get_material_data(int ptr, char *string, char **str)

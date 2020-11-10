@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:32:04 by user              #+#    #+#             */
-/*   Updated: 2020/11/09 19:47:24 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/10 14:51:55 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,6 @@
 
 # define COMPUTE_KERNEL_FILENAME ("srcs/cl/qjulia_kernel.cl")
 # define COMPUTE_KERNEL_METHOD_NAME ("QJuliaKernel")
-
-typedef	struct			s_julia
-{
-	SDL_Window		*window;
-	SDL_Event		*event;
-}						t_julia;
 
 typedef struct			s_julia_color
 {

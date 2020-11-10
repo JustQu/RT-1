@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 19:54:26 by alex              #+#    #+#             */
-/*   Updated: 2020/10/30 19:49:00 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/10 14:41:16 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,18 @@ void			draw_title_ray_tracing(t_window *win, SDL_Color *color)
 		rect.w = win->width / 4 - MARGIN * 2;
 		rect.h = h;
 		render_rect(rt_text, win->renderer, &rect);
+	}
+}
+
+void			free_str(char **str)
+{
+	int i;
+
+	i = 0;
+	while (i <= 3)
+	{
+		if (str[i] != NULL)
+			free(str[i]);
+		i++;
 	}
 }

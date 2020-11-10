@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/11/08 14:25:37 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/10 14:09:53 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ typedef struct s_vector	t_vector;
 int				g_camera_tab_pressed;
 int				g_objects_tab_pressed;
 int				g_options_tab_pressed;
-int				g_type_pressed;
-int				g_inside_is_pressed;
 int				g_save_image;
-int				g_size;
+// int				g_size;
 int				g_font_size;
 int				g_fractal_hide;
 
@@ -144,4 +142,5 @@ void			get_intensive_data(int ptr, char *string,
 void			get_void_data(char *string, char **str);
 void			light_tab(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color);
+void			free_str(char **str);
 #endif

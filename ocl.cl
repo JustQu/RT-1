@@ -3835,4 +3835,81 @@ void main_kernel(__global t_color *image,	//0
 
 	/* получаем семплер для антиалиасинга и текущий шаг. */
 	ao_sampler = get_sampler(sampler_manager, options.aa_id);
-	ao_sampl
+	ao_sampler.count = global_id * ao_sampler.num_samples + step;
+
+	/* Если это не первый шаг, то считаем прыжок для семплеров */
+/* 	if (step != 0)
+	{ */
+		ao_sampler.jump = ((num + random(&seed)) % ao_sampler.num_sets) * ao_sampler.num_samples;
+		options.ambient_occluder_sampler.jump = (random(&seed) % options.ambient_occluder_sampler.num_sets) * options.ambient_occluder_sampler.num_samples;
+/* 	}
+	else */ if (options.reset == 1)
+	{
+		image[global_id] = (t_color){.r = 0.0f, .g = 0.0f, .b = 0.0f};
+	}
+
+	/* */
+	float2	sp = sample_unit_square(&ao_sampler, sampler_manager.samples, &seed);
+	float	dx = x + GPURnd(&state);
+	float	dy = y + GPURnd(&state);
+
+	if (scene.camera.type == thin_lens)
+	{
+		camera_sampler = get_sampler(sampler_manager, scene.camera.sampler_id);
+		camera_sampler.count = global_id * camera_sampler.num_samples + step;
+		if (step != 0)
+			camera_sampler.jump = ((num + random(&seed)) % camera_sampler.num_sets) * camera_sampler.num_samples;
+	}
+
+	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed, &state);
+
+	color = ray_trace(ray, scene, options, sampler_manager, &seed);
+
+	// color = path_tracer2(ray, scene, options, sampler_manager, &seed, &state);
+
+	image[global_id] = color_sum(image[global_id], color);
+}
+
+// typedef union
+// {
+// 	struct
+// 	{
+// 		char b;
+// 		char g;
+// 		char r;
+// 		char a;
+// 	};
+// 	int	value;
+// }	int_color;
+
+__kernel void translate_image(__global float4 *rgb_image,
+							__global uchar4 *result_image,
+							float num_samples)
+{
+	int				global_id = get_global_id(0);
+	float4			color;
+
+	color = rgb_image[global_id];
+	// color = rgb_image[global_id] / num_samples;
+
+	uchar4 old = result_image[global_id];
+
+	float4 a;
+	a.x = old.x / 255.99f;
+	a.y = old.y / 255.99f;
+	a.z = old.z / 255.99f;
+	a.w = old.w / 255.99f;
+
+	// float4 c = (a + color) / (num_samples + 1);
+	// float4 c = mix(color, a, 0.5f);
+	// float4 max_v = max(a, color);
+
+	// uchar4 out = convert_uchar4_sat_rte(sqrt(c) * 255.00f);
+
+	// if (global_id == 0)
+	// 	printf("%v3f || %v3f || %v3f\n", a, color, c);
+	uchar4 out = convert_uchar4_sat_rte(sqrt(color / (float)num_samples) * 255.99f);
+
+	result_image[global_id] = out;
+}
+

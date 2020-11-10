@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/09 19:31:21 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/10 15:13:37 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,57 +59,24 @@ void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 	{
 		g_fractal_hide = 1;
 	}
-	/*
-	else if (is_press_button(event, &rect->first_button) && g_objects_tab_pressed == 1)
+	if (is_press_button(event, &rect->tab_camera_button))
 	{
-		g_type_pressed ^= 1;
+		g_camera_tab_pressed = 1;
+		g_objects_tab_pressed = 0;
+		g_options_tab_pressed = 0;
 	}
-	else if ((g_type_pressed == 1 && is_press_button(event, &rect->type_choise_rect)) && g_objects_tab_pressed == 1)
+	if (is_press_button(event, &rect->tab_objects_button))
 	{
-		catch_is_pressed(event, &rect->type_choise_rect, 3);
+		g_camera_tab_pressed = 0;
+		g_objects_tab_pressed = 1;
+		g_options_tab_pressed = 0;
 	}
-	else if (is_press_button(event, &rect->first_button) && g_options_tab_pressed == 1)
+	if (is_press_button(event, &rect->tab_options_button))
 	{
-		g_type_pressed ^= 1;
+		g_camera_tab_pressed = 0;
+		g_objects_tab_pressed = 0;
+		g_options_tab_pressed = 1;
 	}
-	else if ((g_type_pressed == 1 && is_press_button(event, &rect->type_choise_rect)) && g_options_tab_pressed == 1)
-	{
-		catch_is_pressed(event, &rect->type_choise_rect, 2);
-	}
-	else if (is_press_button(event, &rect->first_button) && g_camera_tab_pressed == 1)
-	{
-		g_type_pressed ^= 1;
-	}
-	else if ((g_type_pressed == 1 && is_press_button(event, &rect->type_choise_rect)) && g_camera_tab_pressed == 1)
-	{
-		catch_is_pressed(event, &rect->type_choise_rect, 4);
-	}
-	else if (g_type_pressed == 1)
-	{
-		g_type_pressed = 0;
-	}
-	else
-	{
-		*/
-		if (is_press_button(event, &rect->tab_camera_button))
-		{
-			g_camera_tab_pressed = 1;
-			g_objects_tab_pressed = 0;
-			g_options_tab_pressed = 0;
-		}
-		if (is_press_button(event, &rect->tab_objects_button))
-		{
-			g_camera_tab_pressed = 0;
-			g_objects_tab_pressed = 1;
-			g_options_tab_pressed = 0;
-		}
-		if (is_press_button(event, &rect->tab_options_button))
-		{
-			g_camera_tab_pressed = 0;
-			g_objects_tab_pressed = 0;
-			g_options_tab_pressed = 1;
-		}
-	/* } */
 }
 
 int catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
@@ -164,12 +131,6 @@ int catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
 			{
 				rt->options.current_id++;
 				if (rt->options.current_id >= rt->scene.instance_mngr.ninstances)
-					rt->options.current_id = 0;
-			}
-			else if (event.key.keysym.sym == SDLK_q)
-			{
-				rt->options.current_id++;
-				if (rt->options.current_id >= rt->scene.nlights)
 					rt->options.current_id = 0;
 			}
 		}
