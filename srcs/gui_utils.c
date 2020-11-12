@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:45:42 by user              #+#    #+#             */
-/*   Updated: 2020/11/11 14:55:49 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/12 14:38:51 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,78 +34,53 @@ SDL_Color		init_color(int r, int g, int b, int a)
 	return (color);
 }
 
+void			draw_save_image_text(t_window *win)
+{
+	SDL_Texture	*text;
+	SDL_Rect	rect;
+	SDL_Color	color;
+	int			w;
+	int			h;
+
+	color = init_color(255, 255, 255, 0);
+	g_font_size = FONT_TITLE_SIZE;
+	text = render_text("Saved image as image.png", "font/Title.ttf",
+			color, win->renderer);
+	SDL_QueryTexture(text, NULL, NULL, &w, &h);
+	rect.x = win->width / 2 - w / 2;
+	rect.y = MARGIN_Y;
+	rect.w = w;
+	rect.h = h;
+	render_rect(text, win->renderer, &rect);
+}
+
 void			save_image_func(t_window *win)
 {
+	SDL_Texture	*ren_tex;
+	SDL_Surface	*surf;
+	int			st;
+	int			w;
+	int			h;
+
 	if (g_save_image)
 	{
-		SDL_Texture *ren_tex;
-		SDL_Surface *surf;
-		int st;
-		int w;
-		int h;
-		int format;
-		void *pixels;
-
-		pixels  = NULL;
-		surf    = NULL;
+		surf = NULL;
 		ren_tex = NULL;
-		format  = SDL_PIXELFORMAT_RGBA32;
-
-		/* Get information about texture we want to save */
 		st = SDL_QueryTexture(win->texture, NULL, NULL, &w, &h);
-		if (st != 0) {
-			SDL_Log("Failed querying texture: %s\n", SDL_GetError());
-		}
-
-		// ren_tex = SDL_CreateTexture(win->renderer, format, SDL_TEXTUREACCESS_TARGET, w, h);
-		// if (!ren_tex) {
-		// 	SDL_Log("Failed creating render texture: %s\n", SDL_GetError());
-		// }
-
-		/*
-		* Initialize our canvas, then copy texture to a target whose pixel data we
-		* can access
-		*/
-		// st = SDL_SetRenderTarget(win->renderer, ren_tex);
-		// if (st != 0) {
-		// 	SDL_Log("Failed setting render target: %s\n", SDL_GetError());
-		// }
-
-		// SDL_SetRenderDrawColor(win->renderer, 0x00, 0xFF, 0x00, 0x00);
-		// SDL_RenderClear(win->renderer);
-
-		// st = SDL_RenderCopy(win->renderer, win->texture, NULL, NULL);
-		// if (st != 0) {
-		// 	SDL_Log("Failed copying texture data: %s\n", SDL_GetError());
-		// }
-		/* Create buffer to hold texture data and load it */
-		// pixels = malloc(w * h * SDL_BYTESPERPIXEL(format));
-		// if (!pixels) {
-		// 	SDL_Log("Failed allocating memory\n");
-
-		// }
-		// st = SDL_RenderReadPixels(win->renderer, NULL, format, win->image, w * SDL_BYTESPERPIXEL(format));
-		// if (st != 0) {
-		// 	SDL_Log("Failed reading pixel data: %s\n", SDL_GetError());
-
-		// }
-		/* Copy pixel data over to surface */
-		surf = SDL_CreateRGBSurfaceWithFormatFrom(win->image, w, h, SDL_BITSPERPIXEL(format), w * SDL_BYTESPERPIXEL(format), format);
-		if (!surf) {
+		surf = SDL_CreateRGBSurfaceWithFormatFrom(win->image, w, h,
+		SDL_BITSPERPIXEL(SDL_PIXELFORMAT_RGBA32), w *
+		SDL_BYTESPERPIXEL(SDL_PIXELFORMAT_RGBA32), SDL_PIXELFORMAT_RGBA32);
+		if (!surf)
 			SDL_Log("Failed creating new surface: %s\n", SDL_GetError());
-		}
-		/* Save result to an image */
 		st = IMG_SaveJPG(surf, "image.png", 100);
-		if (st != 0) {
+		if (st != 0)
 			SDL_Log("Failed saving image: %s\n", SDL_GetError());
-		}
-
-		SDL_Log("Saved texture as BMP to \"%s\"\n", "image.png");
+		draw_save_image_text(win);
+		SDL_Log("Saved texture as JPG to \"%s\"\n", "image.png");
 		SDL_FreeSurface(surf);
-		free(pixels);
 		SDL_DestroyTexture(ren_tex);
 		g_save_image = 0;
-		}
+	}
 }
 
 SDL_Texture		*create_tab_subtitles(t_window *win, char *str,

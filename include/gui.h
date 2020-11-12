@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/11/12 13:37:02 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/12 14:28:17 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,8 @@ void			get_ambient_il_data(int ptr,
 					char *string, char **str);
 void			get_true_data(int ptr,
 					char *string, char **str);
+
+void			draw_save_image_text(t_window *win);
 void			light_tab(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color);
 void			free_str(char **str);

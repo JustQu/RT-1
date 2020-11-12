@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 20:39:11 by alex              #+#    #+#             */
-/*   Updated: 2020/11/11 14:17:46 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/12 14:11:19 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,8 @@ void			get_texture_data(int ptr, char *string, char **str)
 
 void			get_shape_data_2(int ptr, char **str)
 {
-	if (ptr == 5)
-		str[1] = ft_strdup("torus");
-	else if (ptr == 6)
+
+	if (ptr == 6)
 		str[1] = ft_strdup("triangle");
 	else if (ptr == 7)
 		str[1] = ft_strdup("box");
@@ -91,6 +90,8 @@ void			get_shape_data(int ptr, char *string, char **str)
 		str[1] = ft_strdup("plane");
 	else if (ptr == 4)
 		str[1] = ft_strdup("sphere");
+	else if (ptr == 5)
+		str[1] = ft_strdup("torus");
 	get_shape_data_2(ptr, str);
 	str[2] = NULL;
 	str[3] = NULL;
