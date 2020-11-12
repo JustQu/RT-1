@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/11/12 13:53:26 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/12 14:42:25 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,12 @@ void			objects_tab_cont(t_window *win, t_rt *rt,
 
 	ptr = rt->options.current_id;
 	shape_type_vision(win, rt, rect, color);
+	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
+	color->text_color.g, color->text_color.b, color->text_color.a);
+	SDL_RenderDrawLine(win->renderer, rect->background.x,
+		rect->seven_button.y - MARGIN_Y,
+		rect->seven_button.x + rect->seven_button.w,
+		rect->seven_button.y - MARGIN_Y);
 	get_material_data(rt->scene.instance_mngr.instances_info[ptr].material.type,
 		"Material", &str); // material type
 	draw_button(win, &rect->seven_button, str, color);
@@ -121,7 +127,7 @@ void			objects_tab_cont(t_window *win, t_rt *rt,
 	gui_material_type(win, rt, rect, color);
 	get_texture_data(rt->scene.instance_mngr.texture_manager.textures->type,
 		"texture", &str); // texture type
-		SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
+	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
 	color->text_color.g, color->text_color.b, color->text_color.a);
 	SDL_RenderDrawLine(win->renderer, rect->background.x,
 		rect->ten_button.y - MARGIN_Y,
