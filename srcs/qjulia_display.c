@@ -6,11 +6,9 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 18:46:20 by alex              #+#    #+#             */
-/*   Updated: 2020/11/09 18:51:12 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/12 12:39:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "julia.h"
 
 void		setup_preprocessor(t_compute *compute, char *source)
 {

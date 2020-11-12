@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:45:42 by user              #+#    #+#             */
-/*   Updated: 2020/10/30 22:20:47 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/11 14:55:49 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,37 +78,33 @@ void			save_image_func(t_window *win)
 		// if (st != 0) {
 		// 	SDL_Log("Failed copying texture data: %s\n", SDL_GetError());
 		// }
-
 		/* Create buffer to hold texture data and load it */
-		pixels = malloc(w * h * SDL_BYTESPERPIXEL(format));
-		if (!pixels) {
-			SDL_Log("Failed allocating memory\n");
+		// pixels = malloc(w * h * SDL_BYTESPERPIXEL(format));
+		// if (!pixels) {
+		// 	SDL_Log("Failed allocating memory\n");
 
-		}
+		// }
+		// st = SDL_RenderReadPixels(win->renderer, NULL, format, win->image, w * SDL_BYTESPERPIXEL(format));
+		// if (st != 0) {
+		// 	SDL_Log("Failed reading pixel data: %s\n", SDL_GetError());
 
-		st = SDL_RenderReadPixels(win->renderer, NULL, format, pixels, w * SDL_BYTESPERPIXEL(format));
-		if (st != 0) {
-			SDL_Log("Failed reading pixel data: %s\n", SDL_GetError());
-
-		}
-
+		// }
 		/* Copy pixel data over to surface */
-		surf = SDL_CreateRGBSurfaceWithFormatFrom(pixels, w, h, SDL_BITSPERPIXEL(format), w * SDL_BYTESPERPIXEL(format), format);
+		surf = SDL_CreateRGBSurfaceWithFormatFrom(win->image, w, h, SDL_BITSPERPIXEL(format), w * SDL_BYTESPERPIXEL(format), format);
 		if (!surf) {
 			SDL_Log("Failed creating new surface: %s\n", SDL_GetError());
 		}
 		/* Save result to an image */
-		st = IMG_SavePNG(surf, "image.png");
+		st = IMG_SaveJPG(surf, "image.png", 100);
 		if (st != 0) {
 			SDL_Log("Failed saving image: %s\n", SDL_GetError());
-
 		}
 
 		SDL_Log("Saved texture as BMP to \"%s\"\n", "image.png");
 		SDL_FreeSurface(surf);
 		free(pixels);
 		SDL_DestroyTexture(ren_tex);
-			g_save_image = 0;
+		g_save_image = 0;
 		}
 }
 

@@ -6,12 +6,11 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/08 13:37:52 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/12 12:39:35 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-// #include "julia.h"
 // #include "app.h"
 #include <stdio.h>
 #include "libft.h"
@@ -134,16 +133,17 @@ int main(int ac, char **av)
 	{
 		value = catch_event(&app.rt, &app.window, &all_rect, &color);
 		if (value == 1)
-				break;
+				break ;
 		else if (value == 0)
 		{
 			main_loop(app);
 			display_image(&app.window);
 			app.rt.options.spp += NUM_SAMPLES;
 			app.rt.options.reset = 0;
+			save_image_func(&app.window);
 			gui(&app.window, &app.rt, &all_rect, &color);
 			SDL_RenderPresent(app.window.renderer);
-			save_image_func(&app.window);
+
 		}
 		else
 		{
@@ -151,7 +151,6 @@ int main(int ac, char **av)
 			SDL_RenderPresent(app.window.renderer);
 		}
 	}
-
 	exit_program(app.window);
 	return (0);
 }

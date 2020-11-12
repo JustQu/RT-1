@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/10 15:13:37 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/12 13:08:16 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,6 @@ void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 	if (is_press_button(event, &rect->save_img_button) && g_camera_tab_pressed == 1)
 	{
 		g_save_image = 1;
-	}
-	if (is_press_button(event, &rect->ten_button) && g_camera_tab_pressed == 1)
-	{
-		g_fractal_hide = 1;
 	}
 	if (is_press_button(event, &rect->tab_camera_button))
 	{
@@ -111,7 +107,7 @@ int catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
 				printf("Window size changed to %dx%d\n",
 					   event.window.data1, event.window.data2);
 			}
-			break;
+				break;
 			}
 		}
 		if (event.type == SDL_KEYDOWN)

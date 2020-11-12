@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:31:43 by alex              #+#    #+#             */
-/*   Updated: 2020/11/09 19:47:44 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/12 12:37:17 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,4 @@ void			gui(t_window *win, t_rt *rt,
 	all_rect->background.x - 1 + all_rect->background.h);
 	draw_title_ray_tracing(win, &color->text_color);
 	gui_tab_bar(win, rt, all_rect, color);
-	if (g_fractal_hide == 1)
-	{
-		main_qjulia();
-		g_fractal_hide = 0;
-	}
 }

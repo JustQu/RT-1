@@ -6,12 +6,13 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 19:54:26 by alex              #+#    #+#             */
-/*   Updated: 2020/11/10 14:41:16 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/12 14:03:21 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "libft.h"
+#include "rt.h"
 
 void			draw_text(t_window *win, SDL_Rect *rect,
 					char *str, t_colors *color)
@@ -36,7 +37,6 @@ char			*itoa_float(float num)
 {
 	char		*str1;
 	char		*str2;
-	char		*res;
 	int			ptr;
 	int			aftd;
 
@@ -45,8 +45,9 @@ char			*itoa_float(float num)
 	str1 = ft_itoa(ptr);
 	str2 = ft_itoa(aftd);
 	str1 = ft_strcat(str1, ".");
-	res = ft_strcat(str1, str2);
-	return (res);
+	ft_strcat(str1, str2);
+	free(str2);
+	return (str1);
 }
 
 void			draw_title_ray_tracing(t_window *win, SDL_Color *color)
@@ -89,4 +90,15 @@ void			free_str(char **str)
 			free(str[i]);
 		i++;
 	}
+}
+
+void			gui_disk_vision(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color)
+{
+	char		*str[4];
+
+	get_float_data(rt->scene.instance_mngr.instances_info->r,
+		"Radius", &str); // radius disk
+	draw_button(win, &rect->fifth_button, str, color);
+	free_str(&str);
 }

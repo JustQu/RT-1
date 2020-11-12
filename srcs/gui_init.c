@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:33:27 by user              #+#    #+#             */
-/*   Updated: 2020/11/08 14:01:58 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/12 13:13:32 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,9 @@ void	init_rect_two(t_all_rect *rect, t_window *win)
 	rect->ten_button = init_rect_size(win->width - win->width / 4 +
 	SPACER, rect->nine_button.y + rect->nine_button.h + MARGIN_Y * 2,
 		win->width / 4, 30);
-	rect->samplers_button = init_rect_size(win->width - win->width / 4 + SPACER,
-		rect->first_button.y + rect->first_button.h + MARGIN_Y * 2,
+	rect->eleven_button = init_rect_size(win->width - win->width / 4 +
+	SPACER, rect->ten_button.y + rect->ten_button.h + MARGIN_Y * 2,
 		win->width / 4, 30);
-	rect->deep_button = init_rect_size(win->width - win->width / 4 + SPACER,
-		rect->samplers_button.y + rect->samplers_button.h + MARGIN_Y * 2,
-		win->width / 4, 30);
-	rect->background_button = init_rect_size(win->width - win->width / 4
-		+ SPACER,
-		rect->deep_button.y + rect->deep_button.h + MARGIN_Y * 2,
-		win->width / 4, 30);
-	rect->resolution_button = init_rect_size(win->width - win->width / 4 +
-	SPACER, rect->background_button.y + rect->background_button.h +
-	MARGIN_Y * 2, win->width / 4, 30);
-	rect->type_choise_rect = init_rect_size(rect->first_button.x + MARGIN,
-		rect->first_button.y - 100, rect->first_button.w - 150 - MARGIN * 2,
-		100);
 	rect->save_img_button = init_rect_size(win->width - win->width / 4 + SPACER,
 		rect->third_button.y + rect->third_button.h + MARGIN_Y * 4,
 		win->width / 4, 30);

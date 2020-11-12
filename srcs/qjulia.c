@@ -6,11 +6,10 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:28:34 by user              #+#    #+#             */
-/*   Updated: 2020/11/10 14:57:54 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/12 12:39:46 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "julia.h"
 #include "gui.h"
 #include "rt.h"
 
@@ -80,18 +79,18 @@ int					create_compute_result(t_texture2 *texture,
 	return (CL_SUCCESS);
 }
 
-void				qjulia_main_loop(t_compute *compute,
-	t_texture2 *texture, t_julia_color *color, SDL_Window *win)
+int				qjulia_main_loop(t_compute *compute,
+	t_texture2 *texture, SDL_Window *win)
 {
 	SDL_Event		event;
 
 	while (SDL_PollEvent(&event))
 	{
-		if ((event.type == SDL_QUIT ||
+		if (event.type == SDL_QUIT ||
 			event.key.keysym.sym == SDLK_ESCAPE)
-			&& SDL_GetWindowID(win) == event.window.windowID)
 		{
-			exit(0);
+			SDL_DestroyWindow(win);
+			return 0;
 		}
 		if (event.type == SDL_KEYDOWN)
 		{
@@ -101,7 +100,7 @@ void				qjulia_main_loop(t_compute *compute,
 	}
 }
 
-void				main_qjulia(void)
+void				main_qjulia(t_rt *rt)
 {
 	t_compute		compute;
 	t_texture		texture;
@@ -118,11 +117,12 @@ void				main_qjulia(void)
 	{
 		while (loop)
 		{
-			qjulia_main_loop(&compute, &texture, &color, &window);
+			loop = qjulia_main_loop(&compute, &texture, &window);
 			display(&texture, &compute, &color);
 			SDL_GL_SwapWindow(window);
 		}
+		// SDL_GL_SwapWindow(rt->win);
 		cleanup(&compute);
-		SDL_DestroyWindow(window);
+		// SDL_DestroyWindow(window);
 	}
 }

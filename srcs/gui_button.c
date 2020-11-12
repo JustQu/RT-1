@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:52:14 by alex              #+#    #+#             */
-/*   Updated: 2020/11/10 14:06:36 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/12 12:57:28 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,35 @@ void			draw_button_rect(t_window *win, SDL_Rect *rect,
 	render_rect(text, win->renderer, &ptr);
 }
 
-// void			draw_button_choise(t_window *win, SDL_Rect *rect,
-// 					char **str_xyz, t_colors *color)
-// {
-// 	SDL_Rect	button;
-// 	int			i;
+void			draw_button_rgb(t_window *win, SDL_Rect *rect,
+					char **str_xyz, t_colors *color)
+{
+	SDL_Texture	*text;
+	SDL_Rect	button;
+	SDL_Rect	ptr;
+	int			w;
+	int			h;
 
-// 	button.x = rect->x;
-// 	button.y = rect->y;
-// 	button.w = rect->w;
-// 	button.h = rect->h / g_size;
-// 	i = 0;
-// 	while (i < g_size)
-// 	{
-// 		draw_button_rect(win, &button, str_xyz[i], color);
-// 		button.y += button.h - 1;
-// 		button.h = rect->h / g_size + 1;
-// 		i++;
-// 	}
-// }
+	g_font_size = FONT_SUBTITLE_SIZE;
+	text = render_text(str_xyz[0], "font/Title.ttf",
+	color->text_color, win->renderer);
+	SDL_QueryTexture(text, NULL, NULL, &w, &h);
+	ptr = init_rect_size(win->width - win->width / 4 + MARGIN,
+		rect->y, w, h);
+	render_rect(text, win->renderer, &ptr);
+	button = init_rect_size(win->width - win->width / 4 + MARGIN,
+		rect->y + h, (rect->w - MARGIN * 2) / 3, rect->h);
+	draw_button_rect(win, &button, str_xyz[1], color);
+	draw_text(win, &button, "r :", color);
+	button.x += button.w + MARGIN;
+	button.w = (rect->w - MARGIN * 4) / 3;
+	draw_button_rect(win, &button, str_xyz[2], color);
+	draw_text(win, &button, "g :", color);
+	button.x += button.w + MARGIN;
+	button.w = (rect->w - MARGIN * 6) / 3;
+	draw_button_rect(win, &button, str_xyz[3], color);
+	draw_text(win, &button, "b :", color);
+}
 
 void			draw_button_xyz(t_window *win, SDL_Rect *rect,
 					char **str_xyz, t_colors *color)

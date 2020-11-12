@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/11/10 14:09:53 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/12 13:37:02 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ int				g_options_tab_pressed;
 int				g_save_image;
 // int				g_size;
 int				g_font_size;
-int				g_fractal_hide;
 
 typedef struct	s_all_rect
 {
 	SDL_Rect	background;
 	SDL_Rect	tab_camera_button;
 	SDL_Rect	tab_objects_button;
+	SDL_Rect	tab_textures_button;
 	SDL_Rect	tab_options_button;
 	SDL_Rect	first_button;
 	SDL_Rect	second_button;
@@ -66,11 +66,12 @@ typedef struct	s_all_rect
 	SDL_Rect	eight_button;
 	SDL_Rect	nine_button;
 	SDL_Rect	ten_button;
-	SDL_Rect	samplers_button;
-	SDL_Rect	deep_button;
-	SDL_Rect	background_button;
-	SDL_Rect	resolution_button;
-	SDL_Rect	type_choise_rect;
+	SDL_Rect	eleven_button;
+	// SDL_Rect	samplers_button;
+	// SDL_Rect	deep_button;
+	// SDL_Rect	background_button;
+	// SDL_Rect	resolution_button;
+	// SDL_Rect	type_choise_rect;
 	SDL_Rect	save_img_button;
 }				t_all_rect;
 
@@ -108,6 +109,8 @@ void			draw_is_pressed_button(t_window *win, SDL_Rect *rect,
 void			gui_tab_bar(t_window *win, t_rt *rt, t_all_rect *rect,
 					t_colors *color);
 void			draw_title_ray_tracing(t_window *win, SDL_Color *color);
+void			draw_button_rgb(t_window *win, SDL_Rect *rect,
+					char **str_xyz, t_colors *color);
 void			render_tab_bar(t_window *win, SDL_Color *color,
 					SDL_Rect *rect, char *str);
 SDL_Rect		init_rect_size(int x, int y, int w, int h);
@@ -140,6 +143,10 @@ void			gui_rectangle_vision(t_window *win, t_rt *rt,
 void			get_intensive_data(int ptr, char *string,
 					char **str);
 void			get_void_data(char *string, char **str);
+void			get_ambient_il_data(int ptr,
+					char *string, char **str);
+void			get_true_data(int ptr,
+					char *string, char **str);
 void			light_tab(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color);
 void			free_str(char **str);

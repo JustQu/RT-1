@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gui_render_text.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/11 14:21:17 by alex              #+#    #+#             */
+/*   Updated: 2020/11/12 13:44:17 by alex             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "gui.h"
 #include "rt.h"
 
-SDL_Texture*		render_text(char *message, char *font_file,
+SDL_Texture			*render_text(char *message, char *font_file,
 		SDL_Color color, SDL_Renderer *renderer)
 {
 	TTF_Font		*font;
@@ -17,7 +29,8 @@ SDL_Texture*		render_text(char *message, char *font_file,
 	texture = SDL_CreateTextureFromSurface(renderer, surf);
 	if (texture == NULL)
 		return (NULL);
-	// SDL_FreeSurface(surf);
+	// if (surf)
+		// SDL_FreeSurface(surf);
 	TTF_CloseFont(font);
 	return (texture);
 }
