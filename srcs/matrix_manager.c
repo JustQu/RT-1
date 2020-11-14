@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 18:15:15 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/08 21:06:02 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 01:59:27 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,28 +31,4 @@ int			add_matrix(t_instance_manager *mngr, t_matrix matrix)
 	}
 	mngr->matrices[mngr->nmatrices] = matrix;
 	return (++mngr->nmatrices - 1);
-}
-
-int			set_matrix(t_instance_manager *mngr, int matrix_id, t_matrix new_matrix)
-{
-	mngr->matrices[matrix_id] = new_matrix;
-	return (0);
-}
-
-t_matrix	get_matrix(t_instance_manager *mngr, int matrix_id)
-{
-	return mngr->matrices[matrix_id];
-}
-
-t_matrix	get_transformation_matrix(t_instance_manager mngr, int instance_id)
-{
-	t_object_info	object_info;
-	t_matrix		m;
-
-	object_info = mngr.instances_info[instance_id];
-	m = IDENTITY_MATRIX;
-	m = mul_matrix(m, get_translation_matrix(object_info.origin));
-	m = mul_matrix(m, get_rotation_matrix(object_info.rotation));
-	m = mul_matrix(m, get_scale_matrix(object_info.scaling));
-	return (m);
 }

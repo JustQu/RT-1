@@ -72,7 +72,7 @@ t_color		shade_phong(t_material material,
 
 	if (options.ambient_occlusion) /* ambient occlusion */
 	{
-		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
+		color = ambient_occlusion_l(scene, sampler_manager, sampler_manager.sampler, shade_rec, seed);
 		// color = color_multi(color, material.color);
 	}
 	else /* compute constant ambient light using ka coefficent of the materail */
@@ -144,7 +144,7 @@ inline t_color		shade_matte(t_material material,
 
 	if (options.ambient_occlusion) /* ambient occlusion */
 	{
-		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
+		color = ambient_occlusion_l(scene, sampler_manager, sampler_manager.sampler, shade_rec, seed);
 		color = color_multi(color, get_color(scene.instance_manager.tex_mngr,
 											material, &shade_rec));
 	}

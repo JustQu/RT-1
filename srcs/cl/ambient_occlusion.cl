@@ -55,17 +55,21 @@ t_color	ambient_occlusion_l(t_scene scene,
 							t_shade_rec shade_rec,
 							uint2 *seed)
 {
-	t_color	color;
+	t_color	color = {1.0f, 1.0f, 1.0f, 0.0f};
 
 	scene.ambient_occluder.w = shade_rec.normal;
 	scene.ambient_occluder.v = normalize(cross(scene.ambient_occluder.w, (float4)(0.0072f, 1.0f, 0.0034f, 0.0f)));
 	scene.ambient_occluder.u = cross(scene.ambient_occluder.v, scene.ambient_occluder.w);
 
 	t_ray shadow_ray;
-	shadow_ray.origin = shade_rec.hit_point + 1e-2f * shade_rec.normal;
+	shadow_ray.origin = shade_rec.hit_point + 1e-3f * shade_rec.normal;
 	shadow_ray.direction = get_ambient_occluder_direction(scene.ambient_occluder, sampler_manager, sampler, seed);
-	color = float_color_multi(scene.ambient_occluder.ls, scene.ambient_occluder.color);
+	// color = float_color_multi(scene.ambient_occluder.ls, scene.ambient_occluder.color);
 	if (in_shadow(shadow_ray, scene))
-		color = float_color_multi(0.1f, color);
+		color = float_color_multi(0.00f, color);
+	else
+		color = float_color_multi(scene.ambient_occluder.ls,
+									scene.ambient_occluder.color);
+
 	return (color);
 }

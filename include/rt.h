@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 14:15:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/11 00:28:47 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ typedef struct			s_rt
 // 	t_pressed		is_pressed;
 // }					t_rt;
 
-int			init_rt(t_rt *rt, char *scene_file);
+# include "resource_manager.h"
+
+int			init_rt(t_rt *rt, char *scene_file,
+					t_res_mngr *resource_manager);
 
 void		render_scene(t_rt rt);
 

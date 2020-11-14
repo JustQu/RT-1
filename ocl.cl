@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_types.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:57:17 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/30 18:44:05 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 00:54:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,10 +138,10 @@ struct					s_aabb
 /*                                                        :::      ::::::::   */
 /*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:46:35 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/30 18:03:32 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 03:07:23 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,9 @@ struct					s_aabb
 typedef enum e_camera_type	t_camera_type;
 typedef struct s_camera		t_camera; //160
 typedef struct s_viewplane	t_viewplane;
+
+# define UP (cl_float4){ 0.0f, 1.0f, 0.0f, 0.0f }
+# define RIGHT (cl_float4) { 1.0f, 0.0f, 0.0f, 0.0f }
 
 /**
 ** @brief Набор типов камеры
@@ -190,18 +193,11 @@ struct s_viewplane
 };
 
 /**
-** @TODO: make transformation matrix
-** TODO: singularity paragraph 9.9
-**
-*/
-
-/**
 ** @brief Класс камеры
 **
 ** viewplane - плоскоть проецирования
 ** origin - местоположение камеры
 ** direction - напралвние взгляда
-** up -вектор вверх
 ** u, v, w - внутренняя система координат камеры
 ** d - расстояние до viewplane, плоскости проецирования
 ** zoom - коэффициент приближения
@@ -230,16 +226,13 @@ struct	s_camera
 	//thin-lens camera
 	cl_float			l; //lens radius or lambda
 	cl_float			f; //focal plane distance or psi_max in fisheye
-
-//note: prob not needed
-	cl_float			ratio;
-	cl_float			inv_w;
-	cl_float			inv_h;
-	cl_float			angle;
-	cl_int				fov;
 };
 
 void	compute_uvw(t_camera *camera);
+
+void	rotate_camera(t_camera *camera, int axis, float angle_degrees);
+
+void	move_camera(t_camera *camera, int direction, float step);
 
 #endif
 
@@ -251,7 +244,7 @@ void	compute_uvw(t_camera *camera);
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 22:49:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/30 00:08:38 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/11 00:05:42 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,30 +314,6 @@ struct						s_texture		//32bytes
 	char					gap[12];	//12 byte gap
 };
 
-struct						s_texture_handler
-{
-	t_texture				*texture;
-	void					(*new)();
-	void					(*set_type)();
-	void					(*set_kd)();
-};
-
-t_texture	create_solid_texture(t_color color);
-//TODO(dmelessa): reflective and transparent
-t_texture	create_checker_texture(t_color color1, t_color color2);
-t_texture	create_perlin_texture();
-
-# define TEXTURE_FROM_MEMORY 1 << 1
-# define TEXTURE_FROM_FILE 2 << 1
-/**
-** @brief Create a img texture object
-**
-** @param mode
-** @param data
-** @return ** t_texture
-*/
-// t_texture	create_img_texture(int mode, void *data);
-
 #endif
 
 /* ************************************************************************** */
@@ -355,7 +324,7 @@ t_texture	create_perlin_texture();
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/09 17:46:45 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/11 22:17:02 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -435,7 +404,7 @@ int		create_material(t_material	type);
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:20 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 13:48:48 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/13 18:07:35 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -463,7 +432,8 @@ enum	e_types
 	box,
 	disk,
 	rectangle,
-	generic_shere
+	generic_shere,
+	mobius
 	//todo(dmelessa): another generic types
 };
 
@@ -473,7 +443,6 @@ enum	e_types
 */
 struct					s_obj
 {
-	t_bbox				bounding_box;
 	cl_float4			origin;
 	cl_float4			direction;
 	cl_float4			dir2;
@@ -501,7 +470,7 @@ struct					s_triangle
 typedef struct			s_object_info
 {
 	t_material			material;
-	cl_float4			origin;	//vertexe for triangle
+	cl_float4			origin;	//vertex for triangle
 	cl_float4			vector1;
 	cl_float4			vector2;
 	cl_float4			direction; //triangle or plane?
@@ -647,7 +616,7 @@ struct				s_sampler
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 20:05:10 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/25 21:45:45 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/11 22:19:06 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -659,17 +628,18 @@ struct				s_sampler
 #  include "objects.h"
 # endif
 
-typedef struct s_instance	t_instance;
+typedef struct s_instance	t_instance; //96bytes
 
 struct	s_instance
 {
-	t_material			material;
+	t_material			material; //64 bytes
 
 	cl_int				object_id; //triangle_id if type == triangle
 									// может быть надо назвать geometry?
 	cl_int				matrix_id; //менеджер матрицы не нужен, избавиться
 	t_type				type;
-	cl_int				gap[4];
+	cl_float			area;	//area for emissive objects
+	cl_int				gap[3];
 	cl_uchar			uchar_gap[3];
 	cl_uchar			shadows;
 };
@@ -731,7 +701,7 @@ struct s_bvh_node //48
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/07 16:09:54 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/11 22:35:53 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -757,7 +727,8 @@ typedef struct s_rt_options		t_rt_options;
 */
 struct				s_rt_options
 {
-	t_sampler		ambient_occluder_sampler;
+	// t_sampler		ambient_occluder_sampler;
+	t_sampler		sampler;
 	cl_int			ambient_occlusion;
 
 	t_color			background_color;
@@ -772,6 +743,9 @@ struct				s_rt_options
 	cl_int			aa_id; //anti-aliasing sampler id
 
 	cl_uchar		reset;
+	float			x;
+	float			y;
+	// cl_float2		mouse_coords;
 };
 
 # ifndef __OPENCL_C_VERSION__
@@ -793,7 +767,7 @@ int	init_default_options(t_rt_options *options,
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 00:29:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/22 17:51:01 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/11 20:41:41 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -801,7 +775,7 @@ int	init_default_options(t_rt_options *options,
 # define CL_RT_H
 
 #define K_HUGE_VALUE 1e4f
-#define EPSILON 1e-5f
+#define EPSILON 1e-4f
 #define SAMPLES 1
 #define BOUNCES 2
 
@@ -859,6 +833,7 @@ struct						s_scene
 
 struct					s_sampler_manager
 {
+	t_sampler			*sampler;
 	__global t_sampler	*samplers;
 	__global float2		*samples;
 	__global float2		*disk_samples;
@@ -1034,15 +1009,10 @@ void	print_object(t_obj object)
 	// 										object.dir2.y,
 	// 										object.dir2.z,
 	// 										object.dir2.w);
-	printf("\t\tNormal:\t\t(%f, %f, %f, %f)\n", object.normal.x,
-												object.normal.y,
-												object.normal.z,
-												object.normal.w);
 	printf("\t\tRadius:\t\t%f\n", object.r);
 	printf("\t\tRadis2:\t\t%f\n", object.r2);
 	printf("\t\tmaxm:\t\t%f\n", object.maxm);
 	printf("\t\tminm:\t\t%f\n", object.minm);
-	printf("\t\tshadows:\t%d\n", object.shadows);
 	printf("\t\tsampler_id: %d\n", object.sampler_id);
 }
 
@@ -1113,7 +1083,7 @@ void	print_all(t_scene scene)
 
 /* epsilon surrounding for near zero values */
 
-#define EQN_EPS 1e-9
+#define EQN_EPS 1e-3
 #define IsZero(x) ((x) > -EQN_EPS && (x) < EQN_EPS)
 
 int SolveQuadric(double c[3], double s[2])
@@ -1404,10 +1374,13 @@ float2	sample_unit_disk(t_sampler *sampler, __global float2 *disk_samples, uint2
 */
 float3	sample_hemisphere(t_sampler *sampler, __global float3 *hemisphere_samples, uint2 *seed)
 {
-	// if (sampler->count % sampler->num_samples == 0)
-	// sampler->jump = (random(seed) % sampler->num_sets) * sampler->num_samples;
+	if (sampler->count % sampler->num_samples == 0)
+	{
+		sampler->jump = (random(seed) % sampler->num_sets)
+						* sampler->num_samples;
+	}
 
-	return ((hemisphere_samples)[sampler->jump + (random(seed) + sampler->count++) % sampler->num_samples]);
+	return ((hemisphere_samples + sampler->offset)[sampler->jump + (random(seed) + sampler->count++) % sampler->num_samples]);
 }
 
 t_sampler	get_sampler(t_sampler_manager sampler_manager, int sampler_id)
@@ -1560,7 +1533,7 @@ float4	get_object_normal(float4 point, t_obj object, t_hit_info hit_info, t_type
 		return (get_plane_normal(object));
 	}
 	else if (type == rectangle)
-		return object.normal;
+		return (float4)(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 float4	transform_normal(float4 normal, t_matrix matrix)
@@ -1690,6 +1663,9 @@ bool	bbox_intersection(t_ray ray, t_bbox bbox)
 	return (t0 < t1 && t1 > 0.0f);
 }
 
+/* NOTE: we can just return true and tmin
+** because we check intersection with aabb
+*/
 bool	box_intersection(t_ray ray, t_obj box, t_shade_rec *const shade_rec,
 						float *const tmin)
 {
@@ -1699,7 +1675,10 @@ bool	box_intersection(t_ray ray, t_obj box, t_shade_rec *const shade_rec,
 	float b = 1.0f / ray.direction.y;
 	float c = 1.0f / ray.direction.z;
 
-	t_bbox bbox = box.bounding_box;
+	// t_bbox bbox = box.bounding_box;
+	t_bbox bbox;
+	bbox.min = box.direction;
+	bbox.max = box.dir2;
 
 	if (a >= 0.0f)
 	{
@@ -2125,6 +2104,89 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 	return (intersect);
 }
 
+float4	mobius_normal(t_obj mobius, float4 point)
+{
+	float x = point.x, y = point.y, z = point.z, R = mobius.r;
+
+	float4 norm = (float4)(2 * x * y - 2 * R * z - 4 * x * z,
+							-R * R + x * x + 3 * y * y - 4 * y * z + z * z,
+							-2 * R * x - 2 * x * x - 2 * y * y + 2 * y * z,
+							0.0f);
+
+	return normalize(norm);
+}
+
+int dblsgn(double x) {
+		return (x < -1e-4f) ? (-1) : (x > 1e-4f);
+}
+
+bool	mobius_intersection(t_ray ray, t_obj mobius, t_shade_rec *shade_rec, float *const tmin)
+{
+	float ox = ray.origin.x;
+	float oy = ray.origin.y;
+	float oz = ray.origin.z;
+	float dx = ray.direction.x;
+	float dy = ray.direction.y;
+	float dz = ray.direction.z;
+	float R = mobius.r;
+
+	double	coefs[4];
+	double	roots[3];
+
+	coefs[0] = ox * ox * oy + oy * oy * oy - 2.0f * ox * ox * oz - 2.0f * oy * oy * oz +
+			oy * oz * oz - 2.0f * ox * oz * R - oy * R * R;
+	coefs[1] = dy * ox * ox - 2.0f * dz * ox * ox + 2.0f * dx * ox * oy + 3.0 * dy * oy * oy -
+			2.0f * dz * oy * oy - 4.0f * dx * ox * oz - 4.0f * dy * oy * oz + 2.0f * dz * oy * oz +
+			dy * oz * oz - 2.0f * dz * ox * R - 2.0f * dx * oz * R - dy * R * R;
+	coefs[2] = 2.0f * dx * dy * ox - 4.0f * dx * dz * ox + dx * dx * oy + 3.0 * dy * dy * oy -
+			4.0f * dy * dz * oy + dz * dz * oy - 2.0f * dx * dx * oz - 2.0f * dy * dy * oz +
+			2.0f * dy * dz * oz - 2.0f * dx * dz * R;
+	coefs[3] = dx * dx * dy + dy * dy * dy - 2.0f * dx * dx * dz - 2.0f * dy * dy * dz +
+			dy * dz * dz;
+	int num = SolveCubic(coefs, roots);
+
+	bool ret = false;
+
+	for (int i = 0; i < num; i++)
+	{
+		// if (roots[i] > 0.0f && roots[i] < *tmin)
+		{
+			float4 pt = ray.origin + ray.direction * (float)roots[i];
+			float x = pt.x, y = pt.y, z = pt.z;
+			float t = atan2(y, x), s;
+
+			if (sin(t / 2.0f) != 0.0f) {
+				s = z / sin(t / 2.0f);
+			} else {
+				if ((cos(t)) != 0.0f) {
+					s = (x / cos(t) - R) / cos(t / 2.0f);
+				} else {
+					s = (y / sin(t) - R) / cos(t / 2.0f);
+				}
+			}
+
+			x -= (R + s * cos(t / 2.0f)) * cos(t);
+			y -= (R + s * cos(t / 2.0f)) * sin(t);
+			z -= s * sin(t / 2.0f);
+
+			if (!((x * x + y * y + z * z) <= 1e-3f &&
+				(x * x + y * y + z * z) >= -1e-3f)) {
+				continue ;
+			}
+
+			//half_width
+			if (s >= -0.5f -EPSILON  && s <= 0.5f + EPSILON /* && t > 0.0f && t < M_PI_F * 2.0f */)
+			{
+				shade_rec->hit_point = pt;
+				shade_rec->normal = mobius_normal(mobius, pt);
+				*tmin = roots[i];
+				ret = true;
+			}
+		}
+	}
+	return (ret);
+}
+
 /*
 ** TODO(dmelessa): change later
 */
@@ -2200,6 +2262,10 @@ is_intersect(t_obj const obj, t_type const type, t_ray const ray,
 	{
 		return (rectangle_intersection(ray, obj, shade_rec, tmin));
 	}
+	else if (type == mobius)
+	{
+		return (mobius_intersection(ray, obj, shade_rec, tmin));
+	}
 	return (false);
 }
 
@@ -2247,24 +2313,26 @@ float4	sample_object(t_instance_manager instance_manager,
 						t_instance instance,
 						t_obj object,
 						t_matrix matrix,
+						// t_sampler *sampler,
 						uint2 *seed)
 {
 	t_sampler	sampler = get_sampler(sampler_manager, object.sampler_id);
 
 	if (instance.type == rectangle)
 	{
-		sampler.jump = (random(seed) % sampler.num_sets)
-					* sampler.num_samples;
-		sampler.count = get_global_id(0) + instance.object_id;
+		// sampler.jump = get_global_id(0);
+		// sampler.jump = (random(seed) % sampler.num_sets)
+					// * sampler.num_samples;
+		// sampler.count = get_global_id(0) + instance.object_id;
 
-		float2 sp = sample_unit_square(&sampler, sampler_manager.samples, seed);
+		float2 sp = sample_unit_square(sampler_manager.sampler,
+									sampler_manager.samples, seed);
 		float4 point = object.origin
 					+ sp.x * object.direction * object.r
 					+ sp.y * object.dir2 * object.r2;
 		return (point);
 	}
 }
-
 
 float4	get_light_direction(t_light light, t_shade_rec shade_rec)
 {
@@ -2312,7 +2380,7 @@ float4	get_light_direction2(t_scene scene, t_light *light,
 								(float4)(0.0f, 0.0f, 1.0f, 0.0f),
 								light->matrix);
 			//NOTE: also compute inverse area which is pdf
-			light->pdf = 1.0f / (length(obj.direction) * length(obj.dir2) * obj.r * obj.r2);
+			// light->pdf = 1.0f / (length(obj.direction) * length(obj.dir2) * obj.r * obj.r2);
 			return (normalize(light->origin - shade_rec.hit_point));
 		}
 	}
@@ -2511,18 +2579,22 @@ t_color	ambient_occlusion_l(t_scene scene,
 							t_shade_rec shade_rec,
 							uint2 *seed)
 {
-	t_color	color;
+	t_color	color = {1.0f, 1.0f, 1.0f, 0.0f};
 
 	scene.ambient_occluder.w = shade_rec.normal;
 	scene.ambient_occluder.v = normalize(cross(scene.ambient_occluder.w, (float4)(0.0072f, 1.0f, 0.0034f, 0.0f)));
 	scene.ambient_occluder.u = cross(scene.ambient_occluder.v, scene.ambient_occluder.w);
 
 	t_ray shadow_ray;
-	shadow_ray.origin = shade_rec.hit_point + 1e-2f * shade_rec.normal;
+	shadow_ray.origin = shade_rec.hit_point + 1e-3f * shade_rec.normal;
 	shadow_ray.direction = get_ambient_occluder_direction(scene.ambient_occluder, sampler_manager, sampler, seed);
-	color = float_color_multi(scene.ambient_occluder.ls, scene.ambient_occluder.color);
+	// color = float_color_multi(scene.ambient_occluder.ls, scene.ambient_occluder.color);
 	if (in_shadow(shadow_ray, scene))
-		color = float_color_multi(0.1f, color);
+		color = float_color_multi(0.00f, color);
+	else
+		color = float_color_multi(scene.ambient_occluder.ls,
+									scene.ambient_occluder.color);
+
 	return (color);
 }
 
@@ -2823,7 +2895,7 @@ t_color		shade_phong(t_material material,
 
 	if (options.ambient_occlusion) /* ambient occlusion */
 	{
-		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
+		color = ambient_occlusion_l(scene, sampler_manager, sampler_manager.sampler, shade_rec, seed);
 		// color = color_multi(color, material.color);
 	}
 	else /* compute constant ambient light using ka coefficent of the materail */
@@ -2895,7 +2967,7 @@ inline t_color		shade_matte(t_material material,
 
 	if (options.ambient_occlusion) /* ambient occlusion */
 	{
-		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
+		color = ambient_occlusion_l(scene, sampler_manager, sampler_manager.sampler, shade_rec, seed);
 		color = color_multi(color, get_color(scene.instance_manager.tex_mngr,
 											material, &shade_rec));
 	}
@@ -2985,7 +3057,7 @@ t_color		area_light_shade_phong(t_material material,
 
 	if (options.ambient_occlusion) /* ambient occlusion */
 	{
-		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
+		color = ambient_occlusion_l(scene, sampler_manager, sampler_manager.sampler, shade_rec, seed);
 		// color = color_multi(color, get_color(scene.instance_manager.tex_mngr,
 		// 									material, &shade_rec));
 	}
@@ -3067,7 +3139,7 @@ t_color		area_light_shade_matte(t_material material,
 
 	if (options.ambient_occlusion) /* ambient occlusion */
 	{
-		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
+		color = ambient_occlusion_l(scene, sampler_manager, sampler_manager.sampler, shade_rec, seed);
 		color = color_multi(color, get_color(scene.instance_manager.tex_mngr,
 											material, &shade_rec));
 	}
@@ -3079,8 +3151,8 @@ t_color		area_light_shade_matte(t_material material,
 		color_tmp = get_light_radiance(scene.ambient_light);
 		color = color_multi(color, color_tmp);
 	}
-
-	// color = (t_color){0.0f, 0.0f, 0.0f, 0.0f};
+	// return color;
+	// color = (t_color){0.2f, 0.2f, 0.2f, 0.0f};
 
 	for (int i = 0; i < scene.nlights; i++)
 	{
@@ -3097,7 +3169,7 @@ t_color		area_light_shade_matte(t_material material,
 		if (options.shadows)
 		{
 			t_ray	shadow_ray = { .origin = shade_rec.hit_point +
-											1e-4f * shade_rec.normal,
+											1e-3f * shade_rec.normal,
 									.direction = light_direction };
 			in_shadow = shadow_hit(scene,
 								light,
@@ -4051,10 +4123,12 @@ t_color	matte_sample_light(t_material material,
 
 	float4	wi = get_light_direction2(scene, &light, shade_rec,
 										sampler_manager, seed);
+	if (dot(shade_rec.normal, shade_rec.ray.direction) > 0.0f)
+		shade_rec.normal = -shade_rec.normal;
 	if (options.shadows)
 	{
 		t_ray	shadow_ray = { .origin = shade_rec.hit_point
-										+ 1e-4f * shade_rec.normal,
+										+ 1e-3f * shade_rec.normal,
 								.direction = wi };
 		in_shadow = shadow_hit(scene, light, shadow_ray, shade_rec);
 	}
@@ -4087,6 +4161,7 @@ t_color	sample_light(t_material material, t_shade_rec shade_rec, t_scene scene,
 {
 	if (material.type == matte || material.type == plastic)
 	{
+
 		return (matte_sample_light(material, shade_rec, scene, sampler_manager,
 									options, seed));
 	}
@@ -4138,10 +4213,10 @@ t_color	mirror_sample_material(t_material material, t_shade_rec *shade_rec,
 							t_color *f, float *pdf, float *weight,
 							t_texture_manager texture_manager, float4 *state)
 {
-	if (dot(shade_rec->normal, shade_rec->ray.direction) > 0.0f)
+	if (dot(shade_rec->normal, shade_rec->ray.direction) < 0.0f)
 		shade_rec->normal = -shade_rec->normal;
 
-	shade_rec->ray.origin = shade_rec->hit_point + 1e-1f * shade_rec->normal;
+	shade_rec->ray.origin = shade_rec->hit_point - 1e-2f * shade_rec->normal;
 
 	shade_rec->ray.direction = get_reflected_vector(shade_rec->ray.direction,
 													shade_rec->normal);
@@ -4501,14 +4576,10 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 
 	bool	specular_hit = false;
 
-	while (depth < 10)
+	while (depth < 5)
 	{
 		if (scene_intersection(scene, ray, &shade_rec))
 		{
-			if (specular_hit)
-			{
-				//todo
-			}
 
 			t_instance instance = _get_instance();
 			t_material material = _get_instance_material();
@@ -4798,15 +4869,21 @@ void main_kernel(__global t_color *image,	//0
 
 	init_sampler_manager(&sampler_manager, samplers, samples, disk_samples, hemisphere_samples);
 
+	options.sampler = get_sampler(sampler_manager, options.aa_id);
+	options.sampler.jump = ((random(&seed)) % options.sampler.num_sets) *
+							options.sampler.num_samples;
+	options.sampler.count = global_id + num;
+
+	sampler_manager.sampler = &options.sampler;
 	/* получаем семплер для антиалиасинга и текущий шаг. */
-	ao_sampler = get_sampler(sampler_manager, options.aa_id);
-	ao_sampler.count = global_id * ao_sampler.num_samples + step;
+	// ao_sampler = get_sampler(sampler_manager, options.aa_id);
+	// ao_sampler.count = global_id * ao_sampler.num_samples + step;
 
-	ao_sampler.jump = ((num + random(&seed)) % ao_sampler.num_sets) * ao_sampler.num_samples;
-	ao_sampler.count = global_id + num;
+	// ao_sampler.jump = ((num + random(&seed)) % ao_sampler.num_sets) * ao_sampler.num_samples;
+	// ao_sampler.count = global_id + num;
 
-	options.ambient_occluder_sampler.jump = (random(&seed) % options.ambient_occluder_sampler.num_sets) * options.ambient_occluder_sampler.num_samples;
-	options.ambient_occluder_sampler.count = global_id;
+	// options.ambient_occluder_sampler.jump = (random(&seed) % options.ambient_occluder_sampler.num_sets) * options.ambient_occluder_sampler.num_samples;
+	// options.ambient_occluder_sampler.count = global_id;
 
 	if (options.reset == 1)
 	{
@@ -4814,11 +4891,11 @@ void main_kernel(__global t_color *image,	//0
 	}
 
 	/* */
-	float2	sp = sample_unit_square(&ao_sampler, sampler_manager.samples, &seed);
-	// float dx = x + sp.x;
-	// float dy = y + sp.y;
-	float	dx = x + GPURnd(&state);
-	float	dy = y + GPURnd(&state);
+	float2	sp = sample_unit_square(&options.sampler, sampler_manager.samples, &seed);
+	float dx = x + sp.x;
+	float dy = y + sp.y;
+	// float	dx = x + GPURnd(&state);
+	// float	dy = y + GPURnd(&state);
 
 	if (scene.camera.type == thin_lens)
 	{
@@ -4830,7 +4907,8 @@ void main_kernel(__global t_color *image,	//0
 		// 	camera_sampler.jump = ((num + random(&seed)) % camera_sampler.num_sets) * camera_sampler.num_samples;
 	}
 
-	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed, &state);
+	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager,
+						&camera_sampler, &seed, &state);
 
 	color = trace(ray, scene, options, sampler_manager, &seed, &state);
 

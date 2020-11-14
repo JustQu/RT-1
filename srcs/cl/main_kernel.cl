@@ -129,15 +129,21 @@ void main_kernel(__global t_color *image,	//0
 
 	init_sampler_manager(&sampler_manager, samplers, samples, disk_samples, hemisphere_samples);
 
+	options.sampler = get_sampler(sampler_manager, options.aa_id);
+	options.sampler.jump = ((random(&seed)) % options.sampler.num_sets) *
+							options.sampler.num_samples;
+	options.sampler.count = global_id + num;
+
+	sampler_manager.sampler = &options.sampler;
 	/* получаем семплер для антиалиасинга и текущий шаг. */
-	ao_sampler = get_sampler(sampler_manager, options.aa_id);
-	ao_sampler.count = global_id * ao_sampler.num_samples + step;
+	// ao_sampler = get_sampler(sampler_manager, options.aa_id);
+	// ao_sampler.count = global_id * ao_sampler.num_samples + step;
 
-	ao_sampler.jump = ((num + random(&seed)) % ao_sampler.num_sets) * ao_sampler.num_samples;
-	ao_sampler.count = global_id + num;
+	// ao_sampler.jump = ((num + random(&seed)) % ao_sampler.num_sets) * ao_sampler.num_samples;
+	// ao_sampler.count = global_id + num;
 
-	options.ambient_occluder_sampler.jump = (random(&seed) % options.ambient_occluder_sampler.num_sets) * options.ambient_occluder_sampler.num_samples;
-	options.ambient_occluder_sampler.count = global_id;
+	// options.ambient_occluder_sampler.jump = (random(&seed) % options.ambient_occluder_sampler.num_sets) * options.ambient_occluder_sampler.num_samples;
+	// options.ambient_occluder_sampler.count = global_id;
 
 	if (options.reset == 1)
 	{
@@ -145,11 +151,11 @@ void main_kernel(__global t_color *image,	//0
 	}
 
 	/* */
-	float2	sp = sample_unit_square(&ao_sampler, sampler_manager.samples, &seed);
-	// float dx = x + sp.x;
-	// float dy = y + sp.y;
-	float	dx = x + GPURnd(&state);
-	float	dy = y + GPURnd(&state);
+	float2	sp = sample_unit_square(&options.sampler, sampler_manager.samples, &seed);
+	float dx = x + sp.x;
+	float dy = y + sp.y;
+	// float	dx = x + GPURnd(&state);
+	// float	dy = y + GPURnd(&state);
 
 	if (scene.camera.type == thin_lens)
 	{
@@ -161,7 +167,8 @@ void main_kernel(__global t_color *image,	//0
 		// 	camera_sampler.jump = ((num + random(&seed)) % camera_sampler.num_sets) * camera_sampler.num_samples;
 	}
 
-	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed, &state);
+	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager,
+						&camera_sampler, &seed, &state);
 
 	color = trace(ray, scene, options, sampler_manager, &seed, &state);
 

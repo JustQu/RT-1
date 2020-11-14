@@ -13,7 +13,7 @@ t_color		area_light_shade_phong(t_material material,
 
 	if (options.ambient_occlusion) /* ambient occlusion */
 	{
-		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
+		color = ambient_occlusion_l(scene, sampler_manager, sampler_manager.sampler, shade_rec, seed);
 		// color = color_multi(color, get_color(scene.instance_manager.tex_mngr,
 		// 									material, &shade_rec));
 	}
@@ -95,7 +95,7 @@ t_color		area_light_shade_matte(t_material material,
 
 	if (options.ambient_occlusion) /* ambient occlusion */
 	{
-		color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
+		color = ambient_occlusion_l(scene, sampler_manager, sampler_manager.sampler, shade_rec, seed);
 		color = color_multi(color, get_color(scene.instance_manager.tex_mngr,
 											material, &shade_rec));
 	}
@@ -107,8 +107,8 @@ t_color		area_light_shade_matte(t_material material,
 		color_tmp = get_light_radiance(scene.ambient_light);
 		color = color_multi(color, color_tmp);
 	}
-
-	// color = (t_color){0.0f, 0.0f, 0.0f, 0.0f};
+	// return color;
+	// color = (t_color){0.2f, 0.2f, 0.2f, 0.0f};
 
 	for (int i = 0; i < scene.nlights; i++)
 	{
@@ -125,7 +125,7 @@ t_color		area_light_shade_matte(t_material material,
 		if (options.shadows)
 		{
 			t_ray	shadow_ray = { .origin = shade_rec.hit_point +
-											1e-4f * shade_rec.normal,
+											1e-3f * shade_rec.normal,
 									.direction = light_direction };
 			in_shadow = shadow_hit(scene,
 								light,

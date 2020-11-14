@@ -6,17 +6,24 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/07 16:08:45 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 00:54:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
 #include <stdio.h>
 
-#define BANANA 0
+#define BANANA 1
 #define printf(...) if (BANANA) printf(__VA_ARGS__);
 
 FILE *f;
+
+#include <windows.h>
+#include "rt_types.h"
+
+// #define _CRTDBG_MAP_ALLOC
+// #include <stdlib.h>
+// #include <crtdbg.h>
 
 void	exit_program(t_window window)
 {
@@ -133,6 +140,8 @@ int main(int ac, char **av)
 		}
 	}
 
-	exit_program(app.window);
+	// exit_program(app.window);
+	// fprintf(stdout, "AAA: %d\n",_CrtDumpMemoryLeaks());
+
 	return (0);
 }

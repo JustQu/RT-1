@@ -116,15 +116,10 @@ void	print_object(t_obj object)
 	// 										object.dir2.y,
 	// 										object.dir2.z,
 	// 										object.dir2.w);
-	printf("\t\tNormal:\t\t(%f, %f, %f, %f)\n", object.normal.x,
-												object.normal.y,
-												object.normal.z,
-												object.normal.w);
 	printf("\t\tRadius:\t\t%f\n", object.r);
 	printf("\t\tRadis2:\t\t%f\n", object.r2);
 	printf("\t\tmaxm:\t\t%f\n", object.maxm);
 	printf("\t\tminm:\t\t%f\n", object.minm);
-	printf("\t\tshadows:\t%d\n", object.shadows);
 	printf("\t\tsampler_id: %d\n", object.sampler_id);
 }
 

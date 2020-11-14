@@ -6,13 +6,18 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/13 00:14:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 16:01:17 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/11 22:22:13 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 #include "math.h"
 #include "matrix.h"
+
+float	vec4_len(cl_float4 vec)
+{
+	return (sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z));
+}
 
 /**
 ** @brief Normalize vector

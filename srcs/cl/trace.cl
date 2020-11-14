@@ -23,10 +23,12 @@ t_color	matte_sample_light(t_material material,
 
 	float4	wi = get_light_direction2(scene, &light, shade_rec,
 										sampler_manager, seed);
+	if (dot(shade_rec.normal, shade_rec.ray.direction) > 0.0f)
+		shade_rec.normal = -shade_rec.normal;
 	if (options.shadows)
 	{
 		t_ray	shadow_ray = { .origin = shade_rec.hit_point
-										+ 1e-4f * shade_rec.normal,
+										+ 1e-3f * shade_rec.normal,
 								.direction = wi };
 		in_shadow = shadow_hit(scene, light, shadow_ray, shade_rec);
 	}
@@ -59,6 +61,7 @@ t_color	sample_light(t_material material, t_shade_rec shade_rec, t_scene scene,
 {
 	if (material.type == matte || material.type == plastic)
 	{
+
 		return (matte_sample_light(material, shade_rec, scene, sampler_manager,
 									options, seed));
 	}
@@ -110,10 +113,10 @@ t_color	mirror_sample_material(t_material material, t_shade_rec *shade_rec,
 							t_color *f, float *pdf, float *weight,
 							t_texture_manager texture_manager, float4 *state)
 {
-	if (dot(shade_rec->normal, shade_rec->ray.direction) > 0.0f)
+	if (dot(shade_rec->normal, shade_rec->ray.direction) < 0.0f)
 		shade_rec->normal = -shade_rec->normal;
 
-	shade_rec->ray.origin = shade_rec->hit_point + 1e-1f * shade_rec->normal;
+	shade_rec->ray.origin = shade_rec->hit_point - 1e-2f * shade_rec->normal;
 
 	shade_rec->ray.direction = get_reflected_vector(shade_rec->ray.direction,
 													shade_rec->normal);
@@ -473,14 +476,10 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 
 	bool	specular_hit = false;
 
-	while (depth < 10)
+	while (depth < 5)
 	{
 		if (scene_intersection(scene, ray, &shade_rec))
 		{
-			if (specular_hit)
-			{
-				//todo
-			}
 
 			t_instance instance = _get_instance();
 			t_material material = _get_instance_material();

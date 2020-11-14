@@ -1,59 +1,14 @@
-<kernel>:1505:1: warning: control may reach end of non-void function
-}
+<kernel>:742:2: error: unknown type name 'cl_float2'; did you mean 'float2'?
+        cl_float2               mouse_coords;
+        ^~~~~~~~~
+        float2
+cl_kernel.h:140:1: note: 'float2' declared here
+__NV_DECLARE_VECT_TYPES(float,           float)
 ^
-<kernel>:1543:1: warning: control may reach end of non-void function
-}
-^
-<kernel>:2243:1: warning: control may reach end of non-void function
-}
-^
-<kernel>:2296:1: warning: control may reach end of non-void function
-}
-^
-<kernel>:2309:1: warning: control may reach end of non-void function
-}
-^
-<kernel>:2395:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:2643:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:2723:1: warning: control may reach end of non-void function
-}
-^
-<kernel>:3025:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:4120:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:4220:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:4311:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:4349:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:4364:18: error: no member named 'extIOR' in 'struct s_material'
-                                                                material.extIOR, material.intIOR);
-                                                                ~~~~~~~~ ^
-<kernel>:4370:51: warning: incompatible pointer types passing 't_shade_rec *__attribute__((address_space(16776963))) *' (aka 'struct s_shade_rec *__attribute__((address_space(16776963))) *') to parameter of type 't_shade_rec *' (aka 'struct s_shade_rec *')
-        t_color c = get_color(texture_manager, material, &shade_rec);
-                                                         ^~~~~~~~~~
-<kernel>:2689:19: note: passing argument to parameter 'shade_rec' here
-                                        t_shade_rec *shade_rec /* hit point */)
-                                                     ^
-<kernel>:4385:76: error: expected ';' at end of declaration
-        float4 m = sample_ggx_distriburion(shade_rec->normal, alphaSquared, state)
-                                                                                  ^
-                                                                                  ;
-<kernel>:4405:34: error: too few arguments to function call, expected 8, have 4
-                                        shade_rec->ray.direction, wi);
-                                                                    ^
-<kernel>:4351:1: note: 'plastic_evaluate' declared here
-t_color plastic_evaluate(t_material material, t_shade_rec *shade_rec,
+cl_kernel.h:113:55: note: expanded from macro '__NV_DECLARE_VECT_TYPES'
+typedef __attribute__(( ext_vector_type(2)  ))  CTYPE CLTYPE##2;  \
+                                                      ^
+<scratch space>:47:1: note: expanded from here
+float2
 ^
 

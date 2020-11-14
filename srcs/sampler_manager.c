@@ -3,32 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sampler_manager.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 19:14:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/30 13:03:20 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/11 18:03:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "libft.h"
 #include "utils.h"
-
-int		init_sampler_manager(t_sampler_manager *sampler_manager)
-{
-	sampler_manager->count = 0;
-	sampler_manager->samplers_malloc_size = 0;
-	sampler_manager->samples_size = 0;
-	sampler_manager->samples_malloc_size = 0;
-	sampler_manager->disk_samples_size = 0;
-	sampler_manager->disk_samples_malloc_size = 0;
-	sampler_manager->hemisphere_samples_size = 0;
-	sampler_manager->hemisphere_samples_malloc_size = 0;
-	sampler_manager->samplers = NULL;
-	sampler_manager->hemisphere_samples = NULL;
-	sampler_manager->samples = NULL;
-	sampler_manager->disk_samples = NULL;
-}
 
 static int	realloc_sampler_manager(t_sampler_manager *sampler_manager,
 									size_t new_size)
@@ -232,4 +216,22 @@ int		new_sampler(t_sampler_manager *mngr,
 	map_sp(mngr, &s);
 	mngr->samplers[mngr->count - 1] = s;
 	return (mngr->count - 1);
+}
+
+int		init_sampler_manager(t_sampler_manager *sampler_manager)
+{
+	sampler_manager->count = 0;
+	sampler_manager->samplers_malloc_size = 0;
+	sampler_manager->samples_size = 0;
+	sampler_manager->samples_malloc_size = 0;
+	sampler_manager->disk_samples_size = 0;
+	sampler_manager->disk_samples_malloc_size = 0;
+	sampler_manager->hemisphere_samples_size = 0;
+	sampler_manager->hemisphere_samples_malloc_size = 0;
+	sampler_manager->samplers = NULL;
+	sampler_manager->hemisphere_samples = NULL;
+	sampler_manager->samples = NULL;
+	sampler_manager->disk_samples = NULL;
+	new_sampler(sampler_manager, regular_grid, 16384,
+				DISK_SAMPLES | HEMISPHERE_SAMPLES);
 }

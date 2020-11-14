@@ -6,32 +6,12 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:23:02 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/05 22:06:35 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 03:13:50 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.h"
-#include "math.h"
-
-/**
-** @brief Print matrix in stdout
-**
-** @param matrix
-** @return ** void
-*/
-void print_matrix(t_matrix matrix)
-{
-	int i;
-
-	i = 0;
-	while (i < 16)
-	{
-		printf("%f ", matrix.s[i]);
-		if (i == 3 || i == 7 || i == 11 || i == 15)
-			printf("\n");
-		i++;
-	}
-}
+#include <math.h>
 
 /**
 ** @brief Identity matrix
@@ -124,15 +104,15 @@ t_matrix move_matrix(cl_float4 origin)
 ** @param angle
 ** @return ** t_matrix
 */
-t_matrix x_rotate(cl_float angle)
+t_matrix get_x_rotation_matrix(cl_float angle)
 {
 	t_matrix matrix;
 
 	matrix = g_default_matrix;
-	matrix.s[5] = cos(angle* M_PI / 180.0f);
-	matrix.s[6] = -sin(angle* M_PI / 180.0f);
-	matrix.s[9] = sin(angle* M_PI / 180.0f);
-	matrix.s[10] = cos(angle* M_PI / 180.0f);
+	matrix.s[5] = cos(angle * M_PI / 180.0f);
+	matrix.s[6] = -sin(angle * M_PI / 180.0f);
+	matrix.s[9] = sin(angle * M_PI / 180.0f);
+	matrix.s[10] = cos(angle * M_PI / 180.0f);
 	return (matrix);
 }
 
@@ -147,7 +127,7 @@ t_matrix x_rotate(cl_float angle)
 ** @param angle
 ** @return ** t_matrix
 */
-t_matrix y_rotate(cl_float angle)
+t_matrix get_y_rotation_matrix(cl_float angle)
 {
 	t_matrix matrix;
 
@@ -170,7 +150,7 @@ t_matrix y_rotate(cl_float angle)
 ** @param angle
 ** @return ** t_matrix
 */
-t_matrix z_rotate(cl_float angle)
+t_matrix get_z_rotation_matrix(cl_float angle)
 {
 	t_matrix matrix;
 
@@ -193,9 +173,9 @@ t_matrix rotate_matrix(cl_float4 rotate)
 	t_matrix matrix;
 
 	matrix = g_default_matrix;
-	matrix = mul_matrix(matrix, x_rotate(rotate.s[0]));
-	matrix = mul_matrix(matrix, y_rotate(rotate.s[1]));
-	matrix = mul_matrix(matrix, z_rotate(rotate.s[2]));
+	matrix = mul_matrix(matrix, get_x_rotation_matrix(rotate.s[0]));
+	matrix = mul_matrix(matrix, get_y_rotation_matrix(rotate.s[1]));
+	matrix = mul_matrix(matrix, get_z_rotation_matrix(rotate.s[2]));
 	return (matrix);
 }
 
@@ -263,9 +243,9 @@ t_matrix	get_rotation_matrix(cl_float3 v)
 {
 	t_matrix	matrix;
 
-	matrix = x_rotate(v.x);
-	matrix = mul_matrix(matrix, y_rotate(v.y));
-	matrix = mul_matrix(matrix, z_rotate(v.z));
+	matrix = get_x_rotation_matrix(v.x);
+	matrix = mul_matrix(matrix, get_y_rotation_matrix(v.y));
+	matrix = mul_matrix(matrix, get_z_rotation_matrix(v.z));
 	return (matrix);
 }
 

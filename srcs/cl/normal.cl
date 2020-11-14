@@ -110,7 +110,7 @@ float4	get_object_normal(float4 point, t_obj object, t_hit_info hit_info, t_type
 		return (get_plane_normal(object));
 	}
 	else if (type == rectangle)
-		return object.normal;
+		return (float4)(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 float4	transform_normal(float4 normal, t_matrix matrix)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 00:05:29 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/30 19:50:19 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 01:47:06 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ typedef enum	e_parsed_type
 {
 	object,
 	light,
-	material,
-	texture,
-	camera,
 }				t_parsed_type;
 
 typedef struct s_parsed_object
@@ -51,6 +48,7 @@ typedef struct	s_parsed_light
 	t_color			color;
 	cl_float		ls;
 	t_light_type	type;
+	cl_float		pdf; //computed value
 }				t_parsed_light;
 
 typedef union	u_parsed_data

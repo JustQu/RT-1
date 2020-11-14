@@ -1,34 +1,91 @@
-1. antialiasing sampler in options
-2. julia
-3. gui
-4. plane in bvh and limit other surfaces
-5. --------color pattern--------
-	5.1 -----------Checkboard-------------
-	5.2 -----------Perlin----------------
-		a) Move perlin to local memory???
-		b) ------------smooth perlin---------------
-		c)-------------
-		d)
++ add_parsed_asset function
++- sampler_manager
+camera interface
+move matrix to instance
++-aabb computation for instances
+	do for triangle
+compute emissive object area
+----------------trace_mouse_ray
+rebuilding bvh when changing objects
+add emissive objects: sphere, cylinder,
+deleting instances. NOTE: need ref counter in this case
+multi importance sampling
+russian roulette
 
-6.---------reflections.--------
-	6.1 glossy reflections 25
-7. materal system
-8. --------------------path tracer-------------------
-9. denoising?
-------------------------------10. motion blur
-10. transparent parts of texture
-11. Площадь фиугуры меняется на значение детерминанта матрицы
+16384
 
-literature:
-http://www.realtimerendering.com/
-suffern Ray Tracing from the Ground Up,
-ray tracing in one weekend
-siggraph 2019
-	object.type = sphere;
+scene:
+	camera
+	options
+	objects
+	lights
 
-gui
-parser
-error_management
-cleanup
+options:
+	background_color:
+	ambient_illumination:
+		constant: coefficient
+		ambient_occlusion: min_amount
+	shadows: true/false
+	depth: int
+	global_illumination: true/false
+
+camera: origin direction/lookat viewplane_distance zoom
+	type:
+		perspective: -
+		thin_lens: focus_distance thickness
+		stereo: todo
+
+objects: origin rotation scaling
+	sphere: radius
+	plane: -
+	cylinder: radius height
+	cone: angle height
+	disk: radius
+	reactangle: vector1 vector2 width length
+	box: nearestRightBottomPoint farestLeftTopPoint
+	paraboloid: radius dist
+	torus: bigRadius smallRadius
+	triangle: 3 vertices
+
+lights: color, ls
+	point: origin
+	directional: direction
+
+materials:
+	matte: diffuse_coefficient
+	emissive: intensity
+	mirror: reflection_coefficient
+	conductor: reflection_coefficient roughness
+	plastic: diffuse_coefficient reflection_coefficient roughness
+	dielectric: transmission coefficient roughness
+
+textures:
+	solid: color
+	checker: color color2
+	perlin: color
+	wave: color
+	turbulance: color
 
 
+materials: ambient_coefficient type
+	matte: diffuse_coefficient
+	emissive: intensity
+	mirror: reflection_coefficient
+	conductor: reflection_coefficient roughness
+	plastic: diffuse_coefficient reflection_coefficient roughness
+	dielectric: transmission_coefficient roughness
+
+material:		//32bytes
+	type	//4
+	ka		//4
+	k1		//4
+	k2		//4
+	exp		//4
+	tex_id	//4
+	free space 8 bytes
+
+instance:		//64
+	type		//4
+	material	//32
+	matrix		//16
+	area		//4

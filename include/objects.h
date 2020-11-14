@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:20 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 13:48:48 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/13 18:07:35 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ enum	e_types
 	box,
 	disk,
 	rectangle,
-	generic_shere
+	generic_shere,
+	mobius
 	//todo(dmelessa): another generic types
 };
 
@@ -44,7 +45,6 @@ enum	e_types
 */
 struct					s_obj
 {
-	t_bbox				bounding_box;
 	cl_float4			origin;
 	cl_float4			direction;
 	cl_float4			dir2;
@@ -72,7 +72,7 @@ struct					s_triangle
 typedef struct			s_object_info
 {
 	t_material			material;
-	cl_float4			origin;	//vertexe for triangle
+	cl_float4			origin;	//vertex for triangle
 	cl_float4			vector1;
 	cl_float4			vector2;
 	cl_float4			direction; //triangle or plane?

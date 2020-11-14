@@ -3,24 +3,26 @@ float4	sample_object(t_instance_manager instance_manager,
 						t_instance instance,
 						t_obj object,
 						t_matrix matrix,
+						// t_sampler *sampler,
 						uint2 *seed)
 {
 	t_sampler	sampler = get_sampler(sampler_manager, object.sampler_id);
 
 	if (instance.type == rectangle)
 	{
-		sampler.jump = (random(seed) % sampler.num_sets)
-					* sampler.num_samples;
-		sampler.count = get_global_id(0) + instance.object_id;
+		// sampler.jump = get_global_id(0);
+		// sampler.jump = (random(seed) % sampler.num_sets)
+					// * sampler.num_samples;
+		// sampler.count = get_global_id(0) + instance.object_id;
 
-		float2 sp = sample_unit_square(&sampler, sampler_manager.samples, seed);
+		float2 sp = sample_unit_square(sampler_manager.sampler,
+									sampler_manager.samples, seed);
 		float4 point = object.origin
 					+ sp.x * object.direction * object.r
 					+ sp.y * object.dir2 * object.r2;
 		return (point);
 	}
 }
-
 
 float4	get_light_direction(t_light light, t_shade_rec shade_rec)
 {
@@ -68,7 +70,7 @@ float4	get_light_direction2(t_scene scene, t_light *light,
 								(float4)(0.0f, 0.0f, 1.0f, 0.0f),
 								light->matrix);
 			//NOTE: also compute inverse area which is pdf
-			light->pdf = 1.0f / (length(obj.direction) * length(obj.dir2) * obj.r * obj.r2);
+			// light->pdf = 1.0f / (length(obj.direction) * length(obj.dir2) * obj.r * obj.r2);
 			return (normalize(light->origin - shade_rec.hit_point));
 		}
 	}

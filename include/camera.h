@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:46:35 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/30 18:03:32 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 03:07:23 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 typedef enum e_camera_type	t_camera_type;
 typedef struct s_camera		t_camera; //160
 typedef struct s_viewplane	t_viewplane;
+
+# define UP (cl_float4){ 0.0f, 1.0f, 0.0f, 0.0f }
+# define RIGHT (cl_float4) { 1.0f, 0.0f, 0.0f, 0.0f }
 
 /**
 ** @brief Набор типов камеры
@@ -55,18 +58,11 @@ struct s_viewplane
 };
 
 /**
-** @TODO: make transformation matrix
-** TODO: singularity paragraph 9.9
-**
-*/
-
-/**
 ** @brief Класс камеры
 **
 ** viewplane - плоскоть проецирования
 ** origin - местоположение камеры
 ** direction - напралвние взгляда
-** up -вектор вверх
 ** u, v, w - внутренняя система координат камеры
 ** d - расстояние до viewplane, плоскости проецирования
 ** zoom - коэффициент приближения
@@ -95,15 +91,12 @@ struct	s_camera
 	//thin-lens camera
 	cl_float			l; //lens radius or lambda
 	cl_float			f; //focal plane distance or psi_max in fisheye
-
-//note: prob not needed
-	cl_float			ratio;
-	cl_float			inv_w;
-	cl_float			inv_h;
-	cl_float			angle;
-	cl_int				fov;
 };
 
 void	compute_uvw(t_camera *camera);
+
+void	rotate_camera(t_camera *camera, int axis, float angle_degrees);
+
+void	move_camera(t_camera *camera, int direction, float step);
 
 #endif

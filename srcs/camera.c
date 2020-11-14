@@ -6,12 +6,13 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/13 01:05:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/13 16:49:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 03:13:18 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "camera.h"
 #include "vector.h"
+#include "matrix.h"
 
 void	compute_uvw(t_camera *camera)
 {
@@ -20,7 +21,10 @@ void	compute_uvw(t_camera *camera)
 	camera->w.z = -camera->direction.z;
 	camera->w.w = 0.0f;
 	camera->w = norm4(camera->w);
-	camera->u = cross_product(camera->up, camera->w);
+	if (camera->w.y < 0.9f)
+		camera->u = cross_product(UP, camera->w);
+	else
+		camera->u = cross_product(RIGHT, camera->w);
 	camera->u.x = -camera->u.x; //doing this because we are using left handed coordinate system
 	camera->u.y = -camera->u.y;
 	camera->u.z = -camera->u.z;
@@ -30,8 +34,23 @@ void	compute_uvw(t_camera *camera)
 	camera->v.z = -camera->v.z;
 }
 
+void	move_camera(t_camera *camera, int direction, float step)
+{
+	if (direction == 0)
+	{
+		camera->origin.x += step;
+	}
+	else if (direction == 1)
+	{
+		camera->origin.y += step;
+	}
+	else
+	{
+		camera->origin.z += step;
+	}
+}
+
 /**
-** @todo
 ** @brief
 **
 ** @param camera
@@ -41,5 +60,27 @@ void	compute_uvw(t_camera *camera)
 */
 void	rotate_camera(t_camera *camera, int axis, float angle_degrees)
 {
-	//rotate u, v, w
+	t_matrix	m;
+
+	if (axis == 0)
+	{
+		m = get_x_rotation_matrix(angle_degrees);
+		camera->u = vector_matrix_mul(camera->u, m);
+		camera->v = vector_matrix_mul(camera->v, m);
+		camera->w = vector_matrix_mul(camera->w, m);
+	}
+	else if (axis == 1)
+	{
+		m = get_y_rotation_matrix(angle_degrees);
+		camera->u = vector_matrix_mul(camera->u, m);
+		camera->v = vector_matrix_mul(camera->v, m);
+		camera->w = vector_matrix_mul(camera->w, m);
+	}
+	else
+	{
+		m = get_z_rotation_matrix(angle_degrees);
+		camera->u = vector_matrix_mul(camera->u, m);
+		camera->v = vector_matrix_mul(camera->v, m);
+		camera->w = vector_matrix_mul(camera->w, m);
+	}
 }
