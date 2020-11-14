@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:16:31 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 20:19:23 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	init_clp(t_clp *clp)
 	clp->de_id = NULL;
 	clp->ret = clGetPlatformIDs(1, &pl_id, NULL);
 	assert(!clp->ret);
-	clp->ret = clGetDeviceIDs(pl_id, CL_DEVICE_TYPE_GPU, 1, &clp->de_id, &nde);
+	clp->ret = clGetDeviceIDs(pl_id, CL_DEVICE_TYPE_ALL, 1, &clp->de_id, &nde);
 	assert(!clp->ret);
 	clp->context = clCreateContext(NULL, 1, &clp->de_id, NULL, NULL, &clp->ret);
 	assert(!clp->ret);
@@ -40,13 +40,14 @@ static int	init_kernel(t_cl_program *p)
 	int	r;
 
 	r = 0;
-	p->work_size = 1920 * 1080;
+	p->work_size = IMG_WIDTH * IMG_HEIGHT;
 	p->work_group_size = WORK_GROUP_SIZE;
 	p->program = create_program(p->info.context);
-	r = clBuildProgram(p->program, 1, &p->info.de_id, KERNEL_INC, NULL, NULL);
+	r = clBuildProgram(p->program, 1, &p->info.de_id, "-cl-std=CL2.0", NULL, NULL);
 	cl_error(p, &p->info, r);
 	assert(!r);
 	p->new_kernel = clCreateKernel(p->program, KERNEL_NAME, &r);
+	cl_error(p, &p->info, r);
 	assert(!r);
 	p->help_kernel = clCreateKernel(p->program, "translate_image", &r);
 	assert(!r);
@@ -76,7 +77,7 @@ void init_buffers(t_cl_program *program, t_scene *scene,
 	program->instances = clCreateBuffer(cntx, ro, sizeof(t_instance) * (scene->instance_mngr.ninstances), scene->instance_mngr.instances, &ret);
 	cl_error(program, &program->info, ret);
 
-	program->objects = clCreateBuffer(cntx, ro, sizeof(t_obj) * (scene->instance_mngr.nobjects), scene->instance_mngr.objects, &ret);
+	program->objects = clCreateBuffer(cntx, ro, sizeof(t_obj) * (scene->instance_mngr.nobjects + 1), scene->instance_mngr.objects, &ret);
 	cl_error(program, &program->info, ret);
 
 	program->triangles = clCreateBuffer(cntx, ro, sizeof(t_triangle) * (scene->instance_mngr.ntriangles + 1), scene->instance_mngr.triangles, &ret);
@@ -89,7 +90,7 @@ void init_buffers(t_cl_program *program, t_scene *scene,
 	cl_error(program, &program->info, ret);
 
 	program->lights = clCreateBuffer(cntx, ro,
-		sizeof(t_light) * scene->light_manager.nlights,
+		sizeof(t_light) * (scene->light_manager.nlights + 1),
 		scene->light_manager.lights, &ret);
 	cl_error(program, &program->info, ret);
 

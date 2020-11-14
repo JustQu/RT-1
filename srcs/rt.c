@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 19:54:03 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:16:36 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 20:19:31 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	render_scene(t_rt rt)
 									 rt.ocl_program.new_kernel,
 									 1, NULL,
 									 &rt.ocl_program.work_size,
-									 &rt.ocl_program.work_group_size,
+									 NULL,
 									 0, NULL, NULL);
 		cl_error(&rt.ocl_program, &rt.ocl_program.info, err);
 		assert(!err);
@@ -81,13 +81,13 @@ void	render_scene(t_rt rt)
 	}
 }
 
-int		init_rt(t_rt *rt, char *scene_file)
+int		init_rt(t_rt *rt, char *scene_file, t_res_mngr *resource_manager)
 {
 	init_sampler_manager(&rt->sampler_manager);
 	init_default_options(&rt->options, &rt->sampler_manager);
-	init_default_scene(&rt->scene, &rt->sampler_manager);
-	rt->options.ambient_occluder_sampler
-		= rt->sampler_manager.samplers[rt->scene.ambient_occluder.sampler_id];
+	init_default_scene(&rt->scene, &rt->sampler_manager, resource_manager);
+	// rt->options.ambient_occluder_sampler
+		// = rt->sampler_manager.samplers[rt->scene.ambient_occluder.sampler_id];
 	rt->scene.bvh = build_bvh(&rt->scene);
 	init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, rt);
 }

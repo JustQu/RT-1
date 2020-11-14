@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 00:05:29 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/29 00:07:13 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 19:02:14 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ typedef enum	e_parsed_type
 {
 	object,
 	light,
-	material,
-	texture,
-	camera,
 }				t_parsed_type;
 
 typedef struct s_parsed_object
@@ -42,6 +39,7 @@ typedef struct s_parsed_object
 	cl_float	r;
 	cl_float	r2;
 	t_type		type;
+	cl_int		boolean;
 }				t_parsed_object;
 
 typedef struct	s_parsed_light
@@ -51,12 +49,14 @@ typedef struct	s_parsed_light
 	t_color			color;
 	cl_float		ls;
 	t_light_type	type;
+	cl_float		pdf; //computed value
 }				t_parsed_light;
 
 typedef union	u_parsed_data
 {
 	t_parsed_object	object;
 	t_parsed_light	light;
+	// t_camera		camera;
 }				t_parsed_data;
 
 typedef struct	u_parsed_info

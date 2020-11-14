@@ -56,13 +56,7 @@ float		hash(float seed)
 	return fract(sin(seed) * 43758.5453123, &res);
 }
 
-/*
-** Новый кернел.
-** Поскольку драйвер убивает кернел если он выполняется дольше чем 0,5 секунды,
-** нам надо  его уменьшить. При каждом вызове будет считать по одной точке антиалиасинга.
-** В дальнейшем когда будут сделаны материалы / преломления / отражения можно будет еще
-** больше разбить кернел чтобы избежать дивергенции кода.
-*/												//Pos of argument on host
+										//Pos of argument on host
 __kernel  __attribute__((work_group_size_hint(32, 1, 1)))
 void main_kernel(__global t_color *image,	//0
 				int step,						//1
@@ -114,20 +108,17 @@ void main_kernel(__global t_color *image,	//0
 	seed.x = global_id + x + num;
 	seed.y = y + get_local_id(0) + get_group_id(0);
 	seed.y = random(&seed);
-
 	float4 state;
 	float2 s;
-
 	s.x = seed.x;
 	s.y = seed.y / ((float)num + 1.0f) * 43534.0f - num;
-
 	state.x = hash(s.x + seed.x);
 	state.y = hash(s.y + state.x);
 	state.z = hash(state.x + state.y);
 	state.w = hash(num + s.y - state.x * state.y);
 	GPURnd(&state);
-	// GPURnd(&state);
-	// GPURnd(&state);
+	seed.x = (uint)GPURnd(&state) + num;
+
 
 	init_scene(&scene,
 				instances, ninstances, objects, nobjects,
@@ -138,32 +129,33 @@ void main_kernel(__global t_color *image,	//0
 
 	init_sampler_manager(&sampler_manager, samplers, samples, disk_samples, hemisphere_samples);
 
+	options.sampler = get_sampler(sampler_manager, options.aa_id);
+	options.sampler.jump = ((random(&seed)) % options.sampler.num_sets) *
+							options.sampler.num_samples;
+	options.sampler.count = global_id + num;
+
+	sampler_manager.sampler = &options.sampler;
 	/* получаем семплер для антиалиасинга и текущий шаг. */
-	ao_sampler = get_sampler(sampler_manager, options.aa_id);
-	ao_sampler.count = global_id * ao_sampler.num_samples + step;
+	// ao_sampler = get_sampler(sampler_manager, options.aa_id);
+	// ao_sampler.count = global_id * ao_sampler.num_samples + step;
 
-	/* Если это не первый шаг, то считаем прыжок для семплеров */
-/* 	if (step != 0)
-	{ */
-		ao_sampler.jump = ((num + random(&seed)) % ao_sampler.num_sets) * ao_sampler.num_samples;
-		ao_sampler.count = global_id + num;
+	// ao_sampler.jump = ((num + random(&seed)) % ao_sampler.num_sets) * ao_sampler.num_samples;
+	// ao_sampler.count = global_id + num;
 
-		options.ambient_occluder_sampler.jump = (random(&seed) % options.ambient_occluder_sampler.num_sets) * options.ambient_occluder_sampler.num_samples;
-		options.ambient_occluder_sampler.count = global_id;
-/* 	}
-	else */ if (options.reset == 1)
+	// options.ambient_occluder_sampler.jump = (random(&seed) % options.ambient_occluder_sampler.num_sets) * options.ambient_occluder_sampler.num_samples;
+	// options.ambient_occluder_sampler.count = global_id;
+
+	if (options.reset == 1)
 	{
 		image[global_id] = (t_color){.r = 0.0f, .g = 0.0f, .b = 0.0f};
 	}
 
 	/* */
-	float2	sp = sample_unit_square(&ao_sampler, sampler_manager.samples, &seed);
+	float2	sp = sample_unit_square(&options.sampler, sampler_manager.samples, &seed);
 	// float dx = x + sp.x;
 	// float dy = y + sp.y;
 	float	dx = x + GPURnd(&state);
 	float	dy = y + GPURnd(&state);
-	// float	dx = x;
-	// float	dy = y;
 
 	if (scene.camera.type == thin_lens)
 	{
@@ -174,23 +166,34 @@ void main_kernel(__global t_color *image,	//0
 		// if (step != 0)
 		// 	camera_sampler.jump = ((num + random(&seed)) % camera_sampler.num_sets) * camera_sampler.num_samples;
 	}
-	if (global_id == 0)
+
+	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager,
+						&camera_sampler, &seed, &state);
+
+	if (options.tracer_type == ray_caster)
 	{
-		for (int i = 0; i < camera_sampler.num_sets * camera_sampler.num_samples;
-			i++)
-		{
-			// printf("--%d--",  scene.camera.sampler_id);
-			// printf("#%d %f %f\t", i, sampler_manager.disk_samples[i].x, sampler_manager.disk_samples[i].y);
-		}
+		color = ray_cast(ray, scene, options, sampler_manager, &seed);
+	}
+	else if (options.tracer_type == direct_lightning)
+	{
+		color = area_light_tracer(ray, scene, options, sampler_manager, &seed,
+								&state);
+	}
+	else if (options.tracer_type == path_tracer)
+	{
+		color = trace(ray, scene, options, sampler_manager, &seed, &state);
 	}
 
-	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager, &camera_sampler, &seed, &state);
+
+	// color = global_shade(ray, scene, options, sampler_manager, &seed, &state);
 
 	// color = area_light_tracer(ray, scene, options, sampler_manager, &seed);
 
-	color = ray_trace(ray, scene, options, sampler_manager, &seed);
 
-	// color = path_tracer2(ray, scene, options, sampler_manager, &seed, &state);
+	// color = path_tracer2(ray, scene, options, sampler_manager, &seed, &state,
+						// &options.ambient_occluder_sampler);
+
+	// color = path_trace_pdf(ray, scene, options, sampler_manager, &seed, &state);
 
 	image[global_id] = color_sum(image[global_id], color);
 }

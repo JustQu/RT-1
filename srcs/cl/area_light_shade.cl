@@ -5,23 +5,30 @@ t_color		area_light_shade_phong(t_material material,
 									t_rt_options options,
 									uint2 *seed)
 {
-	t_color	color = (t_color){ .r = 0.0f, .g = 0.0f, .b = 0.0f };
+	t_color	color;
 	t_color	color_tmp;
 
-	/* revert camera ray for specular light */
 	shade_rec.ray.direction = -shade_rec.ray.direction;
 
-	// if (options.ambient_occlusion) /* ambient occlusion */
-	// {
-	// 	color = ambient_occlusion_l(scene, sampler_manager, &options.ambient_occluder_sampler, shade_rec, seed);
-	// 	// color = color_multi(color, material.color);
-	// }
-	// else /* compute constant ambient light using ka coefficent of the materail */
-	// {
-	// 	// color = lambertian_rho(material.ka, material.color);
-	// 	color_tmp = get_light_radiance(scene.ambient_light);
-	// 	color = color_multi(color, color_tmp);
-	// }
+	if (options.ambient_illumination == 2) /* ambient occlusion */
+	{
+		color = ambient_occlusion_l(scene, sampler_manager, sampler_manager.sampler, shade_rec, seed);
+		color = color_multi(color, get_color(scene.instance_manager.tex_mngr,
+											material, &shade_rec));
+	}
+	else if (options.ambient_illumination == 1)
+	/* compute constant ambient light using ka coefficent of the materail */
+	{
+		color = lambertian_rho(material.ka,
+								get_color(scene.instance_manager.tex_mngr,
+										material, &shade_rec));
+		color_tmp = get_light_radiance(scene.ambient_light);
+		color = color_multi(color, color_tmp);
+	}
+	else
+	{
+		color = (t_color){0.0f, 0.0f, 0.0f, 0.0f};
+	}
 
 	/* compute sahding for each light source */
 	for (int i = 0; i < scene.nlights; i++)
@@ -40,7 +47,7 @@ t_color		area_light_shade_phong(t_material material,
 		if (options.shadows)
 		{
 			t_ray	shadow_ray = { .origin = shade_rec.hit_point +
-										1e-3f * shade_rec.normal,
+										1e-2f * shade_rec.normal,
 									.direction = wi };
 			in_shadow = shadow_hit(scene, light, shadow_ray, shade_rec);
 		}
@@ -61,13 +68,12 @@ t_color		area_light_shade_phong(t_material material,
 
 
 				/* sum lambertian color and glossy specular color */
-				color_tmp = color_sum(lambertian_f(material.kd,
-												get_color(scene.instance_manager.tex_mngr,
-														material, &shade_rec)),
-										color_tmp);
-				float k = ndotwi
-						* light_g(light, wi, shade_rec)
-						/ light_pdf(light);
+				color_tmp = color_sum(color_tmp,
+									lambertian_f(material.kd,
+											get_color(
+												scene.instance_manager.tex_mngr,
+												material, &shade_rec)));
+				float k = ndotwi;
 				color_tmp = float_color_multi(k,
 											color_multi(light_l(light, wi),
 														 color_tmp));
@@ -90,8 +96,26 @@ t_color		area_light_shade_matte(t_material material,
 	t_color	color;
 	t_color	color_tmp;
 
-	//TODO: ambient_light
-	color = (t_color){ .r = 0.0f, .g = 0.0f, .b = 0.0f };
+	if (options.ambient_illumination == 2) /* ambient occlusion */
+	{
+		color = ambient_occlusion_l(scene, sampler_manager, sampler_manager.sampler, shade_rec, seed);
+		color = color_multi(color, get_color(scene.instance_manager.tex_mngr,
+											material, &shade_rec));
+	}
+	else if (options.ambient_illumination == 1)
+	/* compute constant ambient light using ka coefficent of the materail */
+	{
+		color = lambertian_rho(material.ka,
+								get_color(scene.instance_manager.tex_mngr,
+										material, &shade_rec));
+		color_tmp = get_light_radiance(scene.ambient_light);
+		color = color_multi(color, color_tmp);
+	}
+	else
+	{
+		color = (t_color){0.0f, 0.0f, 0.0f, 0.0f};
+	}
+	// return color;
 
 	for (int i = 0; i < scene.nlights; i++)
 	{
@@ -99,11 +123,11 @@ t_color		area_light_shade_matte(t_material material,
 
 		bool	in_shadow = false;
 
-		float4	light_direction = get_light_direction2(scene,
+		float4	light_direction = (get_light_direction2(scene,
 													&light,
 													shade_rec,
 													sampler_manager,
-													seed);
+													seed));
 
 		if (options.shadows)
 		{
@@ -163,6 +187,10 @@ t_color		area_light_shade(t_scene scene,
 {
 	t_color	color;
 
+	if (material.type == mirror)
+	{
+		color = (t_color){0.0f, 0.0f, 0.0f, 0.0f};
+	}
 	if (material.type == phong)
 	{
 		color = area_light_shade_phong(material,

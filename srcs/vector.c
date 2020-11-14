@@ -6,13 +6,18 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/13 00:14:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/23 16:01:17 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 13:30:21 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 #include "math.h"
 #include "matrix.h"
+
+float	vec4_len(cl_float4 vec)
+{
+	return (sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z));
+}
 
 /**
 ** @brief Normalize vector
@@ -66,4 +71,32 @@ cl_float4	point_matrix_mul(cl_float4 point, t_matrix matrix)
 		matrix.s8 * point.x + matrix.s9 * point.y + matrix.sA * point.z + matrix.sB,
 		0.0f
 	};
+}
+
+t_matrix	rotate_about_axis(cl_float4 axis, float angle)
+{
+	cl_float4	a;
+	float		sin_theta;
+	float		cos_theta;
+	t_matrix	m;
+
+	a = norm4(axis);
+	sin_theta = sin(angle);
+	cos_theta = cos(angle);
+	m = IDENTITY_MATRIX;
+	m.s0 = a.x * a.x + (1 - a.x * a.x) * cos_theta;
+	m.s1 = a.x * a.y * (1 - cos_theta) - a.z * sin_theta;
+	m.s2 = a.x * a.z * (1 - cos_theta) + a.y * sin_theta;
+	m.s3 = 0;
+
+	m.s4 = a.x * a.y * (1 - cos_theta) + a.z * sin_theta;
+	m.s5 = a.y * a.y + (1 - a.y * a.y) * cos_theta;
+	m.s6 = a.y * a.z * (1 - cos_theta) - a.x * sin_theta;
+	m.s7 = 0;
+
+	m.s8 = a.x * a.z * (1 - cos_theta) - a.y * sin_theta;
+	m.s9 = a.y * a.z * (1 - cos_theta) + a.x * sin_theta;
+	m.sa = a.z * a.z + (1 - a.z * a.z) * cos_theta;
+	m.sb = 0;
+	return (m);
 }

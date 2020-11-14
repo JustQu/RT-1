@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/16 19:16:14 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 18:51:29 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,18 @@
 #  include "sampler.h"
 # endif
 
-# define DEFAULT_WIDTH 1280
-# define DEFAULT_HEIGHT 720
+# define DEFAULT_WIDTH 800
+# define DEFAULT_HEIGHT 640
+
+# define IMG_WIDTH 800
+# define IMG_HEIGHT 640
+
+typedef enum	e_tracer_type
+{
+	ray_caster,
+	direct_lightning,
+	path_tracer
+}				t_tracer_type;
 
 typedef struct s_rt_options		t_rt_options;
 
@@ -29,8 +39,8 @@ typedef struct s_rt_options		t_rt_options;
 */
 struct				s_rt_options
 {
-	t_sampler		ambient_occluder_sampler;
-	cl_int			ambient_occlusion;
+	t_sampler		sampler;
+	cl_int			ambient_illumination; //0 - no, 1 - constant, 2 - occluder
 
 	t_color			background_color;
 
@@ -42,6 +52,8 @@ struct				s_rt_options
 
 	cl_float		spp; //samples per pixel
 	cl_int			aa_id; //anti-aliasing sampler id
+
+	t_tracer_type	tracer_type;
 
 	cl_uchar		reset;
 };

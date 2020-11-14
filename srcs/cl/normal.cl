@@ -8,11 +8,9 @@ float4	get_plane_normal(t_obj plane)
 	return (float4)(0.0f, 1.0f, 0.0f, 0.0f);
 }
 
-float4	get_cylinder_normal(float4 point, t_obj cylinder)
+float4	get_cylinder_normal(float4 point, t_obj cylinder, float m)
 {
-	return (normalize(point - cylinder.origin - dot(cylinder.direction,
-													(point - cylinder.origin))
-						* cylinder.direction));
+	return (normalize(point - (float4)(0.0f, m, 0.0f, 0.0f)));
 }
 
 float4	get_cone_normal(float4 point, t_obj cone, float m)
@@ -21,11 +19,10 @@ float4	get_cone_normal(float4 point, t_obj cone, float m)
 	return (normalize(point - cone.r2 * (float4)(0.0f, 1.0f, 0.0f, 0.0f) * m));
 }
 
-float4	get_paraboloid_normal(float4 point, t_obj paraboloid, t_hit_info hit_info)
+float4	get_paraboloid_normal(float4 point, t_obj paraboloid, float m)
 {
-	// if (paraboloid.maxm > 0.0f)
-	// 	return (normalize(point - paraboloid.origin - paraboloid.direction *
-	// 		(hit_info.m + paraboloid.r)));
+	return (normalize(point - paraboloid.origin - (float4)(0.0f, 1.0f, 0.0f, 0.0f) *
+			(m + paraboloid.r)));
 	// float m = hit_info.dv * hit_info.t + hit_info.xv;
 	// return (normalize(point - paraboloid.origin - paraboloid.direction * (m +
 	// 	paraboloid.r)));
@@ -86,17 +83,17 @@ float4	get_object_normal(float4 point, t_obj object, t_hit_info hit_info, t_type
 	{
 		return (get_plane_normal(object));
 	}
-	else if (type == cylinder)
-	{
-		return (get_cylinder_normal(point, object));
-	}
+	// else if (type == cylinder)
+	// {
+		// return (get_cylinder_normal(point, object));
+	// }
 	else if (type == cone)
 	{
 		// return (get_cone_normal(point, object, hit_info));
 	}
 	else if (type == paraboloid)
 	{
-		return (get_paraboloid_normal(point, object, hit_info));
+		// return (get_paraboloid_normal(point, object, hit_info));
 	}
 	else if (type == torus)
 	{
@@ -111,7 +108,7 @@ float4	get_object_normal(float4 point, t_obj object, t_hit_info hit_info, t_type
 		return (get_plane_normal(object));
 	}
 	else if (type == rectangle)
-		return object.normal;
+		return (float4)(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 float4	transform_normal(float4 normal, t_matrix matrix)

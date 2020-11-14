@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 23:40:30 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/21 19:13:57 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 01:56:16 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int		add_parsed_light(t_light_manager *light_manager, t_parsed_light
 	light.direction = parsed_light.direction;
 	light.color = parsed_light.color;
 	light.ls = parsed_light.ls;
+	light.pdf = parsed_light.pdf;
 
 	light_manager->nlights++;
 	if (light_manager->nlights * sizeof(t_light) >=

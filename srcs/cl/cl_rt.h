@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 00:29:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/22 17:51:01 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/11 20:41:41 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CL_RT_H
 
 #define K_HUGE_VALUE 1e4f
-#define EPSILON 1e-5f
+#define EPSILON 1e-4f
 #define SAMPLES 1
 #define BOUNCES 2
 
@@ -72,6 +72,7 @@ struct						s_scene
 
 struct					s_sampler_manager
 {
+	t_sampler			*sampler;
 	__global t_sampler	*samplers;
 	__global float2		*samples;
 	__global float2		*disk_samples;

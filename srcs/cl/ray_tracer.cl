@@ -44,6 +44,7 @@ bool	bvh_intersection(t_scene scene, t_shade_rec *shade_rec)
 	shade_rec->id = -1;
 
 	float	tmin = K_HUGE_VALUE;
+	float	tmax = 0.0f;
 	while (node_id != -1)
 	{
 		t_bvh_node current_node = scene.bvh[node_id];
@@ -76,10 +77,8 @@ bool	bvh_intersection(t_scene scene, t_shade_rec *shade_rec)
 	return (shade_rec->id > -1);
 }
 
-//TODO(dmelessa): shading both sides of surface à¸¢à¸‡14
 bool	scene_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
 {
-
 	bool ret = bvh_intersection(scene, shade_rec);
 
 	return (ret);
@@ -106,7 +105,8 @@ bool	scene_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
 
 #define maximum_tree_depth 16
 
-t_color	ray_trace(t_ray ray, t_scene scene, t_rt_options options, t_sampler_manager sampler_manager, uint2 *seed)
+t_color	ray_cast(t_ray ray, t_scene scene, t_rt_options options,
+				t_sampler_manager sampler_manager, uint2 *seed)
 {
 	int			local_id = get_local_id(0);
 	t_shade_rec	shade_rec;
@@ -153,16 +153,18 @@ t_color	ray_trace(t_ray ray, t_scene scene, t_rt_options options, t_sampler_mana
 															shade_rec, options,
 															seed)));
 
-			if (instance_material.is_reflective
-				&& tree_depth < 10 && color_coef > 0.01f)
-			{
-				ray.origin = shade_rec.hit_point + 1e-1f * shade_rec.normal;
-				ray.direction = get_reflected_vector(ray.direction,
-													shade_rec.normal);
-				color_coef *= instance_material.kr;
-			}
-			else
-				continue_loop = false;
+			// if (instance_material.is_reflective
+			// 	&& tree_depth < 10 && color_coef > 0.01f)
+			// {
+			// 	ray.origin = shade_rec.hit_point + 1e-4f * shade_rec.normal;
+			// 	ray.direction = get_reflected_vector(ray.direction,
+			// 										shade_rec.normal);
+			// 	color_coef *= instance_material.kr;
+			// }
+			// else
+			// 	continue_loop = false;
+
+			continue_loop = false;
 		}
 		else /* no hit */
 		{

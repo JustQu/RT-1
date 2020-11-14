@@ -41,7 +41,7 @@ t_color	rho();
 
 t_color	lambertian_f(float kd, t_color color)
 {
-	return (float_color_multi(kd * (float)M_1_PI, color));
+	return (float_color_multi(kd * M_1_PI_F, color));
 }
 
 t_color	lambertian_rho(float kd, t_color color)

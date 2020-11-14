@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/14 20:16:27 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 20:19:06 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ static const char *files[] = {
 	"shade.cl",
 	"area_light_shade.cl",
 	"ray_tracer.cl",
-	"area_light_tracer.cl",
 	"path_tracer.cl",
+	"trace.cl",
+	"area_light_tracer.cl",
 	"camera.cl",
 	"main_kernel.cl",
 	"util_kernels.cl",

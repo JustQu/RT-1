@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/10/21 15:52:09 by user             ###   ########.fr       */
+/*   Updated: 2020/11/14 20:21:17 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 # include <SDL2/SDL_render.h>
 # include <SDL2/SDL_image.h>
 # include <SDL2/SDL_ttf.h>
-# include <SDL2/SDL2_gfxPrimitives.h>
+// # include <SDL2/SDL2_gfxPrimitives.h>
 #else
 # include <SDL_render.h>
 # include <SDL_image.h>
 # include <SDL_ttf.h>
-# include <SDL2_gfxPrimitives.h>
-#endif
+// # include <SDL2_gfxPrimitives.h>
+# endif
 
 # include "instance_manager.h"
 # include "window.h"

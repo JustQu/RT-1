@@ -100,6 +100,9 @@ bool	bbox_intersection(t_ray ray, t_bbox bbox)
 	return (t0 < t1 && t1 > 0.0f);
 }
 
+/* NOTE: we can just return true and tmin
+** because we check intersection with aabb
+*/
 bool	box_intersection(t_ray ray, t_obj box, t_shade_rec *const shade_rec,
 						float *const tmin)
 {
@@ -109,7 +112,10 @@ bool	box_intersection(t_ray ray, t_obj box, t_shade_rec *const shade_rec,
 	float b = 1.0f / ray.direction.y;
 	float c = 1.0f / ray.direction.z;
 
-	t_bbox bbox = box.bounding_box;
+	// t_bbox bbox = box.bounding_box;
+	t_bbox bbox;
+	bbox.min = box.direction;
+	bbox.max = box.dir2;
 
 	if (a >= 0.0f)
 	{
@@ -207,25 +213,49 @@ inline bool	generic_sphere_instersection(t_ray ray, t_obj sphere,
 										float *const tmin)
 {
 	float a = dot(ray.direction, ray.direction);
-	float b = 2.0f * dot(ray.direction,  ray.origin);
-	float c = dot(ray.origin,  ray.origin) - 1.0f;
+	float b = 2.0f * dot(ray.direction, ray.origin);
+	float c = dot(ray.origin, ray.origin) - 1.0f;
 	c = b * b - 4.0f * a * c; // DISC = (b/2)^2-ac
 
 	if (c < 0.0f)
 		return (false);
 	c = sqrt(c);
 	float t = (-b - c) / (2.0f * a);
-	if (t < 0.0f)
-	{
-		t = (-b + c) / (2.0f * a);
-	}
 	if (t > 0.0f && t < *tmin)
 	{
-		*tmin = t;
 		shade_rec->local_hit_point = ray.direction * t + ray.origin;
-		shade_rec->normal = get_sphere_normal(shade_rec->local_hit_point, sphere);
-		return (true);
+		// float phi = atan2(shade_rec->local_hit_point.x,
+						// shade_rec->local_hit_point.z);
+		// if (phi < 0.0f)
+			// phi += M_PI * 2.0f;
+		// if (phi >= 0.0f && phi <= M_PI / 2)
+		// {
+			shade_rec->normal = get_sphere_normal(shade_rec->local_hit_point,
+												sphere);
+			*tmin = t;
+			return (true);
+		// }
 	}
+
+	/* second root */
+	t = (-b + c) / (2.0f * a);
+
+	if (t > 0.0f && t < *tmin)
+	{
+		shade_rec->local_hit_point = ray.direction * t + ray.origin;
+		// float phi = atan2(shade_rec->local_hit_point.x,
+						// shade_rec->local_hit_point.z);
+		// if (phi < 0.0f)
+			// phi += M_PI * 2.0f;
+		// if (phi >= 0.0f && phi <= M_PI / 2)
+		// {
+			shade_rec->normal = get_sphere_normal(shade_rec->local_hit_point,
+												sphere);
+			*tmin = t;
+			return (true);
+		// }
+	}
+
 	return (false);
 }
 
@@ -345,7 +375,7 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 	c = dot(ray.origin, ray.origin) - ray.origin.y * ray.origin.y - 1.0f;
 	disc = b * b - 4.0f * a * c;
 
-	if (disc >= EPSILON)
+	if (disc >= 0.0f)
 	{
 		a *= 2.0f;
 		disc = sqrt(disc);
@@ -353,20 +383,20 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 			if (cylinder.maxm > 0.0f)
 			{
 				float m = ray.direction.y * t + ray.origin.y;
-				if (t > EPSILON && t < *tmin && m < cylinder.maxm && m > EPSILON)
+				if (t > 0.0f && t < *tmin && m < cylinder.maxm && m > 0.0f)
 				{
 					*tmin = t;
 					shade_rec->local_hit_point = ray.direction * t + ray.origin;
-					shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder);
+					shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder, m);
 					return true;
 				}
 				t = (-b + disc) / a;
 				m = ray.direction.y * t + ray.origin.y;
-				if (t > EPSILON && t < *tmin && m > EPSILON && m < cylinder.maxm)
+				if (t > 0.0f && t < *tmin && m > 0.0f && m < cylinder.maxm)
 				{
 					*tmin = t;
 					shade_rec->local_hit_point = ray.direction * t + ray.origin;
-					shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder);
+					shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder, m);
 					return true;
 				}
 			}
@@ -426,15 +456,16 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 	return (false);
 }
 
- bool	paraboloid_intersection(t_ray ray, t_obj paraboloid, t_hit_info *hit_info)
+ bool	paraboloid_intersection(t_ray ray, t_obj paraboloid,
+ 							t_shade_rec *const shade_rec, float *const tmin)
 {
 	float4	x;
 	float	a, b, c, dv, xv, disc;
 
 	x = ray.origin - paraboloid.origin;
-	dv = dot(ray.direction, paraboloid.direction);
-	xv = dot(x, paraboloid.direction);
-	a = 1.0f - dv * dv;
+	dv = dot(ray.direction, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
+	xv = dot(x, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
+	a = dot(ray.direction, ray.direction) - dv * dv;
 	b = 2.0f * (dot(ray.direction, x) - dv * (xv + 2.0f * paraboloid.r));
 	c = dot(x, x) - xv * (xv + 4.0f * paraboloid.r);
 	disc = b * b - 4.0f * a * c;
@@ -442,29 +473,31 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 	{
 		a *= 2;
 		disc = sqrt(disc);
-		hit_info->t = (-b - disc) / a;
-		if (hit_info->t < EPSILON)
-			hit_info->t = (-b + disc) / a;
-		if (hit_info->t > EPSILON)
+		float	t = (-b - disc) / a;
+		if (t > EPSILON && t < *tmin)
 		{
-			if (paraboloid.maxm > 0.0f)
+			float	m = ray.direction.y * t + ray.origin.y;
+			if (m >= 0.0f && m <= paraboloid.maxm)
 			{
-				hit_info->m = dv * hit_info->t + xv;
-				if (hit_info->m >= paraboloid.minm &&
-					hit_info->m <= paraboloid.maxm)
-					return true;
-				hit_info->t = (-b + disc) / a;
-				hit_info->m = dv * hit_info->t + xv;
-				if (hit_info->m >= paraboloid.minm &&
-					hit_info->m <= paraboloid.maxm)
-					return true;
-			}
-			else
-			{
-				hit_info->dv = dv;
-				hit_info->xv = xv;
+				*tmin = t;
+				shade_rec->local_hit_point = ray.direction * t + ray.origin;
+				shade_rec->normal = get_paraboloid_normal(shade_rec->local_hit_point, paraboloid, m);
 				return (true);
 			}
+		}
+
+		t = (-b + disc) / a;
+		if (t > EPSILON && t < *tmin)
+		{
+			float	m = ray.direction.y * t + ray.origin.y;
+			if (m >= 0.0f && m <= paraboloid.maxm)
+			{
+				*tmin = t;
+				shade_rec->local_hit_point = ray.direction * t + ray.origin;
+				shade_rec->normal = get_paraboloid_normal(shade_rec->local_hit_point, paraboloid, m);
+				return (true);
+			}
+
 		}
 	}
 	return (false);
@@ -508,14 +541,99 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 	return (intersect);
 }
 
+float4	mobius_normal(t_obj mobius, float4 point)
+{
+	float x = point.x, y = point.y, z = point.z, R = mobius.r;
+
+	float4 norm = (float4)(2 * x * y - 2 * R * z - 4 * x * z,
+							-R * R + x * x + 3 * y * y - 4 * y * z + z * z,
+							-2 * R * x - 2 * x * x - 2 * y * y + 2 * y * z,
+							0.0f);
+
+	return normalize(norm);
+}
+
+int dblsgn(double x) {
+		return (x < -1e-4f) ? (-1) : (x > 1e-4f);
+}
+
+bool	mobius_intersection(t_ray ray, t_obj mobius, t_shade_rec *shade_rec, float *const tmin)
+{
+	float ox = ray.origin.x;
+	float oy = ray.origin.y;
+	float oz = ray.origin.z;
+	float dx = ray.direction.x;
+	float dy = ray.direction.y;
+	float dz = ray.direction.z;
+	float R = mobius.r;
+
+	double	coefs[4];
+	double	roots[3];
+
+	coefs[0] = ox * ox * oy + oy * oy * oy - 2.0f * ox * ox * oz - 2.0f * oy * oy * oz +
+			oy * oz * oz - 2.0f * ox * oz * R - oy * R * R;
+	coefs[1] = dy * ox * ox - 2.0f * dz * ox * ox + 2.0f * dx * ox * oy + 3.0 * dy * oy * oy -
+			2.0f * dz * oy * oy - 4.0f * dx * ox * oz - 4.0f * dy * oy * oz + 2.0f * dz * oy * oz +
+			dy * oz * oz - 2.0f * dz * ox * R - 2.0f * dx * oz * R - dy * R * R;
+	coefs[2] = 2.0f * dx * dy * ox - 4.0f * dx * dz * ox + dx * dx * oy + 3.0 * dy * dy * oy -
+			4.0f * dy * dz * oy + dz * dz * oy - 2.0f * dx * dx * oz - 2.0f * dy * dy * oz +
+			2.0f * dy * dz * oz - 2.0f * dx * dz * R;
+	coefs[3] = dx * dx * dy + dy * dy * dy - 2.0f * dx * dx * dz - 2.0f * dy * dy * dz +
+			dy * dz * dz;
+	int num = SolveCubic(coefs, roots);
+
+	bool ret = false;
+
+	for (int i = 0; i < num; i++)
+	{
+		// if (roots[i] > 0.0f && roots[i] < *tmin)
+		{
+			float4 pt = ray.origin + ray.direction * (float)roots[i];
+			float x = pt.x, y = pt.y, z = pt.z;
+			float t = atan2(y, x), s;
+
+			if (sin(t / 2.0f) != 0.0f) {
+				s = z / sin(t / 2.0f);
+			} else {
+				if ((cos(t)) != 0.0f) {
+					s = (x / cos(t) - R) / cos(t / 2.0f);
+				} else {
+					s = (y / sin(t) - R) / cos(t / 2.0f);
+				}
+			}
+
+			x -= (R + s * cos(t / 2.0f)) * cos(t);
+			y -= (R + s * cos(t / 2.0f)) * sin(t);
+			z -= s * sin(t / 2.0f);
+
+			if (!((x * x + y * y + z * z) <= 1e-3f &&
+				(x * x + y * y + z * z) >= -1e-3f)) {
+				continue ;
+			}
+
+			//half_width
+			if (s >= -0.5f -EPSILON  && s <= 0.5f + EPSILON /* && t > 0.0f && t < M_PI_F * 2.0f */)
+			{
+				shade_rec->hit_point = pt;
+				shade_rec->normal = mobius_normal(mobius, pt);
+				*tmin = roots[i];
+				ret = true;
+			}
+		}
+	}
+	return (ret);
+}
+
 /*
 ** TODO(dmelessa): change later
 */
 bool	triangle_intersection(t_ray ray, t_triangle triangle,
-								t_hit_info *hit_info)
+								t_shade_rec *const shade_rec,
+								float *const tmin)
 {
 	float4	pvec = cross(ray.direction, triangle.vector2);
 	float	det = dot(triangle.vector1, pvec);
+	float	t;
 
 	if (det < 1e-8 && det > -1e-8)
 		return false;
@@ -530,8 +648,15 @@ bool	triangle_intersection(t_ray ray, t_triangle triangle,
 	float	v = dot(ray.direction, qvec) * inv_det;
 	if (v < EPSILON || u + v > 1)
 		return false;
-	hit_info->t = dot(triangle.vector2, qvec) * inv_det;
-	return hit_info->t > EPSILON;
+	t = dot(triangle.vector2, qvec) * inv_det;
+	if (t > EPSILON && t < *tmin)
+	{
+		*tmin = t;
+		shade_rec->local_hit_point = ray.direction * t + ray.origin;
+		shade_rec->normal = cross(triangle.vector1, triangle.vector2);
+		return true;
+	}
+	return false;
 }
 
 bool
@@ -554,10 +679,10 @@ is_intersect(t_obj const obj, t_type const type, t_ray const ray,
 	{
 		return (cone_intersection(ray, obj, tmin, shade_rec));
 	}
-	// else if (type == paraboloid)
-	// {
-	// 	return (paraboloid_intersection(ray, obj, hit_info));
-	// }
+	else if (type == paraboloid)
+	{
+		return (paraboloid_intersection(ray, obj, shade_rec, tmin));
+	}
 	else if (type == torus)
 	{
 		return torus_intersecion(ray, obj, shade_rec, tmin);
@@ -573,6 +698,10 @@ is_intersect(t_obj const obj, t_type const type, t_ray const ray,
 	else if (type == rectangle)
 	{
 		return (rectangle_intersection(ray, obj, shade_rec, tmin));
+	}
+	else if (type == mobius)
+	{
+		return (mobius_intersection(ray, obj, shade_rec, tmin));
 	}
 	return (false);
 }
@@ -598,8 +727,8 @@ bool	instance_hit(t_instance_manager instance_mngr,
 	if (instance.type == triangle)
 	{
 		intersect = (triangle_intersection(ray,
-										instance_mngr.triangles[instance.object_id],
-										&shade_rec->hit_info));
+										instance_mngr.triangles[0],
+										shade_rec, tmin));
 	}
 	else
 	{

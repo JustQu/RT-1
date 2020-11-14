@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:57:17 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/26 21:44:24 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 00:54:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #   include "OpenCL/opencl.h"
 #  else
 #   include "CL/cl.h"
-#  endif
+#endif
 
 typedef uint32_t	t_uint;
 typedef int32_t		t_int;

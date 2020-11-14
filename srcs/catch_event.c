@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   catch_event.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/21 15:53:01 by user             ###   ########.fr       */
+/*   Updated: 2020/11/14 20:19:03 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,12 +143,84 @@ int catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
 		{
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				return 1;
-			else if (event.key.keysym.sym == SDLK_p)
+			if (event.key.keysym.sym == SDLK_p)
 			{
 				rt->options.shadows = !rt->options.shadows;
 			}
-			else if (event.key.keysym.sym == SDLK_r)
+			if (event.key.keysym.sym == SDLK_r)
 			{
+				rt->options.reset = 1;
+				rt->options.spp = NUM_SAMPLES;
+			}
+			if (event.key.keysym.sym == SDLK_w)
+			{
+				move_camera(&rt->scene.camera, 2, -0.1f);
+				rt->options.reset = 1;
+				rt->options.spp = NUM_SAMPLES;
+			}
+			if (event.key.keysym.sym == SDLK_s)
+			{
+				move_camera(&rt->scene.camera, 2, 0.1f);
+				rt->options.reset = 1;
+				rt->options.spp = NUM_SAMPLES;
+			}
+			if (event.key.keysym.sym == SDLK_a)
+			{
+				move_camera(&rt->scene.camera, 0, -0.1f);
+				rt->options.reset = 1;
+				rt->options.spp = NUM_SAMPLES;
+			}
+			if (event.key.keysym.sym == SDLK_d)
+			{
+				move_camera(&rt->scene.camera, 0, 0.1f);
+				rt->options.reset = 1;
+				rt->options.spp = NUM_SAMPLES;
+			}
+			if (event.key.keysym.sym == SDLK_LSHIFT)
+			{
+				move_camera(&rt->scene.camera, 1, 0.1f);
+				rt->options.reset = 1;
+				rt->options.spp = NUM_SAMPLES;
+			}
+			if (event.key.keysym.sym == SDLK_LCTRL)
+			{
+				move_camera(&rt->scene.camera, 1, -0.1f);
+				rt->options.reset = 1;
+				rt->options.spp = NUM_SAMPLES;
+			}
+			if (event.key.keysym.sym == SDLK_DOWN)
+			{
+				rotate_camera(&rt->scene.camera, 0, 1.0f);
+				rt->options.reset = 1;
+				rt->options.spp = NUM_SAMPLES;
+			}
+			if (event.key.keysym.sym == SDLK_UP)
+			{
+				rotate_camera(&rt->scene.camera, 0, -1.0f);
+				rt->options.reset = 1;
+				rt->options.spp = NUM_SAMPLES;
+			}
+			if (event.key.keysym.sym == SDLK_LEFT)
+			{
+				rotate_camera(&rt->scene.camera, 1, -1.0f);
+				rt->options.reset = 1;
+				rt->options.spp = NUM_SAMPLES;
+			}
+			if (event.key.keysym.sym == SDLK_RIGHT)
+			{
+				rotate_camera(&rt->scene.camera, 1, 1.0f);
+				rt->options.reset = 1;
+				rt->options.spp = NUM_SAMPLES;
+			}
+			if (event.key.keysym.sym == SDLK_q)
+			{
+				rotate_camera(&rt->scene.camera, 2, -1.0f);
+				rt->options.reset = 1;
+				rt->options.spp = NUM_SAMPLES;
+			}
+			if (event.key.keysym.sym == SDLK_e)
+			{
+				rotate_camera(&rt->scene.camera, 2, 1.0f);
 				rt->options.reset = 1;
 				rt->options.spp = NUM_SAMPLES;
 			}
@@ -158,12 +230,15 @@ int catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
 		}
 		if (event.type == SDL_MOUSEBUTTONDOWN)
 		{
-			catch_tab_bar(&event, rect);
+			//todo: translate window coordinates in image coordinates,
+			//e.g. windos is 1200x600 and image is 1920x1080
+			//then we need x * IMG_W/WIN_W and y * IMG_H/WIN_H
 			printf("Mouse press at %d %d", event.button.x, event.button.y);
 		}
 		if (event.type == SDL_MOUSEBUTTONUP)
 		{
 		}
+
 		//check input
 		//switch kernel here?
 		return -1;

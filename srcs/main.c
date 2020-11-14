@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:16:29 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 20:25:54 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,17 @@
 #include <stdio.h>
 #include "libft.h"
 
-#define BANANA 0
+#define BANANA 1
 #define printf(...) if (BANANA) printf(__VA_ARGS__);
 
 FILE *f;
+
+#include <windows.h>
+#include "rt_types.h"
+
+// #define _CRTDBG_MAP_ALLOC
+// #include <stdlib.h>
+// #include <crtdbg.h>
 
 void	exit_program(t_window window)
 {
@@ -47,7 +54,7 @@ void	exit_program(t_window window)
 void	display_image(t_window *w)
 {
 	SDL_RenderClear(w->renderer);
-	SDL_UpdateTexture(w->texture, NULL, w->image, sizeof(uint32_t) * 1920);
+	SDL_UpdateTexture(w->texture, NULL, w->image, sizeof(uint32_t) * IMG_WIDTH);
 	SDL_RenderCopy(w->renderer, w->texture, NULL, NULL);
 	// SDL_RenderPresent(w->renderer);
 }
@@ -106,6 +113,36 @@ void	main_loop(t_app app)
 #include <stdlib.h>
 #include <time.h>
 
+#include "app.h"
+
+/**
+** @todo: -s 'scene_file_name';
+** 		  --client;
+** 		  --server 'ip';
+** 		  --img 'img_name' -N (колво сэмплов);
+** 		  --gui(by default)
+**		  --log "file_name" - логирование
+** @brief
+**
+** @param app
+** @param ac
+** @param av
+** @return ** void
+*/
+void	read_av(t_app *app, int ac, char **av)
+{
+	for (int i = 1; i < ac; i++)
+	{
+		if (av[i][0] == '-')
+		{
+			if (strcmp(av[i], "--img"))
+			{
+
+			}
+		}
+	}
+}
+
 int main(int ac, char **av)
 {
 	t_app	app;
@@ -136,16 +173,18 @@ int main(int ac, char **av)
 			display_image(&app.window);
 			app.rt.options.spp += NUM_SAMPLES;
 			app.rt.options.reset = 0;
-			main_gui(&app.window, &rt, &all_rect, &color);
+			// main_gui(&app.window, &rt, &all_rect, &color);
 			SDL_RenderPresent(app.window.renderer);
 		}
-		else
-		{
-			main_gui(&app.window, &rt, &all_rect, &color);
-			SDL_RenderPresent(app.window.renderer);
-		}
+		// else
+		// {
+			// main_gui(&app.window, &rt, &all_rect, &color);
+			// SDL_RenderPresent(app.window.renderer);
+		// }
 	}
 
-	exit_program(app.window);
+	// exit_program(app.window);
+	// fprintf(stdout, "AAA: %d\n",_CrtDumpMemoryLeaks());
+
 	return (0);
 }

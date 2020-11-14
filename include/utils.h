@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 18:37:14 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/21 15:52:50 by user             ###   ########.fr       */
+/*   Updated: 2020/11/14 20:18:21 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,8 @@ float	float_min(float a, float b);
 float	float_max(float a, float b);
 
 float	rand_float();
+int int_max(int a, int b);
+
+int int_min(int a, int b);
 
 #endif

@@ -6,3 +6,9 @@ obj/
 *.exe
 *.ilk
 *.pdb
+*.xml
+*.pftlog
+*.log
+.idea
+Errors
+*.out
