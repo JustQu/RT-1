@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/11 22:35:53 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 18:51:29 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@
 # define IMG_WIDTH 800
 # define IMG_HEIGHT 640
 
+typedef enum	e_tracer_type
+{
+	ray_caster,
+	direct_lightning,
+	path_tracer
+}				t_tracer_type;
+
 typedef struct s_rt_options		t_rt_options;
 
 /*
@@ -32,9 +39,8 @@ typedef struct s_rt_options		t_rt_options;
 */
 struct				s_rt_options
 {
-	// t_sampler		ambient_occluder_sampler;
 	t_sampler		sampler;
-	cl_int			ambient_occlusion;
+	cl_int			ambient_illumination; //0 - no, 1 - constant, 2 - occluder
 
 	t_color			background_color;
 
@@ -47,10 +53,9 @@ struct				s_rt_options
 	cl_float		spp; //samples per pixel
 	cl_int			aa_id; //anti-aliasing sampler id
 
+	t_tracer_type	tracer_type;
+
 	cl_uchar		reset;
-	float			x;
-	float			y;
-	// cl_float2		mouse_coords;
 };
 
 # ifndef __OPENCL_C_VERSION__

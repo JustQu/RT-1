@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:55:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 01:58:05 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 19:01:59 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,20 @@ void	scan_instance(t_res_mngr *const mngr, t_parsed_info asset)
 	mngr->info.texture = asset.data.object.texture;
 	mngr->info.height = asset.data.object.maxm;
 	mngr->info.r = asset.data.object.r;
+	mngr->info.boolean = asset.data.object.boolean;
+	if (mngr->info.type == sphere)
+	{
+		mngr->info.scaling.x *= mngr->info.r;
+		mngr->info.scaling.y *= mngr->info.r;
+		mngr->info.scaling.z *= mngr->info.r;
+		mngr->info.r = 1.0f;
+	}
+	if (mngr->info.type == cylinder)
+	{
+		mngr->info.scaling.x *= mngr->info.r;
+		mngr->info.scaling.y *= mngr->info.r;
+		mngr->info.r = 1.0f;
+	}
 	mngr->info.r2 = asset.data.object.r2;
 	if (mngr->info.type == cone)
 		mngr->info.r2 = pow(tanf(asset.data.object.r2 * DEG2RAD), 2) + 1.0f;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   app.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 17:02:27 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/30 23:38:49 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 18:40:10 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ struct	s_app
 	t_rt			rt;
 	t_window		window;
 	t_gui			gui;
+
+	int				mode; //0 - gui, 1 - console
 };
 
 int			init_app(t_app *app, int ac, char **av);

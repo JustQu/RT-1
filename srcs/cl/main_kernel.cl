@@ -152,10 +152,10 @@ void main_kernel(__global t_color *image,	//0
 
 	/* */
 	float2	sp = sample_unit_square(&options.sampler, sampler_manager.samples, &seed);
-	float dx = x + sp.x;
-	float dy = y + sp.y;
-	// float	dx = x + GPURnd(&state);
-	// float	dy = y + GPURnd(&state);
+	// float dx = x + sp.x;
+	// float dy = y + sp.y;
+	float	dx = x + GPURnd(&state);
+	float	dy = y + GPURnd(&state);
 
 	if (scene.camera.type == thin_lens)
 	{
@@ -170,13 +170,25 @@ void main_kernel(__global t_color *image,	//0
 	ray = cast_camera_ray(scene.camera, dx, dy, sampler_manager,
 						&camera_sampler, &seed, &state);
 
-	color = trace(ray, scene, options, sampler_manager, &seed, &state);
+	if (options.tracer_type == ray_caster)
+	{
+		color = ray_cast(ray, scene, options, sampler_manager, &seed);
+	}
+	else if (options.tracer_type == direct_lightning)
+	{
+		color = area_light_tracer(ray, scene, options, sampler_manager, &seed,
+								&state);
+	}
+	else if (options.tracer_type == path_tracer)
+	{
+		color = trace(ray, scene, options, sampler_manager, &seed, &state);
+	}
+
 
 	// color = global_shade(ray, scene, options, sampler_manager, &seed, &state);
 
 	// color = area_light_tracer(ray, scene, options, sampler_manager, &seed);
 
-	// color = ray_trace(ray, scene, options, sampler_manager, &seed);
 
 	// color = path_tracer2(ray, scene, options, sampler_manager, &seed, &state,
 						// &options.ambient_occluder_sampler);

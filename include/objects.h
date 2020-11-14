@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:20 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/13 18:07:35 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 19:00:58 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ struct					s_obj
 	cl_float			minm;
 	cl_int				shadows;
 	cl_int				sampler_id;
-	cl_int				gap;
+	cl_int				boolean;
 };
 
 struct					s_triangle

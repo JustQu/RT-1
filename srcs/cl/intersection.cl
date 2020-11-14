@@ -375,7 +375,7 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 	c = dot(ray.origin, ray.origin) - ray.origin.y * ray.origin.y - 1.0f;
 	disc = b * b - 4.0f * a * c;
 
-	if (disc >= EPSILON)
+	if (disc >= 0.0f)
 	{
 		a *= 2.0f;
 		disc = sqrt(disc);
@@ -383,20 +383,20 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 			if (cylinder.maxm > 0.0f)
 			{
 				float m = ray.direction.y * t + ray.origin.y;
-				if (t > EPSILON && t < *tmin && m < cylinder.maxm && m > EPSILON)
+				if (t > 0.0f && t < *tmin && m < cylinder.maxm && m > 0.0f)
 				{
 					*tmin = t;
 					shade_rec->local_hit_point = ray.direction * t + ray.origin;
-					shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder);
+					shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder, m);
 					return true;
 				}
 				t = (-b + disc) / a;
 				m = ray.direction.y * t + ray.origin.y;
-				if (t > EPSILON && t < *tmin && m > EPSILON && m < cylinder.maxm)
+				if (t > 0.0f && t < *tmin && m > 0.0f && m < cylinder.maxm)
 				{
 					*tmin = t;
 					shade_rec->local_hit_point = ray.direction * t + ray.origin;
-					shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder);
+					shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder, m);
 					return true;
 				}
 			}

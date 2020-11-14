@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 00:54:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 18:46:45 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,34 @@ void	main_loop(t_app app)
 #include <time.h>
 
 #include "app.h"
+
+/**
+** @todo: -s 'scene_file_name';
+** 		  --client;
+** 		  --server 'ip';
+** 		  --img 'img_name' -N (колво сэмплов);
+** 		  --gui(by default)
+**		  --log "file_name" - логирование
+** @brief
+**
+** @param app
+** @param ac
+** @param av
+** @return ** void
+*/
+void	read_av(t_app *app, int ac, char **av)
+{
+	for (int i = 1; i < ac; i++)
+	{
+		if (av[i][0] == '-')
+		{
+			if (strcmp(av[i], "--img"))
+			{
+
+			}
+		}
+	}
+}
 
 int main(int ac, char **av)
 {

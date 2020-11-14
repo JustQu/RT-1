@@ -1,16 +1,25 @@
 + add_parsed_asset function
 +- sampler_manager
-camera interface
-move matrix to instance
++camera interface
+-move matrix to instance
 +-aabb computation for instances
 	do for triangle
-compute emissive object area
++compute emissive object area
 ----------------trace_mouse_ray
-rebuilding bvh when changing objects
-add emissive objects: sphere, cylinder,
-deleting instances. NOTE: need ref counter in this case
-multi importance sampling
-russian roulette
+in the future:
+	boolean objects
+	changing objects on flight
+	rebuilding bvh when changing objects
+	add emissive objects: sphere, cylinder,
+	deleting instances. NOTE: need ref counter in this case?
+	multi importance sampling
+	russian roulette
+
+phong in direct lightning
+options in path tracing
+colors in reflections and transmissions
+free memory
+move image from window
 
 16384
 
@@ -21,6 +30,7 @@ scene:
 	lights
 
 options:
+	tracer: ray_caster/directional_light/path_tracer
 	background_color:
 	ambient_illumination:
 		constant: coefficient

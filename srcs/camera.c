@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/13 01:05:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 03:13:18 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 13:29:26 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,23 @@ void	move_camera(t_camera *camera, int direction, float step)
 {
 	if (direction == 0)
 	{
-		camera->origin.x += step;
+		camera->origin.x += camera->u.x * step;
+		camera->origin.y += camera->u.y * step;
+		camera->origin.z += camera->u.z * step;
 	}
 	else if (direction == 1)
 	{
-		camera->origin.y += step;
+		camera->origin.x += camera->v.x * step;
+		camera->origin.y += camera->v.y * step;
+		camera->origin.z += camera->v.z * step;
+		// camera->origin.y += step;
 	}
 	else
 	{
-		camera->origin.z += step;
+		camera->origin.x += camera->w.x * step;
+		camera->origin.y += camera->w.y * step;
+		camera->origin.z += camera->w.z * step;
+		// camera->origin.z += step;
 	}
 }
 
@@ -64,23 +72,25 @@ void	rotate_camera(t_camera *camera, int axis, float angle_degrees)
 
 	if (axis == 0)
 	{
-		m = get_x_rotation_matrix(angle_degrees);
-		camera->u = vector_matrix_mul(camera->u, m);
-		camera->v = vector_matrix_mul(camera->v, m);
-		camera->w = vector_matrix_mul(camera->w, m);
+		m = rotate_about_axis(camera->u, angle_degrees * M_PI / 180.0f);
+		camera->u = norm4(vector_matrix_mul(camera->u, m));
+		camera->v = norm4(vector_matrix_mul(camera->v, m));
+		camera->w = norm4(vector_matrix_mul(camera->w, m));
 	}
 	else if (axis == 1)
 	{
-		m = get_y_rotation_matrix(angle_degrees);
-		camera->u = vector_matrix_mul(camera->u, m);
-		camera->v = vector_matrix_mul(camera->v, m);
-		camera->w = vector_matrix_mul(camera->w, m);
+		m = rotate_about_axis(camera->v, angle_degrees * M_PI / 180.0f);
+		// m = get_inverse_y_rotation_matrix(angle_degrees);
+		camera->u = norm4(vector_matrix_mul(camera->u, m));
+		camera->v = norm4(vector_matrix_mul(camera->v, m));
+		camera->w = norm4(vector_matrix_mul(camera->w, m));
 	}
 	else
 	{
-		m = get_z_rotation_matrix(angle_degrees);
-		camera->u = vector_matrix_mul(camera->u, m);
-		camera->v = vector_matrix_mul(camera->v, m);
-		camera->w = vector_matrix_mul(camera->w, m);
+		m = rotate_about_axis(camera->w, angle_degrees * M_PI / 180.0f);
+		// m = get_inverse_z_rotation_matrix(angle_degrees);
+		camera->u = norm4(vector_matrix_mul(camera->u, m));
+		camera->v = norm4(vector_matrix_mul(camera->v, m));
+		camera->w = norm4(vector_matrix_mul(camera->w, m));
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:37:09 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/11 18:38:24 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 18:53:41 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int		init_default_options(t_rt_options *options,
 {
 	options->reset = 1;
 	options->shadows = TRUE;
-	options->ambient_occlusion = TRUE;
+	options->ambient_illumination = 2;
 	options->area_lightning = FALSE;
 	set_color_uchar(&options->background_color, 0x05, 0x05, 0xAF);
-	options->depth = 1;
+	options->depth = 5;
 	options->spp = NUM_SAMPLES;
 	options->aa_id = new_sampler(sampler_manager, nrooks, 16384,
-							DEFAULT_SAMPLES | DISK_SAMPLES | HEMISPHERE_SAMPLES);
-
+				DEFAULT_SAMPLES | DISK_SAMPLES | HEMISPHERE_SAMPLES);
+	options->tracer_type = direct_lightning;
 	return (SUCCESS);
 }

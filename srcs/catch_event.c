@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 03:15:23 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 16:33:30 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ int catch_event(t_rt *rt)
 			}
 			if (event.key.keysym.sym == SDLK_w)
 			{
-				move_camera(&rt->scene.camera, 2, 0.1f);
+				move_camera(&rt->scene.camera, 2, -0.1f);
 				rt->options.reset = 1;
 				rt->options.spp = NUM_SAMPLES;
 			}
 			if (event.key.keysym.sym == SDLK_s)
 			{
-				move_camera(&rt->scene.camera, 2, -0.1f);
+				move_camera(&rt->scene.camera, 2, 0.1f);
 				rt->options.reset = 1;
 				rt->options.spp = NUM_SAMPLES;
 			}
@@ -121,13 +121,13 @@ int catch_event(t_rt *rt)
 			}
 			if (event.key.keysym.sym == SDLK_q)
 			{
-				rotate_camera(&rt->scene.camera, 2, 1.0f);
+				rotate_camera(&rt->scene.camera, 2, -1.0f);
 				rt->options.reset = 1;
 				rt->options.spp = NUM_SAMPLES;
 			}
 			if (event.key.keysym.sym == SDLK_e)
 			{
-				rotate_camera(&rt->scene.camera, 2, -1.0f);
+				rotate_camera(&rt->scene.camera, 2, 1.0f);
 				rt->options.reset = 1;
 				rt->options.spp = NUM_SAMPLES;
 			}
@@ -141,9 +141,6 @@ int catch_event(t_rt *rt)
 			//e.g. windos is 1200x600 and image is 1920x1080
 			//then we need x * IMG_W/WIN_W and y * IMG_H/WIN_H
 			printf("Mouse press at %d %d", event.button.x, event.button.y);
-			rt->options.x = event.button.x;
-			rt->options.y = event.button.y;
-
 		}
 		if (event.type == SDL_MOUSEBUTTONUP)
 		{

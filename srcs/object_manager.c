@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 13:22:40 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 00:37:04 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 19:02:38 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int		add_obj(t_instance_manager *mngr, t_instance_info object_info)
 	}
 	object.minm = 0.0f;
 	object.maxm = object_info.height;
-
+	object.boolean = object_info.boolean;
 	object.origin = (cl_float4){0.0f, 0.0f, 0.0f, 0.0f};
 	object.r = object_info.r;
 	object.r2 = object_info.r2;

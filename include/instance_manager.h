@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/02 18:12:50 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 02:00:09 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 19:01:16 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct	s_instance_info
 	float		r2;
 	float		e;
 	float		height;
+	int			boolean;
 }				t_instance_info;
 
 typedef	struct	s_instance_extra
