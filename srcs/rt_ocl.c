@@ -6,12 +6,13 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/21 20:12:26 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 20:16:31 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "rt_ocl.h"
+#include "app.h"
 
 #include <assert.h>
 
@@ -29,7 +30,7 @@ static int	init_clp(t_clp *clp)
 	clp->context = clCreateContext(NULL, 1, &clp->de_id, NULL, NULL, &clp->ret);
 	assert(!clp->ret);
 	clp->queue = clCreateCommandQueue(clp->context, clp->de_id,
-		CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &clp->ret);
+		0, &clp->ret);
 	assert(!clp->ret);
 	return (0);
 }

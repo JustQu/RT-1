@@ -10,4 +10,3 @@
 <kernel>:1844:6: error: use of undeclared identifier 'hit_info'
                                         hit_info->dv = denom;
                                         ^
-

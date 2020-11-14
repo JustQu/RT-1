@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 14:15:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/21 16:35:55 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # include "scene.h"
 # include "rt_options.h"
 # include "rt_ocl.h"
+# include "window.h"
+# include "gui.h"
 
 typedef struct			s_rt
 {
@@ -59,13 +61,15 @@ void		render_scene(t_rt rt);
 void		read_data(t_scene *scene, t_sampler_manager *sampler_manager, char *scene_file);
 
 /* events */
-int			catch_event(t_rt *rt);
+int			catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color);
 
 /* utils */
 float		rand_float();
 int			rand_int();
 void		swap_int(int *a, int *b);
 void		swap_float2(cl_float2 *a, cl_float2 *b);
+
+
 
 // #include <SDL2/SDL.h>
 #define WIDTH 1200

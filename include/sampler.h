@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sampler.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:53:59 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 13:49:58 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/21 16:07:57 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,9 @@ struct				s_sampler
 	cl_int			hemisphere_samples_offset;
 };
 
+#ifndef __OPENCL_C_VERSION__
+void	map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples, cl_float2 *disk_samples);
+void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples, cl_float3 *hemisphere_samples, const float e);
+#endif
 
 #endif

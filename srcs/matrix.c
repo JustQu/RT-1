@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:23:02 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/05 22:06:35 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/21 15:53:28 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.h"
 #include "math.h"
+
+//del
+#include <stdio.h>
 
 /**
 ** @brief Print matrix in stdout

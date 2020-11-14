@@ -4220,4 +4220,3 @@ __kernel void translate_image(__global float4 *rgb_image,
 
 	result_image[global_id] = out;
 }
-

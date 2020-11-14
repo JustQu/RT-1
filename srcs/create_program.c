@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/10/22 17:37:21 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 20:16:27 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static const char *files[] = {
 	"main_kernel.cl",
 	"util_kernels.cl",
 };
+
 static int		g_num_files = sizeof(files) / sizeof(char *);
 
 static void		read_file(const char *file_name, char *str)

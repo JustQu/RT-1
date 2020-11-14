@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+         #
+#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/10/16 19:11:57 by dmelessa         ###   ########.fr        #
+#    Updated: 2020/10/21 16:01:05 by user             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ LINUX = Linux
 CFLAGS = -I$(INCDIR)\
 		 -I$(LIBFTINC)\
 		 -I$(SDL2INC)\
+		 -g
 #		 -Wall\
 		 -Werror\
 		 -Wextra
@@ -35,6 +36,11 @@ ifeq ($(SYSTEM), $(MACOS))
 			 -framework SDL2\
 			 -framework OpenCL
 
+
+	SDL		= -lSDL2_image\
+			 -lSDL2_ttf\
+			 -lSDL2_gfx
+
 	LDFLAGS = -L$(LIBFTDIR)\
 			  -F $(LIBSDIR)\
 			  -rpath $(LIBSDIR)
@@ -44,6 +50,7 @@ else ifeq ($(SYSTEM), $(LINUX))
 	LDLIBS = -lm\
 			 -l SDL2\
 			 -l OpenCL
+			 -lSDL2_image -lSDL2_ttf -lSDL2_gfx
 
 	LDFLAGS	= $(LIBFT)
 
@@ -65,12 +72,21 @@ INCS = *.h
 INCS := $(addprefix $(INCDIR)/, $(INCS))
 
 SRCSDIR	= ./srcs/
-SRCS =	camera.c		init_window.c		random.c\
-catch_event.c		instance_manager.c	read_data.c\
-color.c			main.c			sampler.c\
-create_program.c	matrix.c		sampler_manager.c\
-error_handling.c	matrix_manager.c	swap.c\
-init.c			object_manager.c	vector.c\
+SRCS =aabb.c                  main.c                  swap.c\
+bvh.c                                         random.c         \
+camera.c                     matrix.c                read_data.c             utils.c\
+catch_event.c                 matrix_manager.c        rt.c                    vector.c\
+                          rt_ocl.c                window.c\
+color.c                               object_manager.c        rt_options.c\
+create_program.c        init.c                                 sampler.c\
+error_handling.c        instance_manager.c                     sampler_manager.c\
+                                 scene.c\
+main_gui.c	gui_render_text.c	gui_tab_bar.c	gui_primitives.c	gui_button.c	gui_init.c\
+gui_utils.c	texture_manager.c	texture.c	perlin.c\
+
+	# gui_gradient.c
+
+
 
 OBJSDIR = ./obj/
 OBJS = $(addprefix $(OBJSDIR), $(SRCS:.c=.o))
@@ -79,7 +95,7 @@ all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS) $(INCS) $(LIBFTHEAD)
 	@echo 'making executable'
-	$(CC) -o $@ $(OBJS) $(LDLIBS) $(LDFLAGS)
+	$(CC) -o $@ $(OBJS) $(LDLIBS) $(SDL) $(LDFLAGS)
 	@echo DONE!
 
 
