@@ -6,13 +6,11 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/20 10:04:40 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/20 10:12:33 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-// #include "julia.h"
-// #include "app.h"
 #include <stdio.h>
 #include "libft.h"
 
@@ -173,6 +171,7 @@ int main(int ac, char **av)
 			display_image(&app.window);
 			app.rt.options.spp += NUM_SAMPLES;
 			app.rt.options.reset = 0;
+			save_image_func(&app.window);
 			gui(&app.window, &app.rt, &all_rect, &color);
 			SDL_RenderPresent(app.window.renderer);
 		}
