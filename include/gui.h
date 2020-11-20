@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/11/14 20:21:17 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/12 14:28:17 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GUI_H
 # define GUI_H
 
-#ifndef __DARWIN__
-# include <SDL2/SDL_render.h>
-# include <SDL2/SDL_image.h>
-# include <SDL2/SDL_ttf.h>
-// # include <SDL2/SDL2_gfxPrimitives.h>
-#else
-# include <SDL_render.h>
-# include <SDL_image.h>
-# include <SDL_ttf.h>
-// # include <SDL2_gfxPrimitives.h>
+# ifndef __DARWIN__
+#  include <SDL2/SDL_render.h>
+#  include <SDL2/SDL_image.h>
+#  include <SDL2/SDL_ttf.h>
+#  include <SDL2/SDL2_gfxPrimitives.h>
+# else
+#  include <SDL_render.h>
+#  include <SDL_image.h>
+#  include <SDL_ttf.h>
+#  include <SDL2_gfxPrimitives.h>
 # endif
 
 # include "instance_manager.h"
@@ -42,79 +42,40 @@
 typedef struct s_rt		t_rt;
 typedef struct s_vector	t_vector;
 
-int	camera_tab_pressed;
-int	objects_tab_pressed;
-int	options_tab_pressed;
-int	type_pressed;
-int	inside_is_pressed;
-int	save_image;
-
-typedef struct		s_vector
-{
-	float			x;
-	float			y;
-	float			z;
-	float			l;
-}					t_vector;
-
-typedef struct		s_sdl
-{
-	SDL_Window		*win;
-	SDL_Renderer	*render;
-	SDL_Event		event;
-}					t_sdl;
-
-typedef struct      s_rect
-{
-    SDL_Rect        rect;
-    int             min_width;
-    int             min_height;
-    int             max_width;
-    int             max_height;
-}                   t_rect;
-
-typedef struct      s_gui
-{
-    SDL_Texture     *texture;
-    t_rect          rect;
-    SDL_Color       color;
-	t_object_info	*current_object;
-}                   t_gui;
-
-// typedef struct	s_pressed
-// {
-// 	int 		shadow;
-// 	int			ambient;
-// 	int			specular;
-// 	int			and_more;
-// 	int			render_tab;
-// 	int			main_tab;
-// }				t_pressed;
+int				g_camera_tab_pressed;
+int				g_objects_tab_pressed;
+int				g_options_tab_pressed;
+int				g_save_image;
+// int				g_size;
+int				g_font_size;
 
 typedef struct	s_all_rect
 {
 	SDL_Rect	background;
 	SDL_Rect	tab_camera_button;
 	SDL_Rect	tab_objects_button;
+	SDL_Rect	tab_textures_button;
 	SDL_Rect	tab_options_button;
-	SDL_Rect	type_button;
-	SDL_Rect	position_button;
-	SDL_Rect	direction_button;
-	SDL_Rect	radius_button;
-	SDL_Rect	rotate_button;
-	SDL_Rect	color_button;
-	SDL_Rect	diffuse_button;
-	SDL_Rect	reflection_button;
-	SDL_Rect	alpha_button;
-	SDL_Rect	samplers_button;
-	SDL_Rect	deep_button;
-	SDL_Rect	background_button;
-	SDL_Rect	resolution_button;
-	SDL_Rect	type_choise_rect;
+	SDL_Rect	first_button;
+	SDL_Rect	second_button;
+	SDL_Rect	third_button;
+	SDL_Rect	fourth_button;
+	SDL_Rect	fifth_button;
+	SDL_Rect	sixth_button;
+	SDL_Rect	seven_button;
+	SDL_Rect	eight_button;
+	SDL_Rect	nine_button;
+	SDL_Rect	ten_button;
+	SDL_Rect	eleven_button;
+	// SDL_Rect	samplers_button;
+	// SDL_Rect	deep_button;
+	// SDL_Rect	background_button;
+	// SDL_Rect	resolution_button;
+	// SDL_Rect	type_choise_rect;
 	SDL_Rect	save_img_button;
 }				t_all_rect;
 
-typedef struct 	s_colors
+typedef struct	s_colors
 {
 	SDL_Color	background_color;
 	SDL_Color	border_color;
@@ -122,46 +83,73 @@ typedef struct 	s_colors
 	SDL_Color	text_color;
 }				t_colors;
 
-/* gui_init */
-void	init_colors(t_colors *color);
-void	init_rect(t_all_rect *rect, t_window *win);
-
-/* gui_init end */
-
-/* primirives */
-void	draw_hline(t_window *win, int x1, int x2, int y, SDL_Color *color);
-void	draw_vline(t_window *win, int x1, int y2, int y, SDL_Color *color);
-
-/* end primitives */
-int				main_gui(t_window *win, t_rt *rt, t_all_rect *all_rect, t_colors *color);
-void 			render_texture(SDL_Texture *tex, SDL_Renderer *ren,
+void			init_colors(t_colors *color);
+void			init_rect(t_all_rect *rect, t_window *win);
+void			gui(t_window *win, t_rt *rt, t_all_rect *all_rect,
+					t_colors *color);
+void			render_texture(SDL_Texture *tex, SDL_Renderer *ren,
 								int x, int y);
-SDL_Texture*	load_texture(char *str, SDL_Renderer *renderer);
+SDL_Texture		*load_texture(char *str, SDL_Renderer *renderer);
 void			render_rect(SDL_Texture *texture, SDL_Renderer *renderer,
-							int x, int y, int w, int h);
-void			draw_fill_rect(t_window *win, SDL_Rect *background, SDL_Color *color);
-SDL_Texture*	render_text(char *message, char *fontFile, SDL_Color color,
-							int fontSize,	SDL_Renderer *renderer);
-/* gui_button.c */
-void	draw_button(t_rt *rt, t_window *win,
-			SDL_Rect *rect, char *str, t_colors *color);
+							SDL_Rect *rect);
+void			draw_fill_rect(t_window *win, SDL_Rect *background,
+					SDL_Color *color);
+SDL_Texture		*render_text(char *message, char *font_file, SDL_Color color,
+							SDL_Renderer *renderer);
+void			draw_button(t_window *win,
+				SDL_Rect *rect, char **str, t_colors *color);
 void			draw_button_xyz(t_window *win, SDL_Rect *rect,
-					char *str, char **str_xyz, t_colors *color);
+					char **str_xyz, t_colors *color);
 void			draw_checkbox(t_rt *rt, SDL_Rect *rect, char *str,
 								t_colors *color);
 void			draw_button_choise(t_window *win, SDL_Rect *rect,
-					char **str_xyz, t_colors *color, int size);
+					char **str_xyz, t_colors *color);
 void			draw_is_pressed_button(t_window *win, SDL_Rect *rect,
 					char *str, t_colors *color);
-/* end gui_button.c */
-
-void			gui_tab_bar(t_window *win, t_rt *rt, t_all_rect *rect, t_colors *color);
+void			gui_tab_bar(t_window *win, t_rt *rt, t_all_rect *rect,
+					t_colors *color);
 void			draw_title_ray_tracing(t_window *win, SDL_Color *color);
-/* gui_utils */
-
+void			draw_button_rgb(t_window *win, SDL_Rect *rect,
+					char **str_xyz, t_colors *color);
+void			render_tab_bar(t_window *win, SDL_Color *color,
+					SDL_Rect *rect, char *str);
 SDL_Rect		init_rect_size(int x, int y, int w, int h);
 SDL_Color		init_color(int r, int g, int b, int a);
 void			save_image_func(t_window *win);
+SDL_Texture		*create_tab_subtitles(t_window *win, char *str,
+					SDL_Color *color);
+char			*itoa_float(float num);
+void			get_material_data(int ptr, char *string,
+					char **str);
+void			get_camera_type_data(int ptr, char *string,
+					char **str);
+void			get_str_data(char *str1, char *string, char **str);
+void			get_float_data(float ptr, char *string, char **str);
+void			get_float4_data(cl_float4 ptr, char *string, char **str);
+void			get_shape_data(int ptr, char *string, char **str);
+void			get_texture_data(int ptr, char *string, char **str);
+void			gui_cone_vision(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
+void			gui_cylinder_vision(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
+void			gui_torus_vision(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
+void			gui_box_vision(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
+void			gui_disk_vision(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
+void			gui_rectangle_vision(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
+void			get_intensive_data(int ptr, char *string,
+					char **str);
+void			get_void_data(char *string, char **str);
+void			get_ambient_il_data(int ptr,
+					char *string, char **str);
+void			get_true_data(int ptr,
+					char *string, char **str);
 
-/* gui_utils end */
+void			draw_save_image_text(t_window *win);
+void			light_tab(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
+void			free_str(char **str);
 #endif

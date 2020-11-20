@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   app.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 17:02:27 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 18:40:10 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/20 09:48:46 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ struct	s_app
 	t_res_mngr		resource_manager;
 	t_rt			rt;
 	t_window		window;
-	t_gui			gui;
+	// t_gui			gui;
 
 	int				mode; //0 - gui, 1 - console
 };

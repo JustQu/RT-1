@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:25:54 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/20 10:04:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 FILE *f;
 
-#include <windows.h>
+// #include <windows.h>
 #include "rt_types.h"
 
 // #define _CRTDBG_MAP_ALLOC
@@ -173,14 +173,14 @@ int main(int ac, char **av)
 			display_image(&app.window);
 			app.rt.options.spp += NUM_SAMPLES;
 			app.rt.options.reset = 0;
-			// main_gui(&app.window, &rt, &all_rect, &color);
+			gui(&app.window, &app.rt, &all_rect, &color);
 			SDL_RenderPresent(app.window.renderer);
 		}
-		// else
-		// {
-			// main_gui(&app.window, &rt, &all_rect, &color);
-			// SDL_RenderPresent(app.window.renderer);
-		// }
+		else
+		{
+			gui(&app.window, &app.rt, &all_rect, &color);
+			SDL_RenderPresent(app.window.renderer);
+		}
 	}
 
 	// exit_program(app.window);

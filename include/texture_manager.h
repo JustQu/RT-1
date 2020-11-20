@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_manager.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:41:15 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/19 00:32:17 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/20 09:59:16 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "rt_types.h"
 # include "texture.h"
 # include "perlin.h"
+
 typedef struct s_texture_manager	t_texture_manager;
 
 // struct material
@@ -53,7 +54,5 @@ t_color	get_color1(t_texture_manager *texture_manager, int id);
 
 void	set_color2(t_texture_manager *texture_manager, int id);
 void	get_color2(t_texture_manager *texture_manager, int id);
-
-
 
 #endif

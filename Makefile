@@ -3,17 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-<<<<<<< HEAD
-#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
+#    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/10/21 16:01:05 by user             ###   ########.fr        #
-=======
-#    By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/10/30 13:08:09 by dmelessa         ###   ########.fr        #
->>>>>>> fixing
+#    Updated: 2020/11/20 10:01:07 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,12 +25,9 @@ LINUX = Linux
 CFLAGS = -I$(INCDIR)\
 		 -I$(LIBFTINC)\
 		 -I$(SDL2INC)\
-<<<<<<< HEAD
-=======
 		 -I/Users/dmelessa/rt2/Libs/SDL2_image.framework/Headers\
 		 -I./Libs/SDL2\
 		 -I./Libs/SDL2_ttf/include\
->>>>>>> fixing
 		 -g
 #		 -Wall\
 		 -Werror\
@@ -93,31 +83,20 @@ INCS = *.h
 INCS := $(addprefix $(INCDIR)/, $(INCS))
 
 SRCSDIR	= ./srcs/
-<<<<<<< HEAD
-SRCS =aabb.c                  main.c                  swap.c\
-bvh.c                                         random.c         \
-camera.c                     matrix.c                read_data.c             utils.c\
-catch_event.c                 matrix_manager.c        rt.c                    vector.c\
-                          rt_ocl.c                window.c\
-color.c                               object_manager.c        rt_options.c\
-create_program.c        init.c                                 sampler.c\
-error_handling.c        instance_manager.c                     sampler_manager.c\
-                                 scene.c\
-main_gui.c	gui_render_text.c	gui_tab_bar.c	gui_primitives.c	gui_button.c	gui_init.c\
-gui_utils.c	texture_manager.c	texture.c	perlin.c\
-=======
 SRCS =aabb.c			instance_manager.c	perlin.c		sampler_manager.c\
 bvh.c			light_manager.c		random.c		scene.c\
 camera.c		main.c			read_data.c		swap.c\
-catch_event.c		material.c		resource_manager.c	texture.c\
-color.c			material_manager.c	rt.c			texture_manager.c\
+catch_event.c		material.c		resource_manager.c\
+color.c			material_manager.c	rt.c\
 create_program.c	matrix.c		rt_ocl.c		utils.c\
 error_handling.c	matrix_manager.c	rt_options.c		vector.c\
 init.c			object_manager.c	sampler.c		window.c\
+gui.c			gui_render_text.c	gui_tab_bar.c	gui_button.c\
+gui_init.c		gui_utils.c			texture_manager.c	texture.c\
+gui_utils_2.c		gui_get_data.c		gui_object_vision.c\
+gui_get_data_2.c	gui_tab_bar_2.c\
 
->>>>>>> fixing
 
-	# gui_gradient.c
 
 
 

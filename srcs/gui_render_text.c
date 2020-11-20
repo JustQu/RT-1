@@ -1,27 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gui_render_text.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/11 14:21:17 by alex              #+#    #+#             */
+/*   Updated: 2020/11/20 10:06:52 by alex             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "gui.h"
 #include "rt.h"
 
-SDL_Texture*		render_text(char *message, char *fontFile,
-		SDL_Color color, int fontSize, SDL_Renderer *renderer)
+SDL_Texture			*render_text(char *message, char *font_file,
+		SDL_Color color, SDL_Renderer *renderer)
 {
-		TTF_Font *font;
-		SDL_Surface *surf;
-		SDL_Texture *texture;
+	TTF_Font		*font;
+	SDL_Surface		*surf;
+	SDL_Texture		*texture;
 
-		font = TTF_OpenFont(fontFile, fontSize);
-		if (font == NULL)
-				return (NULL);
-		surf = TTF_RenderText_Blended(font, message, color);
-		if (surf == NULL)
-		{
-				return (NULL);
-		}
-		texture = SDL_CreateTextureFromSurface(renderer, surf);
-		if (texture == NULL)
-		{
-				return (NULL);
-		}
-		// SDL_FreeSurface(surf);
-		TTF_CloseFont(font);
-		return texture;
+	font = TTF_OpenFont(font_file, g_font_size);
+	if (font == NULL)
+		return (NULL);
+	surf = TTF_RenderText_Blended(font, message, color);
+	if (surf == NULL)
+		return (NULL);
+	texture = SDL_CreateTextureFromSurface(renderer, surf);
+	if (texture == NULL)
+		return (NULL);
+	SDL_FreeSurface(surf);
+	TTF_CloseFont(font);
+	return (texture);
 }

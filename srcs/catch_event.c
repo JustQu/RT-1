@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   catch_event.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:19:03 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/20 09:53:27 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,83 +24,30 @@ int		is_press_button(SDL_Event *event, SDL_Rect *rect)
 		return (0);
 }
 
-void	catch_is_pressed(SDL_Event *event, SDL_Rect *rect, int size)
-{
-	SDL_Rect	button;
-	int i;
-
-	button.x = rect->x;
-	button.y = rect->y;
-	button.w = rect->w;
-	button.h = rect->h / size;
-	i = 0;
-	while(i < size)
-	{
-		if (is_press_button(event, &button))
-		{
-			inside_is_pressed = i;
-			printf("\n%d position\n", i);
-		}
-		button.y += button.h;
-		button.h = rect->h / size;
-		i++;
-	}
-}
-
 void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 {
-	if (is_press_button(event, &rect->save_img_button) && camera_tab_pressed == 1)
+	if (is_press_button(event, &rect->save_img_button)
+		&& g_camera_tab_pressed == 1)
 	{
-		save_image = 1;
+		g_save_image = 1;
 	}
-	else if (is_press_button(event, &rect->type_button) && objects_tab_pressed == 1)
+	if (is_press_button(event, &rect->tab_camera_button))
 	{
-		type_pressed ^= 1;
+		g_camera_tab_pressed = 1;
+		g_objects_tab_pressed = 0;
+		g_options_tab_pressed = 0;
 	}
-	else if ((type_pressed == 1 && is_press_button(event, &rect->type_choise_rect)) && objects_tab_pressed == 1)
+	if (is_press_button(event, &rect->tab_objects_button))
 	{
-		catch_is_pressed(event, &rect->type_choise_rect, 3);
+		g_camera_tab_pressed = 0;
+		g_objects_tab_pressed = 1;
+		g_options_tab_pressed = 0;
 	}
-	else if (is_press_button(event, &rect->type_button) && options_tab_pressed == 1)
+	if (is_press_button(event, &rect->tab_options_button))
 	{
-		type_pressed ^= 1;
-	}
-	else if ((type_pressed == 1 && is_press_button(event, &rect->type_choise_rect)) && options_tab_pressed == 1)
-	{
-		catch_is_pressed(event, &rect->type_choise_rect, 2);
-	}
-	else if (is_press_button(event, &rect->type_button) && camera_tab_pressed == 1)
-	{
-		type_pressed ^= 1;
-	}
-	else if ((type_pressed == 1 && is_press_button(event, &rect->type_choise_rect)) && camera_tab_pressed == 1)
-	{
-		catch_is_pressed(event, &rect->type_choise_rect, 4);
-	}
-	else if (type_pressed == 1)
-	{
-		type_pressed = 0;
-	}
-	else
-	{
-		if (is_press_button(event, &rect->tab_camera_button))
-		{
-			camera_tab_pressed = 1;
-			objects_tab_pressed = 0;
-			options_tab_pressed = 0;
-		}
-		if (is_press_button(event, &rect->tab_objects_button))
-		{
-			camera_tab_pressed = 0;
-			objects_tab_pressed = 1;
-			options_tab_pressed = 0;
-		}
-		if (is_press_button(event, &rect->tab_options_button))
-		{
-			camera_tab_pressed = 0;
-			objects_tab_pressed = 0;
-			options_tab_pressed = 1;
-		}
+		g_camera_tab_pressed = 0;
+		g_objects_tab_pressed = 0;
+		g_options_tab_pressed = 1;
 	}
 }
 
@@ -233,6 +180,7 @@ int catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
 			//todo: translate window coordinates in image coordinates,
 			//e.g. windos is 1200x600 and image is 1920x1080
 			//then we need x * IMG_W/WIN_W and y * IMG_H/WIN_H
+			catch_tab_bar(&event, rect);
 			printf("Mouse press at %d %d", event.button.x, event.button.y);
 		}
 		if (event.type == SDL_MOUSEBUTTONUP)
