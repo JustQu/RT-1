@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/07 15:57:00 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/11 22:17:02 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,19 @@ enum e_material_type
 {
 	matte, //kd, ka
 	phong,
-	emissive,
-	reflective,
-	metal,		//mirror
-	dielectric,	//transparance
 
-	diffuse_light
+	plastic,
+
+	emissive,
+	diffuse_light,
+
+	reflective,
+	mirror,
+	metal,
+	conductor,
+
+	dielectric,	//transparance
+	rough_dielectric,
 };
 
 /**
@@ -59,12 +66,13 @@ struct					s_material //kd + ks < 1.0
 	cl_float			kr;	//reflective coefficient		//4		36
 	cl_float			kt; //transparent coefficient		//4		40
 	cl_float			exp;								//4		44
+	cl_float			ls;									//4		48
 
-	int					texture_id;							//4		48
+	int					texture_id;							//4		52
 
-	cl_uchar 			is_reflective;						//1		49
-	cl_uchar			is_transparent;						//1		50
-	cl_uchar			gap[14];							//2		64
+	cl_uchar 			is_reflective;						//1		53
+	cl_uchar			is_transparent;						//1		54
+	cl_uchar			gap[10];							//2		64
 };
 
 int		create_material(t_material	type);

@@ -6,14 +6,16 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 12:47:05 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/26 15:15:34 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 20:18:26 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATRIX_H
 # define MATRIX_H
 
-# include "rt_types.h"
+# ifndef __OPENCL_C_VERSION__
+#  include "rt_types.h"
+#endif
 
 typedef cl_float16				t_matrix;
 

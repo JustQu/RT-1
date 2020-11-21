@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\</FILEPATH>
+      <FILENAME>intrin.h</FILENAME>
+      <LINE>914</LINE>
+      <COLUMN>0</COLUMN>
+    </SFA>
+    <DEFECTCODE>28251</DEFECTCODE>
+    <DESCRIPTION>Несогласованная аннотация для "_setjmp": данный экземпляр содержит нет аннотаций. См. &lt;no file&gt;(0). </DESCRIPTION>
+    <FUNCTION>_setjmp</FUNCTION>
+    <DECORATED>_setjmp</DECORATED>
+    <FUNCLINE>914</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+      <FILENAME>sampler.c</FILENAME>
+      <LINE>51</LINE>
+      <COLUMN>51</COLUMN>
+    </SFA>
+    <DEFECTCODE>6282</DEFECTCODE>
+    <DESCRIPTION>Неверный оператор:  назначение константы в контексте типа Boolean. Попробуйте вместо этого использовать "==".</DESCRIPTION>
+    <FUNCTION>generate_regular_samples</FUNCTION>
+    <DECORATED>generate_regular_samples</DECORATED>
+    <FUNCLINE>39</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+      <FILENAME>sampler.c</FILENAME>
+      <LINE>52</LINE>
+      <COLUMN>37</COLUMN>
+    </SFA>
+    <DEFECTCODE>6282</DEFECTCODE>
+    <DESCRIPTION>Неверный оператор:  назначение константы в контексте типа Boolean. Попробуйте вместо этого использовать "==".</DESCRIPTION>
+    <FUNCTION>generate_regular_samples</FUNCTION>
+    <DECORATED>generate_regular_samples</DECORATED>
+    <FUNCLINE>39</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+      <FILENAME>sampler.c</FILENAME>
+      <LINE>73</LINE>
+      <COLUMN>51</COLUMN>
+    </SFA>
+    <DEFECTCODE>6282</DEFECTCODE>
+    <DESCRIPTION>Неверный оператор:  назначение константы в контексте типа Boolean. Попробуйте вместо этого использовать "==".</DESCRIPTION>
+    <FUNCTION>generate_pure_random_samples</FUNCTION>
+    <DECORATED>generate_pure_random_samples</DECORATED>
+    <FUNCLINE>62</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

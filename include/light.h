@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 17:35:29 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 13:49:35 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/27 16:35:31 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,14 @@ enum	e_light_types
 
 struct				s_light
 {
+	cl_float16		matrix;
 	cl_float4		origin;
 	cl_float4		direction;
 	t_color			color;
 	cl_float		ls; //radiance scaling factor [0, inf)
 	t_light_type	type;
 	cl_int			object_id; //for area lights
-	cl_int			gap;
+	cl_float		pdf;
 };
 
 struct				s_ambient_occluder

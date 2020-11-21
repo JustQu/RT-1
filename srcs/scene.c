@@ -6,26 +6,24 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 22:57:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/27 19:23:06 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/11/21 22:45:39 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
+// #include "scene.h"
+#include "parser.h"
 #include "rt_options.h"
 #include "math.h"
 #include "sampler_manager.h"
 #include "libft.h"
 #include "texture_manager.h"
-
-int		init_texture_manager(t_texture_manager *texture_manager);
-int		add_texture(t_texture_manager *texture_manager,
-					t_texture texture);
+#include "light_manager.h"
 
 static const t_camera default_camera = {
 	.viewplane = {
 		.pixel_size = 1.0f,
-		.width = 1920,
-		.height = 1080},
+		.width = IMG_WIDTH,
+		.height = IMG_HEIGHT},
 	.type = perspective,
 	.origin = {.x = 0.0f, .y = 1.0f, .z = -8.0f, .w = 0.0f},
 	.direction = {.x = 0.0f, .y = -0.1f, .z = 1.0f, .w = 0.0f},
@@ -37,8 +35,8 @@ static const t_camera default_camera = {
 static const t_camera default_thin_lens_camera = {
 	.viewplane = {
 		.pixel_size = 1.0f,
-		.width = DEFAULT_WIDTH,
-		.height = DEFAULT_HEIGHT,
+		.width = IMG_WIDTH,
+		.height = IMG_HEIGHT,
 	},
 	.type = thin_lens,
 	.origin = {.x = 0.0f, .y = 0.0f, .z = -8.0f, .w = 0.0f},
@@ -54,18 +52,18 @@ static const t_camera default_thin_lens_camera = {
 static const t_camera default_fisheye_camera = {
 	.viewplane = {
 		.pixel_size = 1.0f,
-		.width = DEFAULT_WIDTH,
-		.height = DEFAULT_HEIGHT,
+		.width = IMG_WIDTH,
+		.height = IMG_HEIGHT,
 	},
 	.type = fisheye,
-	.origin = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
+	.origin = {.x = 0.0f, .y = 0.0f, .z = -8.0f, .w = 0.0f},
 	.direction = {.x = 0.0f, .y = 0.0f, .z = 1.0f, .w = 0.0f},
 	.up = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
-	.d = DEFAULT_WIDTH / 2,
-	.zoom = 1.0f,
-	.normalized = TRUE,
+	.d = DEFAULT_WIDTH,
+	.zoom = 0.5f,
+	.normalized = FALSE,
 
-	.f = 180.0 / 2.0f};
+	.f = 120.0f / 2.0f};
 
 static const t_camera default_stereo_camera = {
 	.viewplane = {
@@ -130,7 +128,7 @@ static const t_obj default_sphere = {
 	.r = 1.0f,
 	.r2 = 1.0f,
 	// .material = {.type = phong, .color = {.value = 0x000000ff}, .kd = 0.5f, .ka = 0.1f, .ks = 0.5, .exp = 10},
-	.shadows = CL_TRUE};
+	};
 
 static const t_obj default_plane = {
 	// .type = plane,
@@ -140,7 +138,7 @@ static const t_obj default_plane = {
 		.z = 0.0f,
 		.w = 0.0f},
 	// .material = {.type = phong, .color = {.value = 0x00aaaaaa}, .kd = 0.8f, .ka = 0.1f, .ks = 0.05f, .exp = 10.0f},
-	.shadows = CL_TRUE};
+	};
 
 static const t_obj default_cylinder = {
 	// .type = cylinder,
@@ -153,7 +151,7 @@ static const t_obj default_cylinder = {
 	.r2 = 1.0f,
 	.maxm = 5.0f, //max height of cylinder
 	// .material = {.type = phong, .color = {.value = 0x001002af}, .kd = 0.6f, .ka = 0.1f, .ks = 0.2, .exp = 5},
-	.shadows = CL_TRUE};
+	};
 
 static const t_obj default_cone = {
 	// .type = cone,
@@ -168,7 +166,7 @@ static const t_obj default_cone = {
 	.maxm = 3.0f,
 	.minm = -3.0f,
 	// .material = {.type = phong, .color = {.value = 0x00ffaf}, .kd = 0.6f, .ka = 0.1f, .ks = 0.2f, .exp = 50.0f},
-	.shadows = CL_TRUE};
+	};
 
 static const t_obj default_paraboloid = {
 	// .type = paraboloid,
@@ -181,7 +179,7 @@ static const t_obj default_paraboloid = {
 	.minm = 0.0f,
 	.maxm = 2.0f,
 	// .material = {.type = phong, .color = {.value = 0x05f000f}, .kd = 0.6f, .ka = 0.1f, .ks = 0.2f, .exp = 50.0f},
-	.shadows = CL_TRUE};
+	};
 
 static const t_obj default_torus = {
 	// .type = torus,
@@ -193,7 +191,7 @@ static const t_obj default_torus = {
 	.r = 2.0f,
 	.r2 = 0.4f,
 	// .material = {.type = phong, .color = {.value = 0x00bf8f0f}, .kd = 0.6f, .ka = 0.1f, .ks = 0.2f, .exp = 50.0f},
-	.shadows = CL_TRUE};
+	};
 
 static const t_triangle default_triangle = {
 	.vertex1 = {
@@ -213,8 +211,6 @@ static const t_triangle default_triangle = {
 	.normal = {.x = 0.0f, .y = 0.0f, .z = -1.0f, .w = 0.0f},
 	// .material = {.color = 0x00af00af, .type = phong, .kd = 0.2, .ka = 0.25, .ks = 0.8, .exp = 10}
 };
-static const t_obj default_box = {
-	.shadows = CL_TRUE};
 
 static const t_obj default_disk = {
 	.origin = {
@@ -224,7 +220,7 @@ static const t_obj default_disk = {
 		.w = 0.0f},
 	.r = 1.0f,
 	.r2 = 1.0f,
-	.shadows = CL_TRUE};
+	};
 
 static const t_obj default_rectangle = {
 	.origin = {
@@ -232,10 +228,9 @@ static const t_obj default_rectangle = {
 		.y = 0.0f,
 		.z = 2.0f,
 		.w = 0.0f},
-	.normal = {.x = 0.0f, .y = 0.0f, .z = 1.0f, .w = 0.0f},
 	.r = 1.0f,
 	.r2 = 1.0f,
-	.shadows = CL_TRUE};
+};
 
 static const t_light default_ambient_light = {
 	.type = ambient,
@@ -248,13 +243,14 @@ static const t_light default_ambient_light = {
 static const t_light default_directional_light = {
 	.type = directional,
 	.origin = {
-		.x = 0.0f,
-		.y = 0.0f,
-		.z = 0.0f,
+		.x = 1000000,
+		.y = 1000000,
+		.z = 1000000,
 		.w = 0.0f,
 	},
-	.direction = {.x = 0.0f, .y = -1.0f, .z = -1.0f, .w = 0.0f},
-	.ls = 3.0f,
+	.direction = {.x = -1.0f, .y = -1.0f, .z = 1.0f, .w = 0.0f},
+	.ls = 0.8f,
+	.color = {.r = 1.0f, .g = 1.0f, .b = 1.0f}
 	// .color = 0x00ffffff
 };
 
@@ -269,25 +265,25 @@ static const t_light default_point_light = {
 	.color = {.r = 1.0f, .g = 1.0f, .b = 1.0f}
 };
 
-int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
+#include "resource_manager.h"
+
+int init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager,
+					   t_res_mngr *resource_manager, char *scene_file)
 {
 	t_instance_manager *instance_manager;
 	t_object_info object_info;
-	scene->camera = default_camera;
+	// scene->camera = default_camera;
 
 	instance_manager = &scene->instance_mngr;
 	init_instance_manager(instance_manager);
+	init_light_manager(&scene->light_manager);
 
 	// scene->camera = default_thin_lens_camera;
 	// scene->camera = default_fisheye_camera;
 	// scene->camera = default_spherical_camera;
 	// scene->camera = default_stereo_camera;
-	scene->camera.sampler_id = new_sampler(sampler_manager, rand_jitter, 1024, DISK_SAMPLES);
+	scene->camera.sampler_id = new_sampler(sampler_manager, rand_jitter, 25, DISK_SAMPLES);
 
-	compute_uvw(&scene->camera);
-
-	scene->nlights = 1;
-	scene->lights = (t_light *)malloc(sizeof(t_light) * (scene->nlights + 10));
 
 	//default_scene
 	//Объекты
@@ -297,370 +293,533 @@ int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager)
 	t_material					material;
 	t_texture					texture;
 
+	t_parsed_info asset;
+
 	/* #0 SPHERE 1 */
-	object.type = sphere;
-	object.r = 1.0f;
-	object.origin = (cl_float4){ .x = 1.0f, .y = 0.0f, .z = 0.0f, .w = 0.0f };
-	object.scaling = (cl_float4){ .x = 1.0f, .y = 1.0f, .z = 1.0f, .w = 0.0f };
-	texture.type = solid;
-	texture.data.solid.color.r = 1.0f;
-	texture.data.solid.color.b = 0.0f;
-	texture.data.solid.color.g = 0.0f;
-	object.material.type = matte;
-	object.material.kd = 0.9f;
-	object.material.ka = 0.25f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
-
-	/* #1 BOTTOM BOX */
-	object.type = box;
-	object.origin = (cl_float4){ .x = -10.0f, .y = -1.0f, .z = -10.0f };
-	object.scaling = (cl_float4){ 1.0f, 1.0f, 1.0f };
-	object.vector1 = (cl_float4){ .x = 0.0f, .y = 0.0f,.z = 0.0f };
-	object.vector2 = (cl_float4){ .x = 20.0f, .y = .01f, .z = 20.0f };
-	// texture.type = smooth_perlin;
-	// texture.data.smooth_perlin.scale = 5.0f;
-	texture.type = checker;
-	texture.data.checker.odd = (t_color){ .r = 0.0f, .g = 0.0f, .b = 1.0f };
-	texture.data.checker.even = (t_color){ .r = 0.5f, .g = 0.5f, .b = 0.0f };
-	// texture.type = wave_perlin;
-	// texture.data.smooth_perlin.scale = 10.0f;
-	object.material.type = matte;
-	object.material.kd = 1.0f;
-	object.material.ka = 0.25f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
-//
-	/* #2 ELIPSE 1 */
-	object.type = sphere;
-	object.r = 1.0f;
-	object.origin = (cl_float4){ 0.0f, 0.0f, 0.0f, 0.0f };
-	object.scaling = (cl_float3){ 1.0f, 4.0f, 1.0f };
-	object.rotation = (cl_float3){ 0.0f, 0.0f, 45.0f };
-	texture.type = checker;
-	texture.data.checker.odd = (t_color){ .r = 0.8f, .g = 0.3f, .b = 0.3f };
-	texture.data.checker.even = (t_color){ .r = 0.5f, .g = 0.5f, .b = 0.0f };
-	// texture.data.solid.color = (t_color){ 0.8f, 0.3f, 0.3f };
-	object.material.type = matte;
-	object.material.kd = 1.0f;
-	object.material.ka = 0.25f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
-
-	/* #3 TORUS 	1 */
-	object.type = torus;
-	object.r = 1.0f;
-	object.r2 = 0.2f;
-	object.origin = (cl_float4){ .x = 1.5f, .y = 1.0f, .z = -2.0f };
-	object.scaling = (cl_float3){ .x = 2.0f, .y = 3.0f, .z = 1.0f };
-	object.rotation = (cl_float3){ .x = -45.0f, .y = 0.0f, .z = 0.0f };
-	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 1.0f, .g = 0.9f, .b = 0.686f};
-	object.material.type = dielectric;
-	object.material.kt = 2.4f;
-	object.material.kd = 1.0f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
-
-	object.type = cylinder;
-	object.r = 1.0f;
-	object.origin = (cl_float4){ .x = -2.5f, .y = -1.0f, .z = 0.0f, .w = 0.0f };
-	object.rotation = (cl_float3){ .x = 0.0f, .y = 0.0f, .z = 0.0f };
-	object.scaling = (cl_float3){ .x = 1.0f, .y = 4.0f, .z = 1.0f };
-	texture.type = solid;
-	texture.data.solid.color = (t_color){ .r = 0.8f, .g = 0.6f, .b = 0.2f };
-	object.material.type = metal;
-	object.material.kr = 0.95f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
-
-	object.type = sphere;
-	object.r = 2.0f;
-	object.origin = (cl_float4){ .x = 3.0f , .y = 1.0f, .z = 1.0f };
-	object.rotation = (cl_float3){ .x = 0.0f, .y = 0.0f, .z = 0.0f };
-	object.scaling = (cl_float3){ 2.0f, 2.0f, 2.0f };
-	texture.type = solid;
-	texture.data.solid.color = (t_color){ .r = 0.3f, .g = 0.2f, .b = 0.7f };
-	object.material.type = matte;
-	object.material.kd = 1.0f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
-
-	object.type = sphere;
-	object.r = 1.0f;
-	object.origin = (cl_float4){ .x = -3.0f, .y = 0.0f, .z = -4.0f };
-	object.rotation = (cl_float3){ .x = 0.0f, .y = 0.0f, .z = 0.0f };
-	object.scaling = (cl_float3){ .x = 1.0f, .y = 1.0f, .z = 1.0f };
-	texture.type = perlin;
-	object.material.type = matte;
-	object.material.kd = 1.0f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
-
-	object.type = sphere;
-	object.r = 1.0f;
-	object.origin = (cl_float4){ .x = 3.0f, .y = -0.25f, .z = -2.5f };
-	object.rotation = (cl_float3){ .x = 0.0f, .y = 0.0f, .z = 0.0f };
-	object.scaling = (cl_float3){ .x = 0.75f, .y = 0.75f, .z = 0.75f };
-	texture.type = smooth_perlin;
-	texture.data.smooth_perlin.scale = 20.0f;
-	object.material.type = matte;
-	object.material.kd = 1.0f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
-
-	object.type = sphere;
-	object.r = 0.25f;
-	object.origin = (cl_float4){.x = 3.0f, .y = -0.5f, .z = -3.5f};
-	object.rotation = (cl_float3){.x = 0.0f, .y = 0.0f, .z = 0.0f};
-	object.scaling = (cl_float3){.x = 0.5f, .y = 0.5f, .z = 0.5f};
-	texture.type = turbulence_perlin;
-	texture.data.smooth_perlin.scale = 3.0f;
-	object.material.type = matte;
-	object.material.kd = 1.0f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
-
-	object.type = rectangle;
-	object.r = 2.0f;
-	object.r2 = 2.0f;
-	object.origin = (cl_float4){ -1.5f, 2.0f, -5.0f, 0.0f };
-	object.scaling = (cl_float3){ 1.0f, 1.0f, 1.0f };
-	object.rotation = (cl_float3){ .x = 45.0f, .y = 00.0f, .z = 0.0f};
-	object.vector1 = (cl_float4){ .x = 1.0f, .y = 0.0f,.z = 0.0f };
-	object.vector2 = (cl_float4){ .x = 0.0f, .y = 1.0f, .z = 0.0f };
-	texture.type = solid;
-	texture.data.solid.color = (t_color){ .r = 1.0f, .g = 0.0f, .b = 0.0f };
-	object.material.type = diffuse_light;
-	object.material.kd = 1.0f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
-
-	object.type = sphere;
-	object.r = 1.0f;
-	object.origin = (cl_float4){ -4.0f, 0.0f, -2.0f, 0.0f };
-	object.scaling = (cl_float3){ 1.0f, 1.0f, 1.0f };
-	object.rotation = (cl_float3){ 0.0f, 0.0f, 0.0f };
-	texture.type = solid;
-	texture.data.solid.color = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
-	object.material.type = diffuse_light;
-	object.material.kd = 1.0f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
-
-	/* Cornell box */
-	scene->camera.type = perspective;
-	scene->camera.viewplane.pixel_size = 1.0f;
-	scene->camera.viewplane.width = 1920;
-	scene->camera.viewplane.height = 1080;
-	scene->camera.origin =
-		(cl_float4){ .x = 278.0f, .y = 278.0f, .z = -800.0f, .w = 0.0f };
-	scene->camera.direction =
-		(cl_float4){ .x = 0.0f, .y = 0.0f, .z = 1.0f, .w = 0.0f };
-	scene->camera.d = 1600 ;
-	scene->camera.zoom = 1.0f;
-	scene->camera.normalized = FALSE;
+	// asset.type = 0;
+	parser(resource_manager, &asset, scene_file, &scene->camera);
 	compute_uvw(&scene->camera);
+	// asset.data.object.type = sphere;
+	// asset.data.object.r = 1.0f;
+	// asset.data.object.origin = (cl_float4){ 1.0f, 0.0f, 0.0f, 0.0f};
+	// asset.data.object.scaling = (cl_float4){ 1.0f, 1.0f, 1.0f, 0.0f};
+	// asset.data.object.texture.type = solid;
+	// asset.data.object.texture.data.solid.color.r = 1.0f;
+	// asset.data.object.texture.data.solid.color.b = 0.0f;
+	// asset.data.object.texture.data.solid.color.g = 0.0f;
+	// asset.data.object.material.type = mirror;
+	// asset.data.object.material.kd = 1.0f;
+	// asset.data.object.material.ka = 0.25f;
+	// asset.data.object.material.kt = 1.5f;
+	// asset.data.object.material.kr = 1.0f;
+	// asset.data.object.boolean = 1;
+	// add_parsed_asset(resource_manager, asset);
 
-	object.type = sphere;
-	object.r = 1.0f;
-	object.origin = (cl_float4){278.0f, 278.0f, 278.0f, 0.0f};
-	object.scaling = (cl_float3){10.0f, 10.0f, 10.0f};
-	object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
-	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = diffuse_light;
-	object.material.kd = 1.0f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// asset.data.object.boolean = 0;
 
-	object.type = box;
-	object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
-	object.scaling = (cl_float4){ 1.0f, 1.0f, 1.0f };
-	object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
-	object.vector2 = (cl_float4){.x = 0.01f, .y = 555.0f, .z = 555.0f};
-	texture.type = solid;
-	texture.data.solid.color = (t_color){ .r = 1.0f, .g = 0.0f, .b = 0.0f };
-	object.material.type = dielectric;
-	object.material.kr = 1.0f;
-	object.material.kt = 1.5f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// /* #1 BOTTOM BOX */
+	// asset.data.object.type = plane;
+	// asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	// asset.data.object.origin = (cl_float4){ -10.0f, -1.0f, -10.0f };
+	// asset.data.object.scaling = (cl_float4){ 1.0f, 1.0f, 1.0f };
+	// asset.data.object.vector1 = (cl_float4){ 0.0f, 0.0f, 0.0f };
+	// asset.data.object.vector2 = (cl_float4){ 20.0f, .01f,  20.0f };
+	// asset.data.object.texture.type = checker;
+	// asset.data.object.texture.data.checker.odd =
+	// 		(t_color){ .r = 0.0f, .g = 0.0f, .b = 1.0f };
+	// asset.data.object.texture.data.checker.even =
+	// 		(t_color){ .r = 0.5f, .g = 0.5f, .b = 0.5f };
+	// asset.data.object.material.type = matte;
+	// asset.data.object.material.kt = 0.95f;
+	// asset.data.object.material.kd = 1.0f;
+	// asset.data.object.material.ka = 0.25f;
+	// add_parsed_asset(resource_manager, asset);
 
-	object.type = box;
-	object.origin = (cl_float4){.x = 555.0f, .y = 0.0f, .z = 0.0f};
-	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
-	object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
-	object.vector2 = (cl_float4){.x = 0.001f, .y = 555.0f, .z = 555.0f};
-	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 0.0f, .g = 1.0f, .b = 0.0f};
-	object.material.type = dielectric;
-	object.material.kd = 1.0f;
-	object.material.kr = 1.0f;
-	object.material.kt = 1.5f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// /* #2 ELIPSE 1 */
+	// asset.data.object.type = sphere;
+	// asset.data.object.r = 1.0f;
+	// asset.data.object.origin = (cl_float4){ 0.0f, 0.0f, 0.0f, 0.0f };
+	// asset.data.object.scaling = (cl_float3){ 1.0f, 4.0f, 1.0f };
+	// asset.data.object.rotation = (cl_float3){ 0.0f, 0.0f, 45.0f };
+	// asset.data.object.texture.type = checker;
+	// asset.data.object.texture.data.checker.odd =
+	// 	(t_color){ .r = 0.8f, .g = 0.3f, .b = 0.3f };
+	// asset.data.object.texture.data.checker.even =
+	// 	(t_color){ .r = 0.5f, .g = 0.5f, .b = 0.0f };
+	// asset.data.object.material.type = phong;
+	// asset.data.object.material.ks = 0.2f;
+	// asset.data.object.material.exp = 10.0f;
+	// asset.data.object.material.kd = 0.8f;
+	// asset.data.object.material.ka = 0.25f;
+	// add_parsed_asset(resource_manager, asset);
 
-	object.type = box;
-	object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
-	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
-	object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
-	object.vector2 = (cl_float4){.x = 555.0f, .y = 0.001f, .z = 555.0f};
-	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = matte;
-	object.material.kd = 1.0f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// /* #3 TORUS 	1 */
+	// asset.data.object.type = torus;
+	// asset.data.object.r = 1.0f;
+	// asset.data.object.r2 = 0.2f;
+	// asset.data.object.origin = (cl_float4){ 1.5f, 1.0f, -2.0f };
+	// asset.data.object.scaling = (cl_float3){ 2.0f, 3.0f, 1.0f };
+	// asset.data.object.rotation = (cl_float3){ -45.0f, 0.0f, 0.0f };
+	// asset.data.object.texture.type = solid;
+	// asset.data.object.texture.data.solid.color = (t_color){.r = 1.0f, .g = 0.9f, .b = 0.686f};
+	// asset.data.object.material.type = mirror;
+	// asset.data.object.material.kt = 2.4f;
+	// asset.data.object.material.kd = 1.0f;
+	// // add_parsed_asset(resource_manager, asset);
 
+	// asset.data.object.type = cylinder;
+	// asset.data.object.r = 1.0f;
+	// asset.data.object.origin = (cl_float4){ -4.5f, -1.0f, 0.0f};
+	// asset.data.object.rotation = (cl_float3){ -30.0f, 0.0f, 45.0f };
+	// asset.data.object.scaling = (cl_float3){ 1.0f, 4.0f, 1.0f };
+	// asset.data.object.texture.type = solid;
+	// asset.data.object.texture.data.solid.color = (t_color){ .r = 0.8f, .g = 0.6f, .b = 0.2f };
+	// asset.data.object.material.type = matte;
+	// asset.data.object.material.kr = 0.95f;
+	// asset.data.object.material.kd = 0.8f;
+	// asset.data.object.material.ks = 0.1f;
+	// asset.data.object.material.exp = 100000.0f;
+	// asset.data.object.minm = 0.0f;
+	// asset.data.object.maxm = 1.0f;
+	// add_parsed_asset(resource_manager, asset);
 
-	//delete this
-	object.type = box;
-	object.origin = (cl_float4){ .x = -200.0f, .y = -200.0f, .z = -801.0f, .w = 0.0f };
-	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
-	object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
-	object.vector2 = (cl_float4){.x = 1000.0f, .y = 1000.0f, .z = 0.001f};
-	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 0.0f, .g = 0.0f, .b = 1.0f};
-	object.material.type = dielectric;
-	object.material.kr = 1.0f;
-	object.material.kt = 1.5f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// asset.data.object.type = cone;
+	// asset.data.object.origin = (cl_float4){ -3.0f, 2.0f, -4.0f, 0.0f };
+	// asset.data.object.rotation = (cl_float4){ 180.0f, 0.0f, 0.0f, 0.0f };
+	// asset.data.object.scaling = (cl_float4){ 1.0f, 1.0f, 1.0f, 0.0f };
+	// asset.data.object.texture.type = turbulence_perlin;
+	// asset.data.object.texture.data.smooth_perlin.scale = 0.5f;
+	// asset.data.object.material.type = matte;
+	// asset.data.object.material.kr = 1.0f;
+	// asset.data.object.material.kt = 1.333f;
+	// asset.data.object.material.kd = 2.0f;
+	// asset.data.object.material.exp = 0.1f;
+	// asset.data.object.r2 = 60.0f;
+	// asset.data.object.minm = 0.0f;
+	// asset.data.object.maxm = 1.5f;
+	// add_parsed_asset(resource_manager, asset);
 
-	object.type = box;
-	object.origin = (cl_float4){.x = 0.0f, .y = 555.0f, .z = 0.0f};
-	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
-	object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
-	object.vector2 = (cl_float4){.x = 555.0f, .y = 0.001f, .z = 555.0f};
-	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 0.0f, .g = 0.0f, .b = 1.0f};
-	object.material.type = dielectric;
-	object.material.kr = 1.0f;
-	object.material.kt = 1.5f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// asset.data.object.type = sphere;
+	// asset.data.object.r = 1.0f;
+	// asset.data.object.origin = (cl_float4){ 3.0f , 1.0f, 1.0f };
+	// asset.data.object.rotation = (cl_float3){ 0.0f, 0.0f, 0.0f };
+	// asset.data.object.scaling = (cl_float3){ 2.0f, 2.0f, 2.0f };
+	// asset.data.object.texture.type = solid;
+	// asset.data.object.texture.data.solid.color = (t_color){ .r = 0.3f, .g = 0.2f, .b = 0.7f };
+	// asset.data.object.material.type = matte;
+	// asset.data.object.material.kd = 1.0f;
+	// add_parsed_asset(resource_manager, asset);
 
-	object.type = box;
-	object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 555.0f};
-	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
-	object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
-	object.vector2 = (cl_float4){.x = 555.0f, .y = 555.0f, .z = 0.001f};
-	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 0.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = dielectric;
-	object.material.kr = 1.0f;
-	object.material.kt = 1.5f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// asset.data.object.type = sphere;
+	// asset.data.object.r = 1.0f;
+	// asset.data.object.origin = (cl_float4){ -3.0f, 0.0f, -4.0f };
+	// asset.data.object.rotation = (cl_float3){ 0.0f, 0.0f, 0.0f };
+	// asset.data.object.scaling = (cl_float3){ 1.0f, 1.0f, 1.0f };
+	// asset.data.object.texture.type = turbulence_perlin;
+	// asset.data.object.texture.data.smooth_perlin.scale = 0.5f;
+	// asset.data.object.material.type = matte;
+	// asset.data.object.material.kr = 1.0f;
+	// asset.data.object.material.kt = 1.333f;
+	// asset.data.object.material.kd = 2.0f;
+	// add_parsed_asset(resource_manager, asset);
 
-	object.type = rectangle;
-	object.origin = (cl_float4){ .x = 213.0f, .y = 554.0f, .z = 227.0f, .w = 0.0f };
-	object.r = 130.0f;
-	object.r2 = 105.0f;
-	object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
-	object.rotation = (cl_float3){.x = 90.0f, .y = 0.0f, .z = 0.0f};
-	object.vector1 = (cl_float4){.x = 1.0f, .y = 0.0f, .z = 0.0f};
-	object.vector2 = (cl_float4){.x = 0.0f, .y = 1.0f, .z = 0.0f};
-	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 1.0f, .g = 0.0f, .b = 0.0f};
-	object.material.type = diffuse_light;
-	object.material.kd = 1.0f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// asset.data.object.type = sphere;
+	// asset.data.object.r = 1.0f;
+	// asset.data.object.origin = (cl_float4){  3.0f, -0.25f, -2.5f };
+	// asset.data.object.rotation = (cl_float3){  0.0f, 0.0f, 0.0f };
+	// asset.data.object.scaling = (cl_float3){  0.75f, 0.75f, 0.75f };
+	// // asset.data.object.texture.type = smooth_perlin;
+	// // asset.data.object.texture.data.smooth_perlin.scale = 20.0f;
+	// asset.data.object.texture.type = solid;
+	// asset.data.object.texture.data.solid.color = (t_color){.r = 0.3f, .g = 0.2f, .b = 0.7f};
+	// asset.data.object.material.type = mirror;
+	// asset.data.object.material.kr = 1.0f;
+	// asset.data.object.material.exp = 0.1f;
+	// asset.data.object.material.kd = 1.0f;
+	// add_parsed_asset(resource_manager, asset);
 
-	/* boxes inside */
-	object.type = box;
-	object.origin = (cl_float4){ .x = 265.0f, .y = 0.0f, .z = 65.0f, .w = 0.0f };
-	object.vector1 = (cl_float4){ .x = 0.0f, .y = 0.0f, .z = 0.0f, .w = 0.0f };
-	object.vector2 = (cl_float4){ .x = 165.0f, .y = 165.0f, .z = 165.0f, .w = 0.0f };
-	object.rotation = (cl_float3){ .x = 0.0f, .y = 18.0f, .z = 0.0f };
-	object.scaling = (cl_float4){ 1.0f, 1.0f, 1.0f };
-	texture.type = solid;
-	texture.data.solid.color = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
-	object.material.type = matte;
-	object.material.kd = 1.0f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	// asset.data.object.type = sphere;
+	// asset.data.object.r = 1.0f;
+	// asset.data.object.origin = (cl_float4){ 3.0f, -0.5f, -3.5f};
+	// asset.data.object.rotation = (cl_float3){ 0.0f, 0.0f, 0.0f};
+	// asset.data.object.scaling = (cl_float3){ 0.5f, 0.5f, 0.5f};
+	// asset.data.object.texture.type = turbulence_perlin;
+	// asset.data.object.texture.data.smooth_perlin.scale = 3.0f;
+	// asset.data.object.material.type = matte;
+	// asset.data.object.material.kd = 1.0f;
+	// add_parsed_asset(resource_manager, asset);
 
-	object.type = box;
-	object.origin = (cl_float4){.x = 130.0f, .y = 0.0f, .z = 295.0f, .w = 0.0f};
-	object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f, .w = 0.0f};
-	object.vector2 = (cl_float4){.x = 165.0f, .y = 330.0f, .z = 165.0f, .w = 0.0f};
-	object.rotation = (cl_float3){.x = 0.0f, .y = -30.0f, .z = 0.0f};
-	object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
-	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = dielectric;
-	object.material.kr = 1.0f;
-	object.material.kd = 1.0f;
-	object.material.kt = 1.5f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// asset.data.object.type = disk;
+	// asset.data.object.r = 1.0f;
+	// asset.data.object.r2 = 1.0f;
+	// asset.data.object.origin = (cl_float4){ 5.0f, 2.0f, 0.0f, .w = 0.0f};
+	// asset.data.object.rotation = (cl_float3){ 90.0f, 0.0f, 0.0f};
+	// asset.data.object.scaling = (cl_float3){ 1.0f, 1.0f, 1.0f};
+	// asset.data.object.texture.type = solid;
+	// asset.data.object.texture.data.solid.color = (t_color){.r = 0.8f, .g = 0.6f, .b = 0.2f};
+	// asset.data.object.material.type = matte;
+	// asset.data.object.material.kr = 0.95f;
+	// asset.data.object.material.kd = 0.8f;
+	// asset.data.object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	// // add_parsed_asset(resource_manager, asset);
 
-	object.type = sphere;
-	object.r = 1.0f;
-	object.origin = (cl_float4){.x = 350.0f, .y = 90.0f, .z = 160.0f, .w = 0.0f};
-	object.scaling = (cl_float4){80.0f, 80.0f, 80.0f};
-	object.rotation = (cl_float3){.x = 0.0f, .y = 0.0f, .z = 0.0f};
-	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	object.material.type = dielectric;
-	object.material.kt = 1.5f;
-	object.material.kr = 1.0f;
-	object.material.kd = 1.0f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	add_parsed_object(instance_manager, object);
+	// asset.data.object.type = paraboloid;
+	// asset.data.object.r = 0.1f;
+	// asset.data.object.r2 = 1.0f;
+	// asset.data.object.origin = (cl_float4){ 0.0f, 1.0f, -2.0f, .w = 0.0f};
+	// asset.data.object.rotation = (cl_float3){ 0.0f, 0.0f, 90.0f};
+	// asset.data.object.scaling = (cl_float3){ 1.0f, 1.0f, 1.0f};
+	// asset.data.object.texture.type = solid;
+	// asset.data.object.texture.data.solid.color = (t_color){.r = 0.8f, .g = 0.6f, .b = 0.5f};
+	// asset.data.object.material.type = mirror;
+	// asset.data.object.material.kr = 0.95f;
+	// asset.data.object.material.kd = 0.8f;
+	// asset.data.object.maxm = 3.0f;
+	// // add_parsed_asset(resource_manager, asset);
 
-	object.type = torus;
-	object.r = 1.0f;
-	object.r2 = 0.25f;
-	object.origin = (cl_float4){ .x = 350.0f, .y = 100.0f, .z = 90.0f, .w = 0.0f };
-	object.scaling = (cl_float3){ .x = 80.0f, .y = 60.0f, .z = 80.0f, .w = 0.0f };
-	object.rotation = (cl_float4){ 30.0f, 0.0f, 45.0f };
-	texture.type = solid;
-	texture.data.solid.color = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
-	object.material.type = dielectric;
-	object.material.kt = 1.5f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
-	// add_parsed_object(instance_manager, object);
+	// asset.data.object.type = rectangle;
+	// asset.data.object.r = 5.0f;
+	// asset.data.object.r2 = 5.0f;
+	// asset.data.object.origin = (cl_float4){ -0.5f, 10.0f, 0.0f, 0.0f };
+	// asset.data.object.scaling = (cl_float3){ 1.0f, 1.0f, 1.0f };
+	// asset.data.object.rotation = (cl_float3){  90.0f, .y = 0.0f, .z = 0.0f};
+	// asset.data.object.vector1 = (cl_float4){  1.0f, .y = 0.0f,.z = 0.0f };
+	// asset.data.object.vector2 = (cl_float4){  0.0f, .y = 1.0f, .z = 0.0f };
+	// asset.data.object.texture.type = solid;
+	// asset.data.object.texture.data.solid.color = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
+	// asset.data.object.material.type = emissive;
+	// asset.data.object.material.kd = 1.0f;
+	// asset.data.object.material.ls = 1.0f;
+	// // add_parsed_asset(resource_manager, asset);
 
-	object.type = torus;
-	object.r = 1.0f;
-	object.r2 = 0.25f;
-	object.origin = (cl_float4){ .x = 350.0f, .y = 100.0f, .z = 200.0f, .w = 0.0f };
-	object.scaling = (cl_float3){ .x = 80.0f, .y = 60.0f, .z = 80.0f, .w = 0.0f };
-	object.rotation = (cl_float4){ 30.0f, 0.0f, 135.0f };
-	texture.type = solid;
-	texture.data.solid.color = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
-	object.material.type = dielectric;
-	object.material.kt = 1.5f;
-	object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	// asset.data.object.type = triangle;
+	// asset.data.object.origin = (cl_float4){ 0.0f, 0.0f, -2.0f, 0.0f};
+	// asset.data.object.vector1 = (cl_float3){ 1.0f, 0.0f, 0.0f, 0.0f };
+	// asset.data.object.vector2 = (cl_float3){ 0.0f, 1.0f, 0.0f, 0.0f };
+	// asset.data.object.rotation = (cl_float3) { 0.0f, 0.0f, 0.0f, 0.0f };
+	// asset.data.object.scaling = (cl_float3){ 1.0f, 1.0f, 1.0f };
+	// asset.data.object.texture.data.solid.color = (t_color){.r = 1.0f, .g = 0.0f, .b = 1.0f};
+	// asset.data.object.texture.type = solid;
+	// asset.data.object.material.type = matte;
+	// add_parsed_asset(resource_manager, asset);
+
+	t_parsed_light light;
+
+	light.type = area;
+	light.ls = 1.0f;
+	light.color = (t_color){ .r = 1.0f, .b = 1.0f, .g = 1.0f};
+	// int j = add_parsed_light(&scene->light_manager, light);
+	// scene->light_manager.lights[j].object_id = i;
+	// scene->light_manager.lights[j].matrix = get_transformation_matrix(*instance_manager, i);
+
+	// object.type = sphere;
+	// object.r = 1.0f;
+	// object.origin = (cl_float4){ -4.0f, 0.0f, -2.0f, 0.0f };
+	// object.scaling = (cl_float3){ 1.0f, 1.0f, 1.0f };
+	// object.rotation = (cl_float3){ 0.0f, 0.0f, 0.0f };
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
+	// object.material.type = emissive;
+	// object.material.kd = 1.0f;
+	// object.material.ls = 1.0f;
+	// object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	// // add_parsed_object(instance_manager, object);
+
+	// /* Cornell box */
+	// // scene->camera.type = thin_lens;
+	// // scene->camera.l = 0.0f;
+	// // scene->camera.f = 1000.0f;
+	// // scene->camera.viewplane.pixel_size = 1.0f;
+	// // scene->camera.viewplane.width = IMG_WIDTH;
+	// // scene->camera.viewplane.height = IMG_HEIGHT;
+	// // scene->camera.origin =
+	// // 	(cl_float4){  278.0f, .y = 278.0f, .z = -800.0f, .w = 0.0f };
+	// // scene->camera.direction =
+	// // 	(cl_float4){ .x = 0.0f, .y = 0.0f, .z = 1.0f, .w = 0.0f };
+	// // scene->camera.d = 900;
+	// // scene->camera.zoom = 1.0f;
+	// // scene->camera.normalized = FALSE;
+	// // compute_uvw(&scene->camera);
+
+	// object.type = sphere;
+	// object.r = 1.0f;
+	// object.origin = (cl_float4){278.0f, 278.0f, 278.0f, 0.0f};
+	// object.scaling = (cl_float3){10.0f, 10.0f, 10.0f};
+	// object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
+	// object.material.type = diffuse_light;
+	// object.material.kd = 1.0f;
+	// object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	// // add_parsed_object(instance_manager, object);
+
+	// /* LEFT WALL */
+	// object.type = box;
+	// object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
+	// object.scaling = (cl_float4){ 1.0f, 1.0f, 1.0f };
+	// object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
+	// object.vector2 = (cl_float4){.x = 0.01f, .y = 555.0f, .z = 555.0f};
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){ .r = 0.0f, .g = 1.0f, .b = 0.0f };
+	// object.material.type = plastic;
+	// object.material.exp = 0.1f;
+	// object.material.kr = 0.5f;
+	// // object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	// asset.type = 0;
+	// asset.data.object = object;
+	// asset.data.object.texture = texture;
+	// // add_parsed_asset(resource_manager, asset);
+	// // add_parsed_object(instance_manager, object);
+
+	// /* RIGHT WALL*/
+	// object.type = box;
+	// object.origin = (cl_float4){.x = 555.0f, .y = 0.0f, .z = 0.0f};
+	// object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
+	// object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
+	// object.vector2 = (cl_float4){.x = 0.001f, .y = 555.0f, .z = 555.0f};
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){.r = 1.0f, .g = 0.0f, .b = 0.0f};
+	// object.material.type = plastic;
+	// object.material.kr = 0.2f;
+	// object.material.exp = 0.15f;
+	// object.material.kd = 1.0f;
+	// // object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	// // add_parsed_object(instance_manager, object);
+	// asset.type = 0;
+	// asset.data.object = object;
+	// asset.data.object.texture = texture;
+	// // add_parsed_asset(resource_manager, asset);
+
+	// /* BOTTOM */
+	// object.type = box;
+	// object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
+	// object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
+	// object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
+	// object.vector2 = (cl_float4){.x = 555.0f, .y = 0.001f, .z = 555.0f};
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
+	// object.material.type = matte;
+	// object.material.exp = 2.01f;
+	// object.material.kd = 1.0f;
+	// asset.type = 0;
+	// asset.data.object = object;
+	// asset.data.object.texture = texture;
+	// // add_parsed_asset(resource_manager, asset);
+	// // object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	// // add_parsed_object(instance_manager, object);
+
+	// object.type = box;
+	// object.origin = (cl_float4){.x = 0.0f, .y = 555.0f, .z = 0.0f};
+	// object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
+	// object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
+	// object.vector2 = (cl_float4){.x = 555.0f, .y = 0.001f, .z = 555.0f};
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
+	// object.material.type = matte;
+	// object.material.kd = 1.0f;
+	// asset.type = 0;
+	// asset.data.object = object;
+	// asset.data.object.texture = texture;
+	// // add_parsed_asset(resource_manager, asset);
+	// // object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	// // add_parsed_object(instance_manager, object);
+
+	// /* BACK WALL */
+	// object.type = box;
+	// object.origin = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 555.0f};
+	// object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
+	// object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f};
+	// object.vector2 = (cl_float4){.x = 555.0f, .y = 555.0f, .z = 0.001f};
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
+	// object.material.type = plastic;
+	// object.material.exp = 0.01f;
+	// object.material.kt = 1.8f;
+	// object.material.kr = 1.8f;
+	// object.material.kd = 1.0f;
+	// asset.type = 0;
+	// asset.data.object = object;
+	// asset.data.object.texture = texture;
+	// // add_parsed_asset(resource_manager, asset);
+	// // object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	// // add_parsed_object(instance_manager, object);
+
+	// object.type = rectangle;
+	// object.origin = (cl_float4){ .x = 213.0f, .y = 553.0f, .z = 250.0f, .w = 0.0f };
+	// object.r = 130.0f;
+	// object.r2 = 105.0f;
+	// object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
+	// object.rotation = (cl_float3){.x = 90.0f, .y = 0.0f, .z = 0.0f};
+	// object.vector1 = (cl_float4){.x = 1.0f, .y = 0.0f, .z = 0.0f};
+	// object.vector2 = (cl_float4){.x = 0.0f, .y = 1.0f, .z = 0.0f};
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
+	// object.material.type = emissive;
+	// object.material.kd = 1.0f;
+	// object.material.ls = 15.0f;
+	// asset.type = 0;
+	// asset.data.object = object;
+	// asset.data.object.texture = texture;
+	// // add_parsed_asset(resource_manager, asset);
+	// // object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	// // int i = add_parsed_object(instance_manager, object);
+	// // set_sampler(instance_manager, i, new_sampler(sampler_manager, pure_random, 1024, 0));
+
+	// light.type = area;
+	// light.ls = 1.0f;
+	// light.color = (t_color){.r = 1.0f, .b = 1.0f, .g = 1.0f};
+	// int j = add_parsed_light(&scene->light_manager, light);
+	// scene->light_manager.lights[j].object_id = i;
+	// scene->light_manager.lights[j].matrix = get_transformation_matrix(*instance_manager, i);
+
+	// /* boxes inside */
+	// object.type = box;
+	// object.origin = (cl_float4){ .x = 265.0f, .y = 0.0f, .z = 135.0f, .w = 0.0f };
+	// object.vector1 = (cl_float4){ .x = 0.0f, .y = 0.0f, .z = 0.0f, .w = 0.0f };
+	// object.vector2 = (cl_float4){ .x = 165.0f, .y = 165.0f, .z = 165.0f, .w = 0.0f };
+	// object.rotation = (cl_float3){ .x = 0.0f, .y = 18.0f, .z = 0.0f };
+	// object.scaling = (cl_float4){ 1.0f, 1.0f, 1.0f };
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
+	// object.material.type = mirror;
+	// object.material.kd = 1.0f;
+	// object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	// // add_parsed_object(instance_manager, object);
+
+	// object.type = box;
+	// object.origin = (cl_float4){.x = 130.0f, .y = 0.0f, .z = 265.0f, .w = 0.0f};
+	// object.vector1 = (cl_float4){.x = 0.0f, .y = 0.0f, .z = 0.0f, .w = 0.0f};
+	// object.vector2 = (cl_float4){.x = 165.0f, .y = 330.0f, .z = 165.0f, .w = 0.0f};
+	// object.rotation = (cl_float3){.x = 0.0f, .y = -18.0f, .z = 0.0f};
+	// object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
+	// object.material.type = conductor;
+	// // object.material.type = metal;
+	// object.material.exp = 0.1f;
+	// object.material.kr = 1.0f;
+	// object.material.kd = 1.0f;
+	// asset.type = 0;
+	// asset.data.object = object;
+	// asset.data.object.texture = texture;
+	// // add_parsed_asset(resource_manager, asset);
+	// // object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	// // add_parsed_object(instance_manager, object);
+
+	// object.type = sphere;
+	// object.r = 1.0f;
+	// object.origin = (cl_float4){.x = 350.0f, .y = 80.0f, .z = 190.0f, .w = 0.0f};
+	// object.scaling = (cl_float4){80.0f, 80.0f, 80.0f};
+	// object.rotation = (cl_float3){.x = 00.0f, .y = 0.0f, .z = 0.0f};
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){.r = 0.4f, .g = 0.4f, .b = 1.0f};
+	// object.material.type = plastic;
+	// object.material.exp = 0.1f;
+	// object.material.kt = 0.2f;
+	// object.material.kr = 0.8f;
+	// object.material.kd = 1.0f;
+	// object.material.ka = 0.1f;
+	// asset.type = 0;
+	// asset.data.object = object;
+	// asset.data.object.texture = texture;
+	// // add_parsed_asset(resource_manager, asset);
+	// // object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	// // add_parsed_object(instance_manager, object);
+
+	// object.type = torus;
+	// object.r = 1.0f;
+	// object.r2 = 0.25f;
+	// object.origin = (cl_float4){ .x = 350.0f, .y = 100.0f, .z = 90.0f, .w = 0.0f };
+	// object.scaling = (cl_float3){ .x = 80.0f, .y = 60.0f, .z = 80.0f, .w = 0.0f };
+	// object.rotation = (cl_float4){ 30.0f, 0.0f, 45.0f };
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
+	// object.material.type = dielectric;
+	// object.material.kt = 1.5f;
+	// asset.type = 0;
+	// asset.data.object = object;
+	// asset.data.object.texture = texture;
+	// // add_parsed_asset(resource_manager, asset);
+	// // object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
+	// // add_parsed_object(instance_manager, object);
+
+	// object.type = paraboloid;
+	// object.r = 5.0f;
+	// object.r2 = 1.0f;
+	// object.maxm = 1.0f;
+	// // object.r2 = 0.25f;
+	// object.origin = (cl_float4){.x = 450.0f, .y = 450.0f, .z = 440.0f, .w = 0.0f};
+	// object.scaling = (cl_float3){.x = 20.0f, .y = 20.0f, .z = 20.0f, .w = 0.0f};
+	// object.rotation = (cl_float4){90.0f, 30.0f, 45.0f};
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
+	// object.material.type = conductor;
+	// object.material.exp = 0.1f;
+	// object.material.kr = 1.0f;
+	// object.material.kt = 1.5f;
+	// object.material.exp = 0.01f;
+	// asset.type = 0;
+	// asset.data.object = object;
+	// asset.data.object.texture = texture;
+	// // add_parsed_asset(resource_manager, asset);
+
+	// object.type = mobius;
+	// object.r = 1.0f;
+	// object.r2 = 1.0f;
+	// // object.r2 = 0.25f;
+	// object.origin = (cl_float4){.x = 270.0f, .y = 100.0f, .z = 90.0f, .w = 0.0f};
+	// object.scaling = (cl_float3){.x = 60.0f, .y = 60.0f, .z = 60.0f, .w = 0.0f};
+	// object.rotation = (cl_float4){ 45.0f, 30.0f, 00.0f };
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){.r = 0.0f, .g = 0.0f, .b = 1.0f};
+	// object.material.type = matte;
+	// object.material.kt = 1.5f;
+	// object.material.exp = 0.01f;
+	// asset.type = 0;
+	// asset.data.object = object;
+	// asset.data.object.texture = texture;
+	// // add_parsed_asset(resource_manager, asset);
+
+	// object.type = torus;
+	// object.r = 1.0f;
+	// object.r2 = 0.25f;
+	// object.origin = (cl_float4){ .x = 350.0f, .y = 100.0f, .z = 200.0f, .w = 0.0f };
+	// object.scaling = (cl_float3){ .x = 80.0f, .y = 60.0f, .z = 80.0f, .w = 0.0f };
+	// object.rotation = (cl_float4){ 30.0f, 0.0f, 135.0f };
+	// texture.type = solid;
+	// texture.data.solid.color = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
+	// object.material.type = dielectric;
+	// object.material.kt = 1.5f;
+
+	// object.material.texture_id = add_texture(&instance_manager->texture_manager, texture);
 	// add_parsed_object(instance_manager, object);
 
 	//Освещение
 
 	scene->ambient_occluder.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
-	scene->ambient_occluder.ls = 0.01f;
-	scene->ambient_occluder.min_amount = (t_color){.r = 0.0f, .g = 0.0f, .b = 0.0f};
-	scene->ambient_occluder.sampler_id = new_sampler(sampler_manager, pure_random, NUM_SAMPLES, HEMISPHERE_SAMPLES);
+	scene->ambient_occluder.ls = 0.05f;
+	scene->ambient_occluder.min_amount = (t_color){ .r = 0.1f, .g = 0.1f, .b = 0.1f };
+	scene->ambient_occluder.sampler_id = new_sampler(sampler_manager, rand_jitter, 100, HEMISPHERE_SAMPLES);
 
 	scene->ambient_light = (t_light){
 		.type = ambient,
 		.ls = 0.2f,
 		.color = {.r = 1.0f, .b = 1.0f, .g = 1.0f}};
-	scene->lights[0] = default_point_light;
 
-	scene->lights[1] = default_directional_light;
-	scene->lights[1].ls = 0.2f;
-	scene->lights[1].origin.x = INFINITY;
-	scene->lights[1].origin.y = INFINITY;
-	scene->lights[1].origin.z = INFINITY;
+	light.type = point;
+	light.origin = default_point_light.origin;
+	// light.origin.y = 1000.0f;
+	light.direction = default_point_light.direction;
+	light.ls = default_point_light.ls;
+	light.color = default_point_light.color;
+	add_parsed_light(&scene->light_manager, light);
+	// scene->lights[0] = default_point_light;
 
-	scene->lights[2] = default_point_light;
-	scene->lights[2].origin.x = 0.0f;
-	scene->lights[2].origin.y = 5.0f;
-	scene->lights[2].origin.y = 5.0f;
-
-	scene->lights[2].ls = 1.0f;
+	light.type = default_directional_light.type;
+	light.origin = default_directional_light.origin;
+	light.direction = default_directional_light.direction;
+	light.ls = default_directional_light.ls;
+	light.ls = 1.0f;
+	light.color = default_directional_light.color;
+	// add_parsed_light(&scene->light_manager, light);
 }

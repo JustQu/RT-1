@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:41:15 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/06 22:01:45 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/19 00:32:17 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,18 @@ struct	s_texture_manager
 int		init_texture_manager(t_texture_manager *texture_manager);
 int		add_texture(t_texture_manager *texture_manager, t_texture texture);
 int		new_texture(t_texture_manager *texture_manager,
-					t_texture_type type,
-					void *data1,
-					void *data2);
+					t_texture_type type);
+t_texture	*get_texutre(t_texture_manager *texture_manager, int id);
 
-/**
-** @brief
-** set new texture for material and delete old
-*/
-// int		set_new_texture(t_te
+void	set_type(t_texture_manager *texture_manager, int id);
+void	get_type(t_texture_manager *texture_manager, int id);
+
+void	set_color1(t_texture_manager *texture_manager, int id);
+t_color	get_color1(t_texture_manager *texture_manager, int id);
+
+void	set_color2(t_texture_manager *texture_manager, int id);
+void	get_color2(t_texture_manager *texture_manager, int id);
+
+
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   app.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 17:02:27 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/16 19:57:13 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/11/14 18:40:10 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,22 @@
 # include "window.h"
 # include "interface.h"
 # include "parser.h"
+# include "resource_manager.h"
 
 typedef struct s_app	t_app;
 
 struct	s_app
 {
+	t_res_mngr		resource_manager;
 	t_rt			rt;
 	t_window		window;
 	t_gui			gui;
+
+	int				mode; //0 - gui, 1 - console
 };
 
 int			init_app(t_app *app, int ac, char **av);
 void		cleanup_app(t_app *app);
-int		init_texture_manager(t_texture_manager *texture_manager);
-int		add_texture(t_texture_manager *texture_manager,
-					t_texture texture);
 
 /* errors */
 void cl_error(t_cl_program *program, t_clp *clp, int code);

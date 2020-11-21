@@ -6,7 +6,7 @@
 #    By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/10/16 19:59:54 by aapricot         ###   ########.fr        #
+#    Updated: 2020/11/16 22:43:59 by aapricot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,9 @@ LINUX = Linux
 CFLAGS = -I$(INCDIR)\
 		 -I$(LIBFTINC)\
 		 -I$(SDL2INC)\
+		 -I./Libs//SDL2_image.framework/Headers\
+		 -I./Libs/SDL2\
+		 -I./Libs/SDL2_ttf/include\
 		 -g
 #		 -Wall\
 		 -Werror\
@@ -42,6 +45,11 @@ ifeq ($(SYSTEM), $(MACOS))
 	# SDL		= -framework SDL2_image\
 	# 		 -framework SDL2_ttf\
 	# 		 -framework SDL2_gfx
+
+
+	# SDL		= -lSDL2_image\
+	# 		 -lSDL2_ttf\
+	# 		 -lSDL2_gfx
 
 	LDFLAGS = -L$(LIBFTDIR)\
 			  -F $(LIBSDIR)\
@@ -68,19 +76,22 @@ LIBFTHEAD = $(LIBFTINC)/libft.h $(LIBFTINC)/get_next_line.h
 
 #MACOS
 SDL2DIR = $(LIBSDIR)/SDL2.framework
-SDL2INC = $(SDL2DIR)/Headers
+SDL2INC = ./Libs
 
 INCDIR = $(CURRENTDIR)/include
 INCS = *.h
 INCS := $(addprefix $(INCDIR)/, $(INCS))
 
 SRCSDIR	= ./srcs/
-SRCS =aabb.c                  create_program.c        material.c              perlin.c                rt_options.c            texture.c               window.c\
-bvh.c                   error_handling.c        material_manager.c      random.c                sampler.c               texture_manager.c\
-camera.c                init.c                  matrix.c                read_data.c             sampler_manager.c       threads.c\
-catch_event.c           instance_manager.c      matrix_manager.c        rt.c                    scene.c                 utils.c\
-color.c                 main.c                  object_manager.c        rt_ocl.c                swap.c                  vector.c
-
+SRCS =aabb.c                  get_first_values.c      gui_tab_bar.c           material.c              pars_texture.c          sampler.c \
+bvh.c                   get_light_type.c        gui_utils.c             material_manager.c      parser.c                sampler_manager.c \
+camera.c                get_obj_mat_types.c     init.c                  matrix.c                perlin.c                scene.c \
+catch_event.c           get_tex_cam_types.c     instance_handler.c      matrix_manager.c        random.c                swap.c \
+cl                      gui_button.c            instance_manager.c      object_manager.c        read_data.c             texture.c \
+color.c                 gui_gradient.c          light_manager.c         pars_camera.c           resource_manager.c      texture_manager.c \
+create_program.c        gui_init.c              logs.c                  pars_light.c            rt.c                    utils.c \
+error_handling.c        gui_primitives.c        main.c                  pars_obj.c              rt_ocl.c                vector.c \
+get_default.c           gui_render_text.c       main_gui.c              pars_option.c           rt_options.c            window.c pars_material.c\
 
 	# gui_gradient.c
 

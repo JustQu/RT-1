@@ -6,23 +6,39 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:24:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/08 21:20:06 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/14 20:18:52 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "objects.h"
 #include "matrix.h"
 #include "instance_manager.h"
+#include "utils.h"
 
-#include "stdlib.h"
+#include <stdlib.h>
 
-/**
-** @brief Algorithm from https://github.com/erich666/GraphicsGems/blob/master/gems/TransBox.c
-**
-** @param aabb
-** @param matrix
-** @return ** t_bbox
-*/
+
+float	ft_max(float a, float b)
+{
+	return a > b ? a : b;
+}
+
+float	ft_min(float a, float b)
+{
+	return a > b ? b : a;
+}
+
+t_matrix	get_transformation_matrix(t_instance_info info)
+{
+	t_matrix		m;
+
+	m = IDENTITY_MATRIX;
+	m = mul_matrix(m, get_translation_matrix(info.origin));
+	m = mul_matrix(m, get_rotation_matrix(info.rotation));
+	m = mul_matrix(m, get_scale_matrix(info.scaling));
+	return (m);
+}
+
 t_bbox transform_aabb(t_bbox aabb, t_matrix matrix)
 {
 	t_bbox transformed_aabb;
@@ -32,32 +48,11 @@ t_bbox transform_aabb(t_bbox aabb, t_matrix matrix)
 
 	ij[0] = 0;
 	transformed_aabb.min = (cl_float4){.x = matrix.s3,
-										.y = matrix.s7,
-										.z = matrix.sB,
-										 .w = 0.0f};
+									.y = matrix.s7,
+									.z = matrix.sB,
+									.w = 0.0f};
 	transformed_aabb.max = transformed_aabb.min;
-
-	for (int i = 0; i < 3; i++)
-		for (int j = 0; j < 3; j++)
-		{
-			a = (float)(matrix.s[i * 4 + j] * aabb.min.s[j]);
-			b = (float)(matrix.s[i * 4 + j] * aabb.max.s[j]);
-			if (a < b)
-
-			{
-				transformed_aabb.min.s[i] += a;
-				transformed_aabb.max.s[i] += b;
-			}
-			else
-			{
-				transformed_aabb.min.s[i] += b;
-				transformed_aabb.max.s[i] += a;
-			}
-		}
-
-	return (transformed_aabb);
-
-	while (ij[0] < 3 - 3)
+	while (ij[0] < 3)
 	{
 		ij[1] = 0;
 		while (ij[1] < 3)
@@ -70,76 +65,94 @@ t_bbox transform_aabb(t_bbox aabb, t_matrix matrix)
 		}
 		ij[0]++;
 	}
-
-	cl_float pts[6];
-
-	pts[0] = matrix.s0 * aabb.min.x + matrix.s4 * aabb.min.x + matrix.s8 * aabb.min.x;
-	pts[1] = matrix.s0 * aabb.max.x + matrix.s4 * aabb.max.x + matrix.s8 * aabb.max.x;
-
-	pts[2] = matrix.s1 * aabb.min.y + matrix.s5 * aabb.min.y + matrix.s9 * aabb.min.y;
-	pts[3] = matrix.s1 * aabb.max.y + matrix.s5 * aabb.max.y + matrix.s9 * aabb.max.y;
-
-	pts[4] = matrix.s2 * aabb.min.z + matrix.s6 * aabb.min.z + matrix.sA * aabb.min.z;
-	pts[5] = matrix.s2 * aabb.max.z + matrix.s6 * aabb.max.z + matrix.sA * aabb.max.z;
-
-	transformed_aabb.min.x = min(pts[0], pts[1]) + matrix.s3;
-	transformed_aabb.min.y = min(pts[2], pts[3]) + matrix.s7;
-	transformed_aabb.min.z = min(pts[4], pts[5]) + matrix.sB;
-	transformed_aabb.max.x = max(pts[0], pts[1]) + matrix.s3;
-	transformed_aabb.max.y = max(pts[2], pts[3]) + matrix.s7;
-	transformed_aabb.max.z = max(pts[4], pts[5]) + matrix.sB;
 	return (transformed_aabb);
 }
 
-t_bbox compute_aabb(t_instance_manager instance_mngr, int id)
-{
-	t_bbox aabb;
-	t_instance instance;
-	t_object_info	obj;
 
-	instance = instance_mngr.instances[id];
-	obj = instance_mngr.instances_info[id];
-	if (instance.type == sphere)
+//TODO: norminette, triangle aabb
+t_bbox compute_aabb(t_instance_info obj)
+{
+	t_bbox			aabb;
+	t_instance		instance;
+	float			a;
+
+	if (obj.type == sphere)
 	{
 		aabb.max = (cl_float4){.x = 1.0f, .y = 1.0f, .z = 1.0f, .w = 0.0f};
 		aabb.min = (cl_float4){.x = -1.0f, .y = -1.0f, .z = -1.0f, .w = 0.0f};
 	}
-	else if (instance.type == cylinder) //note:caped cylinder
+	else if (obj.type == cylinder)
 	{
-		aabb.max.x = 4.0f;
-		aabb.max.y = 4;
-		aabb.max.z = 4;
-		aabb.min.x = -4;
-		aabb.min.y = -4;
-		aabb.min.z = -4;;
-		// aabb.max = (cl_float4){.x = 1.0f, .y = 1.0f, .z = 1.0f, .w = 0.0f};
-		// aabb.min = (cl_float4){.x = -1.0f, .y = -1.0f, .z = -1.0f, .w = 0.0f};
+		aabb.max = (cl_float4){ .x = float_max(obj.r, obj.height),
+								.y = float_max(obj.r, obj.height),
+								.z = float_max(obj.r, obj.height),
+								.w = 0.0f };
+		aabb.min = (cl_float4){ .x = -float_max(obj.r, obj.height),
+								.y = -float_max(obj.r, obj.height),
+								.z = -float_max(obj.r, obj.height),
+								.w = 0.0f };
 	}
-	else if (instance.type == cone)
+	else if (obj.type == plane)
 	{
-		//todo
+		aabb.max = (cl_float4){ .x = 100.0f, .y = 100.0f, .z = 100.0f,
+								.w = 0.0f };
+		aabb.min = (cl_float4){ .x = -100.0f, .y = -100.0f, .z = -100.0f,
+								.w = 0.0f };
 	}
-	else if (instance.type == triangle)
+	else if (obj.type == cone)
 	{
-		//todo
+		a = obj.height;
+		if (obj.r2 > 1.0f)
+			a = obj.height * obj.r2;
+		aabb.max = (cl_float4){ .x = a, .y = a, .z = a, .w = 0.0f };
+		aabb.min = (cl_float4){ .x = -a, .y = -a, .z = -a, .w = 0.0f };
 	}
-	else if (instance.type == box)
+	else if (obj.type == triangle)
 	{
-		aabb.max = obj.bounding_box.max;
-		aabb.min = obj.bounding_box.min;
+		aabb.max = (cl_float4){.x = 100.0f,
+							   .y = 100.f,
+							   .z = 100.0f,
+							   .w = 0.0f};
+		aabb.min = (cl_float4){.x = -100.0f,
+							   .y = -100.f,
+							   .z = -100.0f,
+							   .w = 0.0f};
 	}
-	else if (instance.type == torus)
+	else if (obj.type == disk)
+	{
+		aabb.max = (cl_float4){ .x = obj.r, .y = obj.r, .z = obj.r, .w = 0.0f };
+		aabb.min = (cl_float4){ .x = -obj.r, .y = -obj.r,
+								.z = -obj.r, .w = 0.0f };
+	}
+	else if (obj.type == box)
+	{
+		aabb.max = obj.v1;
+		aabb.min = obj.v2;
+	}
+	else if (obj.type == torus)
 	{
 		aabb.max = (cl_float4){.x = obj.r + obj.r2, .y = obj.r + obj.r2, .z = obj.r + obj.r2, .w = 0.0f};
 		aabb.min = (cl_float4){.x = -obj.r - obj.r2, .y = -obj.r - obj.r2, .z = -obj.r - obj.r2, .w = 0.0f};
 	}
-	else if (instance.type == rectangle)
+	else if (obj.type == rectangle)
 	{
-		aabb.min = (cl_float4){ .x = 0.0f, .y = 0.0f, .z = -0.1f,
-								.w = 0.0f };
-		aabb.max = (cl_float4){.x = obj.r + obj.r2, .y = obj.r + obj.r2, .z = obj.r + obj.r2, .w = 0.0f};
+		aabb.min = (cl_float4){ .x = 0.0f, .y = 0.0f, .z = -0.1f, .w = 0.0f };
+		aabb.max = (cl_float4){ .x = obj.r + obj.r2, .y = obj.r + obj.r2,
+								.z = obj.r + obj.r2, .w = 0.0f};
 	}
-	//todo
-	aabb = transform_aabb(aabb, get_transformation_matrix(instance_mngr, id));
+	else if (obj.type == paraboloid)
+	{
+		a = float_max(obj.height, 3.0f);
+		a = float_max(a, obj.r);
+		aabb.max = (cl_float4){.x = a, .y = a, .z = a, .w = 0.0f};
+		aabb.min = (cl_float4){.x = -a, .y = -a, .z = -a, .w = 0.0f};
+	}
+	else if (obj.type == mobius)
+	{
+		a = obj.r + obj.r2;
+		aabb.max = (cl_float4){.x = a, .y = a, .z = a, .w = 0.0f};
+		aabb.min = (cl_float4){.x = -a, .y = -a, .z = -a, .w = 0.0f};
+	}
+	aabb = transform_aabb(aabb, get_transformation_matrix(obj));
 	return (aabb);
 }

@@ -64,7 +64,7 @@ t_color	get_smooth_perlin_texture_color(t_texture_manager mngr,
 								mngr.perm_x, mngr.perm_y,
 								mngr.perm_z,
 								tex.data.smooth_perlin.scale * point),
-							(t_color){ .r = 1.0f, .g = 0.0f, .b = 0.0f }));
+							(t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f }));
 }
 
 t_color	get_turbulence_perlin_texture_color(t_texture_manager mngr,
@@ -84,7 +84,7 @@ t_color		get_wave_perlin_texture_color(t_texture_manager mngr,
 				sin(tex.data.smooth_perlin.scale * point.z + 10 *
 				turbulence_perlin_noise(mngr.perlin_noise, mngr.perm_x,
 					mngr.perm_y, mngr.perm_z, point))),
-			(t_color){ .r = 0.1f, .g = 0.5f, .b = 0.8f }));
+			(t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f }));
 }
 
 /*

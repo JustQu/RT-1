@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   rt_ocl.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 15:45:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/06 21:09:35 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/10/21 15:52:43 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_OCL
 # define RT_OCL
 
-# include "rt_types.h"
+# ifndef __OPENCL_C_VERSION__
+#  include "rt_types.h"
+#endif
 # include "rt_options.h"
 # include "scene.h"
 # include "sampler_manager.h"
@@ -37,7 +39,7 @@
 
 # define DEFAULT_KERNEL_INCLUDE	"-I ./include -I ./srcs/cl"
 # define DEFAULT_WORK_SIZE		DEFAULT_WIDTH * DEFAULT_HEIGHT
-# define WORK_GROUP_SIZE 32
+# define WORK_GROUP_SIZE 64
 
 /**
 ** @brief
