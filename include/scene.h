@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 00:33:50 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/21 21:31:27 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/11/23 20:43:45 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,14 @@ struct					s_scene
 };
 
 int		init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager,
-						t_res_mngr *resource_manager, char *scene_file);
+						t_res_mngr *resource_manager);
+int		init_parsed_scene(t_scene *scene, t_sampler_manager *sampler_manager,
+					   t_res_mngr *resource_manager, char *scene_file);
 t_bvh	build_bvh(t_scene *scene);
-int			parser(t_res_mngr *resource_manager, t_parsed_info *asset, char *file_name, t_camera *camera);
+int			parser(t_res_mngr *resource_manager, t_parsed_info *asset, char *file_name);
 void		pars_camera(char *str, t_camera *camera);
+void		pars_light(char *str, t_parsed_info *asset, t_res_mngr *res_mngr);
+void			pars_object(t_res_mngr *resource_manager, t_parsed_info *asset, char *str, int log);
+void		pars_options(char *str, t_res_mngr *mngr);
 
 #endif

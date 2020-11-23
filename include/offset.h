@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 20:08:33 by aapricot          #+#    #+#             */
-/*   Updated: 2020/11/05 19:59:34 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/11/23 20:27:16 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void			get_uchar(char *str, int offset, void *data);
 void			pars_texture(char *str, int offset, void *data);
 // void			pars_ambient_occluder_sampler(char *str, int offset, void *data); maybe does not need
 void			get_int(char *str, int offset, void *data);
+float			ft_atofloat(char *str);
+void			get_tracer_type(char *str, int offset, void *data);
 
 extern t_selector		g_selector_obj[];
 extern t_selector		g_selector_mat[];

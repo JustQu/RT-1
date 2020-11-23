@@ -6,7 +6,7 @@
 #    By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/11/16 22:43:59 by aapricot         ###   ########.fr        #
+#    Updated: 2020/11/23 20:40:35 by aapricot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,7 +91,8 @@ cl                      gui_button.c            instance_manager.c      object_m
 color.c                 gui_gradient.c          light_manager.c         pars_camera.c           resource_manager.c      texture_manager.c \
 create_program.c        gui_init.c              logs.c                  pars_light.c            rt.c                    utils.c \
 error_handling.c        gui_primitives.c        main.c                  pars_obj.c              rt_ocl.c                vector.c \
-get_default.c           gui_render_text.c       main_gui.c              pars_option.c           rt_options.c            window.c pars_material.c\
+get_default.c           gui_render_text.c       main_gui.c              pars_option.c           rt_options.c            window.c \
+pars_material.c			get_tracer_type.c		init_parsed_scene.c\
 
 	# gui_gradient.c
 

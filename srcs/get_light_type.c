@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:48:15 by aapricot          #+#    #+#             */
-/*   Updated: 2020/11/05 20:06:38 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/11/23 19:11:21 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@ int					get_light_type_value(char *str)
 	return (-1);
 }
 
+cl_int				get_coefficient(char *str)
+{
+	if (!ft_strcmp(str, "no"))
+		return (no);
+	else if (!ft_strcmp(str, "constant"))
+		return (constant);
+	else if (!ft_strcmp(str, "occluder"))
+		return (occluder);
+	return (-1);
+}
+
 void				get_light_type(char *str, int offset, void *data)
 {
 	unsigned char	*v;
@@ -38,4 +49,14 @@ void				get_light_type(char *str, int offset, void *data)
 	v = (unsigned char *)data + offset;
 	type = (t_light_type *)v;
 	*type = get_light_type_value(str);
+}
+
+void				get_ambient_illumination(char *str, int offset, void *data)
+{
+	unsigned char	*v;
+	cl_int			*coefficient;
+
+	v = (unsigned char *)data + offset;
+	coefficient = (cl_int *)v;
+	*coefficient = get_coefficient(str);
 }

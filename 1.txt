@@ -187,12 +187,19 @@ object = {
 
 camera = {
 	zoom = 0.5;
-	origin = {0.0, 1.0, -8.0}
+	origin = {0.0, 1, -8}
 }
 
-orthographic,
-		perspective,
-		thin_lens,
-		fisheye,
-		spherical,
-		stereo
+light = {
+	type = point;
+	ls = 1.0;
+	color = {1.0, 1.0, 1.0};
+	origin = {10.0, 10.0, 1.0}
+}
+
+light = {
+	type = point;
+	ls = 1.0;
+	color = {1.0, 1.0, 1.0};
+	origin = {-10.0, 10.0, 1.0}
+}

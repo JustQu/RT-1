@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 16:28:12 by aapricot          #+#    #+#             */
-/*   Updated: 2020/11/21 19:17:14 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/11/23 21:35:23 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,9 @@ void		pars_texture(char *str, int offset, void *data)
 		{
 			if (!ft_strcmp(g_selector_tex[i].name, a))
 			{
-				g_selector_tex[i].func(b, g_selector_tex[i].offset, texture);
+				g_selector_tex[i].func(b, g_selector_tex[i].offset, texture);	//can changed with fill function
 				break ;
 			}
-			// printf("key = %s\ncheck = %s\n\n", a, g_selector_tex[i].name);
 			i++;
 		}
 		i = 0;

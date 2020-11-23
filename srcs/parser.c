@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 19:56:06 by aapricot          #+#    #+#             */
-/*   Updated: 2020/11/21 22:58:47 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/11/23 21:35:42 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int			check_block_type(char *str)
 
 	i = 0;
 	to_lower(str);
-	// if (!ft_strcmp(str, "ambient_light"))
-		// i = 1;
 	if (!ft_strcmp(str, "object"))
 		i = object;
 	else if (!ft_strcmp(str, "light"))
@@ -92,8 +90,6 @@ int			check_brackets(char *str)
 	brackets = 0;
 	while (str[i] != '\0')
 	{
-		// if (count == 0 && brackets != 0)
-		// 	return (-1);
 		if (str[i] == '{')
 		{
 			brackets++;
@@ -183,28 +179,27 @@ char		*get_read_block(int fd)
 	return (block_line);
 }
 
-void		pars_router(t_res_mngr *resource_manager, t_parsed_info *asset , int block_type, char *block, int log, t_camera *cam)
+void		pars_router(t_res_mngr *resource_manager, t_parsed_info *asset , char *block, int log)
 {
-	// if (block_type == ambient_light)
-	// 	printf("ambient_light:\n");
+	int		block_type;
+
+	block_type = get_block_type(block);
 	if (block_type == object)
-	{
-		pars_object(resource_manager, &asset, block, log);
-		write_logs(WRITE_BLOCK, log, block);
-	}
+		pars_object(resource_manager, asset, block, log);
 	else if (block_type == light)
-		pars_light(block);
+		pars_light(block, asset, resource_manager);
 	else if (block_type == camera)
-		pars_camera(block, cam);
+		pars_camera(block, &resource_manager->scene->camera);
 	else if (block_type == options)
-		printf("options:\n");
+		pars_options(block, resource_manager);
 	else if (block_type == 0)
 		write_logs(UNKNOWN_SCENE_TYPE, log, block);
 	else if (block_type == -1)
 		write_logs(SCENE_TYPE_DOES_NOT_EXIST, log, block);
+	write_logs(WRITE_BLOCK, log, block);
 }
 
-int			parser(t_res_mngr *resource_manager, t_parsed_info *asset, char *file_name, t_camera *camera)  //t_tr *rt
+int			parser(t_res_mngr *resource_manager, t_parsed_info *asset, char *file_name)  //t_tr *rt
 {
 	int		fd;
 	char	*line;
@@ -212,17 +207,19 @@ int			parser(t_res_mngr *resource_manager, t_parsed_info *asset, char *file_name
 	int		log;
 
 	i = 0;
+	if (file_name == NULL)
+		return (-1);
 	log = get_log_fd(file_name);
 	if (log == -1)
-		return (0);
+		return (-1);
 	if ((fd = open(file_name, O_RDONLY)) < 0)
-		;
+		return (-1);
 	while ((line = get_read_block(fd)) != NULL)
 	{
 		line = delete_tabs(line);
 		if ((i = check_brackets(line)) == 1)
 		{
-			pars_router(resource_manager, asset, get_block_type(line), line, log, camera);
+			pars_router(resource_manager, asset, line, log);
 			printf("%s\n\n", line);
 		}
 		else if (i == -2)

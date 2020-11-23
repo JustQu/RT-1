@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bvh.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 19:29:26 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:18:57 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/23 21:05:18 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 cl_float4	point_matrix_mul(cl_float4 point, t_matrix matrix);
 
 void	sort_nodes(t_bvh_node *nodes, int size,
-					int (*cmp)(t_bvh_node, t_bvh_node))
+					int (*cmp)(t_bvh_node, t_bvh_node)) //segmentation fault если в файле нет объектов
 {
 	int			l;
 	int			r;

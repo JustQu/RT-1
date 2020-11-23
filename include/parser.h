@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 00:05:29 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/21 22:35:34 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/11/23 19:59:23 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ typedef enum e_block_type			t_block_type;
 // 	camera,
 // 	options
 // };
+
+typedef enum	e_ambient_illumination
+{
+	no,
+	constant,
+	occluder,
+}				t_ambient_illumination;
 
 typedef enum	e_parsed_type
 {
@@ -89,13 +96,14 @@ int				str_len(char *str);
 char			*get_key(char **str);
 char			*get_value(char **str);
 t_parsed_object	get_default_obj();
-t_light			get_default_light();
+t_parsed_light			get_default_light();
 t_camera		get_default_camera();
 // t_rt_options	get_default_options();
 void			get_default_material(t_material *material);
 void			get_default_texture(t_texture *texture);
-void		pars_light(char *str);
+// void		pars_light(char *str, t_parsed_info *asset, t_scene *scene);
 // void		pars_camera(char *str, t_scene *scene);
 int			get_log_fd(char *str);
+void				get_ambient_illumination(char *str, int offset, void *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 00:10:21 by aapricot          #+#    #+#             */
-/*   Updated: 2020/11/16 23:30:19 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/11/23 16:57:10 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,7 @@ void		get_color(char *str, int offset, void *data)
 
 	v = (unsigned char *)data + offset;
 	color = (t_color *)v;
-	color->r = 0.0f;
-	color->g = 0.0f;
-	color->b = 0.0f;
+	*color = (t_color){1.0f, 1.0f, 1.0f};
 	rgb = NULL;
 	// if (str[0] == '0' && str[1] == 'x')
 	// 	set_color_int(color, ft_atoi_hex(str + 2));
@@ -162,7 +160,10 @@ void		get_uchar(char *str, int offset, void *data)
 
 	v = (unsigned char *)data + offset;
 	c = (cl_uchar *)v;
-	c = 'A';
+	if (!ft_strcmp(str, "true"))
+		*c = 1;
+	else if (!ft_strcmp(str, "false"))
+		*c = 0;
 }
 
 void		get_int(char *str, int offset, void *data)

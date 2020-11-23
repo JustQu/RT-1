@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 19:54:03 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/16 20:51:52 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/11/23 20:47:37 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,22 @@ void	render_scene(t_rt rt)
 int		init_rt(t_rt *rt, char *scene_file, t_res_mngr *resource_manager)
 {
 	init_sampler_manager(&rt->sampler_manager);
-	init_default_options(&rt->options, &rt->sampler_manager);
-	init_default_scene(&rt->scene, &rt->sampler_manager, resource_manager, scene_file);
-	// rt->options.ambient_occluder_sampler
-		// = rt->sampler_manager.samplers[rt->scene.ambient_occluder.sampler_id];
-	rt->scene.bvh = build_bvh(&rt->scene);
-	init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, rt);
+	init_default_options(resource_manager->rt_options, &rt->sampler_manager);
+	if (scene_file != NULL)
+	{
+		if (init_parsed_scene(&rt->scene, &rt->sampler_manager, resource_manager, scene_file) < 0)
+			init_default_scene(&rt->scene, &rt->sampler_manager, resource_manager);
+		// rt->options.ambient_occluder_sampler
+			// = rt->sampler_manager.samplers[rt->scene.ambient_occluder.sampler_id];
+		rt->scene.bvh = build_bvh(&rt->scene);
+		init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, rt);
+	}
+	else
+	{
+		init_default_scene(&rt->scene, &rt->sampler_manager, resource_manager);
+		// rt->options.ambient_occluder_sampler
+			// = rt->sampler_manager.samplers[rt->scene.ambient_occluder.sampler_id];
+		rt->scene.bvh = build_bvh(&rt->scene);
+		init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, rt);
+	}
 }

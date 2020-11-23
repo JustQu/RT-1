@@ -72,6 +72,12 @@ Skip this object
 Block:
 #object={#type=triangle;#origin={0.0,0.0,-2.0};#vector1={1.0,0.0,0.0};#vector2={0.0,1.0,0.0};#rotation={0.0,0.0,0.0};#scaling={1.0,1.0,1.0};#texture={#type=solid;#color={1.0,0.0,1.0}#};#material={#type=matte#}#}
 
-Comment:
-orthographic,perspective,thin_lens,fisheye,spherical,stereo
+Block:
+camera={zoom=0.5;origin={0.0,1,-8}}
+
+Block:
+light={type=point;ls=1.0;color={1.0,1.0,1.0};origin={10.0,10.0,1.0}}
+
+Block:
+light={type=point;ls=1.0;color={1.0,1.0,1.0};origin={-10.0,10.0,1.0}}
 

@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 18:52:00 by aapricot          #+#    #+#             */
-/*   Updated: 2020/11/21 22:45:35 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/11/23 21:35:01 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void		pars_camera(char *str, t_camera *camera)
 {
 	char			*a;
 	char			*b;
-	// t_camera		camera;
 	int				i;
 
 	i = 0;
@@ -69,17 +68,15 @@ void		pars_camera(char *str, t_camera *camera)
 	{
 		a = get_key(&str);
 		b = get_value(&str);
-		// printf("%s\n%s\n====\n", a, b);
 		while (*str == ';' || *str == '}')
 			str++;
 		while (i < g_cam_selector_size)
 		{
 			if (!ft_strcmp(g_selector_cam[i].name, a))
 			{
-				g_selector_cam[i].func(b, g_selector_cam[i].offset, camera);
+				g_selector_cam[i].func(b, g_selector_cam[i].offset, camera);	//can changed with fill_camera
 				break ;
 			}
-			// printf("key = %s\ncheck = %s\n\n", a, g_selector_cam[i].name);
 			i++;
 		}
 		// fill_camera(a, b, &camera);

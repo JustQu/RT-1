@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:14:07 by aapricot          #+#    #+#             */
-/*   Updated: 2020/11/21 19:17:19 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/11/23 21:35:02 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_selector		g_selector_mat[] = { {"type", offsetof(t_material, type), get_mat_ty
 									{"ka", offsetof(t_material, ka), get_float},
 									{"kd", offsetof(t_material, kd), get_float},
 									{"kr", offsetof(t_material, kr), get_float},
+									{"ls", offsetof(t_material, ls), get_float},
 									{"ks", offsetof(t_material, ks), get_float},
 									{"exp", offsetof(t_material, exp), get_vector},
 									{"kt", offsetof(t_material, kt), get_float},
@@ -30,7 +31,6 @@ int				g_mat_selector_size = sizeof(g_selector_mat) / sizeof(t_selector);
 
 void		pars_material(char *str, int offset, void *data)
 {
-	// unsigned char	*v;
 	char			*a;
 	char			*b;
 	int				i;
@@ -42,17 +42,15 @@ void		pars_material(char *str, int offset, void *data)
 	{
 		a = get_key(&str);
 		b = get_value(&str);
-		// printf("%s\n%s\n====\n", a, b);
 		while (*str == ';' || *str == '}')
 			str++;
 		while (i < g_mat_selector_size)
 		{
 			if (!ft_strcmp(g_selector_mat[i].name, a))
 			{
-				g_selector_mat[i].func(b, g_selector_mat[i].offset, material);
+				g_selector_mat[i].func(b, g_selector_mat[i].offset, material);	//can changed with fill function like function in pars_option
 				break ;
 			}
-			// printf("key = %s\ncheck = %s\n\n", a, g_selector_mat[i].name);
 			i++;
 		}
 		i = 0;
@@ -61,12 +59,3 @@ void		pars_material(char *str, int offset, void *data)
 	}
 	// add_parsed_object(&material);
 }
-
-// void		pars_material(char *str, int offset, void *data)
-// {
-// 	t_material	*material;
-
-// 	material = (t_material*)((unsigned char *)data + offset);
-// 	material->kt = 1.5f;
-// 	material->type = dielectric;
-// }

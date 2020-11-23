@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 21:41:52 by aapricot          #+#    #+#             */
-/*   Updated: 2020/11/21 20:19:03 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/11/23 21:35:03 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_selector		g_selector_obj[] = {
 
 int				g_obj_selector_size = sizeof(g_selector_obj) / sizeof(t_selector);
 
-void			add_parsed_object(t_res_mngr *resource_manager, t_parsed_info *asset, t_parsed_object *object, int log)
+void			add_parsed_object(t_res_mngr *resource_manager, t_parsed_info asset, t_parsed_object *object, int log)
 {
 	int			flag;
 
@@ -66,21 +66,21 @@ void			add_parsed_object(t_res_mngr *resource_manager, t_parsed_info *asset, t_p
 	if (flag == 0)
 	{
 		write_logs(PARS_SUCCESS, log, NULL);
-		asset->type = 0;
-		asset->data.object.type = object->type;
-		asset->data.object.direction = object->direction;
-		asset->data.object.material = object->material;
-		asset->data.object.maxm = object->maxm;
-		asset->data.object.minm = object->minm;
-		asset->data.object.origin = object->origin;
-		asset->data.object.r2 = object->r2;
-		asset->data.object.r = object->r;
-		asset->data.object.rotation = object->rotation;
-		asset->data.object.scaling = object->scaling;
-		asset->data.object.texture = object->texture;
-		asset->data.object.vector1 = object->vector1;
-		asset->data.object.vector2 = object->vector2;
-		asset->data.object.boolean = 1;
+		asset.type = 0;
+		asset.data.object.type = object->type;
+		asset.data.object.direction = object->direction;
+		asset.data.object.material = object->material;
+		asset.data.object.maxm = object->maxm;
+		asset.data.object.minm = object->minm;
+		asset.data.object.origin = object->origin;
+		asset.data.object.r2 = object->r2;
+		asset.data.object.r = object->r;
+		asset.data.object.rotation = object->rotation;
+		asset.data.object.scaling = object->scaling;
+		asset.data.object.texture = object->texture;
+		asset.data.object.vector1 = object->vector1;
+		asset.data.object.vector2 = object->vector2;
+		asset.data.object.boolean = 1;
 		// printf("type = %d\n", object->type);
 		// printf("origin.x = %f\n", object->origin.x);
 		// printf("origin.y = %f\n", object->origin.y);
@@ -103,7 +103,7 @@ void			add_parsed_object(t_res_mngr *resource_manager, t_parsed_info *asset, t_p
 		// printf("color.x = %f\n", object->material.reflective_color.r);
 		// printf("color.y = %f\n", object->material.reflective_color.g);
 		// printf("color.z = %f\n", object->material.reflective_color.b);
-		add_parsed_asset(resource_manager, *asset);
+		add_parsed_asset(resource_manager, asset);
 	}
 	else
 	{
@@ -222,5 +222,5 @@ void			pars_object(t_res_mngr *resource_manager, t_parsed_info *asset, char *str
 		free(a);
 		free(b);
 	}
-	add_parsed_object(resource_manager, &asset, &obj, log);
+	add_parsed_object(resource_manager, *asset, &obj, log);
 }
