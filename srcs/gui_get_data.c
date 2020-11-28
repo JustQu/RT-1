@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 20:39:11 by alex              #+#    #+#             */
-/*   Updated: 2020/11/12 14:11:19 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/28 10:00:05 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void			get_texture_data(int ptr, char *string, char **str)
 
 void			get_shape_data_2(int ptr, char **str)
 {
-
 	if (ptr == 6)
 		str[1] = ft_strdup("triangle");
 	else if (ptr == 7)

@@ -6,12 +6,31 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/11/20 09:44:28 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/28 10:06:11 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "rt.h"
+
+void			is_type_light_cont(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color)
+{
+	char		*str[4];
+
+	if (rt->scene.light_manager.nlights == area)
+	{
+		get_float_data(rt->scene.light_manager.nlights, "Object_id", &str);
+		draw_button(win, &rect->eight_button, str, color);
+		free_str(&str);
+	}
+	if (rt->scene.light_manager.nlights == ambient_occluder)
+	{
+		get_float_data(rt->scene.light_manager.nlights, "Min light", &str);
+		draw_button(win, &rect->eight_button, str, color);
+		free_str(&str);
+	}
+}
 
 void			is_type_lights(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color)
@@ -32,18 +51,7 @@ void			is_type_lights(t_window *win, t_rt *rt,
 		draw_button_xyz(win, &rect->eight_button, str, color);
 		free_str(&str);
 	}
-	if (rt->scene.light_manager.nlights == area)
-	{
-		get_float_data(rt->scene.light_manager.nlights, "Object_id", &str);
-		draw_button(win, &rect->eight_button, str, color);
-		free_str(&str);
-	}
-	if (rt->scene.light_manager.nlights == ambient_occluder)
-	{
-		get_float_data(rt->scene.light_manager.nlights, "Min light", &str);
-		draw_button(win, &rect->eight_button, str, color);
-		free_str(&str);
-	}
+	is_type_light_cont(win, rt, rect, color);
 }
 
 void			gui_material_type(t_window *win, t_rt *rt,

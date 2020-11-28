@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/11/12 14:28:17 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/28 11:22:16 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 # define WIDTH_OFFSET DEFAULT_WIDTH - DEFAULT_WIDTH / 4
 # define MARGIN 5
 # define MARGIN_Y 10
-# define FONT_TITLE_SIZE 22
-# define FONT_SUBTITLE_SIZE 20
+# define FONT_TITLE_SIZE 20
+# define FONT_SUBTITLE_SIZE 15
 # define FONT_TEXT 12
 # define COLOR_STEP 100
 # define HEIGHT_BUTTON 30
@@ -46,7 +46,6 @@ int				g_camera_tab_pressed;
 int				g_objects_tab_pressed;
 int				g_options_tab_pressed;
 int				g_save_image;
-// int				g_size;
 int				g_font_size;
 
 typedef struct	s_all_rect
@@ -67,11 +66,6 @@ typedef struct	s_all_rect
 	SDL_Rect	nine_button;
 	SDL_Rect	ten_button;
 	SDL_Rect	eleven_button;
-	// SDL_Rect	samplers_button;
-	// SDL_Rect	deep_button;
-	// SDL_Rect	background_button;
-	// SDL_Rect	resolution_button;
-	// SDL_Rect	type_choise_rect;
 	SDL_Rect	save_img_button;
 }				t_all_rect;
 
@@ -119,6 +113,8 @@ void			save_image_func(t_window *win);
 SDL_Texture		*create_tab_subtitles(t_window *win, char *str,
 					SDL_Color *color);
 char			*itoa_float(float num);
+void			draw_button_rect_xyz(t_window *win, SDL_Rect *rect,
+					char *str, t_colors *color);
 void			get_material_data(int ptr, char *string,
 					char **str);
 void			get_camera_type_data(int ptr, char *string,
@@ -150,6 +146,10 @@ void			get_true_data(int ptr,
 
 void			draw_save_image_text(t_window *win);
 void			light_tab(t_window *win, t_rt *rt,
+					t_all_rect *rect, t_colors *color);
+void			minimum_rect_size(int w, int h,
+					SDL_Rect *rect, SDL_Rect *ptr);
+void			type_ambien_il(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color);
 void			free_str(char **str);
 #endif

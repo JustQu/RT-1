@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:52:14 by alex              #+#    #+#             */
-/*   Updated: 2020/11/12 12:57:28 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/28 11:27:22 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "rt.h"
 
 void			draw_is_pressed_button(t_window *win, SDL_Rect *rect,
-			char *str, t_colors *color)
+					char *str, t_colors *color)
 {
 	SDL_Texture	*text;
 	SDL_Rect	button;
@@ -61,10 +61,7 @@ void			draw_button_rect(t_window *win, SDL_Rect *rect,
 	text = render_text(str, "font/Title.ttf",
 		color->text_color, win->renderer);
 	SDL_QueryTexture(text, NULL, NULL, &w, &h);
-	ptr.x = rect->x + rect->w / 2 - w / 2;
-	ptr.y = rect->y + rect->h / 2 - h / 2;
-	ptr.w = w;
-	ptr.h = h;
+	minimum_rect_size(w, h, rect, &ptr);
 	render_rect(text, win->renderer, &ptr);
 }
 
@@ -116,15 +113,15 @@ void			draw_button_xyz(t_window *win, SDL_Rect *rect,
 	render_rect(text, win->renderer, &ptr);
 	button = init_rect_size(win->width - win->width / 4 + MARGIN,
 		rect->y + h, (rect->w - MARGIN * 2) / 3, rect->h);
-	draw_button_rect(win, &button, str_xyz[1], color);
+	draw_button_rect_xyz(win, &button, str_xyz[1], color);
 	draw_text(win, &button, "x :", color);
 	button.x += button.w + MARGIN;
 	button.w = (rect->w - MARGIN * 4) / 3;
-	draw_button_rect(win, &button, str_xyz[2], color);
+	draw_button_rect_xyz(win, &button, str_xyz[2], color);
 	draw_text(win, &button, "y :", color);
 	button.x += button.w + MARGIN;
 	button.w = (rect->w - MARGIN * 6) / 3;
-	draw_button_rect(win, &button, str_xyz[3], color);
+	draw_button_rect_xyz(win, &button, str_xyz[3], color);
 	draw_text(win, &button, "z :", color);
 }
 
@@ -155,4 +152,3 @@ void			draw_button(t_window *win, SDL_Rect *rect,
 		draw_button_rect(win, &button, str[1], color);
 	}
 }
-

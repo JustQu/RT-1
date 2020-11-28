@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/11/20 09:33:37 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/28 11:10:17 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,14 @@ void			objects_tab(t_window *win, t_rt *rt,
 	1, "Shape", &str); // objects type
 	draw_button(win, &rect->first_button, str, color);
 	free_str(&str);
-	get_float4_data(rt->scene.camera.origin, "Origin", &str);
+	get_float4_data(rt->scene.instance_mngr.objects->origin, "Origin", &str);
 	draw_button_xyz(win, &rect->second_button, str, color);
 	free_str(&str);
-	get_float4_data(rt->scene.camera.direction, "Rotation", &str);
+	get_float4_data(rt->scene.instance_mngr.objects->origin, "Rotation", &str);
 	draw_button_xyz(win, &rect->third_button, str, color);
 	free_str(&str);
 	get_float4_data(
-	rt->scene.camera.direction, "Scalling", &str); // scaling data
+	rt->scene.instance_mngr.extra->scaling, "Scalling", &str); // scaling data
 	draw_button_xyz(win, &rect->fourth_button, str, color);
 	free_str(&str);
 	objects_tab_cont(win, rt, rect, color);
@@ -86,34 +86,15 @@ void			light_tab(t_window *win, t_rt *rt,
 		rect->fifth_button.y + rect->fifth_button.h,
 		rect->fifth_button.x + rect->fifth_button.w,
 		rect->fifth_button.y + rect->fifth_button.h);
-	get_intensive_data(1,
+	get_intensive_data(rt->scene.light_manager.lights->type,
 		"Type", &str); //type intensity
 	draw_button(win, &rect->sixth_button, str, color);
 	free_str(&str);
 	get_float_data(1,
-		"Intensity", &str); // intensity
+		"Intensity", &str); // intensity ??
 	draw_button(win, &rect->seven_button, str, color);
 	is_type_lights(win, rt, rect, color);
 	free_str(&str);
-}
-
-void			type_ambien_il(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color)
-{
-	char *str[4];
-
-	if (rt->scene.ambient_light.type == 0)
-	{
-		get_float_data(1, "coefficient", &str); // ambient coef
-		draw_button(win, &rect->sixth_button, str, color);
-		free_str(&str);
-	}
-	if (rt->scene.ambient_light.type == 1)
-	{
-		get_float_data(1, "min_amount", &str); // min amount
-		draw_button(win, &rect->sixth_button, str, color);
-		free_str(&str);
-	}
 }
 
 void			option_tab(t_window *win, t_rt *rt,
@@ -132,20 +113,20 @@ void			option_tab(t_window *win, t_rt *rt,
 	get_float_data(1, "Type RT", &str); // need type rt
 	draw_button(win, &rect->first_button, str, color);
 	free_str(&str);
-	get_float_data(rt->scene.camera.sampler_id, "Samplers", &str); //samplers
+	get_float_data(1, "Samplers", &str); //samplers rt->scene.camera.sampler_id
 	draw_button(win, &rect->second_button, str, color);
 	free_str(&str);
-	get_float_data(rt->scene.camera.d, "Deep", &str);
+	get_float_data(1, "Deep", &str); //rt->scene.camera.d
 	draw_button(win, &rect->third_button, str, color);
 	free_str(&str);
 	get_float_data(1, "Back_color", &str); //get background color
 	draw_button(win, &rect->fourth_button, str, color);
 	free_str(&str);
-	get_ambient_il_data(1, "Ambient_il", &str); // get
+	get_float_data(1, "Ambient_il", &str); // get ambient il
 	draw_button(win, &rect->fifth_button, str, color);
 	free_str(&str);
 	type_ambien_il(win, rt, rect, color);
-	get_true_data(1, "Shadows", &str); // get shadows
+	get_true_data(0, "Shadows", &str); // get shadows
 	draw_button(win, &rect->seven_button, str, color);
 	free_str(&str);
 	get_float_data(1, "Depth", &str); // get depth

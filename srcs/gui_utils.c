@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:45:42 by user              #+#    #+#             */
-/*   Updated: 2020/11/12 14:38:51 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/28 11:29:05 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,17 +81,6 @@ void			save_image_func(t_window *win)
 		SDL_DestroyTexture(ren_tex);
 		g_save_image = 0;
 	}
-}
-
-SDL_Texture		*create_tab_subtitles(t_window *win, char *str,
-					SDL_Color *color)
-{
-	SDL_Texture	*text;
-
-	g_font_size = FONT_SUBTITLE_SIZE;
-	text = render_text(str, "font/Title.ttf",
-	*color, win->renderer);
-	return (text);
 }
 
 void			render_tab_bar(t_window *win, SDL_Color *color,

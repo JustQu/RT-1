@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:21:17 by alex              #+#    #+#             */
-/*   Updated: 2020/11/20 10:06:52 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/28 10:08:55 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ SDL_Texture			*render_text(char *message, char *font_file,
 	SDL_Surface		*surf;
 	SDL_Texture		*texture;
 
+	if (!message)
+		return (NULL);
 	font = TTF_OpenFont(font_file, g_font_size);
 	if (font == NULL)
 		return (NULL);
