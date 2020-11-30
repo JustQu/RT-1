@@ -117,8 +117,6 @@ void main_kernel(__global t_color *image,	//0
 	state.z = hash(state.x + state.y);
 	state.w = hash(num + s.y - state.x * state.y);
 	GPURnd(&state);
-	seed.x = (uint)GPURnd(&state) + num;
-
 
 	init_scene(&scene,
 				instances, ninstances, objects, nobjects,

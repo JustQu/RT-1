@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:25:54 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/30 20:24:17 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void	main_loop(t_app app)
 }
 
 #include <stdlib.h>
-#include <time.h>
 
 #include "app.h"
 
@@ -145,17 +144,17 @@ void	read_av(t_app *app, int ac, char **av)
 
 int main(int ac, char **av)
 {
-	t_app	app;
-	int		value;
+	t_app		app;
+	int			value;
 	t_window	window_gui;
-	t_all_rect all_rect;
-	t_colors color;
-	t_rt rt;
-
+	t_all_rect	all_rect;
+	t_colors	color;
+	t_rt		rt;
 
 	f = fopen("ocl.cl", "w+");
 	init_colors(&color);
 	init_app(&app, ac, av);
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 	init_rect(&all_rect, &app.window);
 	if (f == NULL)
 	{

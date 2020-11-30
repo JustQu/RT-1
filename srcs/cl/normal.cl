@@ -21,8 +21,7 @@ float4	get_cone_normal(float4 point, t_obj cone, float m)
 
 float4	get_paraboloid_normal(float4 point, t_obj paraboloid, float m)
 {
-	return (normalize(point - paraboloid.origin - (float4)(0.0f, 1.0f, 0.0f, 0.0f) *
-			(m + paraboloid.r)));
+	return (normalize(point - (float4)(0.0f, m + paraboloid.r, 0.0f, 0.0f)));
 	// float m = hit_info.dv * hit_info.t + hit_info.xv;
 	// return (normalize(point - paraboloid.origin - paraboloid.direction * (m +
 	// 	paraboloid.r)));

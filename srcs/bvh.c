@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 19:29:26 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:18:57 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/20 19:26:54 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,14 @@ int		build_internal_node(t_bvh bvh, int *current, t_bvh temp_nodes, int size)
 	return (id);
 }
 
+void print_node(t_bvh_node node)
+{
+	printf("max:\t%f, %f, %f\n", node.aabb.max.x, node.aabb.max.y, node.aabb.max.z);
+	printf("min:\t%f, %f, %f\n", node.aabb.min.x, node.aabb.min.y, node.aabb.min.z);
+	printf("instance id:\t%d\n", node.instance_id);
+	printf("next:\t%d\n", node.next);
+}
+
 t_bvh	build_bvh(t_scene *scene)
 {
 	t_bvh				bvh;
@@ -198,6 +206,12 @@ t_bvh	build_bvh(t_scene *scene)
 	}
 	id = 0;
 	build_internal_node(bvh, &id, temp_nodes, instance_mngr.ninstances);
+	for (int i = 0; i < instance_mngr.ninstances * 2 - 1; i++)
+	{
+		printf("==node #%d==\n", i);
+		print_node(bvh[i]);
+		printf("\n");
+	}
 	free(temp_nodes);
 	scene->bvh = bvh;
 	return (bvh);

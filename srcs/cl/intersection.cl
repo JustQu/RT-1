@@ -3,40 +3,40 @@
 
 bool	bbox_intersection(t_ray ray, t_bbox bbox)
 {
-	float tmin = (bbox.min.x - ray.origin.x) / ray.direction.x;
-	float tmax = (bbox.max.x - ray.origin.x) / ray.direction.x;
+	// float tmin = (bbox.min.x - ray.origin.x) / ray.direction.x;
+	// float tmax = (bbox.max.x - ray.origin.x) / ray.direction.x;
 
-	if (tmin > tmax) swap(&tmin, &tmax);
+	// if (tmin > tmax) swap(&tmin, &tmax);
 
-	float tymin = (bbox.min.y - ray.origin.y) / ray.direction.y;
-	float tymax = (bbox.max.y - ray.origin.y) / ray.direction.y;
+	// float tymin = (bbox.min.y - ray.origin.y) / ray.direction.y;
+	// float tymax = (bbox.max.y - ray.origin.y) / ray.direction.y;
 
-	if (tymin > tymax) swap(&tymin, &tymax);
+	// if (tymin > tymax) swap(&tymin, &tymax);
 
-	if ((tmin > tymax) || (tymin > tmax))
-		return false;
+	// if ((tmin > tymax) || (tymin > tmax))
+	// 	return false;
 
-	if (tymin > tmin)
-		tmin = tymin;
+	// if (tymin > tmin)
+	// 	tmin = tymin;
 
-	if (tymax < tmax)
-		tmax = tymax;
+	// if (tymax < tmax)
+	// 	tmax = tymax;
 
-	float tzmin = (bbox.min.z - ray.origin.z) / ray.direction.z;
-    float tzmax = (bbox.max.z - ray.origin.z) / ray.direction.z;
+	// float tzmin = (bbox.min.z - ray.origin.z) / ray.direction.z;
+    // float tzmax = (bbox.max.z - ray.origin.z) / ray.direction.z;
 
-    if (tzmin > tzmax) swap(&tzmin, &tzmax);
+    // if (tzmin > tzmax) swap(&tzmin, &tzmax);
 
-    if ((tmin > tzmax) || (tzmin > tmax))
-        return false;
+    // if ((tmin > tzmax) || (tzmin > tmax))
+    //     return false;
 
-    if (tzmin > tmin)
-        tmin = tzmin;
+    // if (tzmin > tmin)
+    //     tmin = tzmin;
 
-    if (tzmax < tmax)
-        tmax = tzmax;
+    // if (tzmax < tmax)
+    //     tmax = tzmax;
 
-    return true;
+    // return true;
 
 	float ox = ray.origin.x;
 	float oy = ray.origin.y;
@@ -327,40 +327,69 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 							t_shade_rec *const shade_rec,
 							float *const tmin)
 {
-	float4	d;
-	float	t;
-	float	denom;
 
-	denom = ray.direction.z;
+	bool	ret = false;
+	float	denom = ray.direction.y;
+	float	t;
+
 	if (denom != 0.0f)
 	{
-		d = -ray.origin;
-		t = dot(d,(float4)(0.0f, 0.0f, 1.0f, 0.0f));
+		t = -ray.origin.y;
 		if (t * denom > 0.0f)
 		{
 			t = t / denom;
-
 			if (t >= EPSILON && t < *tmin)
 			{
-				float4 point =  t * ray.direction + ray.origin;
-				d = point - rectangle.origin;
+				float4	d = ray.direction * t + ray.origin;
 
-				float ddota = dot(d, rectangle.direction);
+				float ddota = d.x;
 				if (ddota < 0.0f || ddota > rectangle.r)
 					return (false);
 
-				float ddotb = dot(d, rectangle.dir2);
+				float ddotb = d.z;
 				if (ddotb < 0.0f || ddotb > rectangle.r2)
 					return (false);
 
 				*tmin = t;
 				shade_rec->local_hit_point = ray.direction * t + ray.origin;
-				shade_rec->normal = (float4)(0.0f, 0.0f, 1.0f, 0.0f);
-				return (true);
+				shade_rec->normal = (float4)(0.0f, 1.0f, 0.0f, 0.0f);
+				ret = true;
 			}
 		}
 	}
-	return (false);
+	return (ret);
+
+	// return (ret);
+	// float4	d;
+	// float	t;
+	// float	denom;
+
+	// denom = ray.direction.z;
+	// d = -ray.origin;
+	// t = -ray.origin.z;
+	// t = t / denom;
+	// if (t * denom > 0.0f)
+	// {
+	// 	if (t >= 0.0f && t < *tmin)
+	// 	{
+	// 		float4 point =  t * ray.direction + ray.origin;
+	// 		d = point;
+
+	// 		float ddota = dot(d, (cl_float4)(1.0f, 0.0f, 0.0f, 0.0f));
+	// 		if (ddota < 0.0f || ddota > rectangle.r * rectangle.r)
+	// 			return (false);
+
+	// 		float ddotb = dot(d, (cl_float4)(0.0f, 1.0f, 0.0f, 0.0f));
+	// 		if (ddotb < 0.0f || ddotb > rectangle.r2 * rectangle.r2)
+	// 			return (false);
+
+	// 		*tmin = t;
+	// 		shade_rec->local_hit_point = d;
+	// 		shade_rec->normal = (float4)(0.0f, 0.0f, 1.0f, 0.0f);
+	// 		return (true);
+	// 	}
+	// }
+	// return (false);
 }
 
 /*
@@ -461,46 +490,48 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 {
 	float4	x;
 	float	a, b, c, dv, xv, disc;
+	bool ret = false;
 
-	x = ray.origin - paraboloid.origin;
+	x = ray.origin;
 	dv = dot(ray.direction, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
 	xv = dot(x, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
 	a = dot(ray.direction, ray.direction) - dv * dv;
 	b = 2.0f * (dot(ray.direction, x) - dv * (xv + 2.0f * paraboloid.r));
 	c = dot(x, x) - xv * (xv + 4.0f * paraboloid.r);
 	disc = b * b - 4.0f * a * c;
-	if (disc >= EPSILON)
+	if (disc > 0.0f)
 	{
-		a *= 2;
+		a *= 2.0f;
 		disc = sqrt(disc);
 		float	t = (-b - disc) / a;
-		if (t > EPSILON && t < *tmin)
+		if (t > 0.0f && t < *tmin)
 		{
-			float	m = ray.direction.y * t + ray.origin.y;
-			if (m >= 0.0f && m <= paraboloid.maxm)
+			shade_rec->local_hit_point = ray.direction * t + ray.origin;
+			float	m = dot(shade_rec->local_hit_point, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
+
+			if (m > 0.0f && m < paraboloid.maxm)
 			{
 				*tmin = t;
-				shade_rec->local_hit_point = ray.direction * t + ray.origin;
 				shade_rec->normal = get_paraboloid_normal(shade_rec->local_hit_point, paraboloid, m);
-				return (true);
+				ret = true;
 			}
 		}
 
 		t = (-b + disc) / a;
-		if (t > EPSILON && t < *tmin)
+		if (t > 0.0f && t < *tmin)
 		{
-			float	m = ray.direction.y * t + ray.origin.y;
-			if (m >= 0.0f && m <= paraboloid.maxm)
+			shade_rec->local_hit_point = ray.direction * t + ray.origin;
+			float	m = dot(shade_rec->local_hit_point, (float4)(0.0f, 1.0f, 0.0f, 0.0f));
+			// float	m = ray.direction.y * t + ray.origin.y;
+			if (m > 0.0f && m < paraboloid.maxm)
 			{
 				*tmin = t;
-				shade_rec->local_hit_point = ray.direction * t + ray.origin;
 				shade_rec->normal = get_paraboloid_normal(shade_rec->local_hit_point, paraboloid, m);
-				return (true);
+				ret = true;
 			}
-
 		}
 	}
-	return (false);
+	return (ret);
 }
 
  bool	torus_intersecion(t_ray ray, t_obj torus, t_shade_rec *shade_rec, float *const tmin)
@@ -535,6 +566,7 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 			*tmin = roots[j];
 			shade_rec->local_hit_point = ray.direction * *tmin + ray.origin;
 			shade_rec->normal = get_torus_normal(shade_rec->local_hit_point, torus);
+			*tmin * 0.99f;
 		}
 	}
 	// hit_info->t = t * 0.99f;
@@ -570,32 +602,42 @@ bool	mobius_intersection(t_ray ray, t_obj mobius, t_shade_rec *shade_rec, float 
 	double	coefs[4];
 	double	roots[3];
 
-	coefs[0] = ox * ox * oy + oy * oy * oy - 2.0f * ox * ox * oz - 2.0f * oy * oy * oz +
-			oy * oz * oz - 2.0f * ox * oz * R - oy * R * R;
-	coefs[1] = dy * ox * ox - 2.0f * dz * ox * ox + 2.0f * dx * ox * oy + 3.0 * dy * oy * oy -
-			2.0f * dz * oy * oy - 4.0f * dx * ox * oz - 4.0f * dy * oy * oz + 2.0f * dz * oy * oz +
-			dy * oz * oz - 2.0f * dz * ox * R - 2.0f * dx * oz * R - dy * R * R;
-	coefs[2] = 2.0f * dx * dy * ox - 4.0f * dx * dz * ox + dx * dx * oy + 3.0 * dy * dy * oy -
-			4.0f * dy * dz * oy + dz * dz * oy - 2.0f * dx * dx * oz - 2.0f * dy * dy * oz +
-			2.0f * dy * dz * oz - 2.0f * dx * dz * R;
-	coefs[3] = dx * dx * dy + dy * dy * dy - 2.0f * dx * dx * dz - 2.0f * dy * dy * dz +
-			dy * dz * dz;
+
+	coefs[3] = 1.0f;
+	coefs[2] = -2.0f * oz;
+	coefs[1] = -R * R + ox * ox + oz * oz;
+	coefs[0] = -2.0f * R* ox * oz -2.0f * ox * ox * oz;
+	// coefs[0] = 1.0f;
+	// coefs[1] = -2.0f * oz;
+	// coefs[2] = ox * ox + oz * oz - R * R;
+	// coefs[3] = 2 * ox * oz * (ox + R);
+
+	// coefs[0] = ox * ox * oy + oy * oy * oy - 2.0f * ox * ox * oz - 2.0f * oy * oy * oz +
+	// 		oy * oz * oz - 2.0f * ox * oz * R - oy * R * R;
+	// coefs[1] = dy * ox * ox - 2.0f * dz * ox * ox + 2.0f * dx * ox * oy + 3.0 * dy * oy * oy -
+	// 		2.0f * dz * oy * oy - 4.0f * dx * ox * oz - 4.0f * dy * oy * oz + 2.0f * dz * oy * oz +
+	// 		dy * oz * oz - 2.0f * dz * ox * R - 2.0f * dx * oz * R - dy * R * R;
+	// coefs[2] = 2.0f * dx * dy * ox - 4.0f * dx * dz * ox + dx * dx * oy + 3.0 * dy * dy * oy -
+	// 		4.0f * dy * dz * oy + dz * dz * oy - 2.0f * dx * dx * oz - 2.0f * dy * dy * oz +
+	// 		2.0f * dy * dz * oz - 2.0f * dx * dz * R;
+	// coefs[3] = dx * dx * dy + dy * dy * dy - 2.0f * dx * dx * dz - 2.0f * dy * dy * dz +
+	// 		dy * dz * dz;
 	int num = SolveCubic(coefs, roots);
 
 	bool ret = false;
 
 	for (int i = 0; i < num; i++)
 	{
-		// if (roots[i] > 0.0f && roots[i] < *tmin)
+		if (roots[i] > 0.0f && roots[i] < *tmin)
 		{
 			float4 pt = ray.origin + ray.direction * (float)roots[i];
 			float x = pt.x, y = pt.y, z = pt.z;
 			float t = atan2(y, x), s;
 
-			if (sin(t / 2.0f) != 0.0f) {
+			if (dblsgn(sin(t / 2)) != 0) {
 				s = z / sin(t / 2.0f);
 			} else {
-				if ((cos(t)) != 0.0f) {
+				if (dblsgn(cos(t)) != 0) {
 					s = (x / cos(t) - R) / cos(t / 2.0f);
 				} else {
 					s = (y / sin(t) - R) / cos(t / 2.0f);
@@ -614,7 +656,7 @@ bool	mobius_intersection(t_ray ray, t_obj mobius, t_shade_rec *shade_rec, float 
 			//half_width
 			if (s >= -0.5f -EPSILON  && s <= 0.5f + EPSILON /* && t > 0.0f && t < M_PI_F * 2.0f */)
 			{
-				shade_rec->hit_point = pt;
+				shade_rec->local_hit_point = pt;
 				shade_rec->normal = mobius_normal(mobius, pt);
 				*tmin = roots[i];
 				ret = true;

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:55:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 19:01:59 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/20 21:52:18 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ void	add_emissive_instance(t_res_mngr *mngr, t_instance_info data)
 	{
 		i = add_instance(mngr, &mngr->scene->instance_mngr, mngr->info);
 		set_sampler(&mngr->scene->instance_mngr, i,
-					new_sampler(mngr->sampler_manager, nrooks, 16384, 0));
+					new_sampler(mngr->sampler_manager, nrooks,
+								1024, DEFAULT_SAMPLES));
 		l.ls = data.material.ls;
 		l.color = data.texture.data.solid.color;
 		l.type = area;
@@ -147,8 +148,8 @@ void	scan_instance(t_res_mngr *const mngr, t_parsed_info asset)
 	mngr->info.v2 = asset.data.object.vector2;
 	if (mngr->info.type == rectangle) //normalize vectors if it is rectangle
 	{
-		mngr->info.v1 = norm4(mngr->info.v1);
-		mngr->info.v2 = norm4(mngr->info.v2);
+		mngr->info.v1 = (mngr->info.v1);
+		mngr->info.v2 = (mngr->info.v2);
 	}
 }
 

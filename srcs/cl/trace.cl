@@ -1,10 +1,65 @@
 #define _get_instance() get_instance(scene.instance_manager, shade_rec.id)
 #define _get_instance_material() get_instance_material(scene.instance_manager,\
 														instance)
-#define _get_enviroment_light() (t_color){ 0.0f, 0.0f, 0.0f, 0.0f }
-#define is_black(color) (color.r <= 0.01f && color.g <= 0.1f && color.b <= 0.1f)
+#define _get_enviroment_light() options.background_color
+#define is_black(color) (color.r <= 0.01f && color.g <= 0.01f && color.b <= 0.01f)
 
 t_color	matte_sample_light(t_material material,
+							t_shade_rec shade_rec,
+							t_scene scene,
+							t_sampler_manager sampler_manager,
+							t_rt_options options,
+							uint2 *seed, float4 *state)
+{
+	t_light	light;
+
+	if (dot(shade_rec.normal, shade_rec.ray.direction) > 0.0f)
+		shade_rec.normal = -shade_rec.normal;
+
+	/* get random light
+	** Note: not the best approach. Lights with bigger intensivity weights more
+	*/
+	light = scene.lights[(int)(GPURnd(state) * scene.nlights)];
+
+	bool	in_shadow = false;
+
+	float4	wi = get_light_direction2(scene, &light, shade_rec,
+										sampler_manager, seed);
+	if (options.shadows)
+	{
+		t_ray	shadow_ray = { .origin = shade_rec.hit_point
+										+ 1e-2f * shade_rec.normal,
+								.direction = wi };
+		in_shadow = shadow_hit(scene, light, shadow_ray, shade_rec);
+	}
+
+	if (!in_shadow)
+	{
+		float	ndotwi = dot(shade_rec.normal, wi);
+
+		if (ndotwi > 0.0f)
+		{
+			t_color	c = lambertian_f(material.kd,
+									get_color(scene.instance_manager.tex_mngr,
+									material, &shade_rec));
+
+			float k = ndotwi
+						* light_g(light, wi, shade_rec)
+						/ light_pdf(light);
+			return (float_color_multi(k,
+								color_multi(light_l(light, wi),
+											c)));
+			return (color_multi(c,
+							float_color_multi(ndotwi
+												* light_g(light, wi, shade_rec)
+												/ light_pdf(light),
+											light_l(light, wi))));
+		}
+	}
+	return ((t_color) { .r = 0.0f, .g = 0.0f, .b = 0.0f });
+}
+
+t_color	phong_sample_light(t_material material,
 							t_shade_rec shade_rec,
 							t_scene scene,
 							t_sampler_manager sampler_manager,
@@ -43,6 +98,13 @@ t_color	matte_sample_light(t_material material,
 									get_color(scene.instance_manager.tex_mngr,
 									material, &shade_rec));
 
+			if (light.type == point || light.type == directional)
+			{
+				c = color_sum(c, glossy_specular_f(shade_rec.ray.direction,
+													shade_rec.normal, wi, ndotwi,
+													material.ks, material.exp));
+			}
+
 			return (color_multi(c,
 							float_color_multi(ndotwi
 												* light_g(light, wi, shade_rec)
@@ -53,16 +115,19 @@ t_color	matte_sample_light(t_material material,
 	return ((t_color) { .r = 0.0f, .g = 0.0f, .b = 0.0f });
 }
 
-
 /* shade surface */
 t_color	sample_light(t_material material, t_shade_rec shade_rec, t_scene scene,
 					t_sampler_manager sampler_manager, t_rt_options options,
-					uint2 *seed)
+					uint2 *seed, float4 *state)
 {
 	if (material.type == matte || material.type == plastic)
 	{
-
 		return (matte_sample_light(material, shade_rec, scene, sampler_manager,
+									options, seed, state));
+	}
+	else if (material.type == phong)
+	{
+		return (phong_sample_light(material, shade_rec, scene, sampler_manager,
 									options, seed));
 	}
 	else if (material.type == mirror)
@@ -124,10 +189,10 @@ t_color	mirror_sample_material(t_material material, t_shade_rec *shade_rec,
 	shade_rec->ray.direction = get_reflected_vector(shade_rec->ray.direction,
 													shade_rec->normal);
 
-	*f = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
+	// *f = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
 	*pdf = 1.0f;
 	*weight = 1.0f;
-	// *f = get_color(texture_manager, material, shade_rec);
+	*f = get_color(texture_manager, material, shade_rec);
 }
 
 float	fresnel_conductor(float cos_theta)
@@ -297,7 +362,7 @@ t_color	evaluate_dielectric(t_material material, t_shade_rec *shade_rec,
 		float J = 1.0f / (4.0f * MdotO);
 
 		shade_rec->ray.origin = shade_rec->hit_point + 1e-2f * m;
-		*f = (t_color){1.5f, 1.5f, 0.0f, 0.0f};
+		*f = (t_color){1.5f, 1.5f, 1.5f, 0.0f};
 		// *f = float_color_multi(D * G * F / (4.0f * ndotwo),
 							// (t_color){1.0f, 1.0f, 1.0f, 0.0f});
 		*pdf = F * J;
@@ -310,7 +375,7 @@ t_color	evaluate_dielectric(t_material material, t_shade_rec *shade_rec,
 		float value = (1.0f - F) * D * G * MdotI * MdotO / (ndotwo * sqr(MdotI * eta + MdotO));
 		if (value < 0.0f)
 			value = -value;
-		*f = (t_color){1.0f, 1.0f, 0.0f, 0.0f};
+		*f = (t_color){1.0f, 1.0f, 1.0f, 0.0f};
 
 		// *f = float_color_multi(value, (t_color){1.0f, 1.0f, 1.0f, 0.0f});
 		*pdf = (1.0f - F) * J;
@@ -347,11 +412,23 @@ t_color	dielectric_sample_material(t_material material, t_shade_rec *shade_rec,
 		float cosThetaO = sqrt(clamp(1.0f - sin_theta_os_squared, 0.0f, 1.0f));
 		wi = normalize(eta * shade_rec->ray.direction +
 						m * (eta * cos_theta_i - cosThetaO));
+
+		if (dot(n, shade_rec->ray.direction) * dot(n, wi) <= 0.0f)
+		{
+			*pdf = 0.0f;
+			return *f;
+		}
 		// shade_rec->ray.origin = shade_rec->hit_point - 1e-4f * n;
 	}
 	else
 	{
 		wi = get_reflected_vector(shade_rec->ray.direction, m);
+
+		if (dot(n, shade_rec->ray.direction) * dot(n, wi) >= 0.0f)
+		{
+			*pdf = 0.0f;
+			return (*f);
+		}
 	}
 	evaluate_dielectric(material, shade_rec, f, pdf, weight,
 								texture_manager, state,
@@ -392,6 +469,7 @@ t_color	plastic_evaluate(t_material material, t_shade_rec *shade_rec,
 }
 
 
+//todo: reverse normal
 t_color	plastic_sample_material(t_material material, t_shade_rec *shade_rec,
 								t_color *f, float *pdf, float *weight,
 								t_texture_manager texture_manager, float4 *state)
@@ -427,7 +505,7 @@ t_color	sample_material(t_material material, t_shade_rec *shade_rec,
 						t_texture_manager texture_manager,
 						uint2 *seed, float4 *state)
 {
-	if (material.type == matte)
+	if (material.type == matte || material.type == phong)
 	{
 		return (matte_sample_material(material, shade_rec, f, pdf, weight,
 									texture_manager, state));
@@ -456,6 +534,7 @@ t_color	sample_material(t_material material, t_shade_rec *shade_rec,
 	{
 		*pdf = 0.0f;
 	}
+	*pdf = 0.0f;
 	return ((t_color){ 0.0f, 0.0f, 0.0f, 0.0f });
 }
 
@@ -487,11 +566,22 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 			t_instance instance = _get_instance();
 			t_material material = _get_instance_material();
 
-			// if (material.type == emissive)
-			color = color_sum(color,
+			if (options.strategy == 0)
+				color = color_sum(color,
 							color_multi(beta,
-										sample_light(material, shade_rec, scene,
-											sampler_manager, options, seed)));
+									area_light_shade(scene,
+													sampler_manager,
+													material,
+													shade_rec,
+													options,
+													seed)));
+			else
+				color = color_sum(color,
+							color_multi(beta,
+									sample_light(material, shade_rec,  scene,
+												sampler_manager, options, seed,
+												state)));
+
 
 			if (material_pdf == 0.0f)
 				break;
@@ -508,8 +598,6 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 			if (is_black(f) || pdf <= 0.001f)
 				break;
 
-			/* beta = beta * f * dot(n, wi) * invPI / pdf */
-			// beta = color_multi(beta,
 			beta = color_multi(float_color_multi(1.0f / pdf, f), beta);
 		}
 		else

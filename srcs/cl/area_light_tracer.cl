@@ -93,9 +93,6 @@ t_color	area_light_tracer(t_ray ray, t_scene scene, t_rt_options options,
 	{
 		if (scene_intersection(scene, ray, &shade_rec))
 		{
-			if (dot(shade_rec.normal, ray.direction) > 0.0f)
-				shade_rec.normal = -shade_rec.normal;
-
 			t_instance instance = get_instance(scene.instance_manager,
 											shade_rec.id);
 			t_material material = get_instance_material(

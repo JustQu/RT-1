@@ -37,14 +37,11 @@ inline t_triangle	get_triangle_info(t_instance_manager instance_manager,
 
 bool	bvh_intersection(t_scene scene, t_shade_rec *shade_rec)
 {
-	t_hit_info		last_hit_info;
 	int				node_id = 0;
 
-	last_hit_info.t = K_HUGE_VALUE;
 	shade_rec->id = -1;
 
 	float	tmin = K_HUGE_VALUE;
-	float	tmax = 0.0f;
 	while (node_id != -1)
 	{
 		t_bvh_node current_node = scene.bvh[node_id];
@@ -82,25 +79,6 @@ bool	scene_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
 	bool ret = bvh_intersection(scene, shade_rec);
 
 	return (ret);
-
-	/* old code for bruteforcing*/
-	// t_hit_info	last_hit_info;
-
-	// last_hit_info.t = K_HUGE_VALUE;
-
-	// shade_rec->id = -1;
-	// for (int i = 0; i < scene.instance_manager.ninstances; i++)
-	// {
-	// 	t_instance instance = get_instance(scene.instance_manager, i);
-	// 	if (instance_hit(scene.instance_manager, ray, &shade_rec->hit_info, instance)
-	// 		&& shade_rec->hit_info.t < last_hit_info.t)
-	// 	{
-	// 		last_hit_info = shade_rec->hit_info;
-	// 		shade_rec->id = i;
-	// 	}
-	// }
-	// shade_rec->hit_info = last_hit_info;
-	// return (shade_rec->id > -1);
 }
 
 #define maximum_tree_depth 16
@@ -138,12 +116,14 @@ t_color	ray_cast(t_ray ray, t_scene scene, t_rt_options options,
 			t_instance	instance = scene.instance_manager.instances[shade_rec.id];
 
 			/* if normal is not directed to us then we reverse normal*/
-			shade_rec.normal = dot(shade_rec.normal, ray.direction) < 0.0f ?
-				shade_rec.normal : -shade_rec.normal;
+			// shade_rec.normal = dot(shade_rec.normal, ray.direction) < 0.0f ?
+				// shade_rec.normal : -shade_rec.normal;
+			if (dot(shade_rec.normal, shade_rec.ray.direction) > 0.0f)
+				shade_rec.normal = -shade_rec.normal;
 
 			instance_material = get_instance_material(scene.instance_manager,
 														instance);
-			// return get_color(scene.instance_manager.tex_mngr, instance_material, &shade_rec);
+
 			/* shade material at hit point and accumulate color */
 			color = color_sum(color,
 							float_color_multi(color_coef,
@@ -152,17 +132,6 @@ t_color	ray_cast(t_ray ray, t_scene scene, t_rt_options options,
 															instance_material,
 															shade_rec, options,
 															seed)));
-
-			// if (instance_material.is_reflective
-			// 	&& tree_depth < 10 && color_coef > 0.01f)
-			// {
-			// 	ray.origin = shade_rec.hit_point + 1e-4f * shade_rec.normal;
-			// 	ray.direction = get_reflected_vector(ray.direction,
-			// 										shade_rec.normal);
-			// 	color_coef *= instance_material.kr;
-			// }
-			// else
-			// 	continue_loop = false;
 
 			continue_loop = false;
 		}

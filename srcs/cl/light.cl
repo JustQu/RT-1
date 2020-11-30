@@ -10,10 +10,11 @@ float4	sample_object(t_instance_manager instance_manager,
 
 	if (instance.type == rectangle)
 	{
-		// sampler.jump = get_global_id(0);
-		// sampler.jump = (random(seed) % sampler.num_sets)
-					// * sampler.num_samples;
-		// sampler.count = get_global_id(0) + instance.object_id;
+		//todo: pass depth
+		sampler.jump = get_global_id(0);
+		sampler.jump = (random(seed) % sampler.num_sets)
+					* sampler.num_samples;
+		sampler.count = get_global_id(0) + random(seed);
 
 		float2 sp = sample_unit_square(sampler_manager.sampler,
 									sampler_manager.samples, seed);
@@ -67,7 +68,7 @@ float4	get_light_direction2(t_scene scene, t_light *light,
 			light->origin = point_matrix_mul(light->origin, light->matrix);
 			//NOTE:store light normal in light direction
 			light->direction = vector_matrix_mul(
-								(float4)(0.0f, 0.0f, 1.0f, 0.0f),
+								(float4)(0.0f, -1.0f, 0.0f, 0.0f),
 								light->matrix);
 			//NOTE: also compute inverse area which is pdf
 			// light->pdf = 1.0f / (length(obj.direction) * length(obj.dir2) * obj.r * obj.r2);

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 22:57:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:19:35 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/25 20:28:55 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,9 +266,386 @@ static const t_light default_point_light = {
 
 #include "resource_manager.h"
 
-int init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager,
-					   t_res_mngr *resource_manager)
+void	default_scene_1(t_scene *scene,
+						t_sampler_manager *sampler_manager,
+						t_res_mngr *resource_manager)
 {
+	t_instance_manager *instance_manager;
+
+	instance_manager = &scene->instance_mngr;
+	init_instance_manager(instance_manager);
+	init_light_manager(&scene->light_manager);
+
+	scene->camera = default_camera;
+	scene->camera.sampler_id = new_sampler(sampler_manager,
+									rand_jitter, 25, DISK_SAMPLES);
+	compute_uvw(&scene->camera);
+
+	t_parsed_info	asset;
+
+	asset.type = object;
+	asset.data.object.type = plane;
+	asset.data.object.origin = (cl_float4){-10.0f, -1.0f, -10.0f};
+	asset.data.object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
+	asset.data.object.rotation = (cl_float4){0.0f, 0.0f, 0.0f};
+	asset.data.object.texture.type = wave_perlin;
+	asset.data.object.texture.data.checker.odd =
+		(t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
+	asset.data.object.texture.data.checker.even =
+		(t_color){.r = 0.5f, .g = 0.5f, .b = 0.5f};
+	asset.data.object.material.type = matte;
+	asset.data.object.material.ka = 0.01f;
+	asset.data.object.material.kd = 0.9f;
+	asset.data.object.material.exp = 100.0f;
+	asset.data.object.material.ks = 0.1f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.type = object;
+	asset.data.object.type = plane;
+	asset.data.object.origin = (cl_float4){ 0.0f, -1.0f, 5.0f};
+	asset.data.object.scaling = (cl_float4){1.0f, 1.0f, 1.0f};
+	asset.data.object.rotation = (cl_float4){90.0f, 0.0f, 0.0f};
+	asset.data.object.texture.type = checker;
+	asset.data.object.texture.data.checker.odd =
+		(t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
+	asset.data.object.texture.data.checker.even =
+		(t_color){.r = 0.5f, .g = 0.5f, .b = 0.5f};
+	asset.data.object.material.type = matte;
+	asset.data.object.material.exp = 0.2f;
+	asset.data.object.material.ka = 0.01f;
+	asset.data.object.material.kd = 1.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = sphere;
+	asset.data.object.origin = (cl_float4){-2.0f, 0.0f, 0.0f};
+	asset.data.object.r = 1.0f;
+	asset.data.object.texture.type = checker;
+	asset.data.object.texture.data.checker.odd =
+		(t_color){0.24f, 0.78f, 0.15f};
+	asset.data.object.texture.data.checker.even =
+		(t_color){0.76f, 0.53f, 0.86f};
+	asset.data.object.material.type = matte;
+	asset.data.object.material.ka = 0.01f;
+	asset.data.object.material.kd = 1.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = sphere;
+	asset.data.object.origin = (cl_float4){0.0f, 0.0f, 0.0f};
+	asset.data.object.r = 1.0f;
+	asset.data.object.texture.type = solid;
+	asset.data.object.texture.data.solid.color =
+		(t_color){0.71f, 0.43f, 0.56f};
+	asset.data.object.material.type = mirror;
+	asset.data.object.material.ka = 0.1f;
+	asset.data.object.material.kd = 1.0f;
+	asset.data.object.material.kt = 0.6f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = sphere;
+	asset.data.object.origin = (cl_float4){2.0f, 0.0f, 0.0f};
+	asset.data.object.r = 1.0f;
+	asset.data.object.texture.type = turbulence_perlin;
+	asset.data.object.texture.data.solid.color =
+			(t_color){0.2f, 0.2f, 0.9f};
+	asset.data.object.material.type = plastic;
+	asset.data.object.material.exp = 0.1f;
+	asset.data.object.material.kr = 0.8f;
+	asset.data.object.material.kd = 1.0f;
+	asset.data.object.material.ka = 0.01f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = sphere;
+	asset.data.object.origin = (cl_float4){4.0f, 0.0f, 0.0f};
+	asset.data.object.r = 1.0f;
+	asset.data.object.texture.type = turbulence_perlin;
+	asset.data.object.texture.data.solid.color =
+		(t_color){1.0f, 1.0f, 1.0f};
+	asset.data.object.material.type = dielectric;
+	asset.data.object.material.exp = 0.01f;
+	asset.data.object.material.kt = 1.5f;
+	asset.data.object.material.kr = 0.8f;
+	asset.data.object.material.kd = 1.0f;
+	asset.data.object.material.ka = 0.01f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = sphere;
+	asset.data.object.origin = (cl_float4){6.0f, 0.0f, 0.0f};
+	asset.data.object.r = 1.0f;
+	asset.data.object.texture.type = checker;
+	asset.data.object.texture.data.checker.odd =
+		(t_color){0.2f, 0.2f, 0.9f};
+	asset.data.object.texture.data.checker.even =
+		(t_color){0.45f, 0.78f, 0.33f};
+	asset.data.object.material.type = matte;
+	asset.data.object.material.exp = 10.0f;
+	asset.data.object.material.ks = 0.1f;
+	asset.data.object.material.kd = 0.9f;
+	asset.data.object.material.ka = 0.01f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = rectangle;
+	asset.data.object.r = 3.0f;
+	asset.data.object.r2 = 3.0f;
+	asset.data.object.origin = (cl_float4){-1.0f, 5.0f, 1.0f, 0.0f};
+	asset.data.object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
+	asset.data.object.rotation = (cl_float3){45.0f, .y = 0.0f, .z = 0.0f};
+	asset.data.object.vector1 = (cl_float4){1.0f, .y = 0.0f, .z = 0.0f};
+	asset.data.object.vector2 = (cl_float4){0.0f, .y = 1.0f, .z = 0.0f};
+	asset.data.object.texture.type = solid;
+	asset.data.object.texture.data.solid.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
+	asset.data.object.material.type = emissive;
+	asset.data.object.material.kd = 1.0f;
+	asset.data.object.material.ls = 2.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = cylinder;
+	asset.data.object.r = 1.0f;
+	asset.data.object.maxm = 2.0f;
+	asset.data.object.origin = (cl_float4){-2.0f, -1.0f, -3.0f};
+	asset.data.object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
+	asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	asset.data.object.texture.type = solid;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					0, 139, 139);
+	asset.data.object.material.type = matte;
+	asset.data.object.material.kd = 1.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = cylinder;
+	asset.data.object.r = 1.0f;
+	asset.data.object.maxm = 2.0f;
+	asset.data.object.origin = (cl_float4){0.0f, -1.0f, -3.0f};
+	asset.data.object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
+	asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	asset.data.object.texture.type = checker;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					75, 0, 130);
+	set_color_uchar(&asset.data.object.texture.data.checker.even,
+					192, 192, 192);
+	asset.data.object.material.type = mirror;
+	asset.data.object.material.kr = 0.5f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = cylinder;
+	asset.data.object.r = 1.0f;
+	asset.data.object.maxm = 2.0f;
+	asset.data.object.origin = (cl_float4){2.0f, -1.0f, -3.0f};
+	asset.data.object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
+	asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	asset.data.object.texture.type = solid;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					255, 192, 203);
+	asset.data.object.material.type = plastic;
+	asset.data.object.material.exp = 0.1f;
+	asset.data.object.material.kd = 0.4f;
+	asset.data.object.material.kr = 0.6f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = cylinder;
+	asset.data.object.r = 1.0f;
+	asset.data.object.maxm = 2.0f;
+	asset.data.object.origin = (cl_float4){4.0f, -1.0f, -3.0f};
+	asset.data.object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
+	asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	asset.data.object.texture.type = wave_perlin;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					255, 192, 203);
+	asset.data.object.material.type = conductor;
+	asset.data.object.material.exp = 0.1f;
+	asset.data.object.material.kr = 1.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = cylinder;
+	asset.data.object.r = 1.0f;
+	asset.data.object.maxm = 2.0f;
+	asset.data.object.origin = (cl_float4){4.0f, -1.0f, -3.0f};
+	asset.data.object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
+	asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	asset.data.object.texture.type = wave_perlin;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					255, 192, 203);
+	asset.data.object.material.type = dielectric;
+	asset.data.object.material.exp = 0.001f;
+	asset.data.object.material.kt = 2.4f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = cylinder;
+	asset.data.object.r = 1.0f;
+	asset.data.object.maxm = 4.0f;
+	asset.data.object.origin = (cl_float4){4.0f, 4.0f, -3.0f};
+	asset.data.object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
+	asset.data.object.rotation = (cl_float3){0.0f, 180.0f, 90.0f};
+	asset.data.object.texture.type = solid;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					255, 127, 80);
+	asset.data.object.material.type = matte;
+	asset.data.object.material.kd = 0.9;
+	add_parsed_asset(resource_manager, asset);
+
+
+	asset.data.object.type = box;
+	asset.data.object.origin = (cl_float4){0.0f, 0.0f, 0.0f, 0.0};
+	asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	asset.data.object.vector1 = (cl_float4){-16.0f, -1.0f, -10.0f, 0.0f};
+	asset.data.object.vector2 = (cl_float4){-5.0f, 0.0f, 2.0f, 0.0f};
+	asset.data.object.texture.type = solid;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					46, 139, 87);
+	asset.data.object.material.type = matte;
+	asset.data.object.material.kd = 1.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = box;
+	asset.data.object.origin = (cl_float4){0.0f, 0.0f, 0.0f, 0.0};
+	asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	asset.data.object.vector1 = (cl_float4){-14.0f, 0.0f, 1.0f,0.0f};
+	asset.data.object.vector2 = (cl_float4){-13.0f, 1.0f, 2.0f,0.0f};
+	asset.data.object.texture.type = solid;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					238, 139, 238);
+	asset.data.object.material.type = matte;
+	asset.data.object.material.kd = 1.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = box;
+	asset.data.object.origin = (cl_float4){-12.42f, 0.0f, 1.0f, 0.0};
+	asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 30.0f};
+	asset.data.object.scaling = (cl_float3){0.5f, 1.5f, 1.0f};
+	asset.data.object.vector1 = (cl_float4){0.0f, 0.0f, 0.0f,0.0f};
+	asset.data.object.vector2 = (cl_float4){1.0f, 1.0f, 1.0f, 0.0f};
+	asset.data.object.texture.type = solid;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					238, 139, 238);
+	asset.data.object.material.type = matte;
+	asset.data.object.material.kd = 1.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = box;
+	asset.data.object.origin = (cl_float4){-12.42f, 0.0f, 1.0f, 0.0};
+	asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 30.0f};
+	asset.data.object.scaling = (cl_float3){0.5f, 1.5f, 1.0f};
+	asset.data.object.vector1 = (cl_float4){0.0f, 0.0f, 0.0f, 0.0f};
+	asset.data.object.vector2 = (cl_float4){1.0f, 1.0f, 1.0f, 0.0f};
+	asset.data.object.texture.type = solid;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					188, 143, 143);
+	asset.data.object.material.type = matte;
+	asset.data.object.material.kd = 1.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = cone;
+	asset.data.object.origin = (cl_float4){-13.5f, 2.0f, 1.5f, 0.0};
+	asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 180.0f};
+	asset.data.object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
+	asset.data.object.maxm = 1.0f;
+	asset.data.object.texture.type = solid;
+	asset.data.object.r2 = 45.0f;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					188, 143, 143);
+	asset.data.object.material.type = matte;
+	asset.data.object.material.kd = 1.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = torus;
+	asset.data.object.origin = (cl_float4){-13.5f, 0.25f, 0.0f, 0.0};
+	asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	asset.data.object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
+	asset.data.object.texture.type = solid;
+	asset.data.object.r = 1.0f;
+	asset.data.object.r2 = 0.25f;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					210, 105, 30);
+	asset.data.object.material.type = matte;
+	asset.data.object.material.kd = 1.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = disk;
+	asset.data.object.origin = (cl_float4){-12.0f, 0.0f, 0.0f, 0.0};
+	asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	asset.data.object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
+	asset.data.object.texture.type = solid;
+	asset.data.object.r = 1.0f;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					114, 47, 55);
+	asset.data.object.material.type = matte;
+	asset.data.object.material.kd = 1.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = triangle;
+	asset.data.object.origin = (cl_float4){-5.0f, 1.0f, 0.0f, 0.0f};
+	asset.data.object.vector1 = (cl_float3){1.0f, 0.0f, 0.0f, 0.0f};
+	asset.data.object.vector2 = (cl_float3){0.0f, 1.0f, 0.0f, 0.0f};
+	asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	asset.data.object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
+	asset.data.object.texture.type = solid;
+	asset.data.object.r = 1.0f;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					114, 47, 55);
+	asset.data.object.material.type = matte;
+	asset.data.object.material.kd = 1.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = triangle;
+	asset.data.object.origin = (cl_float4){-4.0f, 2.0f, 0.0f, 0.0f};
+	asset.data.object.vector1 = (cl_float3){1.0f, 0.0f, 0.0f, 0.0f};
+	asset.data.object.vector2 = (cl_float3){0.0f, 1.0f, 0.0f, 0.0f};
+	asset.data.object.rotation = (cl_float3){00.0f, 00.0f, 180.0f};
+	asset.data.object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
+	asset.data.object.texture.type = solid;
+	asset.data.object.r = 1.0f;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					134, 67, 75);
+	asset.data.object.material.type = matte;
+	asset.data.object.material.kd = 1.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	asset.data.object.type = paraboloid;
+	asset.data.object.origin = (cl_float4){-10.0f, 1.0f, 0.0f, 0.0f};
+	asset.data.object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	asset.data.object.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
+	asset.data.object.texture.type = solid;
+	asset.data.object.r = 2.0f;
+	asset.data.object.maxm = 1.0f;
+	set_color_uchar(&asset.data.object.texture.data.solid.color,
+					134, 67, 75);
+	asset.data.object.material.type = matte;
+	asset.data.object.material.kd = 1.0f;
+	add_parsed_asset(resource_manager, asset);
+
+	t_parsed_light light;
+
+	scene->ambient_occluder.color =
+		(t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
+	scene->ambient_occluder.ls = 0.05f;
+	scene->ambient_occluder.min_amount =
+		(t_color){.r = 0.1f, .g = 0.1f, .b = 0.1f};
+	scene->ambient_occluder.sampler_id =
+		new_sampler(sampler_manager, rand_jitter, 100,
+					HEMISPHERE_SAMPLES);
+
+	scene->ambient_light = (t_light){
+		.type = ambient,
+		.ls = 0.5f,
+		.color = {.r = 1.0f, .b = 1.0f, .g = 1.0f}};
+
+	light.type = point;
+	light.origin = default_point_light.origin;
+	light.direction = default_point_light.direction;
+	light.ls = 0.5f;
+	light.color = default_point_light.color;
+	add_parsed_light(&scene->light_manager, light);
+}
+
+int init_default_scene(t_scene *scene,
+						t_sampler_manager *sampler_manager,
+						t_res_mngr *resource_manager)
+{
+	default_scene_1(scene,
+					sampler_manager,
+					resource_manager);
+
+	return 0;
+
 	t_instance_manager *instance_manager;
 	t_object_info object_info;
 	scene->camera = default_camera;
@@ -426,7 +803,7 @@ int init_default_scene(t_scene *scene, t_sampler_manager *sampler_manager,
 	asset.data.object.texture.type = smooth_perlin;
 	asset.data.object.texture.data.smooth_perlin.scale = 20.0f;
 	asset.data.object.texture.type = solid;
-	asset.data.object.texture.data.solid.color = (t_color){.r = 0.3f, .g = 0.2f, .b = 0.7f};
+	asset.data.object.texture.data.solid.color = (t_color){.r = 0.4f, .g = 0.5f, .b = 0.7f};
 	asset.data.object.material.type = mirror;
 	asset.data.object.material.kr = 1.0f;
 	asset.data.object.material.exp = 0.1f;

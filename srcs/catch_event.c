@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:19:03 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/18 19:33:44 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,14 @@ int catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
 		}
 		if (event.type == SDL_MOUSEBUTTONUP)
 		{
+		}
+		if (event.type == SDL_MOUSEMOTION)
+		{
+			rotate_camera(&rt->scene.camera, 1, event.motion.xrel / 10.0f);
+
+			rotate_camera(&rt->scene.camera, 0, event.motion.yrel / 10.0f);
+			rt->options.reset = 1;
+			rt->options.spp = NUM_SAMPLES;
 		}
 
 		//check input

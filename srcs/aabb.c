@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:24:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:18:52 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/24 15:05:32 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "utils.h"
 
 #include <stdlib.h>
+#include <math.h>
 
 
 float	ft_max(float a, float b)
@@ -94,10 +95,10 @@ t_bbox compute_aabb(t_instance_info obj)
 	}
 	else if (obj.type == plane)
 	{
-		aabb.max = (cl_float4){ .x = 100.0f, .y = 100.0f, .z = 100.0f,
-								.w = 0.0f };
-		aabb.min = (cl_float4){ .x = -100.0f, .y = -100.0f, .z = -100.0f,
-								.w = 0.0f };
+		aabb.max = (cl_float4){.x = 1000.0f, .y = 0.0001f,
+								.z = 1000.0f, .w = 0.0f};
+		aabb.min = (cl_float4){.x = -1000.0f, .y = 0.0f,
+								.z = -1000.0f, .w = 0.0f};
 	}
 	else if (obj.type == cone)
 	{
@@ -136,7 +137,9 @@ t_bbox compute_aabb(t_instance_info obj)
 	}
 	else if (obj.type == rectangle)
 	{
-		aabb.min = (cl_float4){ .x = 0.0f, .y = 0.0f, .z = -0.1f, .w = 0.0f };
+		// aabb.min = (cl_float4){ .x = 0.0f, .y = 0.0f, .z = -0.1f, .w = 0.0f };
+		aabb.min = (cl_float4){ .x = -obj.r + obj.r2, .y = -obj.r + obj.r2,
+								.z = -obj.r + obj.r2, .w = 0.0f};
 		aabb.max = (cl_float4){ .x = obj.r + obj.r2, .y = obj.r + obj.r2,
 								.z = obj.r + obj.r2, .w = 0.0f};
 	}

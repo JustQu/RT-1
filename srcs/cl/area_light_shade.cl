@@ -60,21 +60,18 @@ t_color		area_light_shade_phong(t_material material,
 			/* if angle > 0 then hit point is receivingl light */
 			if (ndotwi > 0.0f)
 			{
-				/* compute glossy_specular coefficient */
-				// float k = glossy_specular_f(shade_rec.ray.direction, shade_rec.normal, wi, material.ks, material.exp) ;
-				color_tmp = glossy_specular_f(shade_rec.ray.direction,
-											shade_rec.normal, wi, ndotwi,
-											material.ks, material.exp);
+				t_color	c = lambertian_f(material.kd,
+									get_color(scene.instance_manager.tex_mngr,
+									material, &shade_rec));
 
+				if (light.type == point || light.type == directional)
+				{
+					c = color_sum(c, glossy_specular_f(shade_rec.ray.direction,
+													shade_rec.normal, wi, ndotwi,
+													material.ks, material.exp));
+				}
 
-				/* sum lambertian color and glossy specular color */
-				color_tmp = color_sum(color_tmp,
-									lambertian_f(material.kd,
-											get_color(
-												scene.instance_manager.tex_mngr,
-												material, &shade_rec)));
-				float k = ndotwi;
-				color_tmp = float_color_multi(k,
+				color_tmp = float_color_multi(ndotwi,
 											color_multi(light_l(light, wi),
 														 color_tmp));
 				color = color_sum(color_tmp, color);
@@ -187,9 +184,19 @@ t_color		area_light_shade(t_scene scene,
 {
 	t_color	color;
 
+	color = (t_color){0.0f, 0.0f, 0.0f, 0.0f};
+
+	if (dot(shade_rec.normal, shade_rec.ray.direction) > 0.0f)
+			shade_rec.normal = -shade_rec.normal;
+
 	if (material.type == mirror)
 	{
-		color = (t_color){0.0f, 0.0f, 0.0f, 0.0f};
+		// color = area_light_shade_phong(material,
+									// shade_rec,
+									// scene,
+									// sampler_manager,
+									// options,
+									// seed);
 	}
 	if (material.type == phong)
 	{
@@ -204,7 +211,7 @@ t_color		area_light_shade(t_scene scene,
 	{
 		color = area_light_shade_emissive(scene, material, shade_rec);
 	}
-	else
+	else if (material.type == matte || material.type == plastic)
 	{
 		color = area_light_shade_matte(material,
 									shade_rec,

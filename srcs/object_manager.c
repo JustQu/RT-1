@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 13:22:40 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 19:02:38 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/24 18:57:06 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	add_triangle(t_instance_manager *mngr, t_instance_info triangle_info)
 		assert(mngr->triangles);
 	}
 	// triangle.material = object_info.material;
-	triangle.vertex1 = triangle_info.origin;
+	// triangle.vertex1 = triangle_info.origin;
+	triangle.vertex1 = (cl_float4){0.0f, 0.0f, 0.0f, 0.0f};
 	// triangle.vector1 = obbject_info.vertex2-triangle_info.vertex1
 	triangle.vector1 = triangle_info.v1;
 	triangle.vector2 = triangle_info.v2;
