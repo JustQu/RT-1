@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 18:51:29 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/11/20 22:16:16 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ struct				s_rt_options
 	t_tracer_type	tracer_type;
 
 	cl_uchar		reset;
+
+	cl_uchar		strategy;
 };
 
 # ifndef __OPENCL_C_VERSION__
