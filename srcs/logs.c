@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:51:27 by aapricot          #+#    #+#             */
-/*   Updated: 2020/11/23 17:48:42 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/02 21:58:09 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,11 @@ void		write_logs(int num_log, int fd, char *str)
 	{
 		ft_putstr_fd("Scene type does not exist:\n", fd);
 		ft_putendl_fd(str, fd);
-		// ft_putchar_fd('\n', fd);
 	}
 	else if (num_log == UNKNOWN_OBJ_TYPE)
 	{
 		ft_putstr_fd("Unknown object type:\n", fd);
 		ft_putendl_fd(str, fd);
-		// ft_putchar_fd('\n', fd);
 	}
 	else if (num_log == UNKNOWN_MATERIAL_TYPE)
 	{
@@ -85,19 +83,16 @@ void		write_logs(int num_log, int fd, char *str)
 	{
 		ft_putendl_fd(str, fd);
 		ft_putstr_fd("Object type does not exist\n", fd);
-		// ft_putchar_fd('\n', fd);
 	}
 	else if (num_log == MATERIAL_TYPE_DOES_NOT_EXIST)
 	{
 		ft_putendl_fd(str, fd);
 		ft_putstr_fd("Material type does not exist\n", fd);
-		// ft_putchar_fd('\n', fd);
 	}
 	else if (num_log == TEXTURE_TYPE_DOES_NOT_EXIST)
 	{
 		ft_putendl_fd(str, fd);
 		ft_putstr_fd("Texture type does not exist\n", fd);
-		// ft_putchar_fd('\n', fd);
 	}
 	else if (num_log == COMMENT)
 	{

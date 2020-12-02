@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 21:41:52 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 21:14:24 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/02 22:10:04 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,50 +35,36 @@ int				g_obj_selector_size = sizeof(g_selector_obj) /
 sizeof(t_selector);
 
 void			validate_parsed_obj(t_res_mngr *resource_manager,
-				t_parsed_info asset, t_parsed_object *object, int log)
+				t_parsed_info asset, int log)
 {
 	int			flag;
 
 	flag = 0;
-	if (object->type == -2)
+	if (asset.data.object.type == -2)
 	{
 		flag++;
 		write_logs(OBJ_TYPE_DOES_NOT_EXIST, log, "ERROR:");
 	}
-	if ((object->material.type == -2) && (object->texture.type == -2))
+	if ((asset.data.object.material.type == -2) && (asset.data.object.texture.type == -2))
 	{
 		flag++;
 		write_logs(MATERIAL_TYPE_DOES_NOT_EXIST, log, "ERROR:");
 		write_logs(TEXTURE_TYPE_DOES_NOT_EXIST, log, "ERROR:");
 	}
-	if (isnan(object->origin.x))
+	if (isnan(asset.data.object.origin.x))
 	{
-		object->origin = (cl_float4){0.0f, 0.0f, 0.0f};
+		asset.data.object.origin = (cl_float4){0.0f, 0.0f, 0.0f};
 		write_logs(BAD_ORIGIN, log, "WARNING:");
 	}
-	if (isnan(object->direction.x))
+	if (isnan(asset.data.object.direction.x))
 	{
-		object->direction = (cl_float4){0.0f, 0.0f, 0.0f};
+		asset.data.object.direction = (cl_float4){0.0f, 0.0f, 0.0f};
 		write_logs(BAD_DIRECTION, log, "WARNING:");
 	}
 	if (flag == 0)
 	{
 		write_logs(PARS_SUCCESS, log, NULL);
 		asset.type = 0;
-		asset.data.object.type = object->type;
-		asset.data.object.direction = object->direction;
-		asset.data.object.material = object->material;
-		asset.data.object.maxm = object->maxm;
-		asset.data.object.minm = object->minm;
-		asset.data.object.origin = object->origin;
-		asset.data.object.r2 = object->r2;
-		asset.data.object.r = object->r;
-		asset.data.object.rotation = object->rotation;
-		asset.data.object.scaling = object->scaling;
-		asset.data.object.texture = object->texture;
-		asset.data.object.vector1 = object->vector1;
-		asset.data.object.vector2 = object->vector2;
-		asset.data.object.boolean = 1;
 		add_parsed_asset(resource_manager, asset);
 	}
 	else
@@ -124,5 +110,6 @@ void			pars_object(t_res_mngr *resource_manager,
 		free(a);
 		free(b);
 	}
-	validate_parsed_obj(resource_manager, *asset, &obj, log);
+	asset->data.object = obj;
+	validate_parsed_obj(resource_manager, *asset, log);
 }
