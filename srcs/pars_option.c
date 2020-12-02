@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 18:55:24 by aapricot          #+#    #+#             */
-/*   Updated: 2020/11/23 21:35:04 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/02 21:13:46 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,24 @@
 #include "offset.h"
 #include "resource_manager.h"
 
-t_selector		g_selector_opt[] = { {"background_color", offsetof(t_rt_options, background_color), get_color},
-									{"depth", offsetof(t_rt_options, depth), get_int},
-									{"shadows", offsetof(t_rt_options, shadows), get_uchar},
-									{"area_lightning", offsetof(t_rt_options, area_lightning), get_int},
-									{"spp", offsetof(t_rt_options, spp), get_float},
-									{"aa_id", offsetof(t_rt_options, aa_id), get_int},
-									{"ambient_illumination", offsetof(t_rt_options, ambient_illumination), get_ambient_illumination},
-									{"tracer_type", offsetof(t_rt_options, tracer_type), get_tracer_type} };
+t_selector		g_selector_opt[] = {
+	{"background_color", offsetof(t_rt_options, background_color), get_color},
+	{"depth", offsetof(t_rt_options, depth), get_int},
+	{"shadows", offsetof(t_rt_options, shadows), get_uchar},
+	{"area_lightning", offsetof(t_rt_options, area_lightning), get_int},
+	{"spp", offsetof(t_rt_options, spp), get_float},
+	{"aa_id", offsetof(t_rt_options, aa_id), get_int},
+	{"ambient_illumination", offsetof(t_rt_options, ambient_illumination),
+		get_ambient_illumination},
+	{"tracer_type", offsetof(t_rt_options, tracer_type), get_tracer_type}
+};
 
-int				g_opt_selector_size = sizeof(g_selector_opt) / sizeof(t_selector);
+int				g_opt_selector_size = sizeof(g_selector_opt) /
+sizeof(t_selector);
 
-void			add_parsed_opt(t_rt_options *options) //change to validate_options
+void			validate_parsed_opt(t_rt_options *options)
 {
-	printf("shadows = %d\n", options->shadows);
-	printf("depth = %d\n", options->depth);
+	;
 }
 
 void			fill_options(char *a, char *b, t_res_mngr *mngr)
@@ -40,7 +43,8 @@ void			fill_options(char *a, char *b, t_res_mngr *mngr)
 	{
 		if (!ft_strcmp(g_selector_opt[i].name, a))
 		{
-			g_selector_opt[i].func(b, g_selector_opt[i].offset, mngr->rt_options);
+			g_selector_opt[i].func(b, g_selector_opt[i].offset,
+				mngr->rt_options);
 			break ;
 		}
 		else if (!ft_strcmp(a, "ambient_coefficient"))
@@ -51,18 +55,17 @@ void			fill_options(char *a, char *b, t_res_mngr *mngr)
 		}
 		else if (!ft_strcmp(a, "ambient_occlusion"))
 		{
-			get_color(b, 0 , &mngr->scene->ambient_occluder.min_amount);
+			get_color(b, 0, &mngr->scene->ambient_occluder.min_amount);
 			break ;
 		}
-		// printf("key = %s\ncheck = %s\n\n", a, g_selector_obj[i].name);
 		i++;
 	}
 }
 
-void		pars_options(char *str, t_res_mngr *mngr)
+void			pars_options(char *str, t_res_mngr *mngr)
 {
-	char			*a;
-	char			*b;
+	char		*a;
+	char		*b;
 
 	while (*str != '{' && *str != '\0')
 		str++;
@@ -77,5 +80,5 @@ void		pars_options(char *str, t_res_mngr *mngr)
 		free(a);
 		free(b);
 	}
-	add_parsed_opt(mngr->rt_options);
+	validate_parsed_opt(mngr->rt_options);
 }
