@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:10:52 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 22:03:07 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/03 17:13:48 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 # define PARS_UNSUCCESS						-15
 # define BAD_ORIGIN							-16
 # define BAD_DIRECTION						-17
+# define BAD_SOLID_COLOR					-18
+# define BAD_EVEN_COLOR						-19
+# define BAD_ODD_COLOR						-20
 
 void		write_logs(int num_log, int fd, char *str);
 

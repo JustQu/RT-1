@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:11:31 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 21:00:52 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/03 18:11:22 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ t_parsed_light		get_default_light(void)
 
 void				set_default_texture(t_texture *texture)
 {
-	texture->type = solid;
-	texture->data.solid.color = (t_color){1.0f, 1.0f, 1.0f};
-	texture->data.checker.even = (t_color){0.5f, 0.5f, 0.5f};
-	texture->data.checker.odd = (t_color){0.0f, 0.0f, 1.0f};
-	texture->data.smooth_perlin.scale = 0.0f;
+	texture->type = -2;
+	texture->data.solid.color.r = NAN;
+	texture->data.checker.even.r = NAN;
+	texture->data.checker.odd.r = NAN;
+	texture->data.smooth_perlin.scale = NAN;
 }
 
 void				set_default_material(t_material *material)

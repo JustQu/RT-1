@@ -2,11 +2,13 @@ Block:
 options={background_color={0.1,0.1,0.1};ambient_illumination=occluder;ambient_coefficient=0.5;ambient_occlusion={1,1,1};shadows=true;tracer_type=path_tracer}
 
 WARNING:
+Solid color does not exist. Using default: {1.0f, 1.0f, 1.0f}
+WARNING:
 Has no direction. Using default param
 SUCCESS:
 Render this object
 Block:
-object={type=box;origin={0.0,0.0,0.0};vector1={0.0,0.0,0.0};vector2={0.01,555.0,555.0};texture={type=solid;color={1.0,0.0,0.0}};material={type=matte;kd=1}}
+object={type=box;origin={0.0,0.0,0.0};vector1={0.0,0.0,0.0};vector2={0.01,555.0,555.0};texture={type=solid};material={type=matte;kd=1}}
 
 WARNING:
 Has no direction. Using default param

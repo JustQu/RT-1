@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:51:27 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 21:58:09 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/03 17:27:53 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void		write_logs(int num_log, int fd, char *str)
 	{
 		ft_putstr_fd("Unknown scene type\n", fd);
 		ft_putendl_fd(str, fd);
-		ft_putchar_fd('\n', fd);
 	}
 	else if (num_log == SCENE_TYPE_DOES_NOT_EXIST)
 	{
@@ -71,28 +70,26 @@ void		write_logs(int num_log, int fd, char *str)
 	{
 		ft_putstr_fd("Unknown material type:\n", fd);
 		ft_putendl_fd(str, fd);
-		ft_putchar_fd('\n', fd);
 	}
 	else if (num_log == UNKNOWN_TEXTURE_TYPE)
 	{
 		ft_putstr_fd("Unknown texure type:\n", fd);
 		ft_putendl_fd(str, fd);
-		ft_putchar_fd('\n', fd);
 	}
 	else if (num_log == OBJ_TYPE_DOES_NOT_EXIST)
 	{
 		ft_putendl_fd(str, fd);
-		ft_putstr_fd("Object type does not exist\n", fd);
+		ft_putendl_fd("Object type does not exist\n", fd);
 	}
 	else if (num_log == MATERIAL_TYPE_DOES_NOT_EXIST)
 	{
 		ft_putendl_fd(str, fd);
-		ft_putstr_fd("Material type does not exist\n", fd);
+		ft_putendl_fd("Material type does not exist\n", fd);
 	}
 	else if (num_log == TEXTURE_TYPE_DOES_NOT_EXIST)
 	{
 		ft_putendl_fd(str, fd);
-		ft_putstr_fd("Texture type does not exist\n", fd);
+		ft_putendl_fd("Texture type does not exist\n", fd);
 	}
 	else if (num_log == COMMENT)
 	{
@@ -115,11 +112,26 @@ void		write_logs(int num_log, int fd, char *str)
 	else if (num_log == BAD_ORIGIN)
 	{
 		ft_putendl_fd(str, fd);
-		ft_putstr_fd("Has no origin. Using default param\n", fd);
+		ft_putendl_fd("Has no origin. Using default param\n", fd);
 	}
 	else if (num_log == BAD_DIRECTION)
 	{
 		ft_putendl_fd(str, fd);
-		ft_putstr_fd("Has no direction. Using default param\n", fd);
+		ft_putendl_fd("Has no direction. Using default param", fd);
+	}
+	else if (num_log == BAD_SOLID_COLOR)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Solid color does not exist. Using default: {1.0f, 1.0f, 1.0f}", fd);
+	}
+	else if (num_log == BAD_EVEN_COLOR)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Even color does not exist. Using default: {0.5f, 0.5f, 0.5f}", fd);
+	}
+	else if (num_log == BAD_ODD_COLOR)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Odd color does not exist. Using default: {0.0f, 0.0f, 1.0f}", fd);
 	}
 }

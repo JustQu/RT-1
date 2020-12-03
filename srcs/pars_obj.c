@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 21:41:52 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 22:10:04 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/03 18:02:26 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,24 @@ void			validate_parsed_obj(t_res_mngr *resource_manager,
 		flag++;
 		write_logs(MATERIAL_TYPE_DOES_NOT_EXIST, log, "ERROR:");
 		write_logs(TEXTURE_TYPE_DOES_NOT_EXIST, log, "ERROR:");
+	}
+	if (asset.data.object.texture.type == solid && isnan(asset.data.object.texture.data.solid.color.r))
+	{
+		asset.data.object.texture.data.solid.color = (t_color){1.0f, 1.0f, 1.0f};
+		write_logs(BAD_SOLID_COLOR, log, "WARNING:");
+	}
+	if (asset.data.object.texture.type == checker)
+	{
+		if (isnan(asset.data.object.texture.data.checker.even.r))
+		{
+			asset.data.object.texture.data.checker.even = (t_color){1.0f, 0.0f, 0.0f};
+			write_logs(BAD_EVEN_COLOR, log, "WARNING:");
+		}
+		if (isnan(asset.data.object.texture.data.checker.odd.r))
+		{
+			asset.data.object.texture.data.checker.odd = (t_color){0.0f, 0.0f, 1.0f};
+			write_logs(BAD_ODD_COLOR, log, "WARNING:");
+		}
 	}
 	if (isnan(asset.data.object.origin.x))
 	{
