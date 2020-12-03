@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/28 11:26:48 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/03 10:19:25 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ int main(int ac, char **av)
 				break;
 		else if (value == 0)
 		{
+			init_rect(&all_rect, &app.window);
 			main_loop(app);
 			display_image(&app.window);
 			save_image_func(&app.window);
@@ -175,11 +176,11 @@ int main(int ac, char **av)
 			gui(&app.window, &app.rt, &all_rect, &color);
 			SDL_RenderPresent(app.window.renderer);
 		}
-		else
-		{
-			gui(&app.window, &app.rt, &all_rect, &color);
-			SDL_RenderPresent(app.window.renderer);
-		}
+		// else
+		// {
+		// 	gui(&app.window, &app.rt, &all_rect, &color);
+		// 	SDL_RenderPresent(app.window.renderer);
+		// }
 	}
 
 	// exit_program(app.window);

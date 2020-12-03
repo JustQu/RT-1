@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/11/28 11:22:16 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/29 14:47:48 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,8 @@ void			light_tab(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color);
 void			minimum_rect_size(int w, int h,
 					SDL_Rect *rect, SDL_Rect *ptr);
+void			get_color_data(t_color color,
+					char *string, char **str);
 void			type_ambien_il(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color);
 void			free_str(char **str);

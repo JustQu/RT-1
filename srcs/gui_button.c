@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:52:14 by alex              #+#    #+#             */
-/*   Updated: 2020/11/28 11:27:22 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/29 14:52:25 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,15 @@ void			draw_button_rgb(t_window *win, SDL_Rect *rect,
 	render_rect(text, win->renderer, &ptr);
 	button = init_rect_size(win->width - win->width / 4 + MARGIN,
 		rect->y + h, (rect->w - MARGIN * 2) / 3, rect->h);
-	draw_button_rect(win, &button, str_xyz[1], color);
+	draw_button_rect_xyz(win, &button, str_xyz[1], color);
 	draw_text(win, &button, "r :", color);
 	button.x += button.w + MARGIN;
 	button.w = (rect->w - MARGIN * 4) / 3;
-	draw_button_rect(win, &button, str_xyz[2], color);
+	draw_button_rect_xyz(win, &button, str_xyz[2], color);
 	draw_text(win, &button, "g :", color);
 	button.x += button.w + MARGIN;
 	button.w = (rect->w - MARGIN * 6) / 3;
-	draw_button_rect(win, &button, str_xyz[3], color);
+	draw_button_rect_xyz(win, &button, str_xyz[3], color);
 	draw_text(win, &button, "b :", color);
 }
 

@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/11/28 11:10:17 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/29 15:24:43 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void			camera_tab(t_window *win, t_rt *rt, t_all_rect *rect,
 	get_float4_data(rt->scene.camera.origin, "Position", &str);
 	draw_button_xyz(win, &rect->second_button, str, color);
 	free_str(&str);
-	get_float4_data(rt->scene.camera.direction, "Direction", &str);
+	get_float4_data(rt->scene.camera.w, "Direction", &str);
 	draw_button_xyz(win, &rect->third_button, str, color);
 	free_str(&str);
 	get_str_data("save", "Save image", &str);
@@ -58,8 +58,8 @@ void			objects_tab(t_window *win, t_rt *rt,
 		rect->tab_objects_button.y + rect->tab_objects_button.h,
 		rect->tab_objects_button.x + rect->tab_objects_button.w,
 		rect->tab_objects_button.y + rect->tab_objects_button.h);
-	get_shape_data(
-	1, "Shape", &str); // objects type
+	// get_instance_info(); // start get data;
+	get_shape_data(1, "Shape", &str); // objects type
 	draw_button(win, &rect->first_button, str, color);
 	free_str(&str);
 	get_float4_data(rt->scene.instance_mngr.objects->origin, "Origin", &str);
@@ -110,30 +110,24 @@ void			option_tab(t_window *win, t_rt *rt,
 		rect->tab_options_button.y + rect->tab_options_button.h,
 		rect->tab_options_button.x + rect->tab_options_button.w,
 		rect->tab_options_button.y + rect->tab_options_button.h);
-	get_float_data(1, "Type RT", &str); // need type rt
+	get_float_data(rt->options.tracer_type, "Type RT", &str); // need type rt !!
 	draw_button(win, &rect->first_button, str, color);
 	free_str(&str);
-	get_float_data(1, "Samplers", &str); //samplers rt->scene.camera.sampler_id
+	get_float_data(rt->scene.camera.d, "Deep", &str); //rt->scene.camera.d
 	draw_button(win, &rect->second_button, str, color);
 	free_str(&str);
-	get_float_data(1, "Deep", &str); //rt->scene.camera.d
-	draw_button(win, &rect->third_button, str, color);
+	get_color_data(rt->options.background_color, "Back_color", &str); //get background color
+	draw_button_rgb(win, &rect->third_button, str, color); //back color need buton_rgb
 	free_str(&str);
-	get_float_data(1, "Back_color", &str); //get background color
-	draw_button(win, &rect->fourth_button, str, color);
-	free_str(&str);
-	get_float_data(1, "Ambient_il", &str); // get ambient il
-	draw_button(win, &rect->fifth_button, str, color);
+	get_float_data(rt->options.ambient_illumination, "Ambient_il", &str); // get ambient il
+	draw_button(win, &rect->fourth_button, str, color); // change ilum data
 	free_str(&str);
 	type_ambien_il(win, rt, rect, color);
-	get_true_data(0, "Shadows", &str); // get shadows
+	get_true_data(rt->options.shadows, "Shadows", &str); // get shadows
 	draw_button(win, &rect->seven_button, str, color);
 	free_str(&str);
-	get_float_data(1, "Depth", &str); // get depth
+	get_float_data(rt->options.depth, "Depth", &str); // get depth
 	draw_button(win, &rect->eight_button, str, color);
-	free_str(&str);
-	get_true_data(1, "Global_il", &str); // get global_illumination
-	draw_button(win, &rect->nine_button, str, color);
 	free_str(&str);
 }
 

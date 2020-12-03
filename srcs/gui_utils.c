@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:45:42 by user              #+#    #+#             */
-/*   Updated: 2020/11/28 11:29:05 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/28 11:54:04 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void			save_image_func(t_window *win)
 		SDL_BYTESPERPIXEL(SDL_PIXELFORMAT_RGBA32), SDL_PIXELFORMAT_RGBA32);
 		if (!surf)
 			SDL_Log("Failed creating new surface: %s\n", SDL_GetError());
-		st = IMG_SaveJPG(surf, "image.png", 100);
+		st = IMG_SaveJPG(surf, "image.jpg", 100);
 		if (st != 0)
 			SDL_Log("Failed saving image: %s\n", SDL_GetError());
 		draw_save_image_text(win);

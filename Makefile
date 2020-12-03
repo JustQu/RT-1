@@ -6,7 +6,7 @@
 #    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/11/28 09:58:38 by alex             ###   ########.fr        #
+#    Updated: 2020/11/29 13:30:05 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ CFLAGS = -I$(INCDIR)\
 		 -I./Libs/SDL2\
 		 -I./Libs/SDL2_ttf/include\
 		 -g
+		#  --analyze\
+		#  --analyzer-output html\
 #		 -Wall\
 		 -Werror\
 		 -Wextra

@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/20 09:53:27 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/03 10:09:25 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ int catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
 
 			case SDL_WINDOWEVENT_RESIZED:
 			{
-				// win->width = event.window.data1;
-				// win->height = event.window.data2;
+				win->width = event.window.data1;
+				win->height = event.window.data2;
 				printf("Window size changed to %dx%d\n",
 					   event.window.data1, event.window.data2);
 			}
