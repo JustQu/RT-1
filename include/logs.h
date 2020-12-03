@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:10:52 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/03 17:13:48 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/03 19:19:07 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@
 # define BAD_SOLID_COLOR					-18
 # define BAD_EVEN_COLOR						-19
 # define BAD_ODD_COLOR						-20
+# define BAD_CAMERA_ORIGIN					-21
+# define BAD_CAMERA_DIRECTION				-22
+# define BAD_CAMERA_ZOOM					-23
+# define BAD_CAMERA_TYPE					-24
+# define NO_CAMERA							-25
 
 void		write_logs(int num_log, int fd, char *str);
 

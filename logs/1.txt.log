@@ -63,17 +63,16 @@ object={type=sphere;radius=1.0;origin={3.0,-0.5,-3.5};rotation={0.0,0.0,0.0};sca
 
 ERROR:
 Object type does not exist
+
 WARNING:
 Has no origin. Using default param
+
 WARNING:
 Has no direction. Using default param
 UNSUCCESS:
 Skip this object
 Block:
 #object={#type=triangle;#origin={0.0,0.0,-2.0};#vector1={1.0,0.0,0.0};#vector2={0.0,1.0,0.0};#rotation={0.0,0.0,0.0};#scaling={1.0,1.0,1.0};#texture={#type=solid;#color={1.0,0.0,1.0}#};#material={#type=matte#}#}
-
-Block:
-camera={zoom=0.5;origin={0.0,1,-8}}
 
 Block:
 light={type=point;ls=1.0;color={1.0,1.0,1.0};origin={10.0,10.0,1.0}}

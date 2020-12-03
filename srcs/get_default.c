@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:11:31 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/03 18:11:22 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/03 18:57:05 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ t_camera			get_default_camera(void)
 	camera.viewplane.pixel_size = 1.0f;
 	camera.viewplane.width = IMG_WIDTH;
 	camera.viewplane.height = IMG_HEIGHT;
-	camera.type = perspective;
-	camera.origin = (cl_float4){.x = 0.0f, .y = 1.0f, .z = -8.0f, .w = 0.0f};
-	camera.direction = (cl_float4){.x = 0.0f, .y = -0.1f, .z = 1.0f, .w = 0.0f};
+	camera.type = -2;
+	camera.origin.x = NAN;
+	camera.direction.x = NAN;
 	camera.up = (cl_float4){.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f};
 	camera.d = DEFAULT_WIDTH;
-	camera.zoom = 0.5f;
+	camera.zoom = NAN;
 	camera.normalized = FALSE;
 	return (camera);
 }

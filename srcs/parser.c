@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 19:56:06 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 21:56:00 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/03 18:43:18 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void		pars_router(t_res_mngr *resource_manager, t_parsed_info *asset,
 	else if (block_type == light)
 		pars_light(block, asset, resource_manager);
 	else if (block_type == camera)
-		pars_camera(block, &resource_manager->scene->camera);
+		pars_camera(block, &resource_manager->scene->camera, log);
 	else if (block_type == options)
 		pars_options(block, resource_manager);
 	else if (block_type == 0)

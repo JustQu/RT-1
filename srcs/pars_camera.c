@@ -6,13 +6,14 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 18:52:00 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 21:14:47 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/03 18:57:45 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "offset.h"
 #include "scene.h"
+#include "logs.h"
 
 t_selector		g_selector_cam[] = {
 	{"type", offsetof(t_camera, type), get_cam_type},
@@ -27,9 +28,28 @@ t_selector		g_selector_cam[] = {
 int				g_cam_selector_size = sizeof(g_selector_cam) /
 sizeof(t_selector);
 
-void			validate_parsed_camera(t_camera *camera)
+void			validate_parsed_camera(t_camera *camera, int log)
 {
-	;
+	if (camera->type == -2)
+	{
+		camera->type = perspective;
+		write_logs(BAD_CAMERA_TYPE, log, "WARNING:");
+	}
+	if (isnan(camera->origin.x))
+	{
+		camera->origin = (cl_float4){.x = 0.0f, .y = 1.0f, .z = -8.0f, .w = 0.0f};
+		write_logs(BAD_CAMERA_ORIGIN, log, "WARNING:");
+	}
+	if (isnan(camera->direction.x))
+	{
+		camera->direction = (cl_float4){.x = 0.0f, .y = -0.1f, .z = 1.0f, .w = 0.0f};
+		write_logs(BAD_CAMERA_DIRECTION, log, "WARNING:");
+	}
+	if (isnan(camera->zoom))
+	{
+		camera->zoom = 0.5f;
+		write_logs(BAD_CAMERA_ZOOM, log, "WARNING:");
+	}
 }
 
 void			fill_camera(char *a, char *b, t_camera *cam)
@@ -48,7 +68,7 @@ void			fill_camera(char *a, char *b, t_camera *cam)
 	}
 }
 
-void			pars_camera(char *str, t_camera *camera)
+void			pars_camera(char *str, t_camera *camera, int log)
 {
 	char		*a;
 	char		*b;
@@ -67,5 +87,5 @@ void			pars_camera(char *str, t_camera *camera)
 		free(a);
 		free(b);
 	}
-	validate_parsed_camera(camera);
+	validate_parsed_camera(camera, log);
 }

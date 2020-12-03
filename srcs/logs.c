@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:51:27 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/03 17:27:53 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/03 19:19:54 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,5 +133,30 @@ void		write_logs(int num_log, int fd, char *str)
 	{
 		ft_putendl_fd(str, fd);
 		ft_putendl_fd("Odd color does not exist. Using default: {0.0f, 0.0f, 1.0f}", fd);
+	}
+	else if (num_log == BAD_CAMERA_ORIGIN)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Camera origin does not exist. Using default", fd);
+	}
+	else if (num_log == BAD_CAMERA_DIRECTION)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Camera direction does not exist. Using default", fd);
+	}
+	else if (num_log == BAD_CAMERA_ZOOM)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Camera zoom does not exist. Using default", fd);
+	}
+	else if (num_log == BAD_CAMERA_TYPE)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Camera type does not exist. Using perspective", fd);
+	}
+	else if (num_log == NO_CAMERA)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Camera does not exist. Using default camera", fd);
 	}
 }
