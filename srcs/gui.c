@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:31:43 by alex              #+#    #+#             */
-/*   Updated: 2020/11/12 14:35:42 by alex             ###   ########.fr       */
+/*   Updated: 2020/11/28 12:09:33 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,9 @@ void			gui(t_window *win, t_rt *rt,
 					t_all_rect *all_rect, t_colors *color)
 {
 	SDL_Texture	*img;
-	int			err;
 	int			w;
 	int			h;
 
-	err = 0;
 	TTF_Init();
 	SDL_SetRenderDrawColor(win->renderer, 240, 240, 240, 255);
 	draw_fill_rect(win, &all_rect->background, &color->background_color);

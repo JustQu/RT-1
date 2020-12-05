@@ -6,7 +6,7 @@
 #    By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/11/30 20:44:14 by dmelessa         ###   ########.fr        #
+#    Updated: 2020/12/05 23:59:40 by dmelessa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ CFLAGS = -I$(INCDIR)\
 		 -I./Libs/SDL2\
 		 -I./Libs/SDL2_ttf/include\
 		 -g
+		#  --analyze\
+		#  --analyzer-output html\
 #		 -Wall\
 		 -Werror\
 		 -Wextra

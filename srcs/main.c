@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 12:52:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/05 23:58:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ int main(int ac, char **av)
 				break;
 		else if (value == 0)
 		{
+			init_rect(&all_rect, &app.window);
 			main_loop(app);
 			display_image(&app.window);
 			save_image_func(&app.window);
