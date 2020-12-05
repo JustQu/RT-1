@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/11 22:17:02 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:53:05 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,16 @@
 # endif
 
 typedef enum e_material_type		t_material_type;
-typedef struct s_material			t_material; //64 bytes
 
-enum e_material_type
+/*
+** 64 bytes
+*/
+
+typedef struct s_material			t_material;
+
+enum	e_material_type
 {
-	matte, //kd, ka
+	matte,
 	phong,
 
 	plastic,
@@ -36,11 +41,11 @@ enum e_material_type
 	metal,
 	conductor,
 
-	dielectric,	//transparance
+	dielectric,
 	rough_dielectric,
 };
 
-/**
+/*
 ** color					//16
 ** reflective color 		//16
 ** type						//4
@@ -56,24 +61,25 @@ enum e_material_type
 ** uchar gap[8]				//8
 */
 
-struct					s_material //kd + ks < 1.0
+struct	s_material
 {
-	t_color				reflective_color;					//16 bytes
-	t_material_type		type;								//4		20
-	cl_float			kd; //diffuse reflection[0, 1]		//4		24
-	cl_float			ka; //ambient reflection			//4		28
-	cl_float			ks; //specular reflection [0, 1]	//4		32
-	cl_float			kr;	//reflective coefficient		//4		36
-	cl_float			kt; //transparent coefficient		//4		40
-	cl_float			exp;								//4		44
-	cl_float			ls;									//4		48
+	t_color				reflective_color;
+	t_material_type		type;
+	cl_float			kd;
+	cl_float			ka;
+	cl_float			ks;
+	cl_float			kr;
+	cl_float			kt;
+	cl_float			exp;
+	cl_float			ls;
 
-	int					texture_id;							//4		52
+	int					texture_id;
 
-	cl_uchar 			is_reflective;						//1		53
-	cl_uchar			is_transparent;						//1		54
-	cl_uchar			gap[10];							//2		64
+	cl_uchar			is_reflective;
+	cl_uchar			is_transparent;
+	cl_uchar			gap[10];
 };
 
 int		create_material(t_material	type);
+
 #endif

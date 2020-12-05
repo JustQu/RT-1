@@ -6,17 +6,18 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/20 22:16:16 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 22:02:22 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_OPTION_H
-# define RT_OPTION_H
+#ifndef RT_OPTIONS_H
+# define RT_OPTIONS_H
 
 # ifndef __OPENCL_C_VERSION__
 #  include "rt_types.h"
 #  include "color.h"
 #  include "sampler.h"
+#  include "sampler_manager.h"
 # endif
 
 # define DEFAULT_WIDTH 800
@@ -36,11 +37,15 @@ typedef struct s_rt_options		t_rt_options;
 
 /*
 ** TODO(dmelessa): move seed to this struct
+** ambient_illumination: 0 - no, 1 - constant, 2 - occluder
+** spp - samples per pixel
+** aa_id - anti aliasing sampler id
 */
-struct				s_rt_options
+
+struct			s_rt_options
 {
 	t_sampler		sampler;
-	cl_int			ambient_illumination; //0 - no, 1 - constant, 2 - occluder
+	cl_int			ambient_illumination;
 
 	t_color			background_color;
 
@@ -50,8 +55,8 @@ struct				s_rt_options
 
 	cl_int			area_lightning;
 
-	cl_float		spp; //samples per pixel
-	cl_int			aa_id; //anti-aliasing sampler id
+	cl_float		spp;
+	cl_int			aa_id;
 
 	t_tracer_type	tracer_type;
 
@@ -62,9 +67,7 @@ struct				s_rt_options
 
 # ifndef __OPENCL_C_VERSION__
 
-#  include "sampler_manager.h"
-
-int	init_default_options(t_rt_options *options,
+int				init_default_options(t_rt_options *options,
 					t_sampler_manager *sampler_manager);
 
 # endif

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:57:17 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 00:54:40 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/04 22:42:09 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 
 # define OPEN_CL __OPENCL_C_VERSION__
 
-/**
+// # define CL_TARGET_OPENCL_VERSION 220
+
+/*
 ** @brief Host code
-**
 */
+
 # ifndef __OPENCL_C_VERSION__
 #  include "inttypes.h"
 #  include "bool.h"
@@ -26,7 +28,7 @@
 #   include "OpenCL/opencl.h"
 #  else
 #   include "CL/cl.h"
-#endif
+#  endif
 
 typedef uint32_t	t_uint;
 typedef int32_t		t_int;

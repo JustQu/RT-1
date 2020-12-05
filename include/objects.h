@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:20 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 19:00:58 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:56:49 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,10 @@ enum	e_types
 	disk,
 	rectangle,
 	generic_shere,
-	mobius
-	//todo(dmelessa): another generic types
 };
 
-/**
-** TODO: change
-**
+/*
+** @brief geometric properties of object
 */
 struct					s_obj
 {
@@ -59,30 +56,39 @@ struct					s_obj
 	cl_int				boolean;
 };
 
+/*
+** vector1 = vertex2 - vertex1
+** vector2 = vertex3 - vertex1
+*/
+
 struct					s_triangle
 {
 	cl_float4			vertex1;
 	cl_float4			vertex2;
 	cl_float4			vertex3;
-	cl_float4			vector1; //vertex2 - vertex1
-	cl_float4			vector2; // vertex3 - vertex1
+	cl_float4			vector1;
+	cl_float4			vector2;
 	cl_float4			normal;
 };
 
+/*
+** auxiliary struct for data transfer between function
+** origin also vertex for triangle
+*/
 typedef struct			s_object_info
 {
 	t_material			material;
-	cl_float4			origin;	//vertex for triangle
+	cl_float4			origin;
 	cl_float4			vector1;
 	cl_float4			vector2;
-	cl_float4			direction; //triangle or plane?
-	cl_float3			rotation;	//object rotation about x, y, z axis
-	cl_float3			scaling;	//scaling toward to axis
+	cl_float4			direction;
+	cl_float3			rotation;
+	cl_float3			scaling;
 	t_bbox				bounding_box;
 	cl_float			minm;
 	cl_float			maxm;
-	cl_float			r;	//torus radius1
-	cl_float			r2; // torus radius2
+	cl_float			r;
+	cl_float			r2;
 	t_type				type;
 	cl_int				transformed;
 }						t_object_info;

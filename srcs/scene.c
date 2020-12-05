@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 22:57:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/25 20:28:55 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 22:03:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1128,23 +1128,6 @@ int init_default_scene(t_scene *scene,
 	object.material.type = conductor;
 	object.material.exp = 0.1f;
 	object.material.kr = 1.0f;
-	object.material.kt = 1.5f;
-	object.material.exp = 0.01f;
-	asset.type = 0;
-	asset.data.object = object;
-	asset.data.object.texture = texture;
-	// add_parsed_asset(resource_manager, asset);
-
-	object.type = mobius;
-	object.r = 1.0f;
-	object.r2 = 1.0f;
-	// object.r2 = 0.25f;
-	object.origin = (cl_float4){.x = 270.0f, .y = 100.0f, .z = 90.0f, .w = 0.0f};
-	object.scaling = (cl_float3){.x = 60.0f, .y = 60.0f, .z = 60.0f, .w = 0.0f};
-	object.rotation = (cl_float4){ 45.0f, 30.0f, 00.0f };
-	texture.type = solid;
-	texture.data.solid.color = (t_color){.r = 0.0f, .g = 0.0f, .b = 1.0f};
-	object.material.type = matte;
 	object.material.kt = 1.5f;
 	object.material.exp = 0.01f;
 	asset.type = 0;

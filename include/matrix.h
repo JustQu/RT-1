@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 12:47:05 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:18:26 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:53:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 # ifndef __OPENCL_C_VERSION__
 #  include "rt_types.h"
-#endif
+# endif
 
 typedef cl_float16				t_matrix;
 
-#define IDENTITY_MATRIX (t_matrix){1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}
-#define ZERO_MATRIX (t_matrix){0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+# define IDENTITY_MATRIX (t_matrix){1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}
+# define ZERO_MATRIX (t_matrix){0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
 void		print_matrix(t_matrix matrix);
 
-t_matrix	mul_matrix(t_matrix A, t_matrix B);
+t_matrix	mul_matrix(t_matrix a, t_matrix b);
 
 t_matrix	get_x_rotation_matrix(float angle);
 t_matrix	get_y_rotation_matrix(float angle);

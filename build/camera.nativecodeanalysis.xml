@@ -1,2 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<DEFECTS></DEFECTS>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+      <FILENAME>camera.c</FILENAME>
+      <LINE>25</LINE>
+      <COLUMN>28</COLUMN>
+    </SFA>
+    <DEFECTCODE>6001</DEFECTCODE>
+    <DESCRIPTION>Использование неинициализированной памяти "$S1".</DESCRIPTION>
+    <FUNCTION>compute_uvw</FUNCTION>
+    <DECORATED>compute_uvw</DECORATED>
+    <FUNCLINE>17</FUNCLINE>
+    <PROBABILITY>1</PROBABILITY>
+    <RANK>3</RANK>
+    <CATEGORY>
+      <RULECATEGORY>mspft</RULECATEGORY>
+    </CATEGORY>
+    <PATH>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>camera.c</FILENAME>
+        <LINE>25</LINE>
+        <COLUMN>28</COLUMN>
+        <KEYEVENT>
+          <ID>1</ID>
+          <KIND>объявление</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>Инициализация "$S1" не выполнена</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>camera.c</FILENAME>
+        <LINE>19</LINE>
+        <COLUMN>13</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>camera.c</FILENAME>
+        <LINE>20</LINE>
+        <COLUMN>13</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>camera.c</FILENAME>
+        <LINE>21</LINE>
+        <COLUMN>13</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>camera.c</FILENAME>
+        <LINE>22</LINE>
+        <COLUMN>13</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>camera.c</FILENAME>
+        <LINE>23</LINE>
+        <COLUMN>11</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>camera.c</FILENAME>
+        <LINE>24</LINE>
+        <COLUMN>17</COLUMN>
+        <KEYEVENT>
+          <ID>2</ID>
+          <KIND>ветвь</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>Пропустить эту ветвь (предполагается, что "camera-&gt;w.y&lt;0.900000" равно false)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>camera.c</FILENAME>
+        <LINE>25</LINE>
+        <COLUMN>12</COLUMN>
+        <KEYEVENT>
+          <ID>3</ID>
+          <KIND>объявление</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>"$S1" является аргументом ввода-вывода для "cross_product" (объявлено в d:\repos\c\rt2\include\vector.h: 20)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>camera.c</FILENAME>
+        <LINE>25</LINE>
+        <COLUMN>28</COLUMN>
+        <KEYEVENT>
+          <ID>4</ID>
+          <KIND>использование</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>"$S1" используется, но, возможно, не инициализировано</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+    </PATH>
+  </DEFECT>
+</DEFECTS>

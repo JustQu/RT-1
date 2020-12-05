@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 22:49:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/11 00:05:42 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 22:18:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@
 #  include "color.h"
 # endif
 
-typedef enum e_texture_type			t_texture_type;
-typedef struct s_texture			t_texture; //32 bytes
+typedef enum e_texture_type	t_texture_type;
+
+/*
+** 32 bytes
+*/
+
+typedef struct s_texture	t_texture;
 
 enum	e_texture_type
 {
@@ -35,18 +40,18 @@ enum	e_texture_type
 	image
 };
 
-struct		s_solid_texture
+struct	s_solid_texture
 {
 	t_color	color;
 };
 
-struct		s_checker_texture
+struct	s_checker_texture
 {
 	t_color	odd;
 	t_color	even;
 };
 
-struct			s_smooth_perlin_texture
+struct	s_smooth_perlin_texture
 {
 	cl_float	scale;
 };
@@ -58,22 +63,24 @@ struct	s_image_texture
 	int	height;
 };
 
-union							u_texture_data
+union	u_texture_data
 {
-	struct	s_solid_texture			solid;
-	struct	s_checker_texture		checker;
-	struct	s_smooth_perlin_texture	smooth_perlin;
+	struct s_solid_texture			solid;
+	struct s_checker_texture		checker;
+	struct s_smooth_perlin_texture	smooth_perlin;
 };
 
-/**
+/*
+** todo:
 ** move ?
 ** scale ?
 */
-struct						s_texture		//32bytes
+
+struct	s_texture
 {
-	union u_texture_data	data;		//16 bytes
-	t_texture_type			type;		//4 bytes
-	char					gap[12];	//12 byte gap
+	union u_texture_data	data;
+	t_texture_type			type;
+	char					gap[12];
 };
 
 #endif

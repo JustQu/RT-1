@@ -14,32 +14,4 @@
     <FUNCLINE>914</FUNCLINE>
     <PATH></PATH>
   </DEFECT>
-  <DEFECT>
-    <SFA>
-      <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-      <FILENAME>error_handling.c</FILENAME>
-      <LINE>97</LINE>
-      <COLUMN>12</COLUMN>
-    </SFA>
-    <DEFECTCODE>28278</DEFECTCODE>
-    <DESCRIPTION>Функция ft_putendl появляется без прототипов в области.  Возможен только ограниченный анализ. Включите соответствующий заголовок или добавьте прототип. Данное предупреждение также возникает, если в определении функции пропущены типы параметров или возвращаемых значений.</DESCRIPTION>
-    <FUNCTION>ft_clerror</FUNCTION>
-    <DECORATED>ft_clerror</DECORATED>
-    <FUNCLINE>93</FUNCLINE>
-    <PATH></PATH>
-  </DEFECT>
-  <DEFECT>
-    <SFA>
-      <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-      <FILENAME>error_handling.c</FILENAME>
-      <LINE>130</LINE>
-      <COLUMN>13</COLUMN>
-    </SFA>
-    <DEFECTCODE>28278</DEFECTCODE>
-    <DESCRIPTION>Функция ft_putendl появляется без прототипов в области.  Возможен только ограниченный анализ. Включите соответствующий заголовок или добавьте прототип. Данное предупреждение также возникает, если в определении функции пропущены типы параметров или возвращаемых значений.</DESCRIPTION>
-    <FUNCTION>cl_error</FUNCTION>
-    <DECORATED>cl_error</DECORATED>
-    <FUNCLINE>110</FUNCLINE>
-    <PATH></PATH>
-  </DEFECT>
 </DEFECTS>

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 00:33:50 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/11 01:42:54 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 22:17:36 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@
 
 typedef struct s_resource_manager	t_res_mngr;
 
-/**
+/*
 ** @brief
-** struct containing information about scene: camera, objects, triangles and light sources
+** struct containing information about scene: camera, objects,
+** triangles and light sources
 */
+
 typedef struct s_scene	t_scene;
-struct					s_scene
+struct	s_scene
 {
 	t_camera			camera;
 	t_instance_manager	instance_mngr;

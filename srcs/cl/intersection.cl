@@ -741,10 +741,10 @@ is_intersect(t_obj const obj, t_type const type, t_ray const ray,
 	{
 		return (rectangle_intersection(ray, obj, shade_rec, tmin));
 	}
-	else if (type == mobius)
-	{
-		return (mobius_intersection(ray, obj, shade_rec, tmin));
-	}
+	// else if (type == mobius)
+	// {
+		// return (mobius_intersection(ray, obj, shade_rec, tmin));
+	// }
 	return (false);
 }
 

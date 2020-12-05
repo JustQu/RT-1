@@ -6,12 +6,12 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/02 18:12:50 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 19:01:16 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:36:16 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INSTANCE_MANAGER
-# define INSTANCE_MANAGER
+#ifndef INSTANCE_MANAGER_H
+# define INSTANCE_MANAGER_H
 
 # include "instance.h"
 # include "objects.h"
@@ -37,7 +37,7 @@ typedef struct	s_instance_info
 	int			boolean;
 }				t_instance_info;
 
-typedef	struct	s_instance_extra
+typedef struct	s_instance_extra
 {
 	t_aabb		aabb;
 	cl_float4	origin;
@@ -45,7 +45,7 @@ typedef	struct	s_instance_extra
 	cl_float4	scaling;
 }				t_instance_extra;
 
-typedef struct			s_instance_manager
+typedef struct	s_instance_manager
 {
 	t_texture_manager	texture_manager;
 	t_instance			*instances;
@@ -63,21 +63,20 @@ typedef struct			s_instance_manager
 	int					ntriangles;
 	int					nmatrices;
 	uint32_t			gap[4];
-}						t_instance_manager;
+}				t_instance_manager;
 
+int				init_instance_manager(t_instance_manager *instance_manager);
 
-int			init_instance_manager(t_instance_manager * instance_manager);
+int				add_object(t_instance_manager *instance_manager,
+							t_instance_info object_info);
+int				add_matrix(t_instance_manager *mngr, t_matrix matrix);
 
-int			add_object(t_instance_manager *instance_manager,
-						t_instance_info object_info);
-int			add_matrix(t_instance_manager *mngr, t_matrix matrix);
+t_matrix		get_transformation_matrix(t_instance_info info);
+t_matrix		create_inv_transformation_matrix(t_instance_info info);
 
-t_matrix	get_transformation_matrix(t_instance_info info);
-t_matrix	create_inv_transformation_matrix(t_instance_info info);
+t_aabb			compute_aabb(t_instance_info info);
 
-t_aabb 		compute_aabb(t_instance_info info);
-
-void		set_sampler(t_instance_manager *instance_manager,
-						int id, int sampler_id);
+void			set_sampler(t_instance_manager *instance_manager,
+							int id, int sampler_id);
 
 #endif

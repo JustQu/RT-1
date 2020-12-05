@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 13:22:40 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/24 18:57:06 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/04 20:29:49 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,15 @@
 #include "instance_manager.h"
 #include "utils.h"
 
-static const t_triangle	default_triangle;
-static const t_obj		default_obj;
+/*
+** @brief adding new traingle with triangle info
+** @todo: normal
+** @param mngr
+** @param triangle_info
+** @return ** int
+*/
 
-int	add_triangle(t_instance_manager *mngr, t_instance_info triangle_info)
+int		add_triangle(t_instance_manager *mngr, t_instance_info triangle_info)
 {
 	t_triangle	triangle;
 
@@ -32,18 +37,21 @@ int	add_triangle(t_instance_manager *mngr, t_instance_info triangle_info)
 		mngr->triangles_malloc_size *= 2;
 		assert(mngr->triangles);
 	}
-	// triangle.material = object_info.material;
-	// triangle.vertex1 = triangle_info.origin;
 	triangle.vertex1 = (cl_float4){0.0f, 0.0f, 0.0f, 0.0f};
-	// triangle.vector1 = obbject_info.vertex2-triangle_info.vertex1
 	triangle.vector1 = triangle_info.v1;
 	triangle.vector2 = triangle_info.v2;
-	// todo: triangle.normal =
 	mngr->triangles[mngr->ntriangles] = triangle;
 	return (++mngr->ntriangles - 1);
 }
 
-//TODO(dmelessa): check if the object already in array
+/*
+** @brief
+** @todo: mesh object
+** @param mngr
+** @param object_info
+** @return ** int
+*/
+
 int		add_obj(t_instance_manager *mngr, t_instance_info object_info)
 {
 	t_obj	object;
@@ -61,38 +69,36 @@ int		add_obj(t_instance_manager *mngr, t_instance_info object_info)
 	object.origin = (cl_float4){0.0f, 0.0f, 0.0f, 0.0f};
 	object.r = object_info.r;
 	object.r2 = object_info.r2;
-	// object.bounding_box = object_info.bounding_box;
 	object.direction = object_info.v1;
 	object.dir2 = object_info.v2;
-
 	mngr->objects[mngr->nobjects] = object;
 	return (++mngr->nobjects - 1);
 }
 
-/**
+/*
 ** @brief Добавить новый объект типа type
 ** Возвращает id объекта
 ** @param instance_manager
 ** @param object_info
 ** @return ** int
 */
+
 int		add_object(t_instance_manager *mngr, t_instance_info object_info)
 {
 	if (object_info.type == triangle)
 	{
-		return	add_triangle(mngr, object_info);
+		return (add_triangle(mngr, object_info));
 	}
 	else
 	{
-		return	add_obj(mngr, object_info);
+		return (add_obj(mngr, object_info));
 	}
-	//mesh obj???
 }
 
-void
-set_sampler(t_instance_manager *instance_manager,
-			int id,
-			int sampler_id)
+void	set_sampler(t_instance_manager *instance_manager,
+					int id,
+					int sampler_id)
 {
-	instance_manager->objects[instance_manager->instances[id].object_id].sampler_id = sampler_id;
+	instance_manager->objects[
+		instance_manager->instances[id].object_id].sampler_id = sampler_id;
 }

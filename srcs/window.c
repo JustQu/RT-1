@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 19:44:32 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/07 16:08:59 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/04 21:56:55 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ void	quit(char *s)
 	exit(1);
 }
 
-/**
+/*
 ** @brief
 ** init sdl window and image buffer
 ** todo(dmelessa): поменять окно, чтобы оно принимало параметры ширины и высоты.
 ** @param window
 ** @return ** int
 */
+
 int		init_window(t_window *window)
 {
 	window->width = DEFAULT_WIDTH;
@@ -45,8 +46,8 @@ int		init_window(t_window *window)
 		quit("SDL_CreateRenderer Error");
 	}
 	if (!(window->texture = SDL_CreateTexture(window->renderer,
-											  SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING,
-											  IMG_WIDTH, IMG_HEIGHT)))
+		SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING,
+		IMG_WIDTH, IMG_HEIGHT)))
 	{
 		SDL_DestroyWindow(window->ptr);
 		quit("SDL_CreateTexture Error");
@@ -56,8 +57,8 @@ int		init_window(t_window *window)
 	ft_memset(window->image, 0, sizeof(uint32_t) * IMG_WIDTH * IMG_HEIGHT);
 	if (!window->image)
 		perror("window->image malloc");
-
-	window->rgb_image = (t_color *)malloc(sizeof(t_color) * IMG_WIDTH * IMG_HEIGHT);
+	window->rgb_image = (t_color *)malloc(sizeof(t_color) *
+											IMG_WIDTH * IMG_HEIGHT);
 	ft_memset(window->rgb_image, 0, sizeof(t_color) * IMG_WIDTH * IMG_HEIGHT);
 	return (0);
 }

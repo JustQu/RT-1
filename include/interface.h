@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 15:31:08 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/26 15:41:41 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:38:31 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "gui.h"
 # include "console.h"
 
-//todo:
+/*
+** TODO: everything
+*/
 
 #endif

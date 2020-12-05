@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/14 20:19:06 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/04 23:18:27 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 #define BUFF 100000
 
-static const char *files[] = {
+static const char	*g_files[] = {
 	"rt_types.h",
 	"color.h",
 	"aabb.h",
@@ -58,7 +58,7 @@ static const char *files[] = {
 	"util_kernels.cl",
 };
 
-static int		g_num_files = sizeof(files) / sizeof(char *);
+static int		g_num_files = sizeof(g_files) / sizeof(char *);
 
 static void		read_file(const char *file_name, char *str)
 {
@@ -68,7 +68,6 @@ static void		read_file(const char *file_name, char *str)
 
 	ft_strcpy(full_file_name, DEFAULT_KERNEL_DIR);
 	ft_strcpy(full_file_name + sizeof(DEFAULT_KERNEL_DIR) - 1, file_name);
-
 	fd = open(full_file_name, O_RDONLY);
 	if (fd == -1)
 	{
@@ -83,23 +82,24 @@ static void		read_file(const char *file_name, char *str)
 	close(fd);
 }
 
-extern FILE *f;
+extern FILE		*f;
 
-cl_program	create_program(cl_context context)
+cl_program		create_program(cl_context context)
 {
-	int ret;
-	int i;
-	int fd;
-	char **str;
-	cl_program program;
+	int			ret;
+	int			i;
+	int			fd;
+	char		**str;
+	cl_program	program;
 
 	i = 0;
-	str = malloc(sizeof(char *) * g_num_files);
+	if (!(str = malloc(sizeof(char *) * g_num_files)))
+		return (program);
 	ret = 0;
 	while (i < g_num_files)
 	{
 		str[i] = malloc(sizeof(char) * BUFF);
-		read_file(files[i], str[i]);
+		read_file(g_files[i], str[i]);
 		fprintf(f, "%s\n", str[i]);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/23 15:26:15 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:16:19 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 22:16:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define NUM_SAMPLES 1
 # define NUM_SETS 83
 
-typedef struct		s_sampler_manager //only on cpu ?
+typedef struct		s_sampler_manager
 {
 	t_sampler		*samplers;
 
@@ -47,15 +47,14 @@ typedef struct		s_sampler_manager //only on cpu ?
 	uint32_t		count;
 }					t_sampler_manager;
 
-int	init_sampler_manager(t_sampler_manager *sampler_manager);
+int					init_sampler_manager(t_sampler_manager *sampler_manager);
 
+int					new_sampler(t_sampler_manager *sampler_manager,
+								t_sampler_type sampler_type,
+								int num_samples,
+								int num_sets);
 
-int	new_sampler(t_sampler_manager *sampler_manager,
-				t_sampler_type sampler_type,
-				int num_samples,
-				int num_sets);
-
-int	generate_samples(t_sampler sampler,
-					cl_float2 *samples);
+int					generate_samples(t_sampler sampler,
+									cl_float2 *samples);
 
 #endif

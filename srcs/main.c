@@ -6,13 +6,11 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/30 20:24:17 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/04 12:52:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "app.h"
-// #include "julia.h"
-// #include "app.h"
 #include <stdio.h>
 #include "libft.h"
 
@@ -21,7 +19,7 @@
 
 FILE *f;
 
-#include <windows.h>
+// #include <windows.h>
 #include "rt_types.h"
 
 // #define _CRTDBG_MAP_ALLOC
@@ -146,7 +144,6 @@ int main(int ac, char **av)
 {
 	t_app		app;
 	int			value;
-	t_window	window_gui;
 	t_all_rect	all_rect;
 	t_colors	color;
 	t_rt		rt;
@@ -154,7 +151,6 @@ int main(int ac, char **av)
 	f = fopen("ocl.cl", "w+");
 	init_colors(&color);
 	init_app(&app, ac, av);
-	SDL_SetRelativeMouseMode(SDL_TRUE);
 	init_rect(&all_rect, &app.window);
 	if (f == NULL)
 	{
@@ -170,15 +166,16 @@ int main(int ac, char **av)
 		{
 			main_loop(app);
 			display_image(&app.window);
+			save_image_func(&app.window);
 			app.rt.options.spp += NUM_SAMPLES;
 			app.rt.options.reset = 0;
-			// main_gui(&app.window, &rt, &all_rect, &color);
+			gui(&app.window, &app.rt, &all_rect, &color);
 			SDL_RenderPresent(app.window.renderer);
 		}
 		// else
 		// {
-			// main_gui(&app.window, &rt, &all_rect, &color);
-			// SDL_RenderPresent(app.window.renderer);
+		// 	gui(&app.window, &app.rt, &all_rect, &color);
+		// 	SDL_RenderPresent(app.window.renderer);
 		// }
 	}
 

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:02:56 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/19 19:11:48 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/04 22:35:12 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,13 +123,14 @@ cl_float2	*generate_nrooks_samples(t_sampler info, cl_float2 *samples)
 	return sp;
 }
 
-/**
+/*
 ** @brief
 ** We require sample points distributed on a unit disk for the simulation of
 ** the depth of field with circular camera lens and for shading with disk lights
 ** @param sampler
 ** @return ** cl_float2*
 */
+
 void	map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples, cl_float2 *disk_samples)
 {
 	float		r;
@@ -169,13 +170,14 @@ void	map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples, cl_float2 *
 	}
 }
 
-/**
+/*
 ** @brief
 ** use to simulate ambient occlusion, enviromental lights, glossy reflection
 ** and diffuse-diffuse light transport
 ** @param sampler
 ** @return ** void
 */
+
 void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples, cl_float3 *hemisphere_samples, const float e)
 {
 	int			size;
@@ -222,4 +224,5 @@ int		generate_samples(t_sampler sampler,
 	}
 	// map_samples_to_unit_disk(sampler, samples, disk_samples);
 	// map_samples_to_hemisphere(sampler, samples, hemisphere_samples, 1.0f);
+	return (SUCCESS);
 }

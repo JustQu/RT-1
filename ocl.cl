@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:57:17 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 00:54:40 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/04 22:42:09 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 
 # define OPEN_CL __OPENCL_C_VERSION__
 
-/**
+// # define CL_TARGET_OPENCL_VERSION 220
+
+/*
 ** @brief Host code
-**
 */
+
 # ifndef __OPENCL_C_VERSION__
 #  include "inttypes.h"
 #  include "bool.h"
@@ -26,7 +28,7 @@
 #   include "OpenCL/opencl.h"
 #  else
 #   include "CL/cl.h"
-#endif
+#  endif
 
 typedef uint32_t	t_uint;
 typedef int32_t		t_int;
@@ -64,7 +66,7 @@ typedef int32_t		t_int;
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:51:48 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 13:48:21 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:29:39 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +79,12 @@ typedef int32_t		t_int;
 
 typedef struct s_color	t_color;
 
-/**
+/*
 ** @brief store color in rgb float compnents.
 ** Components are normolized [0.0f, 1.0f]
-**
 */
-struct			s_color
+
+struct	s_color
 {
 	cl_float	r;
 	cl_float	g;
@@ -91,9 +93,11 @@ struct			s_color
 };
 
 # ifndef __OPENCL_C_VERSION__
+
 void	set_color_int(t_color *color, int value);
 void	set_color_uchar(t_color *color, uint8_t r, uint8_t g, uint8_t b);
 void	set_color_float(t_color *color, float r, float g, float b);
+
 # endif
 
 #endif
@@ -106,7 +110,7 @@ void	set_color_float(t_color *color, float r, float g, float b);
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 23:23:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 13:56:37 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/04 00:15:18 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +121,8 @@ void	set_color_float(t_color *color, float r, float g, float b);
 #  include "rt_types.h"
 # endif
 
-/**
+/*
 ** @brief Axis-aligned bounding box
-**
 */
 
 typedef struct s_aabb	t_aabb;
@@ -127,8 +130,8 @@ typedef struct s_aabb	t_bbox;
 
 struct					s_aabb
 {
-	cl_float4			min;
 	cl_float4			max;
+	cl_float4			min;
 };
 
 #endif
@@ -141,7 +144,7 @@ struct					s_aabb
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:46:35 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:18:37 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:28:57 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,13 +156,18 @@ struct					s_aabb
 # endif
 
 typedef enum e_camera_type	t_camera_type;
-typedef struct s_camera		t_camera; //160
+
+/*
+** 160 bytes
+*/
+
+typedef struct s_camera		t_camera;
 typedef struct s_viewplane	t_viewplane;
 
 # define UP (cl_float4){ 0.0f, 1.0f, 0.0f, 0.0f }
 # define RIGHT (cl_float4) { 1.0f, 0.0f, 0.0f, 0.0f }
 
-/**
+/*
 ** @brief Набор типов камеры
 **
 ** orthographic - ортографическая проекция
@@ -169,30 +177,32 @@ typedef struct s_viewplane	t_viewplane;
 ** spherical - сферическая проекция
 ** stereo - стерео изображение
 */
-enum	e_camera_type
+
+enum				e_camera_type
 {
-		orthographic,
-		perspective,
-		thin_lens,
-		fisheye,
-		spherical,
-		stereo
+	orthographic,
+	perspective,
+	thin_lens,
+	fisheye,
+	spherical,
+	stereo
 };
 
-/**
+/*
 ** @brief Плоскость проецирования
 ** pixel_size - размер пикселя, по умолчанию 1
 ** width - ширина плоскости
 ** height - высота плоскости
 */
-struct s_viewplane
+
+struct	s_viewplane
 {
-	cl_float	pixel_size;
-	cl_int		width;
-	cl_int		height;
+	cl_float		pixel_size;
+	cl_int			width;
+	cl_int			height;
 };
 
-/**
+/*
 ** @brief Класс камеры
 **
 ** viewplane - плоскоть проецирования
@@ -205,32 +215,56 @@ struct s_viewplane
 ** type - тип камеры
 ** sampler_id - идентификатор сэмплера для тонкой линзы
 ** normalized - флаг cостояния, указывающий на нормализованные координаты
-** l - Радиус тонкой линзы, либо коэффициент в сферической камере, либо расстояние между изображениями в стерео камере
-** f - расстояние до фокальной плоскости тонкой линзы, либо максимальное угловое поле в рыбьем глазе.
+** l - Радиус тонкой линзы, либо коэффициент в сферической камере,
+**     либо расстояние между изображениями в стерео камере
+** f - расстояние до фокальной плоскости тонкой линзы,
+**     либо максимальное угловое поле в рыбьем глазе.
 */
+
 struct	s_camera
 {
-	cl_float4			origin; // eye
-	cl_float4			direction; // lookat - eye
-	cl_float4			up; // (0, 1, 0)
-	cl_float4			u;
-	cl_float4			v; // actually we need only th3 vectors. the up vector could be hardcodeded and w = -direction
-	cl_float4			w;
-	t_viewplane			viewplane;
-	cl_float			d; //the view-plane distance
-	cl_float			zoom; //zoom factor
-	cl_float			exposure_time; //using somewhere later
-	t_camera_type		type;
-	cl_int				sampler_id; //thin_camera
-	cl_int				normalized;
-	//thin-lens camera
-	cl_float			l; //lens radius or lambda
-	cl_float			f; //focal plane distance or psi_max in fisheye
+	cl_float4		origin;
+	cl_float4		direction;
+	cl_float4		up;
+	cl_float4		u;
+	cl_float4		v;
+	cl_float4		w;
+	t_viewplane		viewplane;
+	cl_float		d;
+	cl_float		zoom;
+	cl_float		exposure_time;
+	t_camera_type	type;
+	cl_int			sampler_id;
+	cl_int			normalized;
+	cl_float		l;
+	cl_float		f;
 };
+
+/*
+** Setting up camera local coordinate system
+*/
 
 void	compute_uvw(t_camera *camera);
 
+/*
+** @brief rotate camera around local axis on some degrees
+**
+** @param camera
+** @param axis 0 - x, 1 - y, 2 - z
+** @param angle_degrees
+** @return ** void
+*/
+
 void	rotate_camera(t_camera *camera, int axis, float angle_degrees);
+
+/*
+** @brief move camera in one of three local directions
+**
+** @param camera
+** @param direction 0 - x; 1 - y; 2 - z
+** @param step
+** @return ** void
+*/
 
 void	move_camera(t_camera *camera, int direction, float step);
 
@@ -244,7 +278,7 @@ void	move_camera(t_camera *camera, int direction, float step);
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 22:49:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/11 00:05:42 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 22:18:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,8 +290,13 @@ void	move_camera(t_camera *camera, int direction, float step);
 #  include "color.h"
 # endif
 
-typedef enum e_texture_type			t_texture_type;
-typedef struct s_texture			t_texture; //32 bytes
+typedef enum e_texture_type	t_texture_type;
+
+/*
+** 32 bytes
+*/
+
+typedef struct s_texture	t_texture;
 
 enum	e_texture_type
 {
@@ -273,18 +312,18 @@ enum	e_texture_type
 	image
 };
 
-struct		s_solid_texture
+struct	s_solid_texture
 {
 	t_color	color;
 };
 
-struct		s_checker_texture
+struct	s_checker_texture
 {
 	t_color	odd;
 	t_color	even;
 };
 
-struct			s_smooth_perlin_texture
+struct	s_smooth_perlin_texture
 {
 	cl_float	scale;
 };
@@ -296,22 +335,24 @@ struct	s_image_texture
 	int	height;
 };
 
-union							u_texture_data
+union	u_texture_data
 {
-	struct	s_solid_texture			solid;
-	struct	s_checker_texture		checker;
-	struct	s_smooth_perlin_texture	smooth_perlin;
+	struct s_solid_texture			solid;
+	struct s_checker_texture		checker;
+	struct s_smooth_perlin_texture	smooth_perlin;
 };
 
-/**
+/*
+** todo:
 ** move ?
 ** scale ?
 */
-struct						s_texture		//32bytes
+
+struct	s_texture
 {
-	union u_texture_data	data;		//16 bytes
-	t_texture_type			type;		//4 bytes
-	char					gap[12];	//12 byte gap
+	union u_texture_data	data;
+	t_texture_type			type;
+	char					gap[12];
 };
 
 #endif
@@ -324,7 +365,7 @@ struct						s_texture		//32bytes
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/11 22:17:02 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:53:05 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,11 +378,16 @@ struct						s_texture		//32bytes
 # endif
 
 typedef enum e_material_type		t_material_type;
-typedef struct s_material			t_material; //64 bytes
 
-enum e_material_type
+/*
+** 64 bytes
+*/
+
+typedef struct s_material			t_material;
+
+enum	e_material_type
 {
-	matte, //kd, ka
+	matte,
 	phong,
 
 	plastic,
@@ -354,11 +400,11 @@ enum e_material_type
 	metal,
 	conductor,
 
-	dielectric,	//transparance
+	dielectric,
 	rough_dielectric,
 };
 
-/**
+/*
 ** color					//16
 ** reflective color 		//16
 ** type						//4
@@ -374,26 +420,27 @@ enum e_material_type
 ** uchar gap[8]				//8
 */
 
-struct					s_material //kd + ks < 1.0
+struct	s_material
 {
-	t_color				reflective_color;					//16 bytes
-	t_material_type		type;								//4		20
-	cl_float			kd; //diffuse reflection[0, 1]		//4		24
-	cl_float			ka; //ambient reflection			//4		28
-	cl_float			ks; //specular reflection [0, 1]	//4		32
-	cl_float			kr;	//reflective coefficient		//4		36
-	cl_float			kt; //transparent coefficient		//4		40
-	cl_float			exp;								//4		44
-	cl_float			ls;									//4		48
+	t_color				reflective_color;
+	t_material_type		type;
+	cl_float			kd;
+	cl_float			ka;
+	cl_float			ks;
+	cl_float			kr;
+	cl_float			kt;
+	cl_float			exp;
+	cl_float			ls;
 
-	int					texture_id;							//4		52
+	int					texture_id;
 
-	cl_uchar 			is_reflective;						//1		53
-	cl_uchar			is_transparent;						//1		54
-	cl_uchar			gap[10];							//2		64
+	cl_uchar			is_reflective;
+	cl_uchar			is_transparent;
+	cl_uchar			gap[10];
 };
 
 int		create_material(t_material	type);
+
 #endif
 
 /* ************************************************************************** */
@@ -404,7 +451,7 @@ int		create_material(t_material	type);
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:20 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 19:00:58 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:56:49 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -433,13 +480,10 @@ enum	e_types
 	disk,
 	rectangle,
 	generic_shere,
-	mobius
-	//todo(dmelessa): another generic types
 };
 
-/**
-** TODO: change
-**
+/*
+** @brief geometric properties of object
 */
 struct					s_obj
 {
@@ -457,30 +501,39 @@ struct					s_obj
 	cl_int				boolean;
 };
 
+/*
+** vector1 = vertex2 - vertex1
+** vector2 = vertex3 - vertex1
+*/
+
 struct					s_triangle
 {
 	cl_float4			vertex1;
 	cl_float4			vertex2;
 	cl_float4			vertex3;
-	cl_float4			vector1; //vertex2 - vertex1
-	cl_float4			vector2; // vertex3 - vertex1
+	cl_float4			vector1;
+	cl_float4			vector2;
 	cl_float4			normal;
 };
 
+/*
+** auxiliary struct for data transfer between function
+** origin also vertex for triangle
+*/
 typedef struct			s_object_info
 {
 	t_material			material;
-	cl_float4			origin;	//vertex for triangle
+	cl_float4			origin;
 	cl_float4			vector1;
 	cl_float4			vector2;
-	cl_float4			direction; //triangle or plane?
-	cl_float3			rotation;	//object rotation about x, y, z axis
-	cl_float3			scaling;	//scaling toward to axis
+	cl_float4			direction;
+	cl_float3			rotation;
+	cl_float3			scaling;
 	t_bbox				bounding_box;
 	cl_float			minm;
 	cl_float			maxm;
-	cl_float			r;	//torus radius1
-	cl_float			r2; // torus radius2
+	cl_float			r;
+	cl_float			r2;
 	t_type				type;
 	cl_int				transformed;
 }						t_object_info;
@@ -495,7 +548,7 @@ typedef struct			s_object_info
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 17:35:29 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/27 16:35:31 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:42:07 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -511,7 +564,6 @@ typedef enum e_light_types			t_light_type;
 typedef struct s_light				t_light;
 typedef struct s_ambient_occluder	t_ambient_occluder;
 
-//NOTE: some types will be removed from that list
 enum	e_light_types
 {
 	ambient,
@@ -522,17 +574,34 @@ enum	e_light_types
 	enviromental
 };
 
+/*
+** struct for light object
+** matrix - tranformation matrix for area lights
+** origin - origin of point light
+** direction - direction of directional light
+** color - light color
+** ls - radiance scaling factor [0, inf)
+** type - type of the light
+** object_id - id of object for area light
+** pdf - area value for area light
+*/
+
 struct				s_light
 {
 	cl_float16		matrix;
 	cl_float4		origin;
 	cl_float4		direction;
 	t_color			color;
-	cl_float		ls; //radiance scaling factor [0, inf)
+	cl_float		ls;
 	t_light_type	type;
-	cl_int			object_id; //for area lights
+	cl_int			object_id;
 	cl_float		pdf;
 };
+
+/*
+** ambient occluder for more realistic ambient illumination
+** todo: delete u,v,w?
+*/
 
 struct				s_ambient_occluder
 {
@@ -541,7 +610,7 @@ struct				s_ambient_occluder
 	cl_float4		w;
 	t_color			color;
 	t_color			min_amount;
-	cl_float		ls; //radiance scaling factor [0, inf)
+	cl_float		ls;
 	cl_int			sampler_id;
 	cl_int			gap[2];
 };
@@ -553,10 +622,10 @@ struct				s_ambient_occluder
 /*                                                        :::      ::::::::   */
 /*   sampler.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:53:59 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/21 16:07:57 by user             ###   ########.fr       */
+/*   Updated: 2020/12/03 22:17:12 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -567,48 +636,56 @@ struct				s_ambient_occluder
 #  include "rt_types.h"
 # endif
 
-typedef enum e_sampler_type			t_sampler_type;
-typedef struct s_sampler			t_sampler;
+typedef enum e_sampler_type	t_sampler_type;
+typedef struct s_sampler	t_sampler;
 
 enum	e_sampler_type
 {
-		none, //maybe we can replace it with regular grid where is onlu one sample per pixel
-		regular_grid,
-		jitter,
-		rand_jitter,
-		pure_random,
-		nrooks
+	none,
+	regular_grid,
+	jitter,
+	rand_jitter,
+	pure_random,
+	nrooks
 };
 
 /*
 ** Sample types flags
 */
-#define DEFAULT_SAMPLES		1 << 0
-#define DISK_SAMPLES		1 << 1
-#define HEMISPHERE_SAMPLES	1 << 2
 
-// #ifdef _WIN64
-// __declspec(align(4))
-// # endif
-struct				s_sampler
+# define DEFAULT_SAMPLES		1 << 0
+# define DISK_SAMPLES		1 << 1
+# define HEMISPHERE_SAMPLES	1 << 2
+
+/*
+** num_sampler - number of sample points in a pattern
+** num_sets - number of sample set(patterns)
+** count - current number of sample points used
+** jump - random index jump
+*/
+
+struct	s_sampler
 {
 	t_sampler_type	type;
-	cl_int			num_samples; /* the number of sample points in a pattern */
-	cl_int			num_sets;	/* the number of sample sets(patterns) stores */
-	cl_uint			count;		/* the currenct numer of sample points used */
-	cl_int			jump;		// random index jump
-	cl_int			samples_type; // default / disk / hemisphere
-	// cl_int			shuffled_indices[NUM_SAMPLES * NUM_SETS];
+	cl_int			num_samples;
+	cl_int			num_sets;
+	cl_uint			count;
+	cl_int			jump;
+	cl_int			samples_type;
 
 	cl_int			offset;
 	cl_int			disk_samples_offset;
 	cl_int			hemisphere_samples_offset;
 };
 
-#ifndef __OPENCL_C_VERSION__
-void	map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples, cl_float2 *disk_samples);
-void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples, cl_float3 *hemisphere_samples, const float e);
-#endif
+# ifndef __OPENCL_C_VERSION__
+
+void	map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples,
+								cl_float2 *disk_samples);
+void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples,
+								cl_float3 *hemisphere_samples, const float e);
+
+# endif
 
 #endif
 
@@ -620,7 +697,7 @@ void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples, cl_float3 
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 20:05:10 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/11 22:19:06 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:38:00 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -632,17 +709,26 @@ void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples, cl_float3 
 #  include "objects.h"
 # endif
 
-typedef struct s_instance	t_instance; //96bytes
+/*
+** 96 bytes
+*/
+
+typedef struct s_instance	t_instance;
+
+/*
+** @brief
+** object_id = triangle_id if type == triangle
+** todo: remove matrix manager
+*/
 
 struct	s_instance
 {
-	t_material			material; //64 bytes
+	t_material			material;
 
-	cl_int				object_id; //triangle_id if type == triangle
-									// может быть надо назвать geometry?
-	cl_int				matrix_id; //менеджер матрицы не нужен, избавиться
+	cl_int				object_id;
+	cl_int				matrix_id;
 	t_type				type;
-	cl_float			area;	//area for emissive objects
+	cl_float			area;
 	cl_int				gap[3];
 	cl_uchar			uchar_gap[3];
 	cl_uchar			shadows;
@@ -658,7 +744,7 @@ struct	s_instance
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 00:27:56 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 13:51:05 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:29:09 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -670,30 +756,27 @@ struct	s_instance
 #  include "aabb.h"
 # endif
 
-typedef struct s_bvh_node t_bvh_node;
+typedef struct s_bvh_node	t_bvh_node;
 
 /*
 ** array of nodes will represent the struct itself
 */
-typedef struct s_bvh_node *t_bvh;
 
-struct s_bvh_node //48
+typedef struct s_bvh_node	*t_bvh;
+
+/*
+** 48 bytes
+** todo: remove center field
+*/
+
+struct			s_bvh_node
 {
 	t_bbox		aabb;
-	cl_float3	center; //todo(dmelessa): delete this field
+	cl_float3	center;
 	int			instance_id;
 	int			next;
 	int			gap[2];
 };
-
-/* host prototypes */
-# ifndef __OPENCL_C_VERSION__
-
-// #  include "instance_manager.h"
-
-// t_bbox	compute_aabb(t_instance_manager instance_mngr, int id);
-
-# endif
 
 #endif
 
@@ -705,17 +788,18 @@ struct s_bvh_node //48
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/20 22:16:16 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 22:02:22 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_OPTION_H
-# define RT_OPTION_H
+#ifndef RT_OPTIONS_H
+# define RT_OPTIONS_H
 
 # ifndef __OPENCL_C_VERSION__
 #  include "rt_types.h"
 #  include "color.h"
 #  include "sampler.h"
+#  include "sampler_manager.h"
 # endif
 
 # define DEFAULT_WIDTH 800
@@ -735,11 +819,15 @@ typedef struct s_rt_options		t_rt_options;
 
 /*
 ** TODO(dmelessa): move seed to this struct
+** ambient_illumination: 0 - no, 1 - constant, 2 - occluder
+** spp - samples per pixel
+** aa_id - anti aliasing sampler id
 */
-struct				s_rt_options
+
+struct			s_rt_options
 {
 	t_sampler		sampler;
-	cl_int			ambient_illumination; //0 - no, 1 - constant, 2 - occluder
+	cl_int			ambient_illumination;
 
 	t_color			background_color;
 
@@ -749,8 +837,8 @@ struct				s_rt_options
 
 	cl_int			area_lightning;
 
-	cl_float		spp; //samples per pixel
-	cl_int			aa_id; //anti-aliasing sampler id
+	cl_float		spp;
+	cl_int			aa_id;
 
 	t_tracer_type	tracer_type;
 
@@ -761,9 +849,7 @@ struct				s_rt_options
 
 # ifndef __OPENCL_C_VERSION__
 
-#  include "sampler_manager.h"
-
-int	init_default_options(t_rt_options *options,
+int				init_default_options(t_rt_options *options,
 					t_sampler_manager *sampler_manager);
 
 # endif
@@ -2190,10 +2276,10 @@ is_intersect(t_obj const obj, t_type const type, t_ray const ray,
 	{
 		return (rectangle_intersection(ray, obj, shade_rec, tmin));
 	}
-	else if (type == mobius)
-	{
-		return (mobius_intersection(ray, obj, shade_rec, tmin));
-	}
+	// else if (type == mobius)
+	// {
+		// return (mobius_intersection(ray, obj, shade_rec, tmin));
+	// }
 	return (false);
 }
 

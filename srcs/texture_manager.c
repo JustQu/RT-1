@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:34:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/06 21:14:37 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/04 21:53:38 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int		init_texture_manager(t_texture_manager *texture_manager)
 	texture_manager->nimgs = 0;
 	texture_manager->ntextures = 0;
 	texture_manager->current_offset = 0;
-	/* perlin noise */
 	texture_manager->ranvec = perlin_generate();
 	texture_manager->perm_x = perlin_generate_perm();
 	texture_manager->perm_y = perlin_generate_perm();
@@ -44,11 +43,10 @@ int		add_texture(t_texture_manager *texture_manager,
 		> texture_manager->textures_malloc_size)
 	{
 		texture_manager->textures = ft_realloc(texture_manager,
-										texture_manager->textures_malloc_size,
-										texture_manager->textures_malloc_size * 2);
+									texture_manager->textures_malloc_size,
+									texture_manager->textures_malloc_size * 2);
 		texture_manager->textures_malloc_size *= 2;
 	}
-	//TODO(dmelessa): realloc_imgs_data
 	texture_manager->textures[texture_manager->ntextures++] = texture;
 	return (texture_manager->ntextures - 1);
 }

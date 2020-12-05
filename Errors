@@ -1,9 +1,2 @@
-kernel>:1315:47: error: use of undeclared identifier 'r'
-        return (normalize(point - (float4)(0.0f, m + r, 0.0f, 0.0f)));
-                                                     ^
-<kernel>:1994:10: warning: expression result unused
-                        *tmin * 0.99f;
-                        ~~~~~ ^ ~~~~~
-<kernel>:3354:17: warning: implicit declaration of function 'random_in_unit_sphere' is invalid in C99
-                                                        + 0.3f * random_in_unit_sphere(state);
-                                                                 ^
+
+

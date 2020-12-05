@@ -6,12 +6,12 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 20:25:22 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 02:25:32 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:58:25 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RESOURCE_MANAGER
-# define RESOURCE_MANAGER
+#ifndef RESOURCE_MANAGER_H
+# define RESOURCE_MANAGER_H
 
 # include "rt_types.h"
 # include "rt_options.h"
@@ -36,4 +36,4 @@ void	add_parsed_asset(t_res_mngr *const mngr,
 int		init_resource_manager(t_res_mngr *resource_manager,
 							t_rt *rt);
 
-# endif
+#endif

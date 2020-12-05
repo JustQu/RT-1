@@ -4,6 +4,164 @@
     <SFA>
       <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
       <FILENAME>create_program.c</FILENAME>
+      <LINE>101</LINE>
+      <COLUMN>11</COLUMN>
+    </SFA>
+    <DEFECTCODE>6385</DEFECTCODE>
+    <DESCRIPTION>Чтение недопустимых данных из "str":  доступный для чтения объем равен "sizeof(char *)*g_num_files" байт, однако считать можно только "16" байт.</DESCRIPTION>
+    <FUNCTION>create_program</FUNCTION>
+    <DECORATED>create_program</DECORATED>
+    <FUNCLINE>87</FUNCLINE>
+    <PROBABILITY>1</PROBABILITY>
+    <RANK>4</RANK>
+    <CATEGORY>
+      <RULECATEGORY>mspft</RULECATEGORY>
+    </CATEGORY>
+    <PATH>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>89</LINE>
+        <COLUMN>7</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>90</LINE>
+        <COLUMN>7</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>91</LINE>
+        <COLUMN>7</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>92</LINE>
+        <COLUMN>9</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>93</LINE>
+        <COLUMN>12</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>95</LINE>
+        <COLUMN>3</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>96</LINE>
+        <COLUMN>5</COLUMN>
+        <KEYEVENT>
+          <ID>1</ID>
+          <KIND>объявление</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>"str" является массивом размером 0 байт</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>97</LINE>
+        <COLUMN>5</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>98</LINE>
+        <COLUMN>10</COLUMN>
+        <KEYEVENT>
+          <ID>2</ID>
+          <KIND>ветвь</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>Войти в этот цикл (предполагается "i&lt;g_num_files")</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>100</LINE>
+        <COLUMN>9</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>101</LINE>
+        <COLUMN>11</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>102</LINE>
+        <COLUMN>9</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>103</LINE>
+        <COLUMN>3</COLUMN>
+        <KEYEVENT>
+          <ID>3</ID>
+          <KIND>объявление</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>"i" может быть равно 1</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>98</LINE>
+        <COLUMN>10</COLUMN>
+        <KEYEVENT>
+          <ID>4</ID>
+          <KIND>ветвь</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>Продолжить этот цикл (предполагается "i&lt;g_num_files")</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>100</LINE>
+        <COLUMN>9</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>101</LINE>
+        <COLUMN>11</COLUMN>
+        <KEYEVENT>
+          <ID>5</ID>
+          <KIND>объявление</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>"i" является выходными данными из "read_file" (объявлено в строке 63)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>create_program.c</FILENAME>
+        <LINE>101</LINE>
+        <COLUMN>11</COLUMN>
+        <KEYEVENT>
+          <ID>6</ID>
+          <KIND>использование</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>Недопустимая операция чтения из "str" (за пределами доступного для чтения диапазона)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+    </PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+      <FILENAME>create_program.c</FILENAME>
       <LINE>100</LINE>
       <COLUMN>9</COLUMN>
     </SFA>
@@ -22,25 +180,25 @@
         <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
         <FILENAME>create_program.c</FILENAME>
         <LINE>89</LINE>
-        <COLUMN>5</COLUMN>
+        <COLUMN>7</COLUMN>
       </SFA>
       <SFA>
         <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
         <FILENAME>create_program.c</FILENAME>
         <LINE>90</LINE>
-        <COLUMN>5</COLUMN>
+        <COLUMN>7</COLUMN>
       </SFA>
       <SFA>
         <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
         <FILENAME>create_program.c</FILENAME>
         <LINE>91</LINE>
-        <COLUMN>5</COLUMN>
+        <COLUMN>7</COLUMN>
       </SFA>
       <SFA>
         <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
         <FILENAME>create_program.c</FILENAME>
         <LINE>92</LINE>
-        <COLUMN>8</COLUMN>
+        <COLUMN>9</COLUMN>
       </SFA>
       <SFA>
         <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
@@ -162,25 +320,25 @@
         <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
         <FILENAME>create_program.c</FILENAME>
         <LINE>89</LINE>
-        <COLUMN>5</COLUMN>
+        <COLUMN>7</COLUMN>
       </SFA>
       <SFA>
         <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
         <FILENAME>create_program.c</FILENAME>
         <LINE>90</LINE>
-        <COLUMN>5</COLUMN>
+        <COLUMN>7</COLUMN>
       </SFA>
       <SFA>
         <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
         <FILENAME>create_program.c</FILENAME>
         <LINE>91</LINE>
-        <COLUMN>5</COLUMN>
+        <COLUMN>7</COLUMN>
       </SFA>
       <SFA>
         <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
         <FILENAME>create_program.c</FILENAME>
         <LINE>92</LINE>
-        <COLUMN>8</COLUMN>
+        <COLUMN>9</COLUMN>
       </SFA>
       <SFA>
         <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
@@ -234,164 +392,6 @@
           <KIND>использование</KIND>
           <IMPORTANCE>Essential</IMPORTANCE>
           <MESSAGE>"str" разыменовано, но, возможно, по-прежнему равно NULL</MESSAGE>
-        </KEYEVENT>
-      </SFA>
-    </PATH>
-  </DEFECT>
-  <DEFECT>
-    <SFA>
-      <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-      <FILENAME>create_program.c</FILENAME>
-      <LINE>101</LINE>
-      <COLUMN>11</COLUMN>
-    </SFA>
-    <DEFECTCODE>6385</DEFECTCODE>
-    <DESCRIPTION>Чтение недопустимых данных из "str":  доступный для чтения объем равен "sizeof(char *)*g_num_files" байт, однако считать можно только "16" байт.</DESCRIPTION>
-    <FUNCTION>create_program</FUNCTION>
-    <DECORATED>create_program</DECORATED>
-    <FUNCLINE>87</FUNCLINE>
-    <PROBABILITY>1</PROBABILITY>
-    <RANK>4</RANK>
-    <CATEGORY>
-      <RULECATEGORY>mspft</RULECATEGORY>
-    </CATEGORY>
-    <PATH>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>89</LINE>
-        <COLUMN>5</COLUMN>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>90</LINE>
-        <COLUMN>5</COLUMN>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>91</LINE>
-        <COLUMN>5</COLUMN>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>92</LINE>
-        <COLUMN>8</COLUMN>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>93</LINE>
-        <COLUMN>12</COLUMN>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>95</LINE>
-        <COLUMN>3</COLUMN>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>96</LINE>
-        <COLUMN>5</COLUMN>
-        <KEYEVENT>
-          <ID>1</ID>
-          <KIND>объявление</KIND>
-          <IMPORTANCE>Essential</IMPORTANCE>
-          <MESSAGE>"str" является массивом размером 0 байт</MESSAGE>
-        </KEYEVENT>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>97</LINE>
-        <COLUMN>5</COLUMN>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>98</LINE>
-        <COLUMN>10</COLUMN>
-        <KEYEVENT>
-          <ID>2</ID>
-          <KIND>ветвь</KIND>
-          <IMPORTANCE>Full</IMPORTANCE>
-          <MESSAGE>Войти в этот цикл (предполагается "i&lt;g_num_files")</MESSAGE>
-        </KEYEVENT>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>100</LINE>
-        <COLUMN>9</COLUMN>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>101</LINE>
-        <COLUMN>11</COLUMN>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>102</LINE>
-        <COLUMN>9</COLUMN>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>103</LINE>
-        <COLUMN>3</COLUMN>
-        <KEYEVENT>
-          <ID>3</ID>
-          <KIND>объявление</KIND>
-          <IMPORTANCE>Essential</IMPORTANCE>
-          <MESSAGE>"i" может быть равно 1</MESSAGE>
-        </KEYEVENT>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>98</LINE>
-        <COLUMN>10</COLUMN>
-        <KEYEVENT>
-          <ID>4</ID>
-          <KIND>ветвь</KIND>
-          <IMPORTANCE>Full</IMPORTANCE>
-          <MESSAGE>Продолжить этот цикл (предполагается "i&lt;g_num_files")</MESSAGE>
-        </KEYEVENT>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>100</LINE>
-        <COLUMN>9</COLUMN>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>101</LINE>
-        <COLUMN>11</COLUMN>
-        <KEYEVENT>
-          <ID>5</ID>
-          <KIND>объявление</KIND>
-          <IMPORTANCE>Full</IMPORTANCE>
-          <MESSAGE>"i" является выходными данными из "read_file" (объявлено в строке 62)</MESSAGE>
-        </KEYEVENT>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>create_program.c</FILENAME>
-        <LINE>101</LINE>
-        <COLUMN>11</COLUMN>
-        <KEYEVENT>
-          <ID>6</ID>
-          <KIND>использование</KIND>
-          <IMPORTANCE>Essential</IMPORTANCE>
-          <MESSAGE>Недопустимая операция чтения из "str" (за пределами доступного для чтения диапазона)</MESSAGE>
         </KEYEVENT>
       </SFA>
     </PATH>

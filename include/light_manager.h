@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 01:40:51 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/11 01:42:43 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:39:09 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ typedef struct	s_light_manager
 	uint32_t	gap[2];
 }				t_light_manager;
 
-void	init_light_manager(t_light_manager *light_manger);
-int		add_parsed_light(t_light_manager *light_manager, t_parsed_light light);
-int		new_light(t_light_manager *light_manager, t_light_type type);
+void			init_light_manager(t_light_manager *light_manger);
+int				add_parsed_light(t_light_manager *light_manager,
+								t_parsed_light light);
+int				new_light(t_light_manager *light_manager, t_light_type type);
 
-# endif
+#endif

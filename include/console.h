@@ -6,18 +6,16 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 15:40:24 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/26 15:41:11 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:29:58 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONSOLE_H
 # define CONSOLE_H
 
-/**
+/*
 ** @brief взаимодействие с консолью
-**
+** TODO: everything
 */
-
-//todo
 
 #endif

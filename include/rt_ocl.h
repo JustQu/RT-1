@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   rt_ocl.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 15:45:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/21 15:52:43 by user             ###   ########.fr       */
+/*   Updated: 2020/12/03 21:59:22 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_OCL
-# define RT_OCL
+#ifndef RT_OCL_H
+# define RT_OCL_H
 
 # ifndef __OPENCL_C_VERSION__
 #  include "rt_types.h"
-#endif
+# endif
 # include "rt_options.h"
 # include "scene.h"
 # include "sampler_manager.h"
@@ -31,20 +31,22 @@
 #  define DEFAULT_KERNEL_DIR "./srcs/cl/"
 # endif
 
-/**
+/*
 ** NOTE: нельзя сделать кернел с именем 'main'
 ** на встроенной видеокарте intel
 */
+
 # define DEFAULT_KERNEL_NAME	"main_kernel"
 
 # define DEFAULT_KERNEL_INCLUDE	"-I ./include -I ./srcs/cl"
 # define DEFAULT_WORK_SIZE		DEFAULT_WIDTH * DEFAULT_HEIGHT
 # define WORK_GROUP_SIZE 64
 
-/**
+/*
 ** @brief
 ** информация о opencl
 */
+
 typedef struct			s_clp
 {
 	cl_platform_id		pl_id;
@@ -56,10 +58,11 @@ typedef struct			s_clp
 	cl_command_queue	queue;
 }						t_clp;
 
-/**
+/*
 ** @brief
 ** all information needed to start our kernel
 */
+
 typedef struct			s_cl_program
 {
 	t_clp				info;
@@ -99,9 +102,9 @@ typedef struct			s_cl_program
 
 typedef struct s_rt	t_rt;
 
-int			init_ocl(t_cl_program *program, t_scene *scene,
-					t_sampler_manager *sampler_manager, t_rt *rt);
-int			cleanup_ocl(t_cl_program *program);
-cl_program	create_program(cl_context context);
+int						init_ocl(t_cl_program *program, t_scene *scene,
+								t_sampler_manager *sampler_manager, t_rt *rt);
+int						cleanup_ocl(t_cl_program *program);
+cl_program				create_program(cl_context context);
 
 #endif

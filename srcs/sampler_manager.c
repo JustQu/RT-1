@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 19:14:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:19:34 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/04 22:35:01 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static int	realloc_sampler_manager(t_sampler_manager *sampler_manager,
 	return (SUCCESS);
 }
 
-static int		realloc_samplers(t_sampler_manager *sampler_manager, size_t new_size)
+static int	realloc_samplers(t_sampler_manager *sampler_manager,
+								size_t new_size)
 {
 	t_sampler *new_samplers;
 
@@ -57,13 +58,12 @@ static int		realloc_samplers(t_sampler_manager *sampler_manager, size_t new_size
 	return (SUCCESS);
 }
 
-t_sampler		init_sampler(t_sampler_type sampler_type, int num_samples)
+t_sampler	init_sampler(t_sampler_type sampler_type, int num_samples)
 {
 	t_sampler	sampler;
 
 	sampler.count = 0;
 	sampler.jump = 0;
-
 	sampler.type = num_samples == 1 ? regular_grid : sampler_type;
 	sampler.num_samples = num_samples ? num_samples : NUM_SAMPLES;
 	sampler.num_sets = NUM_SETS;
@@ -72,83 +72,16 @@ t_sampler		init_sampler(t_sampler_type sampler_type, int num_samples)
 		sampler.type = sampler_type;
 		sampler.num_samples = 1;
 		sampler.num_sets = 1;
-		return sampler;
+		return (sampler);
 	}
-	return sampler;
+	return (sampler);
 }
 
-#if 0
-int		random_shuffle(void *array, size_t nelems, size_t elem_size)
-{
-	unsigned char	*p_arr;
-	unsigned char	*p1;
-	unsigned char	*p2;
-	unsigned char	tmp;
-	int				random_index;
-
-	p_arr = (unsigned char *)array;
-	for (int i = 0; i < nelems; i++)
-	{
-		random_index = rand_int() % nelems;
-		p1 = p_arr + i * elem_size;
-		p2 = p_arr + random_index * elem_size;
-		for (int j = 0; j < elem_size; j++)
-		{
-			tmp = p1[j];
-			p1[j] = p2[j];
-			p2[j] = tmp;
-		}
-	}
-}
-
-void	setup_shuffled_indices(t_sampler *sampler)
-{
-	for (int i = 0; i < NUM_SAMPLES; i++) //fill shuffled_indicies array
-		sampler->shuffled_indices[i] = i;
-
-	random_shuffle(sampler->shuffled_indices, NUM_SAMPLES, sizeof(*sampler->shuffled_indices));
-}
-#endif
-
-/**
-** @todo
-** samples_type
-** @brief
-**
-** @return sampler_id or -1 if error
-*/
-int		new_sampler1(t_sampler_manager *sampler_manager,
-					t_sampler_type sampler_type,
-					int num_samples, int samples_type)
-{
-	t_sampler	sampler;
-	int			number;
-
-	sampler = init_sampler(sampler_type, num_samples);
-	sampler_manager->count++;
-	number = sampler_manager->samples_size + sampler.num_samples * sampler.num_sets;
-	if (number >= sampler_manager->samples_malloc_size)
-		realloc_sampler_manager(sampler_manager, 2 * number);
-	if (sampler_manager->count - 1 >= sampler_manager->samplers_malloc_size)
-		realloc_samplers(sampler_manager, sampler_manager->count * 2);
-
-	generate_samples(sampler,
-					sampler_manager->samples + sampler_manager->samples_size);
-					// sampler_manager->disk_samples + sampler_manager->samples_size,
-					// sampler_manager->hemisphere_samples + sampler_manager->samples_size);
-
-	sampler_manager->samples_size += sampler.num_sets * sampler.num_samples;
-	sampler_manager->samplers[sampler_manager->count - 1] = sampler;
-	return (sampler_manager->count - 1);
-}
-
-
-int		init_sampler1(t_sampler *sampler, t_sampler_type type,
+int			init_sampler1(t_sampler *sampler, t_sampler_type type,
 					int num_samples, int samples_type)
 {
 	sampler->count = 0;
 	sampler->jump = 0;
-
 	sampler->type = num_samples == 1 ? regular_grid : type;
 	sampler->num_samples = num_samples ? num_samples : NUM_SAMPLES;
 	sampler->num_sets = NUM_SETS;
@@ -162,14 +95,14 @@ int		init_sampler1(t_sampler *sampler, t_sampler_type type,
 	return (1);
 }
 
-void	map_sp(t_sampler_manager *m, t_sampler *s)
+void		map_sp(t_sampler_manager *m, t_sampler *s)
 {
 	int	a;
 
 	a = m->samples_malloc_size;
 	if (m->samples_size >= (a = m->samples_malloc_size))
-		m->samples = ft_realloc(m->samples, a,m->samples_malloc_size =
-			2 * m->samples_size);
+		m->samples = ft_realloc(m->samples, a,
+			m->samples_malloc_size = 2 * m->samples_size);
 	generate_samples(*s, m->samples + s->offset);
 	if (s->samples_type & DISK_SAMPLES)
 	{
@@ -182,16 +115,16 @@ void	map_sp(t_sampler_manager *m, t_sampler *s)
 	a = m->hemisphere_samples_malloc_size;
 	if (s->samples_type & HEMISPHERE_SAMPLES)
 	{
-		if (m->hemisphere_samples_size >=
-			m->hemisphere_samples_malloc_size)
+		if (m->hemisphere_samples_size >= m->hemisphere_samples_malloc_size)
 			m->hemisphere_samples = ft_realloc(m->hemisphere_samples, a,
-				m->hemisphere_samples_malloc_size = 2 * m->hemisphere_samples_size);
+				m->hemisphere_samples_malloc_size =
+					2 * m->hemisphere_samples_size);
 		map_samples_to_hemisphere(*s, m->samples + s->offset,
 			m->hemisphere_samples + s->hemisphere_samples_offset, 0.0f);
 	}
 }
 
-int		new_sampler(t_sampler_manager *mngr,
+int			new_sampler(t_sampler_manager *mngr,
 					t_sampler_type sampler_type,
 					int nsp,
 					int type)
@@ -208,7 +141,8 @@ int		new_sampler(t_sampler_manager *mngr,
 	}
 	if (type & HEMISPHERE_SAMPLES)
 	{
-		s.hemisphere_samples_offset = mngr->hemisphere_samples_size / sizeof(cl_float3);
+		s.hemisphere_samples_offset = mngr->hemisphere_samples_size
+									/ sizeof(cl_float3);
 		mngr->hemisphere_samples_size += nsp * s.num_sets * sizeof(cl_float3);
 	}
 	if (++mngr->count - 1 >= mngr->samplers_malloc_size)
@@ -218,7 +152,7 @@ int		new_sampler(t_sampler_manager *mngr,
 	return (mngr->count - 1);
 }
 
-int		init_sampler_manager(t_sampler_manager *sampler_manager)
+int			init_sampler_manager(t_sampler_manager *sampler_manager)
 {
 	sampler_manager->count = 0;
 	sampler_manager->samplers_malloc_size = 0;
@@ -234,4 +168,5 @@ int		init_sampler_manager(t_sampler_manager *sampler_manager)
 	sampler_manager->disk_samples = NULL;
 	new_sampler(sampler_manager, regular_grid, 16384,
 				DISK_SAMPLES | HEMISPHERE_SAMPLES);
+	return (SUCCESS);
 }

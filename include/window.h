@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 17:05:43 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 15:24:35 by user             ###   ########.fr       */
+/*   Updated: 2020/12/03 22:18:56 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@
 
 # ifndef __OPENCL_C_VERSION__
 #  include "rt_types.h"
-#endif
+# endif
 # include "color.h"
 
-/**
+/*
 ** @brief
 ** to manipulate sdl windows
 */
 
 typedef struct s_window	t_window;
 
-struct				s_window
+struct	s_window
 {
 	SDL_Window		*ptr;
 	SDL_Renderer	*renderer;
@@ -44,12 +44,13 @@ struct				s_window
 	t_uint			height;
 };
 
-/**
+/*
 ** @brief
 ** init sdl window and image buffer
 ** @param window
 ** @return ** int
 */
+
 int		init_window(t_window *window);
 void	display_image(t_window *window);
 void	free_window(t_window *window);

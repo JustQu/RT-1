@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <dmelessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 18:38:04 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/10/30 18:58:57 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/04 21:54:36 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include "libft.h"
 
-/**
+/*
 ** @brief allocate memory with size = `new_size`
 ** and copy `current_size` bytes data from `mem` memory
 ** @todo: move to libft
@@ -23,6 +23,7 @@
 ** @param new_size
 ** @return ** void*
 */
+
 void		*ft_realloc(void *mem, size_t current_size, size_t new_size)
 {
 	void	*new_mem;
@@ -45,7 +46,7 @@ float	float_max(float a, float b)
 	return (a > b ? a : b);
 }
 
-int		int_max(int	a, int b)
+int		int_max(int a, int b)
 {
 	return (a > b ? a : b);
 }

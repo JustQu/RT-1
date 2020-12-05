@@ -4,76 +4,14 @@
     <SFA>
       <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
       <FILENAME>perlin.c</FILENAME>
-      <LINE>44</LINE>
-      <COLUMN>9</COLUMN>
-    </SFA>
-    <DEFECTCODE>6011</DEFECTCODE>
-    <DESCRIPTION>Разыменование пустого указателя "p". </DESCRIPTION>
-    <FUNCTION>perlin_generate</FUNCTION>
-    <DECORATED>perlin_generate</DECORATED>
-    <FUNCLINE>39</FUNCLINE>
-    <PROBABILITY>1</PROBABILITY>
-    <RANK>4</RANK>
-    <CATEGORY>
-      <RULECATEGORY>mspft</RULECATEGORY>
-    </CATEGORY>
-    <PATH>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>perlin.c</FILENAME>
-        <LINE>41</LINE>
-        <COLUMN>12</COLUMN>
-        <KEYEVENT>
-          <ID>1</ID>
-          <KIND>объявление</KIND>
-          <IMPORTANCE>Essential</IMPORTANCE>
-          <MESSAGE>"p" может быть равно NULL</MESSAGE>
-        </KEYEVENT>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>perlin.c</FILENAME>
-        <LINE>42</LINE>
-        <COLUMN>10</COLUMN>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>perlin.c</FILENAME>
-        <LINE>42</LINE>
-        <COLUMN>19</COLUMN>
-        <KEYEVENT>
-          <ID>2</ID>
-          <KIND>ветвь</KIND>
-          <IMPORTANCE>Full</IMPORTANCE>
-          <MESSAGE>Войти в этот цикл (предполагается "i&lt;256")</MESSAGE>
-        </KEYEVENT>
-      </SFA>
-      <SFA>
-        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-        <FILENAME>perlin.c</FILENAME>
-        <LINE>44</LINE>
-        <COLUMN>9</COLUMN>
-        <KEYEVENT>
-          <ID>3</ID>
-          <KIND>использование</KIND>
-          <IMPORTANCE>Essential</IMPORTANCE>
-          <MESSAGE>"p" разыменовано, но, возможно, по-прежнему равно NULL</MESSAGE>
-        </KEYEVENT>
-      </SFA>
-    </PATH>
-  </DEFECT>
-  <DEFECT>
-    <SFA>
-      <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
-      <FILENAME>perlin.c</FILENAME>
-      <LINE>70</LINE>
+      <LINE>66</LINE>
       <COLUMN>7</COLUMN>
     </SFA>
     <DEFECTCODE>6011</DEFECTCODE>
     <DESCRIPTION>Разыменование пустого указателя "p". </DESCRIPTION>
     <FUNCTION>perlin_generate_perm</FUNCTION>
     <DECORATED>perlin_generate_perm</DECORATED>
-    <FUNCLINE>64</FUNCLINE>
+    <FUNCLINE>57</FUNCLINE>
     <PROBABILITY>1</PROBABILITY>
     <RANK>4</RANK>
     <CATEGORY>
@@ -83,8 +21,20 @@
       <SFA>
         <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
         <FILENAME>perlin.c</FILENAME>
-        <LINE>66</LINE>
+        <LINE>59</LINE>
         <COLUMN>6</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>perlin.c</FILENAME>
+        <LINE>60</LINE>
+        <COLUMN>5</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
+        <FILENAME>perlin.c</FILENAME>
+        <LINE>62</LINE>
+        <COLUMN>3</COLUMN>
         <KEYEVENT>
           <ID>1</ID>
           <KIND>объявление</KIND>
@@ -95,14 +45,14 @@
       <SFA>
         <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
         <FILENAME>perlin.c</FILENAME>
-        <LINE>68</LINE>
-        <COLUMN>10</COLUMN>
+        <LINE>63</LINE>
+        <COLUMN>3</COLUMN>
       </SFA>
       <SFA>
         <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
         <FILENAME>perlin.c</FILENAME>
-        <LINE>68</LINE>
-        <COLUMN>19</COLUMN>
+        <LINE>64</LINE>
+        <COLUMN>10</COLUMN>
         <KEYEVENT>
           <ID>2</ID>
           <KIND>ветвь</KIND>
@@ -113,7 +63,7 @@
       <SFA>
         <FILEPATH>D:\repos\C\rt2\srcs\</FILEPATH>
         <FILENAME>perlin.c</FILENAME>
-        <LINE>70</LINE>
+        <LINE>66</LINE>
         <COLUMN>7</COLUMN>
         <KEYEVENT>
           <ID>3</ID>

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 20:05:10 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/11 22:19:06 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:38:00 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,26 @@
 #  include "objects.h"
 # endif
 
-typedef struct s_instance	t_instance; //96bytes
+/*
+** 96 bytes
+*/
+
+typedef struct s_instance	t_instance;
+
+/*
+** @brief
+** object_id = triangle_id if type == triangle
+** todo: remove matrix manager
+*/
 
 struct	s_instance
 {
-	t_material			material; //64 bytes
+	t_material			material;
 
-	cl_int				object_id; //triangle_id if type == triangle
-									// может быть надо назвать geometry?
-	cl_int				matrix_id; //менеджер матрицы не нужен, избавиться
+	cl_int				object_id;
+	cl_int				matrix_id;
 	t_type				type;
-	cl_float			area;	//area for emissive objects
+	cl_float			area;
 	cl_int				gap[3];
 	cl_uchar			uchar_gap[3];
 	cl_uchar			shadows;

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/13 01:05:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/18 20:01:18 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/04 12:30:44 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	compute_uvw(t_camera *camera)
 		camera->u = cross_product(UP, camera->w);
 	else
 		camera->u = cross_product(RIGHT, camera->w);
-	camera->u.x = -camera->u.x; //doing this because we are using left handed coordinate system
+	camera->u.x = -camera->u.x;
 	camera->u.y = -camera->u.y;
 	camera->u.z = -camera->u.z;
 	camera->v = cross_product(camera->w, camera->u);
@@ -47,18 +47,16 @@ void	move_camera(t_camera *camera, int direction, float step)
 		camera->origin.x += camera->v.x * step;
 		camera->origin.y += camera->v.y * step;
 		camera->origin.z += camera->v.z * step;
-		// camera->origin.y += step;
 	}
 	else
 	{
 		camera->origin.x += camera->w.x * step;
 		camera->origin.y += camera->w.y * step;
 		camera->origin.z += camera->w.z * step;
-		// camera->origin.z += step;
 	}
 }
 
-/**
+/*
 ** @brief
 **
 ** @param camera
@@ -66,6 +64,7 @@ void	move_camera(t_camera *camera, int direction, float step)
 ** @param angle_degrees
 ** @return ** void
 */
+
 void	rotate_camera(t_camera *camera, int axis, float angle_degrees)
 {
 	t_matrix	m;
@@ -80,7 +79,6 @@ void	rotate_camera(t_camera *camera, int axis, float angle_degrees)
 	else if (axis == 1)
 	{
 		m = rotate_about_axis(camera->v, angle_degrees * M_PI / 180.0f);
-		// m = get_inverse_y_rotation_matrix(angle_degrees);
 		camera->u = norm4(vector_matrix_mul(camera->u, m));
 		camera->v = norm4(vector_matrix_mul(camera->v, m));
 		camera->w = norm4(vector_matrix_mul(camera->w, m));
@@ -88,7 +86,6 @@ void	rotate_camera(t_camera *camera, int axis, float angle_degrees)
 	else
 	{
 		m = rotate_about_axis(camera->w, angle_degrees * M_PI / 180.0f);
-		// m = get_inverse_z_rotation_matrix(angle_degrees);
 		camera->u = norm4(vector_matrix_mul(camera->u, m));
 		camera->v = norm4(vector_matrix_mul(camera->v, m));
 		camera->w = norm4(vector_matrix_mul(camera->w, m));

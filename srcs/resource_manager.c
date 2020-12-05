@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:55:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/20 21:52:18 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/04 22:35:55 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 #define DEG2RAD M_PI / 360.0f
 
-/**
+/*
 ** @brief Create inverse transformation matrix for object
 ** 1) scaling
 ** 2) rotation
@@ -28,7 +28,8 @@
 ** @param object_info
 ** @return ** t_matrix
 */
-t_matrix	create_inv_transformation_matrix(t_instance_info info)
+
+t_matrix		create_inv_transformation_matrix(t_instance_info info)
 {
 	t_matrix	m;
 
@@ -39,8 +40,8 @@ t_matrix	create_inv_transformation_matrix(t_instance_info info)
 	return (m);
 }
 
-int	add_instance(t_res_mngr *res_mngr,
-				t_instance_manager *mngr, t_instance_info data)
+int				add_instance(t_res_mngr *res_mngr,
+							t_instance_manager *mngr, t_instance_info data)
 {
 	t_instance	new;
 
@@ -69,7 +70,7 @@ int	add_instance(t_res_mngr *res_mngr,
 	return (++mngr->ninstances - 1);
 }
 
-float	compute_area(t_instance_info info)
+float			compute_area(t_instance_info info)
 {
 	float	s;
 
@@ -81,7 +82,7 @@ float	compute_area(t_instance_info info)
 	return (s);
 }
 
-void	add_emissive_instance(t_res_mngr *mngr, t_instance_info data)
+void			add_emissive_instance(t_res_mngr *mngr, t_instance_info data)
 {
 	int				i;
 	int				j;
@@ -110,14 +111,15 @@ void	add_emissive_instance(t_res_mngr *mngr, t_instance_info data)
 	}
 }
 
-int		init_resource_manager(t_res_mngr *resource_manager, t_rt *rt)
+int				init_resource_manager(t_res_mngr *resource_manager, t_rt *rt)
 {
 	resource_manager->scene = &rt->scene;
 	resource_manager->sampler_manager = &rt->sampler_manager;
 	resource_manager->rt_options = &rt->options;
+	return (SUCCESS);
 }
 
-void	scan_instance(t_res_mngr *const mngr, t_parsed_info asset)
+void			scan_instance(t_res_mngr *const mngr, t_parsed_info asset)
 {
 	mngr->info.type = asset.data.object.type;
 	mngr->info.origin = asset.data.object.origin;
@@ -146,14 +148,22 @@ void	scan_instance(t_res_mngr *const mngr, t_parsed_info asset)
 		mngr->info.r2 = pow(tanf(asset.data.object.r2 * DEG2RAD), 2) + 1.0f;
 	mngr->info.v1 = asset.data.object.vector1;
 	mngr->info.v2 = asset.data.object.vector2;
-	if (mngr->info.type == rectangle) //normalize vectors if it is rectangle
+	if (mngr->info.type == rectangle)
+	//normalize vectors if it is rectangle
 	{
 		mngr->info.v1 = (mngr->info.v1);
 		mngr->info.v2 = (mngr->info.v2);
 	}
 }
 
-//todo: check array boundaries
+/*
+** @brief Get the instance info object
+** @todo: check array boundaries
+** @param mngr
+** @param id
+** @return **** t_instance_info
+*/
+
 t_instance_info	get_instance_info(t_res_mngr *mngr, int id)
 {
 	t_instance_info	info;
@@ -162,10 +172,12 @@ t_instance_info	get_instance_info(t_res_mngr *mngr, int id)
 	return (info);
 }
 
-void	add_parsed_asset(t_res_mngr *const mngr, t_parsed_info asset)
+void			add_parsed_asset(t_res_mngr *const mngr, t_parsed_info asset)
 {
-	int	i, j;
+	int				i;
+	int				j;
 	t_parsed_light	l;
+
 	if (asset.type == object)
 	{
 		scan_instance(mngr, asset);

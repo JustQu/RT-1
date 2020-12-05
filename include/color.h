@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:51:48 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/09/28 13:48:21 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/03 21:29:39 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 
 typedef struct s_color	t_color;
 
-/**
+/*
 ** @brief store color in rgb float compnents.
 ** Components are normolized [0.0f, 1.0f]
-**
 */
-struct			s_color
+
+struct	s_color
 {
 	cl_float	r;
 	cl_float	g;
@@ -33,9 +33,11 @@ struct			s_color
 };
 
 # ifndef __OPENCL_C_VERSION__
+
 void	set_color_int(t_color *color, int value);
 void	set_color_uchar(t_color *color, uint8_t r, uint8_t g, uint8_t b);
 void	set_color_float(t_color *color, float r, float g, float b);
+
 # endif
 
 #endif

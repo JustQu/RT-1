@@ -6,7 +6,7 @@
 #    By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/11/16 18:07:44 by dmelessa         ###   ########.fr        #
+#    Updated: 2020/11/30 20:44:14 by dmelessa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,14 +86,17 @@ SRCSDIR	= ./srcs/
 SRCS =aabb.c			instance_manager.c	perlin.c		sampler_manager.c\
 bvh.c			light_manager.c		random.c		scene.c\
 camera.c		main.c			read_data.c		swap.c\
-catch_event.c		material.c		resource_manager.c	texture.c\
-color.c			material_manager.c	rt.c			texture_manager.c\
+catch_event.c		material.c		resource_manager.c\
+color.c			material_manager.c	rt.c\
 create_program.c	matrix.c		rt_ocl.c		utils.c\
 error_handling.c	matrix_manager.c	rt_options.c		vector.c\
 init.c			object_manager.c	sampler.c		window.c\
+gui.c			gui_render_text.c	gui_tab_bar.c	gui_button.c\
+gui_init.c		gui_utils.c			texture_manager.c	texture.c\
+gui_utils_2.c		gui_get_data.c		gui_object_vision.c\
+gui_get_data_2.c	gui_tab_bar_2.c		gui_utils_3.c	gui_get_data_3.c\
 
 
-	# gui_gradient.c
 
 OBJSDIR = ./obj/
 OBJS = $(addprefix $(OBJSDIR), $(SRCS:.c=.o))
