@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/06 18:27:30 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/06 19:08:22 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,13 @@ static int	catch_window_event(t_rt *rt, t_window *win, SDL_Event event)
 	else if (event.window.event == SDL_WINDOWEVENT_CLOSE)
 		return (1);
 	else if (event.window.event == SDL_WINDOWEVENT_RESIZED)
+	{
+		win->width = event.window.data1;
+		win->height = event.window.data2;
 		printf("Window size changed to %dx%d\n", event.window.data1,
 												event.window.data2);
+	}
+
 	return (0);
 }
 

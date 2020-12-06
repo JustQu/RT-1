@@ -3531,6 +3531,7 @@ t_color	matte_sample_light(t_material material,
 
 	float4	wi = get_light_direction2(scene, &light, shade_rec,
 										sampler_manager, seed);
+	wi = normalize(wi);
 	if (options.shadows)
 	{
 		t_ray	shadow_ray = { .origin = shade_rec.hit_point

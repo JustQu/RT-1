@@ -6,7 +6,7 @@
 #    By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/12/06 17:05:23 by aapricot         ###   ########.fr        #
+#    Updated: 2020/12/06 19:09:08 by aapricot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ LINUX = Linux
 CFLAGS = -I$(INCDIR)\
 		 -I$(LIBFTINC)\
 		 -I$(SDL2INC)\
-		 -I./Libs/SDL2_image.framework/Headers\
+		 -I/Users/dmelessa/rt2/Libs/SDL2_image.framework/Headers\
 		 -I./Libs/SDL2\
 		 -I./Libs/SDL2_ttf/include\
 		 -g
@@ -84,19 +84,19 @@ INCS = *.h
 INCS := $(addprefix $(INCDIR)/, $(INCS))
 
 SRCSDIR	= ./srcs/
-SRCS =aabb.c                  get_second_values.c     gui_tab_utils.c         pars_camera.c           rt_options.c\
-bvh.c                   get_tex_cam_types.c     gui_utils.c             pars_light.c            sampler.c\
-camera.c                get_tracer_type.c       gui_utils_2.c           pars_material.c         sampler_manager.c\
-catch_event.c           gui.c                   gui_utils_3.c           pars_obj.c              scene.c\
-cl                      gui_button.c            init.c                  pars_option.c           swap.c\
-color.c                 gui_get_data.c          init_parsed_scene.c     pars_texture.c          texture.c\
-create_program.c        gui_get_data_2.c        instance_manager.c      parser.c                texture_manager.c\
-error_handling.c        gui_get_data_3.c        light_manager.c         parser_functions.c      utils.c\
-get_default.c           gui_init.c              logs.c                  perlin.c                vector.c\
-get_first_values.c      gui_object_vision.c     main.c                  random.c                window.c\
-get_key_value.c         gui_render_text.c       matrix.c                resource_manager.c\
-get_light_type.c        gui_tab_bar.c           matrix_manager.c        rt.c\
-get_obj_mat_types.c     gui_tab_bar_2.c         object_manager.c        rt_ocl.c\
+SRCS =aabb.c                  get_light_type.c        gui_object_vision.c     light_manager.c         pars_texture.c          scene.c\
+bvh.c                   get_obj_mat_types.c     gui_render_text.c       logs.c                  parser.c                swap.c\
+camera.c                get_second_values.c     gui_tab_bar.c           main.c                  parser_functions.c      texture.c\
+catch_event.c           get_tex_cam_types.c     gui_tab_bar_2.c         matrix.c                perlin.c                texture_manager.c\
+cl                      get_tracer_type.c       gui_tab_utils.c         matrix_manager.c        random.c                utils.c\
+color.c                 gui.c                   gui_utils.c             object_manager.c        resource_manager.c      vector.c\
+create_program.c        gui_button.c            gui_utils_2.c           pars_camera.c           rt.c                    window.c\
+error_handling.c        gui_get_data.c          gui_utils_3.c           pars_light.c            rt_ocl.c\
+get_default.c           gui_get_data_2.c        init.c                  pars_material.c         rt_options.c\
+get_first_values.c      gui_get_data_3.c        init_parsed_scene.c     pars_obj.c              sampler.c\
+get_key_value.c         gui_init.c              instance_manager.c      pars_option.c           sampler_manager.c\
+
+
 
 
 
