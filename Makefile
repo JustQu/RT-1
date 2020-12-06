@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+         #
+#    By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/12/06 16:32:43 by dmelessa         ###   ########.fr        #
+#    Updated: 2020/12/06 17:05:23 by aapricot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,12 +46,11 @@ ifeq ($(SYSTEM), $(MACOS))
 
 	# SDL		= -framework SDL2_image\
 	# 		 -framework SDL2_ttf\
-	# 		 -framework SDL2_gfx
 
 
-	SDL		= -lSDL2_image\
-			 -lSDL2_ttf\
-			 -lSDL2_gfx
+	# SDL		= -lSDL2_image\
+	# 		 -lSDL2_ttf\
+	# 		 -lSDL2_gfx
 
 	LDFLAGS = -L$(LIBFTDIR)\
 			  -F $(LIBSDIR)\
@@ -85,19 +84,19 @@ INCS = *.h
 INCS := $(addprefix $(INCDIR)/, $(INCS))
 
 SRCSDIR	= ./srcs/
-SRCS =aabb.c			instance_manager.c	perlin.c		sampler_manager.c\
-bvh.c			light_manager.c		random.c		scene.c\
-camera.c		main.c			read_data.c		swap.c\
-catch_event.c		material.c		resource_manager.c\
-color.c			material_manager.c	rt.c\
-create_program.c	matrix.c		rt_ocl.c		utils.c\
-error_handling.c	matrix_manager.c	rt_options.c		vector.c\
-init.c			object_manager.c	sampler.c		window.c\
-gui.c			gui_render_text.c	gui_tab_bar.c	gui_button.c\
-gui_init.c		gui_utils.c			texture_manager.c	texture.c\
-gui_utils_2.c		gui_get_data.c		gui_object_vision.c\
-gui_get_data_2.c	gui_tab_bar_2.c		gui_utils_3.c	gui_get_data_3.c\
-gui_tab_utils.c\
+SRCS =aabb.c                  get_second_values.c     gui_tab_utils.c         pars_camera.c           rt_options.c\
+bvh.c                   get_tex_cam_types.c     gui_utils.c             pars_light.c            sampler.c\
+camera.c                get_tracer_type.c       gui_utils_2.c           pars_material.c         sampler_manager.c\
+catch_event.c           gui.c                   gui_utils_3.c           pars_obj.c              scene.c\
+cl                      gui_button.c            init.c                  pars_option.c           swap.c\
+color.c                 gui_get_data.c          init_parsed_scene.c     pars_texture.c          texture.c\
+create_program.c        gui_get_data_2.c        instance_manager.c      parser.c                texture_manager.c\
+error_handling.c        gui_get_data_3.c        light_manager.c         parser_functions.c      utils.c\
+get_default.c           gui_init.c              logs.c                  perlin.c                vector.c\
+get_first_values.c      gui_object_vision.c     main.c                  random.c                window.c\
+get_key_value.c         gui_render_text.c       matrix.c                resource_manager.c\
+get_light_type.c        gui_tab_bar.c           matrix_manager.c        rt.c\
+get_obj_mat_types.c     gui_tab_bar_2.c         object_manager.c        rt_ocl.c\
 
 
 
