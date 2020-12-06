@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+         #
+#    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/12/06 16:32:43 by dmelessa         ###   ########.fr        #
+#    Updated: 2020/12/06 16:51:26 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ LINUX = Linux
 CFLAGS = -I$(INCDIR)\
 		 -I$(LIBFTINC)\
 		 -I$(SDL2INC)\
-		 -I./Libs/SDL2_image.framework/Headers\
+		 -I/Users/dmelessa/rt2/Libs/SDL2_image.framework/Headers\
 		 -I./Libs/SDL2\
 		 -I./Libs/SDL2_ttf/include\
 		 -g
@@ -87,9 +87,9 @@ INCS := $(addprefix $(INCDIR)/, $(INCS))
 SRCSDIR	= ./srcs/
 SRCS =aabb.c			instance_manager.c	perlin.c		sampler_manager.c\
 bvh.c			light_manager.c		random.c		scene.c\
-camera.c		main.c			read_data.c		swap.c\
-catch_event.c		material.c		resource_manager.c\
-color.c			material_manager.c	rt.c\
+camera.c		main.c					swap.c\
+catch_event.c				resource_manager.c\
+color.c				rt.c\
 create_program.c	matrix.c		rt_ocl.c		utils.c\
 error_handling.c	matrix_manager.c	rt_options.c		vector.c\
 init.c			object_manager.c	sampler.c		window.c\
@@ -98,6 +98,8 @@ gui_init.c		gui_utils.c			texture_manager.c	texture.c\
 gui_utils_2.c		gui_get_data.c		gui_object_vision.c\
 gui_get_data_2.c	gui_tab_bar_2.c		gui_utils_3.c	gui_get_data_3.c\
 gui_tab_utils.c\
+
+
 
 
 
