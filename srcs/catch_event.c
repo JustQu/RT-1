@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 10:09:25 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/03 13:53:08 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,6 @@ int catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
 		if (event.type == SDL_MOUSEBUTTONUP)
 		{
 		}
-
 		//check input
 		//switch kernel here?
 		return -1;

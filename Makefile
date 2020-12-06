@@ -6,7 +6,7 @@
 #    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/11/29 13:30:05 by alex             ###   ########.fr        #
+#    Updated: 2020/12/06 08:27:56 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,6 +97,7 @@ gui.c			gui_render_text.c	gui_tab_bar.c	gui_button.c\
 gui_init.c		gui_utils.c			texture_manager.c	texture.c\
 gui_utils_2.c		gui_get_data.c		gui_object_vision.c\
 gui_get_data_2.c	gui_tab_bar_2.c		gui_utils_3.c	gui_get_data_3.c\
+gui_tab_utils.c\
 
 
 
