@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:52:14 by alex              #+#    #+#             */
-/*   Updated: 2020/11/29 14:52:25 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/06 09:00:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void			draw_button(t_window *win, SDL_Rect *rect,
 	int			w;
 	int			h;
 
-	if (str != 0)
+	if (str[0] != NULL)
 	{
 		g_font_size = FONT_SUBTITLE_SIZE;
 		text = render_text(str[0], "font/Title.ttf",

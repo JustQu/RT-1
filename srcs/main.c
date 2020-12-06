@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/05 23:58:40 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/06 16:37:20 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,13 @@ void	exit_program(t_window window)
 	SDL_Quit();
 }
 
-/**
+/*
 ** @brief
 ** dispay image in window w
 ** @param w
 ** @return ** void
 */
+
 void	display_image(t_window *w)
 {
 	SDL_RenderClear(w->renderer);
@@ -57,12 +58,13 @@ void	display_image(t_window *w)
 	// SDL_RenderPresent(w->renderer);
 }
 
-/**
+/*
 ** @brief Очистка памяти
 ** todo: память очищается не полностью
 ** @param rt
 ** @return ** void
 */
+
 // void cleanup(t_rt rt)
 // {
 // 	clReleaseMemObject(rt.program.disk_samples);
@@ -112,7 +114,7 @@ void	main_loop(t_app app)
 
 #include "app.h"
 
-/**
+/*
 ** @todo: -s 'scene_file_name';
 ** 		  --client;
 ** 		  --server 'ip';
@@ -126,6 +128,7 @@ void	main_loop(t_app app)
 ** @param av
 ** @return ** void
 */
+
 void	read_av(t_app *app, int ac, char **av)
 {
 	for (int i = 1; i < ac; i++)

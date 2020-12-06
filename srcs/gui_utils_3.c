@@ -6,12 +6,23 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 09:49:42 by alex              #+#    #+#             */
-/*   Updated: 2020/12/04 22:34:39 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/06 16:34:45 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "rt.h"
+
+void			draw_line(t_window *win, t_colors *color,
+					SDL_Rect rect, SDL_Rect rect_2)
+{
+	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
+	color->text_color.g, color->text_color.b, color->text_color.a);
+	SDL_RenderDrawLine(win->renderer, rect.x,
+		rect_2.y - MARGIN_Y,
+		rect_2.x + rect_2.w,
+		rect_2.y - MARGIN_Y);
+}
 
 void			minimum_rect_size(int w, int h, SDL_Rect *rect, SDL_Rect *ptr)
 {

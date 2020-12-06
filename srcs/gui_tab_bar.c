@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/12/05 23:59:16 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/06 16:34:22 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void			camera_tab(t_window *win, t_rt *rt, t_all_rect *rect,
 	light_tab(win, rt, rect, color);
 }
 
+// get_instance_info(); // start get data;
 void			objects_tab(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color)
 {
@@ -115,26 +116,14 @@ void			option_tab(t_window *win, t_rt *rt,
 	free_str(str);
 	get_float_data(1, "Samplers", str); //samplers rt->scene.camera.sampler_id
 	draw_button(win, &rect->second_button, str, color);
-	free_str(str);
-	get_float_data(1, "Deep", str); //rt->scene.camera.d
-	draw_button(win, &rect->third_button, str, color);
-	free_str(str);
-	get_float_data(1, "Back_color", str); //get background color
-	draw_button(win, &rect->fourth_button, str, color);
-	free_str(str);
-	get_float_data(1, "Ambient_il", str); // get ambient il
-	draw_button(win, &rect->fifth_button, str, color);
-	free_str(str);
-	type_ambien_il(win, rt, rect, color);
-	get_true_data(0, "Shadows", str); // get shadows
-	draw_button(win, &rect->seven_button, str, color);
-	free_str(str);
-	get_float_data(1, "Depth", str); // get depth
-	draw_button(win, &rect->eight_button, str, color);
-	free_str(str);
-	get_true_data(1, "Global_il", str); // get global_illumination
-	draw_button(win, &rect->nine_button, str, color);
-	free_str(str);
+	free_str(&str);
+	get_color_data(rt->options.background_color, "Back_color", &str); //get background color
+	str[1] = NULL;
+	draw_button(win, &rect->third_button, str, color);	//back color need buton_rgb
+	draw_color_button(win, color, rt->options.background_color, &rect->third_button);
+	draw_line(win, color, rect->background, rect->third_button);
+	free_str(&str);
+	option_tab_cont(win, rt, color, rect);
 }
 
 void			gui_tab_bar(t_window *win, t_rt *rt,

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/04 22:33:19 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/06 16:35:02 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,7 @@ void			objects_tab_cont(t_window *win, t_rt *rt,
 
 	ptr = 1;
 	shape_type_vision(win, rt, rect, color);
-	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
-	color->text_color.g, color->text_color.b, color->text_color.a);
-	SDL_RenderDrawLine(win->renderer, rect->background.x,
-		rect->seven_button.y - MARGIN_Y,
-		rect->seven_button.x + rect->seven_button.w,
-		rect->seven_button.y - MARGIN_Y);
+	draw_line(win, color, rect->background, rect->seven_button);
 	get_material_data(rt->scene.instance_mngr.instances[ptr].material.type,
 		"Material", str); // material type
 	draw_button(win, &rect->seven_button, str, color);
@@ -134,16 +129,12 @@ void			objects_tab_cont(t_window *win, t_rt *rt,
 	free_str(str);
 	gui_material_type(win, rt, rect, color);
 	get_texture_data(rt->scene.instance_mngr.texture_manager.textures->type,
-		"texture", str); // texture type
-	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
-	color->text_color.g, color->text_color.b, color->text_color.a);
-	SDL_RenderDrawLine(win->renderer, rect->background.x,
-		rect->ten_button.y - MARGIN_Y,
-		rect->ten_button.x + rect->ten_button.w,
-		rect->ten_button.y - MARGIN_Y);
-	draw_button(win, &rect->ten_button, str, color);
-	free_str(str);
-	get_float_data(1, "Color", str);
-	draw_button(win, &rect->eleven_button, str, color);
-	free_str(str);
+		"texture", &str); // texture type
+	draw_line(win, color, rect->background, rect->ten_button);
+	draw_button(win, &rect->ten_button, &str, color);
+	free_str(&str);
+	get_float_data(1, "Color", &str);
+	draw_button(win, &rect->eleven_button, &str, color);
+	// draw_color_button(win, color, , &rect->eleven_button);
+	free_str(&str);
 }

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/12/05 23:59:37 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/06 16:32:41 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,12 @@ void			get_true_data(int ptr,
 					char *string, char *str[4]);
 
 void			draw_save_image_text(t_window *win);
+void			draw_line(t_window *win, t_colors *color,
+					SDL_Rect rect, SDL_Rect rect_2);
+void			option_tab_cont(t_window *win, t_rt *rt,
+					t_colors *color, t_all_rect *rect);
+void			draw_color_button(t_window *win, t_colors *color,
+					t_color fill_color, SDL_Rect *rect);
 void			light_tab(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color);
 void			minimum_rect_size(int w, int h,
