@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 19:54:03 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 22:36:38 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/06 17:04:32 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,19 @@ void		render_scene(t_rt rt)
 int			init_rt(t_rt *rt, char *scene_file, t_res_mngr *resource_manager)
 {
 	init_sampler_manager(&rt->sampler_manager);
-	init_default_options(&rt->options, &rt->sampler_manager);
-	init_default_scene(&rt->scene, &rt->sampler_manager, resource_manager);
-	rt->scene.bvh = build_bvh(&rt->scene);
-	init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, rt);
+	init_default_options(resource_manager->rt_options, &rt->sampler_manager);
+	if (scene_file != NULL)
+	{
+		if (init_parsed_scene(&rt->scene, &rt->sampler_manager, resource_manager, scene_file) < 0)
+			init_default_scene(&rt->scene, &rt->sampler_manager, resource_manager);
+		rt->scene.bvh = build_bvh(&rt->scene);
+		init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, rt);
+	}
+	else
+	{
+		init_default_scene(&rt->scene, &rt->sampler_manager, resource_manager);
+		rt->scene.bvh = build_bvh(&rt->scene);
+		init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, rt);
+	}
 	return (SUCCESS);
 }

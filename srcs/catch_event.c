@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   catch_event.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/06 16:35:12 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/06 18:27:30 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,13 +202,13 @@ int		catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
 		if (event.type == SDL_MOUSEBUTTONUP)
 		{
 		}
-		if (event.type == SDL_MOUSEMOTION)
-		{
-			rotate_camera(&rt->scene.camera, 1, event.motion.xrel / 10.0f);
-			rotate_camera(&rt->scene.camera, 0, event.motion.yrel / 10.0f);
-			rt->options.reset = 1;
-			rt->options.spp = NUM_SAMPLES;
-		}
+		// if (event.type == SDL_MOUSEMOTION)
+		// {
+		// 	rotate_camera(&rt->scene.camera, 1, event.motion.xrel / 10.0f);
+		// 	rotate_camera(&rt->scene.camera, 0, event.motion.yrel / 10.0f);
+		// 	rt->options.reset = 1;
+		// 	rt->options.spp = NUM_SAMPLES;
+		// }
 		return -1;
 	}
 	return 0;
