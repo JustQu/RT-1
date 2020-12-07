@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:45:42 by user              #+#    #+#             */
-/*   Updated: 2020/11/28 11:54:04 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/06 20:35:23 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void			draw_save_image_text(t_window *win)
 
 	color = init_color(255, 255, 255, 0);
 	g_font_size = FONT_TITLE_SIZE;
-	text = render_text("Saved image as image.png", "font/Title.ttf",
+	text = render_text("Saved image as image.bmp", "font/Title.ttf",
 			color, win->renderer);
 	SDL_QueryTexture(text, NULL, NULL, &w, &h);
 	rect.x = win->width / 2 - w / 2;
@@ -72,11 +72,10 @@ void			save_image_func(t_window *win)
 		SDL_BYTESPERPIXEL(SDL_PIXELFORMAT_RGBA32), SDL_PIXELFORMAT_RGBA32);
 		if (!surf)
 			SDL_Log("Failed creating new surface: %s\n", SDL_GetError());
-		st = IMG_SaveJPG(surf, "image.jpg", 100);
+		st = SDL_SaveBMP(surf, "image.bmp");
 		if (st != 0)
 			SDL_Log("Failed saving image: %s\n", SDL_GetError());
 		draw_save_image_text(win);
-		SDL_Log("Saved texture as JPG to \"%s\"\n", "image.png");
 		SDL_FreeSurface(surf);
 		SDL_DestroyTexture(ren_tex);
 		g_save_image = 0;
