@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:10:52 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/03 19:19:07 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/07 21:00:19 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LOGS_H
 
 # include "parser.h"
+# include "resource_manager.h"
 
 # define UNKNOWN_SCENE_TYPE					-1
 # define SCENE_TYPE_DOES_NOT_EXIST			-2
@@ -31,7 +32,7 @@
 # define PARS_SUCCESS						-14
 # define PARS_UNSUCCESS						-15
 # define BAD_ORIGIN							-16
-# define BAD_DIRECTION						-17
+# define BAD_ROTATION						-17
 # define BAD_SOLID_COLOR					-18
 # define BAD_EVEN_COLOR						-19
 # define BAD_ODD_COLOR						-20
@@ -40,7 +41,29 @@
 # define BAD_CAMERA_ZOOM					-23
 # define BAD_CAMERA_TYPE					-24
 # define NO_CAMERA							-25
+# define ANGLE_DOES_NOT_EXIST				-27
+# define BAD_MINM_MAXM						-28
+# define RADIUS_DOES_NOT_EXIST				-29
+# define VECTORS_DOES_NOT_EXIST				-30
+# define BAD_DIFFUSE_COEFFICIEN				-31
+# define BAD_INTENSITY						-32
+# define BAD_REFLECTIVE						-33
+# define BAD_ROUGHNESS						-34
+# define BAD_TRANSMISSION					-35
+# define BAD_SPECULAR						-36
+# define BAD_AMBIENT						-37
 
 void		write_logs(int num_log, int fd, char *str);
+void		validate_cone(t_res_mngr *mngr, t_parsed_info asset, int log);
+int			validate_default(t_parsed_info *asset, int log);
+void		validate_cylinder(t_res_mngr *mngr, t_parsed_info asset, int log);
+void		validate_paraboloid(t_res_mngr *mngr, t_parsed_info asset, int log);
+void		validate_plane(t_res_mngr *mngr, t_parsed_info asset, int log);
+void		validate_sphere(t_res_mngr *mngr, t_parsed_info asset, int log);
+void		validate_torus_disk(t_res_mngr *mngr, t_parsed_info asset, int log);
+void		validate_triangle_box(t_res_mngr *mngr, t_parsed_info asset, int log);
+void		validate_rectangle(t_res_mngr *mngr, t_parsed_info asset, int log);
+int			validate_texture(t_parsed_info *asset, int log);
+int			validate_material(t_parsed_info *asset, int log);
 
 #endif

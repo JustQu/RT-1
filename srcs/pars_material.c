@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:14:07 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/06 17:47:46 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/07 20:00:18 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 t_selector		g_selector_mat[] = {
 	{"type", offsetof(t_material, type), get_mat_type},
-	{"ka", offsetof(t_material, ka), get_float},
-	{"kd", offsetof(t_material, kd), get_float},
-	{"kr", offsetof(t_material, kr), get_float}, //reflection_coefficient
-	{"ls", offsetof(t_material, ls), get_float},
-	{"ks", offsetof(t_material, ks), get_float},
-	{"exp", offsetof(t_material, exp), get_vector}, //roughness
-	{"kt", offsetof(t_material, kt), get_float},
+	{"ambient", offsetof(t_material, ka), get_float},
+	{"diffuse", offsetof(t_material, kd), get_float},
+	{"reflective", offsetof(t_material, kr), get_float},
+	{"intensity", offsetof(t_material, ls), get_float},
+	{"specular", offsetof(t_material, ks), get_float},
+	{"roughness", offsetof(t_material, exp), get_vector},
+	{"transmission", offsetof(t_material, kt), get_float},
 	{"reflective_color", offsetof(t_material, reflective_color), get_color},
 	{"is_reflective", offsetof(t_material, is_reflective), get_uchar},
 	{"is_transparent", offsetof(t_material, is_transparent), get_uchar}

@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 21:41:52 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/03 18:02:26 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/07 20:18:27 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,58 +37,34 @@ sizeof(t_selector);
 void			validate_parsed_obj(t_res_mngr *resource_manager,
 				t_parsed_info asset, int log)
 {
-	int			flag;
-
-	flag = 0;
 	if (asset.data.object.type == -2)
 	{
-		flag++;
 		write_logs(OBJ_TYPE_DOES_NOT_EXIST, log, "ERROR:");
-	}
-	if ((asset.data.object.material.type == -2) && (asset.data.object.texture.type == -2))
-	{
-		flag++;
-		write_logs(MATERIAL_TYPE_DOES_NOT_EXIST, log, "ERROR:");
-		write_logs(TEXTURE_TYPE_DOES_NOT_EXIST, log, "ERROR:");
-	}
-	if (asset.data.object.texture.type == solid && isnan(asset.data.object.texture.data.solid.color.r))
-	{
-		asset.data.object.texture.data.solid.color = (t_color){1.0f, 1.0f, 1.0f};
-		write_logs(BAD_SOLID_COLOR, log, "WARNING:");
-	}
-	if (asset.data.object.texture.type == checker)
-	{
-		if (isnan(asset.data.object.texture.data.checker.even.r))
-		{
-			asset.data.object.texture.data.checker.even = (t_color){1.0f, 0.0f, 0.0f};
-			write_logs(BAD_EVEN_COLOR, log, "WARNING:");
-		}
-		if (isnan(asset.data.object.texture.data.checker.odd.r))
-		{
-			asset.data.object.texture.data.checker.odd = (t_color){0.0f, 0.0f, 1.0f};
-			write_logs(BAD_ODD_COLOR, log, "WARNING:");
-		}
-	}
-	if (isnan(asset.data.object.origin.x))
-	{
-		asset.data.object.origin = (cl_float4){0.0f, 0.0f, 0.0f};
-		write_logs(BAD_ORIGIN, log, "WARNING:");
-	}
-	if (isnan(asset.data.object.direction.x))
-	{
-		asset.data.object.direction = (cl_float4){0.0f, 0.0f, 0.0f};
-		write_logs(BAD_DIRECTION, log, "WARNING:");
-	}
-	if (flag == 0)
-	{
-		write_logs(PARS_SUCCESS, log, NULL);
-		asset.type = 0;
-		add_parsed_asset(resource_manager, asset);
-	}
-	else
-	{
 		write_logs(PARS_UNSUCCESS, log, NULL);
+		return ;
 	}
+	else if (asset.data.object.type == -1)
+	{
+		write_logs(UNKNOWN_OBJ_TYPE, log, "ERROR:");
+		write_logs(PARS_UNSUCCESS, log, NULL);
+		return ;
+	}
+	else if (asset.data.object.type == cone)
+		validate_cone(resource_manager, asset, log);
+	else if (asset.data.object.type == cylinder)
+		validate_cylinder(resource_manager, asset, log);
+	else if (asset.data.object.type == paraboloid)
+		validate_paraboloid(resource_manager, asset, log);
+	else if (asset.data.object.type == plane)
+		validate_plane(resource_manager, asset, log);
+	else if (asset.data.object.type == sphere)
+		validate_sphere(resource_manager, asset, log);
+	else if (asset.data.object.type == torus || asset.data.object.type == disk)
+		validate_torus_disk(resource_manager, asset, log);
+	else if (asset.data.object.type == triangle || asset.data.object.type == box)
+		validate_triangle_box(resource_manager, asset, log);
+	else if (asset.data.object.type == rectangle)
+		validate_rectangle(resource_manager, asset, log);
 }
 
 void			fill_object(char *a, char *b, t_parsed_object *obj)
@@ -129,5 +105,6 @@ void			pars_object(t_res_mngr *resource_manager,
 		free(b);
 	}
 	asset->data.object = obj;
+	asset->type = 0;
 	validate_parsed_obj(resource_manager, *asset, log);
 }

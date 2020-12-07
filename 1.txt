@@ -19,11 +19,8 @@ object =
 	};
 	material = {
 		type = conductor;
-		kt = 0.95;
-		kd = 1.0;
-		ka = 0.25;
-		kr = 1;
-		exp = 0.1
+		reflective = 1;
+		roughness = 0.1
 	}
 }
 
@@ -38,10 +35,10 @@ object = {
 	};
 	material = {
 		type = mirror;
-		kd = 1.0;
-		kd = 0.25;
-		kt = 1.5;
-		kr = 1.0
+		diffuse = 1.0;
+		diffuse = 0.25;
+		transmission = 1.5;
+		reflective = 1.0
 	}
 }
 
@@ -58,10 +55,10 @@ object = {
 	};
 	material = {
 		type = phong;
-		ks = 0.2;
-		exp = 10.0;
-		kd = 0.8;
-		ka = 0.25
+		specular = 0.2;
+		roughness = 10.0;
+		diffuse = 0.8;
+		ambient = 0.25
 	}
 }
 
@@ -77,10 +74,10 @@ object = {
 	};
 	material = {
 		type = matte;
-		kr = 0.95;
-		kd = 0.8;
-		ks = 0.1;
-		exp = 100000.0
+		reflective = 0.95;
+		diffuse = 0.8;
+		specular = 0.1;
+		roughness = 100000.0
 	};
 	minm = 0.0;
 	maxm = 1.0
@@ -97,10 +94,10 @@ object = {
 	};
 	material = {
 		type = matte;
-		kr = 1.0;
-		kt = 1.333;
-		kd = 2.0;
-		exp = 0.1
+		reflective = 1.0;
+		transmission = 1.333;
+		diffuse = 2.0;
+		roughness = 0.1
 	};
 	radius2 = 60.0;
 	minm = 0.0;
@@ -119,7 +116,7 @@ object = {
 	};
 	material = {
 		type = matte;
-		kd = 1.0
+		diffuse = 1.0
 	}
 }
 
@@ -135,9 +132,9 @@ object = {
 	};
 	material = {
 		type = matte;
-		kr = 1.0;
-		kt = 1.333;
-		kd = 2.0
+		reflective = 1.0;
+		transmission = 1.333;
+		diffuse = 2.0
 	}
 }
 
@@ -155,9 +152,9 @@ object = {
 	};
 	material = {
 		type = mirror;
-		kr = 1.0;
-		exp = 0.1;
-		kd = 1.0
+		reflective = 1.0;
+		roughness = 0.1;
+		diffuse = 1.0
 	}
 }
 
@@ -173,7 +170,7 @@ object = {
 	};
 	material = {
 		type = matte;
-		kd = 1.0;
+		diffuse = 1.0;
 	}
 }
 

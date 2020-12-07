@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:11:31 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/03 18:57:05 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/07 20:51:45 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,16 @@ void				set_default_texture(t_texture *texture)
 
 void				set_default_material(t_material *material)
 {
-	material->exp = 0.0f;
+	material->exp = NAN;
 	material->is_reflective = 1;
 	material->is_transparent = 1;
-	material->ka = 0.0f;
-	material->kd = 1.0f;
-	material->kr = 0.0f;
-	material->ks = 0.0f;
-	material->kt = 0.0f;
+	material->ka = NAN;
+	material->kd = NAN;
+	material->kr = NAN;
+	material->ks = NAN;
+	material->kt = NAN;
 	material->reflective_color = (t_color){1.0f, 0.0f, 0.0f};
-	material->type = matte;
+	material->type = -2;
 }
 
 t_parsed_object		get_default_obj(void)
@@ -71,15 +71,15 @@ t_parsed_object		get_default_obj(void)
 	obj.direction = (cl_float4){NAN};
 	set_default_material(&obj.material);
 	set_default_texture(&obj.texture);
-	obj.maxm = 0.0f;
-	obj.minm = 0.0f;
+	obj.maxm = NAN;
+	obj.minm = NAN;
 	obj.origin = (cl_float4){NAN};
-	obj.r2 = 0.0f;
-	obj.r = 0.0f;
-	obj.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	obj.r2 = NAN;
+	obj.r = NAN;
+	obj.rotation.x = NAN;
 	obj.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
 	obj.type = -2;
-	obj.vector1 = (cl_float4){0.0f, 0.0f, 0.0f};
-	obj.vector2 = (cl_float4){0.0f, 0.0f, 0.0f};
+	obj.vector1.x = NAN;
+	obj.vector2.x = NAN;
 	return (obj);
 }

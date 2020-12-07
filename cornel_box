@@ -1,10 +1,10 @@
 options = {
-	background_color = {0.1, 0.1, 0.1};
+	background_color = {0.01, 0.01, 0.01};
 	ambient_coefficient = 0.5;
 	ambient_occlusion = {1, 1, 1};
 	shadows = true;
 	tracer_type = path_tracer;
-	depth = 1;
+	depth = 5;
 	strategy = 1
 }
 
@@ -13,13 +13,14 @@ object = {
 	origin = {0.0, 0.0, 0.0};
 	vector1 = {0.0 ,0.0, 0.0};
 	vector2 = {0.01, 555.0, 555.0};
+	rotation = {0, 0, 0};
 	texture = {
 		type = solid;
 		color = {1.0, 0.0, 0.0}
 	};
 	material = {
 		type = matte;
-		kd = 1
+		diffuse = 1
 	}
 }
 
@@ -37,7 +38,7 @@ object = {
 	};
 	material = {
 		type = emissive;
-		ls = 15;
+		intensity = 15;
 	}
 }
 
@@ -53,13 +54,14 @@ object = {
 	origin = {555, 0, 0};
 	vector1 = {0, 0, 0};
 	vector2 = {0.001, 555, 555};
+	rotation = {0, 0, 0};
 	texture = {
 		type = solid;
 		color = {0, 1, 0}
 	};
 	material = {
 		type = matte;
-		kd = 1
+		diffuse = 1
 	}
 }
 
@@ -68,13 +70,14 @@ object = {
 	origin = {0, 0, 0};
 	vector1 = {0, 0, 0};
 	vector2 = {555, 0.001, 555};
+	rotation = {0, 0, 0};
 	texture = {
 		type = solid;
 		color = {1, 1, 1}
 	};
 	material = {
 		type = matte;
-		kd = 1
+		diffuse = 1
 	}
 }
 
@@ -83,13 +86,14 @@ object = {
 	origin = {0, 555, 0};
 	vector1 = {0, 0, 0};
 	vector2 = {555, 0.001, 555};
+	rotation = {0, 0, 0};
 	texture = {
 		type = solid;
 		color = {1, 1, 1}
 	};
 	material = {
 		type = matte;
-		kd = 1
+		diffuse = 1
 	}
 }
 
@@ -98,13 +102,14 @@ object = {
 	origin = {0, 0, 555};
 	vector1 = {0, 0, 0};
 	vector2 = {555, 555, 0.001};
+	rotation = {0, 0, 0};
 	texture = {
 		type = solid;
 		color = {1, 1, 1}
 	};
 	material = {
 		type = matte;
-		kd = 1
+		diffuse = 1
 	}
 }
 
@@ -120,7 +125,7 @@ object = {
 	};
 	material = {
 		type = matte;
-		kd = 1
+		diffuse = 1
 	}
 }
 
@@ -136,6 +141,6 @@ object = {
 	};
 	material = {
 		type = matte;
-		kd = 1
+		diffuse = 1
 	}
 }

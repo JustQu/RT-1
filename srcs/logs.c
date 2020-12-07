@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:51:27 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/03 19:19:54 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/07 20:52:55 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,17 @@ void		write_logs(int num_log, int fd, char *str)
 	else if (num_log == OBJ_TYPE_DOES_NOT_EXIST)
 	{
 		ft_putendl_fd(str, fd);
-		ft_putendl_fd("Object type does not exist\n", fd);
+		ft_putendl_fd("Object type does not exist", fd);
 	}
 	else if (num_log == MATERIAL_TYPE_DOES_NOT_EXIST)
 	{
 		ft_putendl_fd(str, fd);
-		ft_putendl_fd("Material type does not exist\n", fd);
+		ft_putendl_fd("Material type does not exist", fd);
 	}
 	else if (num_log == TEXTURE_TYPE_DOES_NOT_EXIST)
 	{
 		ft_putendl_fd(str, fd);
-		ft_putendl_fd("Texture type does not exist\n", fd);
+		ft_putendl_fd("Texture type does not exist", fd);
 	}
 	else if (num_log == COMMENT)
 	{
@@ -114,10 +114,10 @@ void		write_logs(int num_log, int fd, char *str)
 		ft_putendl_fd(str, fd);
 		ft_putendl_fd("Has no origin. Using default param\n", fd);
 	}
-	else if (num_log == BAD_DIRECTION)
+	else if (num_log == BAD_ROTATION)
 	{
 		ft_putendl_fd(str, fd);
-		ft_putendl_fd("Has no direction. Using default param", fd);
+		ft_putendl_fd("Has no rotation. Using default param", fd);
 	}
 	else if (num_log == BAD_SOLID_COLOR)
 	{
@@ -158,5 +158,65 @@ void		write_logs(int num_log, int fd, char *str)
 	{
 		ft_putendl_fd(str, fd);
 		ft_putendl_fd("Camera does not exist. Using default camera", fd);
+	}
+	else if (num_log == UNKNOWN_OBJ_TYPE)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Unkwnown object type", fd);
+	}
+	else if (num_log == ANGLE_DOES_NOT_EXIST)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Angle of cone does not exist", fd);
+	}
+	else if (num_log == BAD_MINM_MAXM)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Bad minm or maxm", fd);
+	}
+	else if (num_log == RADIUS_DOES_NOT_EXIST)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Radius does not exist", fd);
+	}
+	else if (num_log == VECTORS_DOES_NOT_EXIST)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Bad vectors", fd);
+	}
+	else if (num_log == BAD_DIFFUSE_COEFFICIEN)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Diffuse coefficient does not exist", fd);
+	}
+	else if (num_log == BAD_INTENSITY)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Intensity does not exist", fd);
+	}
+	else if (num_log == BAD_REFLECTIVE)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Reflective coefficietn does not exist", fd);
+	}
+	else if (num_log == BAD_ROUGHNESS)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Roughness does not exist", fd);
+	}
+	else if (num_log == BAD_TRANSMISSION)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Transmission coefficient does not exist", fd);
+	}
+	else if (num_log == BAD_SPECULAR)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Specular coefficient does not exist", fd);
+	}
+	else if (num_log = BAD_AMBIENT)
+	{
+		ft_putendl_fd(str, fd);
+		ft_putendl_fd("Ambient coefficient does not exist", fd);
 	}
 }
