@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:51:27 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/07 20:52:55 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/07 22:06:02 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ void		write_logs(int num_log, int fd, char *str)
 		ft_putendl_fd(str, fd);
 		ft_putendl_fd("Specular coefficient does not exist", fd);
 	}
-	else if (num_log = BAD_AMBIENT)
+	else if (num_log == BAD_AMBIENT)
 	{
 		ft_putendl_fd(str, fd);
 		ft_putendl_fd("Ambient coefficient does not exist", fd);
