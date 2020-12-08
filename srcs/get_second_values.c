@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 20:09:10 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 20:13:52 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/08 17:39:54 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,17 @@ int			char_count(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != '\t' && str[i] != ' ' && str[i] != '\n')
+		if (str[i] == '#')
+		{
+			i++;
+			while (str[i] != '\0' && str[i] != '#')
+				i++;
+		}
+		if (str[i] != '\t' && str[i] != ' ' && str[i] != '\n' &&
+			str[i] != '#' && str[i] != '\0')
 			count++;
-		i++;
+		if (str[i] != '\0')
+			i++;
 	}
 	return (count);
 }

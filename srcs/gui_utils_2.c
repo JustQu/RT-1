@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 19:54:26 by alex              #+#    #+#             */
-/*   Updated: 2020/12/04 22:34:30 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/08 18:29:15 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char			*itoa_float(float num)
 {
 	char		*str1;
 	char		*str2;
+	char		*tmp;
 	int			ptr;
 	int			aftd;
 
@@ -44,8 +45,10 @@ char			*itoa_float(float num)
 	aftd = (num - ptr) * 1000;
 	str1 = ft_itoa(ptr);
 	str2 = ft_itoa(aftd);
-	str1 = ft_strcat(str1, ".");
-	ft_strcat(str1, str2);
+	tmp = ft_strjoin(str1, ".");
+	free(str1);
+	str1 = ft_strjoin(tmp, str2);
+	free(tmp);
 	free(str2);
 	return (str1);
 }

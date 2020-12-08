@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/06 19:08:22 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/07 22:03:38 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 		&& g_camera_tab_pressed == 1)
 	{
 		g_save_image = 1;
+		printf("I \n");
 	}
 	if (is_press_button(event, &rect->tab_camera_button))
 	{

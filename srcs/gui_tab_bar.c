@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_tab_bar.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/12/06 16:34:22 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/08 18:34:07 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,13 +116,14 @@ void			option_tab(t_window *win, t_rt *rt,
 	free_str(str);
 	get_float_data(1, "Samplers", str); //samplers rt->scene.camera.sampler_id
 	draw_button(win, &rect->second_button, str, color);
-	free_str(&str);
-	get_color_data(rt->options.background_color, "Back_color", &str); //get background color
+	free_str(str);
+	get_color_data(rt->options.background_color, "Back_color", str); //get background color
+	free(str[1]);
 	str[1] = NULL;
 	draw_button(win, &rect->third_button, str, color);	//back color need buton_rgb
 	draw_color_button(win, color, rt->options.background_color, &rect->third_button);
 	draw_line(win, color, rect->background, rect->third_button);
-	free_str(&str);
+	free_str(str);
 	option_tab_cont(win, rt, color, rect);
 }
 
