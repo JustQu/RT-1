@@ -6,22 +6,32 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:58:54 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/07 21:02:21 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/08 16:37:09 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "logs.h"
 
-int			validate_material(t_parsed_info *asset, int log)
+void		validate_forth(t_parsed_info *asset, int log)
 {
-	int		errors;
-
-	errors = 0;
-	if (asset->data.object.material.type == -2)
+	if (asset->data.object.material.type == phong)
 	{
-		write_logs(MATERIAL_TYPE_DOES_NOT_EXIST, log, "ERROR:");
-		errors++;
+		if (isnan(asset->data.object.material.kd))
+		{
+			write_logs(BAD_DIFFUSE_COEFFICIEN, log, "WARNING:");
+			asset->data.object.material.kd = 1.0f;
+		}
+		if (isnan(asset->data.object.material.ks))
+		{
+			write_logs(BAD_SPECULAR, log, "WARNING:");
+			asset->data.object.material.ks = 0.2f;
+		}
+		if (isnan(asset->data.object.material.exp))
+		{
+			write_logs(BAD_ROUGHNESS, log, "WARNING:");
+			asset->data.object.material.exp = 10.0f;
+		}
 	}
 	else if (asset->data.object.material.type == matte &&
 	isnan(asset->data.object.material.kd))
@@ -29,13 +39,39 @@ int			validate_material(t_parsed_info *asset, int log)
 		write_logs(BAD_DIFFUSE_COEFFICIEN, log, "WARNING:");
 		asset->data.object.material.kd = 1.0f;
 	}
-	else if (asset->data.object.material.type == emissive &&
-	isnan(asset->data.object.material.ls))
+}
+
+void		validate_third(t_parsed_info *asset, int log)
+{
+	if (asset->data.object.material.type == plastic)
 	{
-		write_logs(BAD_INTENSITY, log, "WARNING:");
-		asset->data.object.material.ls = 15.0f;
+		if (isnan(asset->data.object.material.kd))
+		{
+			write_logs(BAD_DIFFUSE_COEFFICIEN, log, "WARNING:");
+			asset->data.object.material.kd = 1.0f;
+		}
+		if (isnan(asset->data.object.material.kr))
+		{
+			write_logs(BAD_REFLECTIVE, log, "WARNING:");
+			asset->data.object.material.kr = 1.0f;
+		}
+		if (isnan(asset->data.object.material.exp))
+		{
+			write_logs(BAD_ROUGHNESS, log, "WARNING:");
+			asset->data.object.material.exp = 0.1f;
+		}
 	}
-	else if (asset->data.object.material.type == mirror &&
+	if (isnan(asset->data.object.material.ka))
+	{
+		write_logs(BAD_AMBIENT, log, "WARNING");
+		asset->data.object.material.ka = 0.0f;
+	}
+	validate_forth(asset, log);
+}
+
+void		validate_second(t_parsed_info *asset, int log)
+{
+	if (asset->data.object.material.type == mirror &&
 	isnan(asset->data.object.material.kr))
 	{
 		write_logs(BAD_REFLECTIVE, log, "WARNING:");
@@ -54,23 +90,23 @@ int			validate_material(t_parsed_info *asset, int log)
 			asset->data.object.material.exp = 0.1f;
 		}
 	}
-	else if (asset->data.object.material.type == plastic)
+	else if (asset->data.object.material.type == emissive &&
+	isnan(asset->data.object.material.ls))
 	{
-		if (isnan(asset->data.object.material.kd))
-		{
-			write_logs(BAD_DIFFUSE_COEFFICIEN, log, "WARNING:");
-			asset->data.object.material.kd = 1.0f;
-		}
-		if (isnan(asset->data.object.material.kr))
-		{
-			write_logs(BAD_REFLECTIVE, log, "WARNING:");
-			asset->data.object.material.kr = 1.0f;
-		}
-		if (isnan(asset->data.object.material.exp))
-		{
-			write_logs(BAD_ROUGHNESS, log, "WARNING:");
-			asset->data.object.material.exp = 0.1f;
-		}
+		write_logs(BAD_INTENSITY, log, "WARNING:");
+		asset->data.object.material.ls = 15.0f;
+	}
+}
+
+int			validate_material(t_parsed_info *asset, int log)
+{
+	int		errors;
+
+	errors = 0;
+	if (asset->data.object.material.type == -2)
+	{
+		write_logs(MATERIAL_TYPE_DOES_NOT_EXIST, log, "ERROR:");
+		errors++;
 	}
 	else if (asset->data.object.material.type == dielectric)
 	{
@@ -85,29 +121,8 @@ int			validate_material(t_parsed_info *asset, int log)
 			asset->data.object.material.exp = 0.1f;
 		}
 	}
-	else if (asset->data.object.material.type == phong)
-	{
-		if (isnan(asset->data.object.material.kd))
-		{
-			write_logs(BAD_DIFFUSE_COEFFICIEN, log, "WARNING:");
-			asset->data.object.material.kd = 1.0f;
-		}
-		if (isnan(asset->data.object.material.ks))
-		{
-			write_logs(BAD_SPECULAR, log, "WARNING:");
-			asset->data.object.material.ks = 0.2f;
-		}
-		if (isnan(asset->data.object.material.exp))
-		{
-			write_logs(BAD_ROUGHNESS, log, "WARNING:");
-			asset->data.object.material.exp = 10.0f;
-		}
-	}
-	if (isnan(asset->data.object.material.ka))
-	{
-		write_logs(BAD_AMBIENT, log, "WARNING");
-		asset->data.object.material.ka = 0.0f;
-	}
+	validate_second(asset, log);
+	validate_third(asset, log);
 	return (errors);
 }
 

@@ -6,12 +6,12 @@
 #    By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/12/07 21:10:13 by aapricot         ###   ########.fr        #
+#    Updated: 2020/12/08 16:54:30 by aapricot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ./RT
-CC = gcc
+CC = clang
 RM = rm -f
 CURRENTDIR = .
 
@@ -94,8 +94,9 @@ create_program.c        gui_button.c            gui_utils_2.c           pars_cam
 error_handling.c        gui_get_data.c          gui_utils_3.c           pars_light.c            rt_ocl.c				validate_objects_1.c\
 get_default.c           gui_get_data_2.c        init.c                  pars_material.c         rt_options.c			validate_objects_2.c\
 get_first_values.c      gui_get_data_3.c        init_parsed_scene.c     pars_obj.c              sampler.c				validate_objects_3.c\
-get_key_value.c         gui_init.c              instance_manager.c      pars_option.c           sampler_manager.c\
+get_key_value.c         gui_init.c              instance_manager.c      pars_option.c           sampler_manager.c       logs_second.c\
 rt_error.c              safe_call.c \
+
 
 
 

@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 19:56:06 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/03 18:43:18 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/08 17:46:39 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,24 @@ char		*delete_tabs(char *str)
 	int		i;
 	int		j;
 
-	j = 0;
+	j = -1;
 	i = 0;
 	res = (char *)malloc(sizeof(char) * (char_count(str) + 1));
 	while (str[i] != '\0')
 	{
-		if (str[i] != '\t' && str[i] != ' ' && str[i] != '\n')
+		if (str[i] == '#')
 		{
-			res[j] = str[i];
-			j++;
+			i++;
+			while (str[i] != '\0' && str[i] != '#')
+				i++;
 		}
-		i++;
+		if (str[i] != '\t' && str[i] != ' ' && str[i] != '\n' &&
+		str[i] != '#' && str[i] != '\0')
+			res[++j] = str[i];
+		if (str[i] != '\0')
+			i++;
 	}
-	res[j] = '\0';
+	res[++j] = '\0';
 	free(str);
 	return (res);
 }
@@ -100,9 +105,7 @@ void		parser_cycle(t_res_mngr *resource_manager, t_parsed_info *asset,
 		line = delete_tabs(line);
 		if ((i = check_brackets(line)) == 1)
 			pars_router(resource_manager, asset, line, log);
-		else if (i == -2)
-			write_logs(COMMENT, log, line);
-		else
+		else if (i == -1)
 			write_logs(BAD_BRACKETS, log, line);
 		free(line);
 	}
