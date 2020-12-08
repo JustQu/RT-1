@@ -124,12 +124,9 @@ void cl_error(t_cl_program *program, t_clp *clp, int code)
 
 		// Allocate memory for the log
 		char *log;
-		log = (char *)malloc(log_size);
-		if (!log)
-		{
-			// ft_putendl("malloc error");
-			// exit (0);
-		}
+		log = (char *)ft_memalloc(log_size);
+		if (log == NULL)
+			rt_error("cl_error(): malloc error");
 		// Get the log
 		clGetProgramBuildInfo(program->program, clp->de_id, CL_PROGRAM_BUILD_LOG,
 							  log_size, log, NULL);
@@ -138,6 +135,7 @@ void cl_error(t_cl_program *program, t_clp *clp, int code)
 		printf("%s\n", log);
 		fprintf(err_file, "%s\n", log);
 		ft_clerror(code);
-		fclose(err_file);
+		if (fclose(err_file))
+			rt_error("cl_error(): fclose error");
 	}
 }

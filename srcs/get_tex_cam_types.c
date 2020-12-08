@@ -16,6 +16,8 @@
 
 int					get_tex_type_value(char *str)
 {
+	if (str == NULL)
+		rt_error("get_tex_type_value(): given NULL pointer");
 	if (!ft_strcmp(str, "solid"))
 		return (solid);
 	else if (!ft_strcmp(str, "checker"))
@@ -41,6 +43,8 @@ int					get_tex_type_value(char *str)
 
 int					get_cam_type_value(char *str)
 {
+	if (str == NULL)
+		rt_error("get_cam_type_value(): given NULL pointer");
 	if (!ft_strcmp(str, "orthographic"))
 		return (orthographic);
 	else if (!ft_strcmp(str, "perspective"))
@@ -61,6 +65,10 @@ void				get_tex_type(char *str, int offset, void *data)
 	unsigned char	*v;
 	t_texture_type	*type;
 
+	if (str == NULL || data == NULL)
+		rt_error("get_tex_type(): given NULL pointer");
+	if (ft_strlen(data) < offset)
+		rt_error("get_tex_type(): data is too short");
 	v = (unsigned char *)data + offset;
 	type = (t_texture_type *)v;
 	*type = get_tex_type_value(str);
@@ -71,6 +79,10 @@ void				get_cam_type(char *str, int offset, void *data)
 	unsigned char	*v;
 	t_camera_type	*type;
 
+	if (str == NULL || data == NULL)
+		rt_error("get_cam_type(): given NULL pointer");
+	if (ft_strlen(data) < offset)
+		rt_error("get_cam_type(): data is too short");
 	v = (unsigned char *)data + offset;
 	type = (t_camera_type *)v;
 	*type = get_cam_type_value(str);

@@ -70,6 +70,12 @@ int		rand_int();
 void	swap_int(int *a, int *b);
 void	swap_float2(cl_float2 *a, cl_float2 *b);
 
+/*
+**		src/rt_error.c
+*/
+
+void	rt_error(char *message);
+
 # define WIDTH 1200
 # define HEIGHT 600
 

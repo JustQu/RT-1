@@ -20,10 +20,13 @@ float		ft_atofloat(char *str)
 	int		i;
 	int		k;
 
+	if (str == NULL)
+		rt_error("ft_atofloat(): given NULL pointer");
 	i = 1;
 	res = 0.0;
-	arr = ft_strsplit(str, '.');
-	if (arr[0] == NULL)
+	if ((arr = ft_strsplit(str, '.')) == NULL)
+		rt_error("ft_atofloat(): ft_strsplit returned NULL");
+	if (arr[0] == NULL)//TODO is it an error?
 		return (res);
 	if (arr[0][0] == '-' && arr[0][1] == '0')
 		i = -1;
@@ -46,12 +49,15 @@ void		get_color(char *str, int offset, void *data)
 	t_color			*color;
 	char			**rgb;
 
+	if (str == NULL || data == NULL)
+		rt_error("get_color(): given NULL pointer");
 	color = (t_color *)((unsigned char *)data + offset);
 	*color = (t_color){1.0f, 1.0f, 1.0f};
 	rgb = NULL;
 	if (ft_isdigit(str[0]))
 	{
-		rgb = ft_strsplit(str, ',');
+		if ((rgb = ft_strsplit(str, ',')) == NULL)
+			rt_error("get_color(): malloc error in ft_strsplit()");
 		if (rgb[0] == NULL)
 		{
 			free_tab(rgb);
@@ -76,10 +82,13 @@ void		get_vector(char *str, int offset, void *data)
 	cl_float4		*vec_ptr;
 	char			**split;
 
+	if (str == NULL || data == NULL)
+		rt_error("get_vector(): given NULL pointer");
 	v = (unsigned char *)data + offset;
 	vec_ptr = (cl_float4 *)v;
 	*vec_ptr = (cl_float4){0.0f, 0.0f, 0.0f, 0.0f};
-	split = ft_strsplit(str, ',');
+	if ((split = ft_strsplit(str, ',')) == NULL)
+		rt_error("get_vector(): ft_strsplit returned NULL, probably malloc error");
 	if (split[0] == NULL)
 	{
 		free_tab(split);
@@ -104,6 +113,8 @@ void		get_float(char *str, int offset, void *data)
 	unsigned char	*v;
 	cl_float		*ptr;
 
+	if (str == NULL || data == NULL)
+		rt_error("get_float(): given NULL pointer");
 	v = (unsigned char *)data + offset;
 	ptr = (cl_float *)v;
 	*ptr = ft_atofloat(str);

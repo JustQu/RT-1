@@ -58,10 +58,12 @@ t_bbox			transform_aabb(t_bbox aabb, t_matrix matrix)
 	return (transformed_aabb);
 }
 
-static void		compute_aabb_next1(t_instance_info obj, t_bbox *aabb)
+static int		compute_aabb_next1(t_instance_info obj, t_bbox *aabb)
 {
 	float a;
 
+	if (aabb == NULL)
+		rt_error("compute_aabb_next1(): given NULL pointer");
 	if (obj.type == disk)
 		*aabb = (t_bbox){(cl_float4){obj.r, obj.r, obj.r}, (cl_float4){-obj.r,
 			-obj.r, -obj.r}};
@@ -80,6 +82,9 @@ static void		compute_aabb_next1(t_instance_info obj, t_bbox *aabb)
 		a = float_max(float_max(obj.height, 3.0f), obj.r);
 		*aabb = (t_bbox){(cl_float4){a, a, a}, (cl_float4){-a, -a, -a}};
 	}
+	else
+		return (-1);
+	return (0);
 }
 
 t_bbox			compute_aabb(t_instance_info obj)
@@ -106,7 +111,8 @@ t_bbox			compute_aabb(t_instance_info obj)
 	else if (obj.type == triangle)
 		aabb = (t_bbox){(cl_float4){100.0f, 100.f, 100.0f},
 						(cl_float4){ -100.0f, 100.f, -100.0f, 0.0f }};
-	compute_aabb_next1(obj, &aabb);
+	else if (compute_aabb_next1(obj, &aabb))
+		rt_error("compute_aabb(): unknown obj type");
 	aabb = transform_aabb(aabb, get_transformation_matrix(obj));
 	return (aabb);
 }

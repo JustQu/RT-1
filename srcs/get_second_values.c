@@ -18,6 +18,10 @@ void		get_uchar(char *str, int offset, void *data)
 	unsigned char	*v;
 	cl_uchar		*c;
 
+	if (str == NULL || data == NULL)
+		rt_error("get_uchar(): given NULL pointer");
+	if (ft_strlen(data) < offset)
+		rt_error("get_uchar(): data is too short");
 	v = (unsigned char *)data + offset;
 	c = (cl_uchar *)v;
 	if (!ft_strcmp(str, "true"))
@@ -31,6 +35,10 @@ void		get_int(char *str, int offset, void *data)
 	unsigned char	*v;
 	cl_int			*num;
 
+	if (str == NULL || data == NULL)
+		rt_error("get_int(): given NULL pointer");
+	if (ft_strlen(data) < offset)
+		rt_error("get_int(): data is too short");
 	v = (unsigned char *)data + offset;
 	num = (cl_int *)v;
 	*num = ft_atoi(str);
@@ -41,6 +49,8 @@ void		free_tab(char **tab)
 	int		n;
 
 	n = 0;
+	if (tab == NULL)
+		rt_error("free_tab(): given NULL pointer");
 	while (NULL != tab[n])
 	{
 		free(tab[n]);
@@ -55,6 +65,8 @@ int			len_word(char *str)
 	int len;
 	int	i;
 
+	if (str == NULL)
+		rt_error("len_word(): given NULL pointer");
 	i = 0;
 	len = 0;
 	while (str[i] != '\0')
@@ -71,6 +83,8 @@ int			char_count(char *str)
 	int		i;
 	int		count;
 
+	if (str == NULL)
+		rt_error("char_count(): given NULL pointer");
 	count = 0;
 	i = 0;
 	while (str[i] != '\0')

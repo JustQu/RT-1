@@ -95,6 +95,7 @@ error_handling.c        gui_get_data.c          gui_utils_3.c           pars_lig
 get_default.c           gui_get_data_2.c        init.c                  pars_material.c         rt_options.c			validate_objects_2.c\
 get_first_values.c      gui_get_data_3.c        init_parsed_scene.c     pars_obj.c              sampler.c				validate_objects_3.c\
 get_key_value.c         gui_init.c              instance_manager.c      pars_option.c           sampler_manager.c\
+rt_error.c              safe_call.c \
 
 
 

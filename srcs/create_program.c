@@ -66,20 +66,31 @@ static void		read_file(const char *file_name, char *str)
 	int		ret;
 	int		fd;
 
-	ft_strcpy(full_file_name, DEFAULT_KERNEL_DIR);
-	ft_strcpy(full_file_name + sizeof(DEFAULT_KERNEL_DIR) - 1, file_name);
+	if (file_name == NULL)
+		rt_error("read_file(): given NULL pointer");
+	if (ft_strcpy(full_file_name, DEFAULT_KERNEL_DIR) == NULL)
+		rt_error("read_file(): ft_strcpy error");
+	if (ft_strcpy(full_file_name + sizeof(DEFAULT_KERNEL_DIR) - 1, file_name) == NULL)
+		rt_error("read_file(): ft_strcpy error");
 	fd = open(full_file_name, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_strcpy(full_file_name, "./include/");
-		ft_strcpy(full_file_name + sizeof("./include/") - 1, file_name);
+		if (ft_strcpy(full_file_name, "./include/") == NULL)
+			rt_error("read_file(): ft_strcpy error");
+		if (ft_strcpy(full_file_name + sizeof("./include/") - 1, file_name) == NULL)
+			rt_error("read_file(): ft_strcpy error");
 		fd = open(full_file_name, O_RDONLY);
-		assert(fd != -1);
+		if (fd < 3)
+			rt_error("read_file(): open error, wrong fd");
 	}
-	assert(fd != -1);
+	if (fd < 3)
+		rt_error("read_file(): open error, wrong fd");
 	ret = read(fd, str, BUFF);
+	if (ret < 0)
+		rt_error("read_file(): read error");
 	str[ret] = '\0';
-	close(fd);
+	if (close(fd))
+		rt_error("read_file(): close error");
 }
 
 extern FILE		*f;
@@ -93,20 +104,22 @@ cl_program		create_program(cl_context context)
 	cl_program	program;
 
 	i = 0;
-	if (!(str = malloc(sizeof(char *) * g_num_files)))
-		return (program);
+	if ((str = ft_memalloc(sizeof(char *) * g_num_files)) == NULL)
+		rt_error("create_program(): malloc error");
 	ret = 0;
 	while (i < g_num_files)
 	{
-		str[i] = malloc(sizeof(char) * BUFF);
+		if ((str[i] = ft_memalloc(sizeof(char) * BUFF)) == NULL)
+			rt_error("create_program(): malloc error");
 		read_file(g_files[i], str[i]);
 		fprintf(f, "%s\n", str[i]);
 		i++;
 	}
 	program = clCreateProgramWithSource(context, g_num_files, str, NULL, &ret);
-	assert(!ret);
+	if (ret)
+		rt_error("create_program(): clCreateProgramWithSource error");
 	while (i--)
-		free(str[i]);
-	free(str);
+		ft_strdel(&str[i]);
+	ft_strdel(&str);
 	return (program);
 }

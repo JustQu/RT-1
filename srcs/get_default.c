@@ -43,6 +43,8 @@ t_parsed_light		get_default_light(void)
 
 void				set_default_texture(t_texture *texture)
 {
+	if (texture == NULL)
+		rt_error("set_default_texture(): given NULL pointer");
 	texture->type = -2;
 	texture->data.solid.color.r = NAN;
 	texture->data.checker.even.r = NAN;
@@ -52,6 +54,8 @@ void				set_default_texture(t_texture *texture)
 
 void				set_default_material(t_material *material)
 {
+	if (material == NULL)
+		rt_error("set_default_material(): given NULL pointer");
 	material->exp = NAN;
 	material->is_reflective = 1;
 	material->is_transparent = 1;

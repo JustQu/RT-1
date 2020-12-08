@@ -76,7 +76,6 @@ static int	catch_window_event(t_rt *rt, t_window *win, SDL_Event event)
 		printf("Window size changed to %dx%d\n", event.window.data1,
 												event.window.data2);
 	}
-
 	return (0);
 }
 

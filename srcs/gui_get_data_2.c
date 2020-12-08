@@ -15,7 +15,9 @@
 
 void			get_void_data(char *string, char *str[4])
 {
-	str[0] = ft_strdup(string);
+	if (string == NULL || str == NULL)
+		rt_error("get_void_data(): given NULL pointer");
+	safe_call_ptr((str[0] = ft_strdup(string)), "get_void_data: malloc error");
 	str[1] = NULL;
 	str[2] = NULL;
 	str[3] = NULL;
@@ -23,45 +25,47 @@ void			get_void_data(char *string, char *str[4])
 
 void			get_camera_type_data(int ptr, char *string, char *str[4])
 {
-	str[0] = ft_strdup(string);
+	if (string == NULL || str == NULL)
+		rt_error("get_camera_type_data(): given NULL pointer");
+	safe_call_ptr((str[0] = ft_strdup(string)), "malloc error");
 	if (ptr == 0)
-		str[1] = ft_strdup("orthographic");
+		safe_call_ptr((str[1] = ft_strdup("orthographic")), "malloc error");
 	else if (ptr == 1)
-		str[1] = ft_strdup("perspective");
+		safe_call_ptr((str[1] = ft_strdup("perspective")), "malloc error");
 	else if (ptr == 2)
-		str[1] = ft_strdup("thin_lens");
+		safe_call_ptr((str[1] = ft_strdup("thin_lens")), "malloc error");
 	else if (ptr == 3)
-		str[1] = ft_strdup("fisheye");
+		safe_call_ptr((str[1] = ft_strdup("fisheye")), "malloc error");
 	else if (ptr == 4)
-		str[1] = ft_strdup("spherical");
+		safe_call_ptr((str[1] = ft_strdup("spherical")), "malloc error");
 	else if (ptr == 5)
-		str[1] = ft_strdup("stereo");
+		safe_call_ptr((str[1] = ft_strdup("stereo")), "malloc error");
 	else
-		str[1] = ft_strdup("material");
+		safe_call_ptr((str[1] = ft_strdup("material")), "malloc error");
 	str[2] = NULL;
 	str[3] = NULL;
 }
 
 void			get_str_data(char *str1, char *string, char *str[4])
 {
-	str[0] = ft_strdup(string);
-	str[1] = ft_strdup(str1);
+	safe_call_ptr((str[0] = ft_strdup(string)), "malloc error");
+	safe_call_ptr((str[1] = ft_strdup(str1)), "malloc error");
 	str[2] = NULL;
 	str[3] = NULL;
 }
 
 void			get_float_data(float ptr, char *string, char *str[4])
 {
-	str[0] = ft_strdup(string);
-	str[1] = itoa_float(ptr);
+	safe_call_ptr((str[0] = ft_strdup(string)), "malloc error");
+	safe_call_ptr((str[1] = itoa_float(ptr)), "malloc error");
 	str[2] = NULL;
 	str[3] = NULL;
 }
 
 void			get_float4_data(cl_float4 ptr, char *string, char *str[4])
 {
-	str[0] = ft_strdup(string);
-	str[1] = itoa_float(ptr.x);
-	str[2] = itoa_float(ptr.y);
-	str[3] = itoa_float(ptr.z);
+	safe_call_ptr((str[0] = ft_strdup(string)), "malloc error");
+	safe_call_ptr((str[1] = itoa_float(ptr.x)), "malloc error");
+	safe_call_ptr((str[2] = itoa_float(ptr.y)), "malloc error");
+	safe_call_ptr((str[3] = itoa_float(ptr.z)), "malloc error");
 }

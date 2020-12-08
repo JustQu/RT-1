@@ -27,6 +27,8 @@ void	sort_nodes(t_bvh_node *nodes, int size,
 	t_bvh_node	node;
 	t_bvh_node	tmp;
 
+	if (nodes == NULL || cmp == NULL)
+		rt_error("sort_nodes(): given NULL pointer");
 	if ((r = size - 1) == 0)
 		return ;
 	l = 0;
@@ -54,6 +56,8 @@ t_bbox	compute_bvh_node_aabb(t_bvh_node *nodes, int size)
 	t_bbox	object_aabb;
 	int		i;
 
+	if (nodes == NULL)
+		rt_error("compute_bvh_node_aabb(): given NULL pointer");
 	node_aabb.max = (cl_float4){ .x = -INFINITY, .y = -INFINITY,
 								.z = -INFINITY, .w = -INFINITY };
 	node_aabb.min = (cl_float4){ .x = INFINITY, .y = INFINITY,
@@ -191,11 +195,11 @@ t_bvh	build_bvh(t_scene *scene)
 	int					id;
 
 	instance_mngr = scene->instance_mngr;
-	if (!(bvh = malloc(instance_mngr.ninstances * 2 * sizeof(t_bvh_node))))
-		return (NULL);
-	if (!(temp_nodes = malloc(instance_mngr.ninstances * sizeof(t_bvh_node))))
-		return (NULL);
-	id = -1;
+	if ((bvh = ft_memalloc(instance_mngr.ninstances * 2 * sizeof(t_bvh_node))) == NULL)
+		rt_error("build_bvh(): malloc error");
+	if ((temp_nodes = ft_memalloc(instance_mngr.ninstances * sizeof(t_bvh_node))) == NULL)
+		rt_error("build_bvh(): malloc error");
+		id = -1;
 	while (++id < instance_mngr.ninstances)
 		temp_nodes[id] = (t_bvh_node){.instance_id = id,
 			.aabb = instance_mngr.extra[id].aabb, .center = (cl_float3){

@@ -15,6 +15,8 @@
 
 int					get_obj_type_value(char *str)
 {
+	if (str == NULL)
+		rt_error("get_obj_type_value(): given NULL pointer");
 	if (!ft_strcmp(str, "cone"))
 		return (cone);
 	else if (!ft_strcmp(str, "cylinder"))
@@ -42,6 +44,8 @@ int					get_obj_type_value(char *str)
 
 int					get_mat_type_value(char *str)
 {
+	if (str == NULL)
+		rt_error("get_mat_type_value(): given NULL pointer");
 	if (!ft_strcmp(str, "matte"))
 		return (matte);
 	else if (!ft_strcmp(str, "phong"))
@@ -70,6 +74,10 @@ void				get_obj_type(char *str, int offset, void *data)
 	unsigned char	*v;
 	t_type			*type;
 
+	if (str == NULL || data == NULL)
+		rt_error("get_obj_type(): given NULL pointer");
+	if (ft_strlen(data) < offset)
+		rt_error("get_obj_type(): data is too short");
 	v = (unsigned char *)data + offset;
 	type = (t_type *)v;
 	*type = get_obj_type_value(str);
@@ -80,6 +88,10 @@ void				get_mat_type(char *str, int offset, void *data)
 	unsigned char	*v;
 	t_material_type	*type;
 
+	if (str == NULL || data == NULL)
+		rt_error("get_mat_type(): given NULL pointer");
+	if (ft_strlen(data) < offset)
+		rt_error("get_mat_type(): data is too short");
 	v = (unsigned char *)data + offset;
 	type = (t_material_type *)v;
 	*type = get_mat_type_value(str);

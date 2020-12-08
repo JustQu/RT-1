@@ -18,17 +18,17 @@ void			get_intensive_data(int ptr, char *string, char **str)
 {
 	str[0] = ft_strdup(string);
 	if (ptr == 0)
-		str[1] = ft_strdup("ambient");
+		safe_call_ptr((str[1] = ft_strdup("ambient")), "malloc error");
 	else if (ptr == 1)
-		str[1] = ft_strdup("ambient_occluder");
+		safe_call_ptr((str[1] = ft_strdup("ambient_occluder")), "malloc error");
 	else if (ptr == 2)
-		str[1] = ft_strdup("directional");
+		safe_call_ptr((str[1] = ft_strdup("directional")), "malloc error");
 	else if (ptr == 3)
-		str[1] = ft_strdup("point");
+		safe_call_ptr((str[1] = ft_strdup("point")), "malloc error");
 	else if (ptr == 4)
-		str[1] = ft_strdup("area");
+		safe_call_ptr((str[1] = ft_strdup("area")), "malloc error");
 	else if (ptr == 5)
-		str[1] = ft_strdup("enviromental");
+		safe_call_ptr((str[1] = ft_strdup("enviromental")), "malloc error");
 	str[2] = NULL;
 	str[3] = NULL;
 }
@@ -37,25 +37,25 @@ void			get_texture_data(int ptr, char *string, char **str)
 {
 	str[0] = ft_strdup(string);
 	if (ptr == 0)
-		str[1] = ft_strdup("solid");
+		safe_call_ptr((str[1] = ft_strdup("solid")), "malloc error");
 	else if (ptr == 1)
-		str[1] = ft_strdup("checker");
+		safe_call_ptr((str[1] = ft_strdup("checker")), "malloc error");
 	else if (ptr == 2)
-		str[1] = ft_strdup("checker2d");
+		safe_call_ptr((str[1] = ft_strdup("checker2d")), "malloc error");
 	else if (ptr == 3)
-		str[1] = ft_strdup("transparent_checker");
+		safe_call_ptr((str[1] = ft_strdup("transparent_checker")), "malloc error");
 	else if (ptr == 4)
-		str[1] = ft_strdup("reflective_checker");
+		safe_call_ptr((str[1] = ft_strdup("reflective_checker")), "malloc error");
 	else if (ptr == 5)
-		str[1] = ft_strdup("perlin");
+		safe_call_ptr((str[1] = ft_strdup("perlin")), "malloc error");
 	else if (ptr == 6)
-		str[1] = ft_strdup("smooth_perlin");
+		safe_call_ptr((str[1] = ft_strdup("smooth_perlin")), "malloc error");
 	else if (ptr == 7)
-		str[1] = ft_strdup("turbulence_perlin");
+		safe_call_ptr((str[1] = ft_strdup("turbulence_perlin")), "malloc error");
 	else if (ptr == 8)
-		str[1] = ft_strdup("wave_perlin");
+		safe_call_ptr((str[1] = ft_strdup("wave_perlin")), "malloc error");
 	else if (ptr == 9)
-		str[1] = ft_strdup("image");
+		safe_call_ptr((str[1] = ft_strdup("image")), "malloc error");
 	str[2] = NULL;
 	str[3] = NULL;
 }
@@ -63,34 +63,32 @@ void			get_texture_data(int ptr, char *string, char **str)
 void			get_shape_data_2(int ptr, char **str)
 {
 	if (ptr == 6)
-		str[1] = ft_strdup("triangle");
+		safe_call_ptr((str[1] = ft_strdup("triangle")), "malloc error");
 	else if (ptr == 7)
-		str[1] = ft_strdup("box");
+		safe_call_ptr((str[1] = ft_strdup("box")), "malloc error");
 	else if (ptr == 8)
-		str[1] = ft_strdup("disk");
+		safe_call_ptr((str[1] = ft_strdup("disk")), "malloc error");
 	else if (ptr == 9)
-		str[1] = ft_strdup("rectangle");
+		safe_call_ptr((str[1] = ft_strdup("rectangle")), "malloc error");
 	else if (ptr == 10)
-		str[1] = ft_strdup("generic_shere");
+		safe_call_ptr((str[1] = ft_strdup("generic_shere")), "malloc error");
 	else
-		str[1] = ft_strdup("no shape");
+		safe_call_ptr((str[1] = ft_strdup("no shape")), "malloc error");
 }
 
 void			get_shape_data(int ptr, char *string, char **str)
 {
 	str[0] = ft_strdup(string);
 	if (ptr == 0)
-		str[1] = ft_strdup("cone");
-	else if (ptr == 1)
-		str[1] = ft_strdup("cylinder");
+		safe_call_ptr((str[1] = ft_strdup("cone")), "malloc error");
 	else if (ptr == 2)
-		str[1] = ft_strdup("paraboloid");
+		safe_call_ptr((str[1] = ft_strdup("paraboloid")), "malloc error");
 	else if (ptr == 3)
-		str[1] = ft_strdup("plane");
+		safe_call_ptr((str[1] = ft_strdup("plane")), "malloc error");
 	else if (ptr == 4)
-		str[1] = ft_strdup("sphere");
+		safe_call_ptr((str[1] = ft_strdup("sphere")), "malloc error");
 	else if (ptr == 5)
-		str[1] = ft_strdup("torus");
+		safe_call_ptr((str[1] = ft_strdup("torus")), "malloc error");
 	get_shape_data_2(ptr, str);
 	str[2] = NULL;
 	str[3] = NULL;
@@ -100,19 +98,19 @@ void			get_material_data(int ptr, char *string, char **str)
 {
 	str[0] = ft_strdup(string);
 	if (ptr == 0)
-		str[1] = ft_strdup("matte");
+		safe_call_ptr((str[1] = ft_strdup("matte")), "malloc error");
 	else if (ptr == 1)
-		str[1] = ft_strdup("phong");
+		safe_call_ptr((str[1] = ft_strdup("phong")), "malloc error");
 	else if (ptr == 2)
-		str[1] = ft_strdup("emissive");
+		safe_call_ptr((str[1] = ft_strdup("emissive")), "malloc error");
 	else if (ptr == 3)
-		str[1] = ft_strdup("reflective");
+		safe_call_ptr((str[1] = ft_strdup("reflective")), "malloc error");
 	else if (ptr == 4)
-		str[1] = ft_strdup("metal");
+		safe_call_ptr((str[1] = ft_strdup("metal")), "malloc error");
 	else if (ptr == 5)
-		str[1] = ft_strdup("dielectric");
+		safe_call_ptr((str[1] = ft_strdup("dielectric")), "malloc error");
 	else
-		str[1] = ft_strdup("no material");
+		safe_call_ptr((str[1] = ft_strdup("no material")), "malloc error");
 	str[2] = NULL;
 	str[3] = NULL;
 }

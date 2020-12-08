@@ -23,15 +23,17 @@ static int	init_clp(t_clp *clp)
 
 	pl_id = NULL;
 	clp->de_id = NULL;
-	clp->ret = clGetPlatformIDs(1, &pl_id, NULL);
-	assert(!clp->ret);
-	clp->ret = clGetDeviceIDs(pl_id, CL_DEVICE_TYPE_ALL, 1, &clp->de_id, &nde);
-	assert(!clp->ret);
+	if ((clp->ret = clGetPlatformIDs(1, &pl_id, NULL)))
+		rt_error("init_clp(): clGetPlatformIDs error");
+	if ((clp->ret = clGetDeviceIDs(pl_id, CL_DEVICE_TYPE_ALL, 1, &clp->de_id, &nde)))
+		rt_error("init_clp(): clGetDeviceIDs error");
 	clp->context = clCreateContext(NULL, 1, &clp->de_id, NULL, NULL, &clp->ret);
-	assert(!clp->ret);
+	if (clp->ret)
+		rt_error("init_clp(): clCreateContext error");
 	clp->queue = clCreateCommandQueue(clp->context, clp->de_id,
 		0, &clp->ret);
-	assert(!clp->ret);
+	if (clp->ret)
+		rt_error("init_clp(): clCreateCommandQueue error");
 	return (0);
 }
 
@@ -44,15 +46,20 @@ static int	init_kernel(t_cl_program *p)
 	p->work_size = IMG_WIDTH * IMG_HEIGHT;
 	p->work_group_size = WORK_GROUP_SIZE;
 	p->program = create_program(p->info.context);
+	if (p->program == NULL)
+		rt_error("init_kernel(): create_program error");
 	r = clBuildProgram(p->program, 1, &p->info.de_id,
 						"-cl-std=CL2.0", NULL, NULL);
 	cl_error(p, &p->info, r);
-	assert(!r);
+	if (r)
+		rt_error("init_kernel(): clBuildProgram error");
 	p->new_kernel = clCreateKernel(p->program, KERNEL_NAME, &r);
 	cl_error(p, &p->info, r);
-	assert(!r);
+	if (r)
+		rt_error("init_kernel(): clCreateKernel error");
 	p->help_kernel = clCreateKernel(p->program, "translate_image", &r);
-	assert(!r);
+	if (r)
+		rt_error("init_kernel(): clCreateKernel error");
 	clGetKernelWorkGroupInfo(p->new_kernel, p->info.de_id,
 						CL_KERNEL_WORK_GROUP_SIZE, sizeof(size_t), &a, NULL);
 	fprintf(stdout, "Work group kernel - %zd\n", a);

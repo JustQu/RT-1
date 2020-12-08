@@ -15,6 +15,8 @@
 
 int					get_light_type_value(char *str)
 {
+	if (str == NULL)
+		rt_error("get_light_type_value(): given NULL pointer");
 	if (!ft_strcmp(str, "ambient"))
 		return (ambient);
 	else if (!ft_strcmp(str, "ambient_occluder"))
@@ -32,6 +34,8 @@ int					get_light_type_value(char *str)
 
 cl_int				get_coefficient(char *str)
 {
+	if (str == NULL)
+		rt_error("get_coefficient(): given NULL pointer");
 	if (!ft_strcmp(str, "no"))
 		return (no);
 	else if (!ft_strcmp(str, "constant"))
@@ -46,6 +50,8 @@ void				get_light_type(char *str, int offset, void *data)
 	unsigned char	*v;
 	t_light_type	*type;
 
+	if (str == NULL || data == NULL)
+		rt_error("get_light_type(): given NULL pointer");
 	v = (unsigned char *)data + offset;
 	type = (t_light_type *)v;
 	*type = get_light_type_value(str);
@@ -56,6 +62,8 @@ void				get_ambient_illumination(char *str, int offset, void *data)
 	unsigned char	*v;
 	cl_int			*coefficient;
 
+	if (str == NULL || data == NULL)
+		rt_error("get_ambient_illumination(): given NULL pointer");
 	v = (unsigned char *)data + offset;
 	coefficient = (cl_int *)v;
 	*coefficient = get_coefficient(str);

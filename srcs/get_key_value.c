@@ -18,7 +18,10 @@ char				*get_key(char **str)
 	char			*a;
 	int				i;
 
-	a = (char *)malloc(sizeof(char) * 256);
+	if (str == NULL)
+		rt_error("get_key(): given NULL pointer");
+	if ((a = (char *)malloc(sizeof(char) * 256)) == NULL)
+		rt_error("get_key(): malloc error");
 	i = 0;
 	while (**str != '=' && **str != '\0' && i < 255)
 	{
@@ -37,6 +40,8 @@ int					bracket_cycle(char *b, char **str)
 	int				i;
 	int				count;
 
+	if (b == NULL || str == NULL)
+		rt_error("bracket_cycle(): given NULL pointer");
 	count = 1;
 	i = 0;
 	*str += 1;
@@ -60,7 +65,10 @@ char				*get_value(char **str)
 	char			*b;
 	int				i;
 
-	b = (char *)malloc(sizeof(char) * 256);
+	if (str == NULL)
+		rt_error("get_value(): given NULL pointer");
+	if ((b = (char *)malloc(sizeof(char) * 256)) == NULL)
+		rt_error("get_value(): malloc error");
 	i = 0;
 	if (**str == '{')
 		i = bracket_cycle(b, str);
