@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 20:39:11 by alex              #+#    #+#             */
-/*   Updated: 2020/11/28 10:00:05 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/08 17:31:16 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ void			get_shape_data(int ptr, char *string, char **str)
 	str[0] = ft_strdup(string);
 	if (ptr == 0)
 		str[1] = ft_strdup("cone");
-	else if (ptr == 1)
-		str[1] = ft_strdup("cylinder");
 	else if (ptr == 2)
 		str[1] = ft_strdup("paraboloid");
 	else if (ptr == 3)

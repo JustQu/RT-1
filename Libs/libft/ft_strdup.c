@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 11:24:09 by rmaxima           #+#    #+#             */
-/*   Updated: 2020/12/08 18:39:16 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/08 19:13:31 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strdup(const char *src)
 	i = 0;
 	while (src[i])
 		i++;
-	if (!(dest = (char*)malloc(sizeof(char) * (i + 1))))
+	if (!(dest = (char*)malloc(sizeof(*src) * (i + 1))))
 		return (NULL);
 	j = 0;
 	while (j < i)
