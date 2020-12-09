@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 09:58:19 by alex              #+#    #+#             */
-/*   Updated: 2020/12/06 07:55:26 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/09 15:21:55 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,17 @@ void			get_color_data(t_color color, char *string, char **str)
 	str[1] = itoa_float(color.r);
 	str[2] = itoa_float(color.g);
 	str[3] = itoa_float(color.b);
+}
+
+void			get_rt_type_data(int ptr, char *string, char **str)
+{
+	str[0] = ft_strdup(string);
+	if (ptr == 0)
+		str[1] = ft_strdup("ray_caster");
+	else if (ptr == 1)
+		str[1] = ft_strdup("dir_light");
+	else if (ptr == 2)
+		str[1] = ft_strdup("path_tracer");
+	str[2] = NULL;
+	str[3] = NULL;
 }
