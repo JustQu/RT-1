@@ -22,9 +22,12 @@ char		*delete_tabs(char *str)
 	int		i;
 	int		j;
 
+	if (str == NULL)
+		rt_error("delete_tabs(): given NULL pointer");
 	j = -1;
 	i = 0;
-	res = (char *)malloc(sizeof(char) * (char_count(str) + 1));
+	safe_call_ptr((res = (char *)malloc(sizeof(char) * (char_count(str) + 1))),
+			"delete_tabs(): malloc error");
 	while (str[i] != '\0')
 	{
 		if (str[i] == '#')
@@ -51,6 +54,8 @@ char		*get_read_block(int fd)
 	char	*tmp;
 	int		i;
 
+	if (fd < 0)
+		rt_error("get_read_block(): wrong fd");
 	block_line = NULL;
 	while ((i = get_next_line(fd, &current_line)) == 1)
 	{
@@ -60,11 +65,13 @@ char		*get_read_block(int fd)
 			break ;
 		}
 		if (block_line == NULL)
-			block_line = ft_strdup(current_line);
+			safe_call_ptr((block_line = ft_strdup(current_line)),
+			"malloc error");
 		else
 		{
 			tmp = block_line;
-			block_line = ft_strjoin(tmp, current_line);
+			safe_call_ptr((block_line = ft_strjoin(tmp, current_line)),
+			"malloc error");
 			free(tmp);
 		}
 		free(current_line);
@@ -77,6 +84,8 @@ void		pars_router(t_res_mngr *resource_manager, t_parsed_info *asset,
 {
 	int		block_type;
 
+	if (resource_manager == NULL || asset == NULL || block == NULL)
+		rt_error("pars_router(): given NULL pointer");
 	block_type = get_block_type(block);
 	if (block_type == object)
 		pars_object(resource_manager, asset, block, log);
@@ -99,6 +108,8 @@ void		parser_cycle(t_res_mngr *resource_manager, t_parsed_info *asset,
 	char	*line;
 	int		i;
 
+	if (resource_manager == NULL || asset == NULL)
+		rt_error("parser_cycle(): given NULL pointer");
 	i = 0;
 	while ((line = get_read_block(fd)) != NULL)
 	{
@@ -117,6 +128,8 @@ int			parser(t_res_mngr *resource_manager, t_parsed_info *asset,
 	int		fd;
 	int		log;
 
+	if (resource_manager == NULL || asset == NULL)
+		rt_error("parser(): given NULL pointer");
 	if (file_name == NULL)
 		return (-1);
 	log = get_log_fd(file_name);
@@ -126,6 +139,7 @@ int			parser(t_res_mngr *resource_manager, t_parsed_info *asset,
 		return (-1);
 	parser_cycle(resource_manager, asset, fd, log);
 	close(log);
-	close(fd);
+	if (close(fd))
+		rt_error("parser(): close error");
 	return (0);
 }

@@ -23,6 +23,8 @@
 
 void					set_default_camera(t_camera *camera)
 {
+	if (camera == NULL)
+		rt_error("set_default_camera(): given NULL pointer");
 	camera->viewplane.pixel_size = 1.0f;
 	camera->viewplane.width = IMG_WIDTH;
 	camera->viewplane.height = IMG_HEIGHT;
@@ -43,6 +45,9 @@ int						init_parsed_scene(t_scene *scene,
 	t_instance_manager	*instance_manager;
 	t_parsed_info		asset;
 
+	if (scene == NULL || sampler_manager == NULL ||
+			resource_manager == NULL || scene_file == NULL)
+		rt_error("init_parsed_scene(): given NULL pointer");
 	scene->camera.type = -3;
 	instance_manager = &scene->instance_mngr;
 	init_instance_manager(instance_manager);

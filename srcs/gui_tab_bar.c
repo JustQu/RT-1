@@ -19,13 +19,17 @@ void			camera_tab(t_window *win, t_rt *rt, t_all_rect *rect,
 {
 	char		*str[4];
 
+	if (win == NULL || rt == NULL || rect == NULL || color == NULL)
+		rt_error("camera_tab(): given NULL pointer");
 	render_tab_bar(win, &color->text_color, &rect->tab_camera_button, "Camera");
-	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
-		color->text_color.g, color->text_color.b, color->text_color.a);
-	SDL_RenderDrawLine(win->renderer, rect->tab_camera_button.x,
+	if (SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
+		color->text_color.g, color->text_color.b, color->text_color.a))
+		rt_error("camera_tab(): SDL_SetRenderDrawColor() error");
+	if (SDL_RenderDrawLine(win->renderer, rect->tab_camera_button.x,
 		rect->tab_camera_button.y + rect->tab_camera_button.h,
 		rect->tab_camera_button.x + rect->tab_camera_button.w,
-		rect->tab_camera_button.y + rect->tab_camera_button.h);
+		rect->tab_camera_button.y + rect->tab_camera_button.h))
+			rt_error("camera_tab(): SDL_RenderDrawLine() error");
 	get_camera_type_data(rt->scene.camera.type, "Type camera", str);
 	draw_button(win, &rect->first_button, str, color);
 	free_str(str);
@@ -50,17 +54,20 @@ void			objects_tab(t_window *win, t_rt *rt,
 {
 	char		*str[4];
 
+	if (win == NULL || rt == NULL || rect == NULL || color == NULL)
+		rt_error("objects_tab(): given NULL pointer");
 	render_tab_bar(win, &color->text_color, &rect->tab_objects_button,
 		"Objects");
-	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
+	if (SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
 		color->text_color.g,
-		color->text_color.b, color->text_color.a);
-	SDL_RenderDrawLine(win->renderer, rect->tab_objects_button.x,
+		color->text_color.b, color->text_color.a))
+		rt_error("objects_tab(): SDL_SetRenderDrawColor() error");
+	if (SDL_RenderDrawLine(win->renderer, rect->tab_objects_button.x,
 		rect->tab_objects_button.y + rect->tab_objects_button.h,
 		rect->tab_objects_button.x + rect->tab_objects_button.w,
-		rect->tab_objects_button.y + rect->tab_objects_button.h);
-	get_shape_data(
-	1, "Shape", str); // objects type
+		rect->tab_objects_button.y + rect->tab_objects_button.h))
+		rt_error("objects_tab(): SDL_RenderDrawLine() error");
+	get_shape_data(1, "Shape", str); // objects type
 	draw_button(win, &rect->first_button, str, color);
 	free_str(str);
 	get_float4_data(rt->scene.instance_mngr.objects->origin, "Origin", str);
@@ -81,12 +88,16 @@ void			light_tab(t_window *win, t_rt *rt,
 {
 	char		*str[4];
 
-	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
-		color->text_color.g, color->text_color.b, color->text_color.a);
-	SDL_RenderDrawLine(win->renderer, rect->tab_camera_button.x,
+	if (win == NULL || rt == NULL || rect == NULL || color == NULL)
+		rt_error("light_tab(): given NULL pointer");
+	if (SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
+		color->text_color.g, color->text_color.b, color->text_color.a))
+		rt_error("light_tab(): SDL_SetRenderDrawColor() error");
+	if (SDL_RenderDrawLine(win->renderer, rect->tab_camera_button.x,
 		rect->fifth_button.y + rect->fifth_button.h,
 		rect->fifth_button.x + rect->fifth_button.w,
-		rect->fifth_button.y + rect->fifth_button.h);
+		rect->fifth_button.y + rect->fifth_button.h))
+		rt_error("light_tab(): SDL_RenderDrawLine() error");
 	get_intensive_data(rt->scene.light_manager.lights->type,
 		"Type", str); //type intensity
 	draw_button(win, &rect->sixth_button, str, color);
@@ -103,14 +114,18 @@ void			option_tab(t_window *win, t_rt *rt,
 {
 	char	*str[4];
 
+	if (win == NULL || rt == NULL || rect == NULL || color == NULL)
+		rt_error("option_tab(): given NULL pointer");
 	render_tab_bar(win, &color->text_color,
 		&rect->tab_options_button, "Options");
-	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
-	color->text_color.g, color->text_color.b, color->text_color.a);
-	SDL_RenderDrawLine(win->renderer, rect->tab_options_button.x,
+	if (SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
+	color->text_color.g, color->text_color.b, color->text_color.a))
+		rt_error("option_tab(): SDL_SetRenderDrawColor() error");
+	if (SDL_RenderDrawLine(win->renderer, rect->tab_options_button.x,
 		rect->tab_options_button.y + rect->tab_options_button.h,
 		rect->tab_options_button.x + rect->tab_options_button.w,
-		rect->tab_options_button.y + rect->tab_options_button.h);
+		rect->tab_options_button.y + rect->tab_options_button.h))
+		rt_error("option_tab(): SDL_RenderDrawLine() error");
 	get_float_data(1, "Type RT", str); // need type rt
 	draw_button(win, &rect->first_button, str, color);
 	free_str(str);
@@ -130,13 +145,17 @@ void			option_tab(t_window *win, t_rt *rt,
 void			gui_tab_bar(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color)
 {
-	SDL_SetRenderDrawColor(win->renderer, color->border_color.r,
-		color->border_color.g, color->border_color.b, color->border_color.a);
-	SDL_RenderDrawLine(win->renderer, rect->tab_camera_button.x,
+	if (win == NULL || rt == NULL || rect == NULL || color == NULL)
+		rt_error("gui_tab_bar(): given NULL pointer");
+	if (SDL_SetRenderDrawColor(win->renderer, color->border_color.r,
+		color->border_color.g, color->border_color.b, color->border_color.a))
+		rt_error("gui_tab_bar(): SDL_SetRenderDrawColor() error");
+	if (SDL_RenderDrawLine(win->renderer, rect->tab_camera_button.x,
 		rect->tab_options_button.y + rect->tab_options_button.h,
 		rect->tab_camera_button.x + rect->tab_options_button.x +
 		rect->tab_options_button.w, rect->tab_options_button.y +
-		rect->tab_options_button.h);
+		rect->tab_options_button.h))
+		rt_error("gui_tab_bar(): SDL_RenderDrawLine() error");
 	if (g_camera_tab_pressed == 1)
 		camera_tab(win, rt, rect, color);
 	else

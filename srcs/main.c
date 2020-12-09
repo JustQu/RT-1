@@ -131,6 +131,8 @@ void	main_loop(t_app app)
 
 void	read_av(t_app *app, int ac, char **av)
 {
+	if (app == NULL || av == NULL)
+		rt_error("read_av(): given NULL pointer");
 	for (int i = 1; i < ac; i++)
 	{
 		if (av[i][0] == '-')
@@ -151,9 +153,12 @@ int main(int ac, char **av)
 	t_colors	color;
 	t_rt		rt;
 
+	if (av == NULL)
+		rt_error("main(): given NULL av pointer");
 	f = fopen("ocl.cl", "w+");
 	init_colors(&color);
-	init_app(&app, ac, av);
+	if (init_app(&app, ac, av))
+		rt_error("main(): init_app() error");
 	init_rect(&all_rect, &app.window);
 	if (f == NULL)
 	{

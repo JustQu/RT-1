@@ -29,11 +29,14 @@ int		add_triangle(t_instance_manager *mngr, t_instance_info triangle_info)
 {
 	t_triangle	triangle;
 
+	if (mngr == NULL)
+		rt_error("add_triangle(): given NULL pointer");
 	if (mngr->triangles_malloc_size
 		< (mngr->ntriangles + 1) * sizeof(t_triangle))
 	{
-		mngr->triangles = (t_triangle *)ft_realloc(mngr->triangles,
-			mngr->triangles_malloc_size, mngr->triangles_malloc_size * 2);
+		safe_call_ptr((mngr->triangles = (t_triangle *)ft_realloc(mngr->triangles,
+			mngr->triangles_malloc_size, mngr->triangles_malloc_size * 2)),
+			"add_triangle(): malloc error");
 		mngr->triangles_malloc_size *= 2;
 		assert(mngr->triangles);
 	}
@@ -58,8 +61,9 @@ int		add_obj(t_instance_manager *mngr, t_instance_info object_info)
 
 	if (mngr->objects_malloc_size < (mngr->nobjects + 1) * sizeof(t_obj))
 	{
-		mngr->objects = (t_obj *)ft_realloc(mngr->objects,
-			mngr->objects_malloc_size, mngr->objects_malloc_size * 2);
+		safe_call_ptr((mngr->objects = (t_obj *)ft_realloc(mngr->objects,
+			mngr->objects_malloc_size, mngr->objects_malloc_size * 2)),
+			"add_triangle(): malloc error");
 		mngr->objects_malloc_size *= 2;
 		assert(mngr->objects);
 	}
@@ -85,6 +89,8 @@ int		add_obj(t_instance_manager *mngr, t_instance_info object_info)
 
 int		add_object(t_instance_manager *mngr, t_instance_info object_info)
 {
+	if (mngr == NULL)
+		rt_error("add_object(): given NULL pointer");
 	if (object_info.type == triangle)
 	{
 		return (add_triangle(mngr, object_info));
@@ -99,6 +105,8 @@ void	set_sampler(t_instance_manager *instance_manager,
 					int id,
 					int sampler_id)
 {
+	if (instance_manager == NULL)
+		rt_error("set_sampler(): given NULL pointer");
 	instance_manager->objects[
 		instance_manager->instances[id].object_id].sampler_id = sampler_id;
 }

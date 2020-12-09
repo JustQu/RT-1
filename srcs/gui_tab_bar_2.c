@@ -18,6 +18,8 @@ void			is_type_light_cont(t_window *win, t_rt *rt,
 {
 	char		*str[4];
 
+	if (win == NULL || rt == NULL || rect == NULL || color == NULL)
+		rt_error("is_type_light_cont(): given NULL pointer");
 	if (rt->scene.light_manager.nlights == area)
 	{
 		get_float_data(rt->scene.light_manager.nlights, "Object_id", str);
@@ -131,10 +133,10 @@ void			objects_tab_cont(t_window *win, t_rt *rt,
 	get_texture_data(rt->scene.instance_mngr.texture_manager.textures->type,
 		"texture", &str); // texture type
 	draw_line(win, color, rect->background, rect->ten_button);
-	draw_button(win, &rect->ten_button, &str, color);
-	free_str(&str);
+	draw_button(win, &rect->ten_button, str, color);
+	free_str(str);
 	get_float_data(1, "Color", &str);
-	draw_button(win, &rect->eleven_button, &str, color);
+	draw_button(win, &rect->eleven_button, str, color);
 	// draw_color_button(win, color, , &rect->eleven_button);
-	free_str(&str);
+	free_str(str);
 }

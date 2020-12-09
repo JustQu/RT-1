@@ -15,6 +15,8 @@
 
 void	init_light_manager(t_light_manager *light_manager)
 {
+	if (light_manager == NULL)
+		rt_error("init_light_manager(): given NULL pointer");
 	light_manager->lights = NULL;
 	light_manager->nlights = 0;
 	light_manager->light_malloc_size = 0;
@@ -25,6 +27,8 @@ int		add_parsed_light(t_light_manager *light_manager,
 {
 	t_light	light;
 
+	if (light_manager == NULL)
+		rt_error("add_parsed_light(): given NULL pointer");
 	light.type = parsed_light.type;
 	light.origin = parsed_light.origin;
 	light.direction = parsed_light.direction;

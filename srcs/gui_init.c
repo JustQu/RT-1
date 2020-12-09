@@ -17,6 +17,8 @@
 
 void	init_rect_tree(t_all_rect *rect, t_window *win)
 {
+	if (rect == NULL || win == NULL)
+		rt_error("init_rect_tree(): given NULL pointer");
 	rect->third_button = init_rect_size(win->width - win->width / 4 +
 		SPACER, rect->second_button.y + rect->second_button.h +
 		MARGIN_Y * 4, win->width / 4, 30);
@@ -39,6 +41,8 @@ void	init_rect_tree(t_all_rect *rect, t_window *win)
 
 void	init_rect_two(t_all_rect *rect, t_window *win)
 {
+	if (rect == NULL || win == NULL)
+		rt_error("init_rect_two(): given NULL pointer");
 	rect->nine_button = init_rect_size(win->width - win->width / 4 + SPACER,
 		rect->eight_button.y + rect->eight_button.h + MARGIN_Y * 2,
 		win->width / 4, 30);
@@ -55,6 +59,8 @@ void	init_rect_two(t_all_rect *rect, t_window *win)
 
 void	init_rect(t_all_rect *rect, t_window *win)
 {
+	if (rect == NULL || win == NULL)
+		rt_error("init_rect(): given NULL pointer");
 	rect->background = init_rect_size(win->width - win->width / 4,
 		0, win->width / 4, win->height);
 	rect->tab_camera_button = init_rect_size(win->width - win->width / 4,
@@ -77,6 +83,8 @@ void	init_rect(t_all_rect *rect, t_window *win)
 
 void	init_colors(t_colors *color)
 {
+	if (color == NULL)
+		rt_error("init_colors(): given NULL pointer");
 	color->background_color = init_color(0, 0, 0, 0);
 	color->border_color = init_color(43, 43, 45, 0);
 	color->inside_color = init_color(28, 28, 30, 0);

@@ -27,11 +27,16 @@ int		init_app(t_app *app, int ac, char **av)
 {
 	char	*scene_file;
 
+	if (app == NULL || av == NULL)
+		rt_error("init_app(): given NULL pointer");
 	scene_file = NULL;
 	if (ac == 2)
 		scene_file = av[1];
-	init_window(&app->window);
-	init_resource_manager(&app->resource_manager, &app->rt);
-	init_rt(&app->rt, scene_file, &app->resource_manager);
+	if (init_window(&app->window))
+		rt_error("init_app(): init_window() error");
+	if (init_resource_manager(&app->resource_manager, &app->rt))
+		rt_error("init_app(): init_resource_manager() error");
+	if (init_rt(&app->rt, scene_file, &app->resource_manager))
+		rt_error("init_app(): init_rt() error");
 	return (SUCCESS);
 }

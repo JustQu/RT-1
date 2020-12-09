@@ -42,11 +42,14 @@ void			draw_save_image_text(t_window *win)
 	int			w;
 	int			h;
 
+	if (win == NULL)
+		rt_error("draw_save_image_text(): given NULL pointer");
 	color = init_color(255, 255, 255, 0);
 	g_font_size = FONT_TITLE_SIZE;
 	text = render_text("Saved image as image.bmp", "font/Title.ttf",
 			color, win->renderer);
-	SDL_QueryTexture(text, NULL, NULL, &w, &h);
+	if (SDL_QueryTexture(text, NULL, NULL, &w, &h))
+		rt_error("draw_save_image_text(): SDL_QueryTexture() error");
 	rect.x = win->width / 2 - w / 2;
 	rect.y = MARGIN_Y;
 	rect.w = w;
@@ -62,6 +65,8 @@ void			save_image_func(t_window *win)
 	int			w;
 	int			h;
 
+	if (win == NULL)
+		rt_error("save_image_func(): given NULL pointer");
 	if (g_save_image)
 	{
 		surf = NULL;
@@ -90,10 +95,15 @@ void			render_tab_bar(t_window *win, SDL_Color *color,
 	int			w;
 	int			h;
 
-	SDL_SetRenderDrawColor(win->renderer, 0, 0, 0, 255);
-	SDL_RenderFillRect(win->renderer, rect);
+	if (win == NULL || color == NULL || rect == NULL || str == NULL)
+		rt_error("render_tab_bar(): given NULL pointer");
+	if (SDL_SetRenderDrawColor(win->renderer, 0, 0, 0, 255))
+		rt_error("render_tab_bar(): SDL_SetRenderDrawColor() error");
+	if (SDL_RenderFillRect(win->renderer, rect))
+		rt_error("render_tab_bar(): SDL_RenderFillRect() error");
 	text = create_tab_subtitles(win, str, color);
-	SDL_QueryTexture(text, NULL, NULL, &w, &h);
+	if (SDL_QueryTexture(text, NULL, NULL, &w, &h))
+		rt_error("render_tab_bar(): SDL_QueryTexture() error");
 	if (w <= rect->w)
 	{
 		rect1.x = rect->x + (rect->w - w) / 2;

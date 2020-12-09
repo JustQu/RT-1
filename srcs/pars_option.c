@@ -32,6 +32,8 @@ sizeof(t_selector);
 
 void			validate_parsed_opt(t_rt_options *options)
 {
+	if (options == NULL)
+		rt_error("validate_parsed_opt(): given NULL pointer");
 	;
 }
 
@@ -39,6 +41,8 @@ void			fill_options(char *a, char *b, t_res_mngr *mngr)
 {
 	int			i;
 
+	if (a == NULL || b == NULL || mngr == NULL)
+		rt_error("fill_options(): given NULL pointer");
 	i = 0;
 	while (i < g_opt_selector_size)
 	{
@@ -68,14 +72,17 @@ void			pars_options(char *str, t_res_mngr *mngr)
 	char		*a;
 	char		*b;
 
+	if (str == NULL || mngr == NULL)
+		rt_error("pars_options(): given NULL pointer");
 	while (*str != '{' && *str != '\0')
 		str++;
-	str++;
+	if (*str != '\0')
+		str++;
 	while (*str != '\0')
 	{
 		a = get_key(&str);
 		b = get_value(&str);
-		while (*str == ';' || *str == '}')
+		while ((*str == ';' || *str == '}') && *str != '\0')
 			str++;
 		fill_options(a, b, mngr);
 		free(a);

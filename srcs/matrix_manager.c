@@ -21,6 +21,8 @@ int			add_matrix(t_instance_manager *mngr, t_matrix matrix)
 {
 	t_matrix	*new_memory;
 
+	if (mngr == NULL)
+		rt_error("add_matrix()L given NULL pointer");
 	if (mngr->matrices_malloc_size
 		< (mngr->nmatrices + 1) * sizeof(t_matrix))
 	{

@@ -15,6 +15,10 @@
 
 void		write_logs_9(int num_log, int fd, char *str)
 {
+	if (str == NULL)
+		rt_error("write_logs_9(): given NULL pointer");
+	if (fd < 0)
+		rt_error("write_logs_9(): wrong fd");
 	if (num_log == BAD_ROUGHNESS)
 	{
 		ft_putendl_fd(str, fd);
@@ -39,6 +43,10 @@ void		write_logs_9(int num_log, int fd, char *str)
 
 void		write_logs_8(int num_log, int fd, char *str)
 {
+	if (str == NULL)
+		rt_error("write_logs_8(): given NULL pointer");
+	if (fd < 0)
+		rt_error("write_logs_8(): wrong fd");
 	if (num_log == VECTORS_DOES_NOT_EXIST)
 	{
 		ft_putendl_fd(str, fd);
@@ -64,6 +72,10 @@ void		write_logs_8(int num_log, int fd, char *str)
 
 void		write_logs_7(int num_log, int fd, char *str)
 {
+	if (str == NULL)
+		rt_error("write_logs_7(): given NULL pointer");
+	if (fd < 0)
+		rt_error("write_logs_7(): wrong fd");
 	if (num_log == UNKNOWN_OBJ_TYPE)
 	{
 		ft_putendl_fd(str, fd);
@@ -89,6 +101,10 @@ void		write_logs_7(int num_log, int fd, char *str)
 
 void		write_logs_6(int num_log, int fd, char *str)
 {
+	if (str == NULL)
+		rt_error("write_logs_6(): given NULL pointer");
+	if (fd < 0)
+		rt_error("write_logs_6(): wrong fd");
 	if (num_log == BAD_CAMERA_DIRECTION)
 	{
 		ft_putendl_fd(str, fd);
@@ -114,23 +130,27 @@ void		write_logs_6(int num_log, int fd, char *str)
 
 void		write_logs_5(int num_log, int fd, char *str)
 {
+	if (str == NULL)
+		rt_error("write_logs_5(): given NULL pointer");
+	if (fd < 0)
+		rt_error("write_logs_5(): wrong fd");
 	if (num_log == BAD_SOLID_COLOR)
 	{
 		ft_putendl_fd(str, fd);
-		ft_putendl_fd("Solid color does not exist. \
-		Using default: {1.0f, 1.0f, 1.0f}", fd);
+		ft_putendl_fd("Solid color does not exist. "
+		"Using default: {1.0f, 1.0f, 1.0f}", fd);
 	}
 	else if (num_log == BAD_EVEN_COLOR)
 	{
 		ft_putendl_fd(str, fd);
-		ft_putendl_fd("Even color does not exist. \
-		Using default: {0.5f, 0.5f, 0.5f}", fd);
+		ft_putendl_fd("Even color does not exist. "
+		"Using default: {0.5f, 0.5f, 0.5f}", fd);
 	}
 	else if (num_log == BAD_ODD_COLOR)
 	{
 		ft_putendl_fd(str, fd);
-		ft_putendl_fd("Odd color does not exist. \
-		Using default: {0.0f, 0.0f, 1.0f}", fd);
+		ft_putendl_fd("Odd color does not exist. "
+		"Using default: {0.0f, 0.0f, 1.0f}", fd);
 	}
 	else if (num_log == BAD_CAMERA_ORIGIN)
 	{

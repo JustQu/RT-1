@@ -28,6 +28,8 @@ void		fill_texture(char *a, char *b, t_texture *texture)
 {
 	int		i;
 
+	if (a == NULL || b == NULL || texture == NULL)
+		rt_error("fill_texture(): given NULL pointer");
 	i = 0;
 	while (i < g_tex_selector_size)
 	{
@@ -46,12 +48,16 @@ void		pars_texture(char *str, int offset, void *data)
 	char			*b;
 	t_texture		*texture;
 
+	if (str == NULL || data == NULL)
+		rt_error("pars_texture(): given NULL pointer");
+	if (ft_strlen(data) < offset)
+		rt_error("pars_texture(): data is too short");
 	texture = (t_texture *)((unsigned char *)data + offset);
 	while (*str != '\0')
 	{
 		a = get_key(&str);
 		b = get_value(&str);
-		while (*str == ';' || *str == '}')
+		while ((*str == ';' || *str == '}') && *str != '\0')
 			str++;
 		fill_texture(a, b, texture);
 		free(a);

@@ -29,6 +29,8 @@ sizeof(t_selector);
 void				validate_light(t_parsed_light *light, t_parsed_info asset,
 								t_res_mngr *res_mngr)
 {
+	if (light == NULL || res_mngr == NULL)
+		rt_error("validate_light(): given NULL pointer");
 	asset.type = 1;
 	asset.data.light.type = light->type;
 	asset.data.light.color = light->color;
@@ -43,6 +45,8 @@ void				fill_light(char *a, char *b, t_parsed_light *light)
 {
 	int		i;
 
+	if (a == NULL || b == NULL || light == NULL)
+		rt_error("fill_light(): given NULL pointer");
 	i = 0;
 	while (i < g_light_selector_size)
 	{
@@ -62,10 +66,13 @@ void				pars_light(char *str, t_parsed_info *asset,
 	char			*b;
 	t_parsed_light	light;
 
+	if (str == NULL || asset == NULL || res_mngr == NULL)
+		rt_error("pars_light(): given NULL pointer");
 	light = get_default_light();
 	while (*str != '{' && *str != '\0')
 		str++;
-	str++;
+	if (*str != '\0')
+		str++;
 	while (*str != '\0')
 	{
 		a = get_key(&str);

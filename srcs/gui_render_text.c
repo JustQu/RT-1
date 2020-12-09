@@ -22,6 +22,8 @@ SDL_Texture			*render_text(char *message, char *font_file,
 
 	if (!message)
 		return (NULL);
+	if (font_file == NULL || renderer == NULL)
+		rt_error("render_text(): given NULL pointer");
 	font = TTF_OpenFont(font_file, g_font_size);
 	if (font == NULL)
 		return (NULL);

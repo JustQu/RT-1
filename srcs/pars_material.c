@@ -34,6 +34,8 @@ void			fill_material(char *a, char *b, t_material *material)
 {
 	int			i;
 
+	if (a == NULL || b == NULL || material == NULL)
+		rt_error("fill_material(): given NULL pointer");
 	i = 0;
 	while (i < g_mat_selector_size)
 	{
@@ -52,12 +54,15 @@ void			pars_material(char *str, int offset, void *data)
 	char		*b;
 	t_material	*material;
 
-	material = (t_material *)((unsigned char *)data + offset);
+	if (str == NULL || data == NULL)
+		rt_error("pars_material(): given NULL pointer");
+	safe_call_ptr((material = (t_material *)((unsigned char *)data + offset)),
+		"pars_material(): malloc error");
 	while (*str != '\0')
 	{
 		a = get_key(&str);
 		b = get_value(&str);
-		while (*str == ';' || *str == '}')
+		while ((*str == ';' || *str == '}') && *str != '\0')
 			str++;
 		fill_material(a, b, material);
 		free(a);

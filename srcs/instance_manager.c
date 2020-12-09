@@ -21,6 +21,8 @@ int			init_instance_manager(t_instance_manager *mngr)
 {
 	int	a;
 
+	if (mngr == NULL)
+		rt_error("init_instance_manager(): given NULL pointer");
 	a = 1;
 	*mngr = (t_instance_manager){ .ninstances = 0, .nobjects = 0,
 								.ntriangles = 0, .nmatrices = 0,
@@ -35,10 +37,8 @@ int			init_instance_manager(t_instance_manager *mngr)
 	mngr->triangles = (t_triangle *)ft_memalloc(mngr->triangles_malloc_size);
 	mngr->matrices = (t_matrix *)ft_memalloc(mngr->matrices_malloc_size);
 	mngr->extra = (t_instance_extra *)ft_memalloc(mngr->extra_size);
-	assert(mngr->instances);
-	assert(mngr->objects);
-	assert(mngr->triangles);
-	assert(mngr->matrices);
-	assert(mngr->extra);
+	if (mngr->instances == NULL || mngr->objects == NULL || mngr->triangles == NULL ||
+		mngr->matrices == NULL || mngr->extra == NULL)
+		rt_error("init_instance_manager(): malloc error");
 	return (SUCCESS);
 }

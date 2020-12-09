@@ -15,30 +15,36 @@
 
 void			get_true_data(int ptr, char *string, char **str)
 {
-	str[0] = ft_strdup(string);
+	if (str == NULL || string == NULL)
+		rt_error("get_true_data(): given NULL pointer");
+	safe_call_ptr((str[0] = ft_strdup(string)), "malloc error");
 	if (ptr == 0)
-		str[1] = ft_strdup("false");
+		safe_call_ptr((str[1] = ft_strdup("false")), "malloc error");
 	else if (ptr == 1)
-		str[1] = ft_strdup("true");
+		safe_call_ptr((str[1] = ft_strdup("true")), "malloc error");
 	str[2] = NULL;
 	str[3] = NULL;
 }
 
 void			get_ambient_il_data(int ptr, char *string, char **str)
 {
-	str[0] = ft_strdup(string);
+	if (str == NULL || string == NULL)
+		rt_error("get_ambient_il_data(): given NULL pointer");
+	safe_call_ptr((str[0] = ft_strdup(string)), "malloc error");
 	if (ptr == 0)
-		str[1] = ft_strdup("constant");
+		safe_call_ptr((str[1] = ft_strdup("constant")), "malloc error");
 	else if (ptr == 1)
-		str[1] = ft_strdup("occlusion");
+		safe_call_ptr((str[1] = ft_strdup("occlusion")), "malloc error");
 	str[2] = NULL;
 	str[3] = NULL;
 }
 
 void			get_color_data(t_color color, char *string, char **str)
 {
-	str[0] = ft_strdup(string);
-	str[1] = itoa_float(color.r);
-	str[2] = itoa_float(color.g);
-	str[3] = itoa_float(color.b);
+	if (str == NULL || string == NULL)
+		rt_error("get_color_data(): given NULL pointer");
+	safe_call_ptr((str[0] = ft_strdup(string)), "malloc error");
+	safe_call_ptr((str[1] = itoa_float(color.r)), "malloc error");
+	safe_call_ptr((str[2] = itoa_float(color.g)), "malloc error");
+	safe_call_ptr((str[3] = itoa_float(color.b)), "malloc error");
 }

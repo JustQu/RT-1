@@ -30,6 +30,8 @@ sizeof(t_selector);
 
 void			validate_parsed_camera(t_camera *camera, int log)
 {
+	if (camera == NULL)
+		rt_error("validate_parsed_camera(): given NULL pointer");
 	if (camera->type == -2)
 	{
 		camera->type = perspective;
@@ -56,6 +58,8 @@ void			fill_camera(char *a, char *b, t_camera *cam)
 {
 	int			i;
 
+	if (a == NULL || b == NULL || cam == NULL)
+		rt_error("fill_camera(): given NULL pointer");
 	i = 0;
 	while (i < g_cam_selector_size)
 	{
@@ -73,7 +77,11 @@ void			pars_camera(char *str, t_camera *camera, int log)
 	char		*a;
 	char		*b;
 
+	if (str == NULL || camera == NULL)
+		rt_error("pars_camera(): given NULL pointer");
 	*camera = get_default_camera();
+	if (camera == NULL)
+		rt_error("pars_camera(): get_default_camera() error");
 	while (*str != '{' && *str != '\0')
 		str++;
 	str++;

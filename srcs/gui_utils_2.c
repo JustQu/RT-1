@@ -60,10 +60,14 @@ void			draw_title_ray_tracing(t_window *win, SDL_Color *color)
 	int			w;
 	int			h;
 
+	if (win == NULL || color == NULL)
+		rt_error("draw_title_ray_tracing(): given NULL pointer");
 	g_font_size = FONT_TITLE_SIZE * 2;
-	rt_text = render_text("Ray Tracing", "font/Title_font_CAT.ttf",
-			*color, win->renderer);
-	SDL_QueryTexture(rt_text, NULL, NULL, &w, &h);
+	safe_call_ptr((rt_text = render_text("Ray Tracing", "font/Title_font_CAT.ttf",
+		*color, win->renderer)),
+		"draw_title_ray_tracing(): render_text() returned NULL");
+	if (SDL_QueryTexture(rt_text, NULL, NULL, &w, &h))
+		rt_error("draw_title_ray_tracing(): SDL_QueryTexture() error");
 	if (win->width / 4 >= w)
 	{
 		rect.x = (win->width - win->width / 4) + (win->width / 4 - w) / 2;
@@ -100,6 +104,8 @@ void			gui_disk_vision(t_window *win, t_rt *rt,
 {
 	char		*str[4];
 
+	if (win == NULL || rt == NULL || rect == NULL || color == NULL)
+		rt_error("gui_disk_vision(): given NULL pointer");
 	get_float_data(1,
 		"Radius", str); // radius disk
 	draw_button(win, &rect->fifth_button, str, color);

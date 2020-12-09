@@ -37,6 +37,8 @@ sizeof(t_selector);
 void			validate_parsed_obj(t_res_mngr *resource_manager,
 				t_parsed_info asset, int log)
 {
+	if (resource_manager == NULL)
+		rt_error("validate_parsed_obj(): given NULL pointer");
 	if (asset.data.object.type == -2)
 	{
 		write_logs(OBJ_TYPE_DOES_NOT_EXIST, log, "ERROR:");
@@ -71,6 +73,8 @@ void			fill_object(char *a, char *b, t_parsed_object *obj)
 {
 	int			i;
 
+	if (a == NULL || b == NULL || obj == NULL)
+		rt_error("fill_object(): given NULL pointer");
 	i = 0;
 	while (i < g_obj_selector_size)
 	{
@@ -90,15 +94,18 @@ void			pars_object(t_res_mngr *resource_manager,
 	char			*b;
 	t_parsed_object	obj;
 
+	if (resource_manager == NULL || asset == NULL || str == NULL)
+		rt_error("pars_object(): given NULL pointer");
 	obj = get_default_obj();
 	while (*str != '{' && *str != '\0')
 		str++;
-	str++;
+	if (*str != '\0')
+		str++;
 	while (*str != '\0')
 	{
 		a = get_key(&str);
 		b = get_value(&str);
-		while (*str == ';' || *str == '}')
+		while ((*str == ';' || *str == '}') && *str != '\0')
 			str++;
 		fill_object(a, b, &obj);
 		free(a);
