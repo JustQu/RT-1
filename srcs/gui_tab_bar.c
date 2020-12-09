@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_tab_bar.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/12/08 18:34:07 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/09 15:25:04 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,10 @@ void			option_tab(t_window *win, t_rt *rt,
 		rect->tab_options_button.x + rect->tab_options_button.w,
 		rect->tab_options_button.y + rect->tab_options_button.h))
 		rt_error("option_tab(): SDL_RenderDrawLine() error");
-	get_float_data(1, "Type RT", str); // need type rt
+	get_rt_type_data(rt->options.tracer_type, "Type RT", str); // need type rt
 	draw_button(win, &rect->first_button, str, color);
 	free_str(str);
-	get_float_data(1, "Samplers", str); //samplers rt->scene.camera.sampler_id
+	get_float_data(rt->options.sampler.num_samples, "Samplers", str); //samplers rt->scene.camera.sampler_id
 	draw_button(win, &rect->second_button, str, color);
 	free_str(str);
 	get_color_data(rt->options.background_color, "Back_color", str); //get background color

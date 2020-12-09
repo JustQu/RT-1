@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/12/06 16:32:41 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/09 16:01:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void			get_float_data(float ptr, char *string, char *str[4]);
 void			get_float4_data(cl_float4 ptr, char *string, char *str[4]);
 void			get_shape_data(int ptr, char *string, char *str[4]);
 void			get_texture_data(int ptr, char *string, char *str[4]);
+void			get_rt_type_data(int ptr, char *string, char **str);
 void			gui_cone_vision(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color);
 void			gui_cylinder_vision(t_window *win, t_rt *rt,
@@ -143,6 +144,8 @@ void			get_true_data(int ptr,
 					char *string, char *str[4]);
 
 void			draw_save_image_text(t_window *win);
+void			draw_for_button(t_window *win,
+					SDL_Rect *rect, t_colors *color);
 void			draw_line(t_window *win, t_colors *color,
 					SDL_Rect rect, SDL_Rect rect_2);
 void			option_tab_cont(t_window *win, t_rt *rt,
