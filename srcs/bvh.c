@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bvh.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 19:29:26 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 11:08:00 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/10 17:47:43 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	sort_nodes(t_bvh_node *nodes, int size,
 	t_bvh_node	node;
 	t_bvh_node	tmp;
 
-	if (nodes == NULL || cmp == NULL)
-		rt_error("sort_nodes(): given NULL pointer");
+	if (size <= 0)
+		rt_error("sort_nodes(): size equal zero");
 	if ((r = size - 1) == 0)
 		return ;
 	l = 0;

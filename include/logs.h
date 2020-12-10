@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:10:52 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/08 16:48:49 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/10 18:23:24 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@
 # define BAD_TRANSMISSION					-35
 # define BAD_SPECULAR						-36
 # define BAD_AMBIENT						-37
+# define BAD_LIGHT_TYPE						-38
 
 void		write_logs(int num_log, int fd, char *str);
 void		validate_cone(t_res_mngr *mngr, t_parsed_info asset, int log);
@@ -66,5 +67,6 @@ void		validate_rectangle(t_res_mngr *mngr, t_parsed_info asset, int log);
 int			validate_texture(t_parsed_info *asset, int log);
 int			validate_material(t_parsed_info *asset, int log);
 void		write_logs_5(int num_log, int fd, char *str);
+void		write_logs_10(int num_log, int fd, char *str);
 
 #endif

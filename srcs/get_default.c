@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:11:31 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/07 20:51:45 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/10 18:37:03 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ t_parsed_light		get_default_light(void)
 {
 	t_parsed_light	light;
 
-	light.type = point;
-	light.origin = (cl_float4){1.0f, 8.0f, -5.0f, 0.0f};
-	light.ls = 2.0f;
-	light.color = (t_color){1.0f, 1.0f, 1.0f};
+	light.type = -2;
+	light.origin.x = NAN;
+	light.ls = NAN;
+	light.color.r = NAN;
 	return (light);
 }
 

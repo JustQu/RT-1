@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 16:40:14 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/10 16:25:33 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/10 18:38:06 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void		write_logs_9(int num_log, int fd, char *str)
 		ft_putendl_fd(str, fd);
 		ft_putendl_fd("Ambient coefficient does not exist", fd);
 	}
+	write_logs_10(num_log, fd, str);
 }
 
 void		write_logs_8(int num_log, int fd, char *str)
@@ -119,7 +120,7 @@ void		write_logs_5(int num_log, int fd, char *str)
 	if (num_log == BAD_SOLID_COLOR)
 	{
 		ft_putendl_fd(str, fd);
-		ft_putendl_fd("Solid color does not exist. "
+		ft_putendl_fd("Color does not exist. "
 		"Using default: {1.0f, 1.0f, 1.0f}", fd);
 	}
 	else if (num_log == BAD_EVEN_COLOR)
