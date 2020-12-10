@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:51:27 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/10 16:25:14 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/10 16:46:59 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,8 @@ void		write_logs_4(int num_log, int fd, char *str)
 	}
 	else if (num_log == COLOR_DOES_NOT_EXIST)
 	{
-		ft_putstr_fd("Color does not exist:\n", fd);
 		ft_putendl_fd(str, fd);
-		ft_putchar_fd('\n', fd);
+		ft_putstr_fd("Color does not exist:\n", fd);
 	}
 	else if (num_log == BAD_ORIGIN)
 	{
