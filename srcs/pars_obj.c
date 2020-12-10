@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 21:41:52 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/07 20:18:27 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/10 17:04:43 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,27 @@ t_selector		g_selector_obj[] = {
 int				g_obj_selector_size = sizeof(g_selector_obj) /
 sizeof(t_selector);
 
+void			validate_parsed_obj_2(t_res_mngr *resource_manager,
+				t_parsed_info asset, int log)
+{
+	if (asset.data.object.type == cone)
+		validate_cone(resource_manager, asset, log);
+	else if (asset.data.object.type == cylinder)
+		validate_cylinder(resource_manager, asset, log);
+	else if (asset.data.object.type == paraboloid)
+		validate_paraboloid(resource_manager, asset, log);
+	else if (asset.data.object.type == plane)
+		validate_plane(resource_manager, asset, log);
+	else if (asset.data.object.type == sphere)
+		validate_sphere(resource_manager, asset, log);
+	else if (asset.data.object.type == torus || asset.data.object.type == disk)
+		validate_torus_disk(resource_manager, asset, log);
+	else if (asset.data.object.type == triangle || asset.data.object.type == box)
+		validate_triangle_box(resource_manager, asset, log);
+	else if (asset.data.object.type == rectangle)
+		validate_rectangle(resource_manager, asset, log);
+}
+
 void			validate_parsed_obj(t_res_mngr *resource_manager,
 				t_parsed_info asset, int log)
 {
@@ -51,22 +72,7 @@ void			validate_parsed_obj(t_res_mngr *resource_manager,
 		write_logs(PARS_UNSUCCESS, log, NULL);
 		return ;
 	}
-	else if (asset.data.object.type == cone)
-		validate_cone(resource_manager, asset, log);
-	else if (asset.data.object.type == cylinder)
-		validate_cylinder(resource_manager, asset, log);
-	else if (asset.data.object.type == paraboloid)
-		validate_paraboloid(resource_manager, asset, log);
-	else if (asset.data.object.type == plane)
-		validate_plane(resource_manager, asset, log);
-	else if (asset.data.object.type == sphere)
-		validate_sphere(resource_manager, asset, log);
-	else if (asset.data.object.type == torus || asset.data.object.type == disk)
-		validate_torus_disk(resource_manager, asset, log);
-	else if (asset.data.object.type == triangle || asset.data.object.type == box)
-		validate_triangle_box(resource_manager, asset, log);
-	else if (asset.data.object.type == rectangle)
-		validate_rectangle(resource_manager, asset, log);
+	validate_parsed_obj_2(resource_manager, asset, log);
 }
 
 void			fill_object(char *a, char *b, t_parsed_object *obj)

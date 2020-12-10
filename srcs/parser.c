@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 19:56:06 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/08 17:46:39 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/10 16:59:39 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ char		*delete_tabs(char *str)
 	int		i;
 	int		j;
 
-	if (str == NULL)
-		rt_error("delete_tabs(): given NULL pointer");
 	j = -1;
 	i = 0;
 	safe_call_ptr((res = (char *)malloc(sizeof(char) * (char_count(str) + 1))),
@@ -49,32 +47,29 @@ char		*delete_tabs(char *str)
 
 char		*get_read_block(int fd)
 {
-	char	*current_line;
+	char	*cur_line;
 	char	*block_line;
 	char	*tmp;
 	int		i;
 
-	if (fd < 0)
-		rt_error("get_read_block(): wrong fd");
 	block_line = NULL;
-	while ((i = get_next_line(fd, &current_line)) == 1)
+	while ((i = get_next_line(fd, &cur_line)) == 1)
 	{
-		if (!ft_strcmp(current_line, "\0") && block_line != NULL)
+		if (!ft_strcmp(cur_line, "\0") && block_line != NULL)
 		{
-			free(current_line);
+			free(cur_line);
 			break ;
 		}
 		if (block_line == NULL)
-			safe_call_ptr((block_line = ft_strdup(current_line)),
-			"malloc error");
+			safe_call_ptr((block_line = ft_strdup(cur_line)), "malloc error");
 		else
 		{
 			tmp = block_line;
-			safe_call_ptr((block_line = ft_strjoin(tmp, current_line)),
+			safe_call_ptr((block_line = ft_strjoin(tmp, cur_line)),
 			"malloc error");
 			free(tmp);
 		}
-		free(current_line);
+		free(cur_line);
 	}
 	return (block_line);
 }
