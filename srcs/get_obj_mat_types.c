@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:18:59 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/06 18:07:47 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/10 16:23:00 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ void				get_obj_type(char *str, int offset, void *data)
 
 	if (str == NULL || data == NULL)
 		rt_error("get_obj_type(): given NULL pointer");
-	if (ft_strlen(data) < offset)
-		rt_error("get_obj_type(): data is too short");
 	v = (unsigned char *)data + offset;
 	type = (t_type *)v;
 	*type = get_obj_type_value(str);
@@ -90,8 +88,6 @@ void				get_mat_type(char *str, int offset, void *data)
 
 	if (str == NULL || data == NULL)
 		rt_error("get_mat_type(): given NULL pointer");
-	if (ft_strlen(data) < offset)
-		rt_error("get_mat_type(): data is too short");
 	v = (unsigned char *)data + offset;
 	type = (t_material_type *)v;
 	*type = get_mat_type_value(str);

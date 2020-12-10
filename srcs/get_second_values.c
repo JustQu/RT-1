@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 20:09:10 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/08 17:39:54 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/10 16:21:51 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ void		get_uchar(char *str, int offset, void *data)
 
 	if (str == NULL || data == NULL)
 		rt_error("get_uchar(): given NULL pointer");
-	if (ft_strlen(data) < offset)
-		rt_error("get_uchar(): data is too short");
 	v = (unsigned char *)data + offset;
 	c = (cl_uchar *)v;
 	if (!ft_strcmp(str, "true"))
@@ -37,8 +35,6 @@ void		get_int(char *str, int offset, void *data)
 
 	if (str == NULL || data == NULL)
 		rt_error("get_int(): given NULL pointer");
-	if (ft_strlen(data) < offset)
-		rt_error("get_int(): data is too short");
 	v = (unsigned char *)data + offset;
 	num = (cl_int *)v;
 	*num = ft_atoi(str);

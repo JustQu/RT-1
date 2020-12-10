@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 20:28:18 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 20:20:08 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/10 16:22:40 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void				get_tracer_type(char *str, int offset, void *data)
 
 	if (str == NULL || data == NULL)
 		rt_error("get_tracer_type(): given NULL pointer");
-	if (ft_strlen(data) < offset)
-		rt_error("get_tracer_type(): data is too short");
 	v = (unsigned char *)data + offset;
 	type = (t_tracer_type *)v;
 	*type = get_tracer_type_value(str);

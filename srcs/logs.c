@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:51:27 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/08 16:59:54 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/10 16:25:14 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ int			get_log_fd(char *str)
 
 void		write_logs_4(int num_log, int fd, char *str)
 {
-	if (str == NULL)
-		rt_error("write_logs_4(): given NULL pointer");
 	if (num_log == SCENE_TYPE_DOES_NOT_EXIST)
 	{
 		ft_putstr_fd("Scene type does not exist:\n", fd);
@@ -65,10 +63,6 @@ void		write_logs_4(int num_log, int fd, char *str)
 
 void		write_logs_3(int num_log, int fd, char *str)
 {
-	if (str == NULL)
-		rt_error("write_logs_3(): given NULL pointer");
-	if (fd < 0)
-		rt_error("write_logs_3(): given wrong fd");
 	if (num_log == MATERIAL_TYPE_DOES_NOT_EXIST)
 	{
 		ft_putendl_fd(str, fd);
@@ -96,10 +90,6 @@ void		write_logs_3(int num_log, int fd, char *str)
 
 void		write_logs_2(int num_log, int fd, char *str)
 {
-	if (str == NULL)
-		rt_error("write_logs_2(): given NULL pointer");
-	if (fd < 0)
-		rt_error("write_logs_2(): given wrong fd");
 	if (num_log == UNKNOWN_OBJ_TYPE)
 	{
 		ft_putstr_fd("Unknown object type:\n", fd);
@@ -125,10 +115,6 @@ void		write_logs_2(int num_log, int fd, char *str)
 
 void		write_logs(int num_log, int fd, char *str)
 {
-	if (str == NULL)
-		rt_error("write_logs(): given NULL pointer");
-	if (fd < 0)
-		rt_error("write_logs(): given wrong fd");
 	if (num_log == PARS_SUCCESS)
 	{
 		ft_putendl_fd("SUCCESS:", fd);

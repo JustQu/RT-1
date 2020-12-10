@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:35:46 by aapricot          #+#    #+#             */
-/*   Updated: 2020/11/10 00:41:19 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/10 16:22:49 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ void				get_tex_type(char *str, int offset, void *data)
 
 	if (str == NULL || data == NULL)
 		rt_error("get_tex_type(): given NULL pointer");
-	if (ft_strlen(data) < offset)
-		rt_error("get_tex_type(): data is too short");
 	v = (unsigned char *)data + offset;
 	type = (t_texture_type *)v;
 	*type = get_tex_type_value(str);
@@ -81,8 +79,6 @@ void				get_cam_type(char *str, int offset, void *data)
 
 	if (str == NULL || data == NULL)
 		rt_error("get_cam_type(): given NULL pointer");
-	if (ft_strlen(data) < offset)
-		rt_error("get_cam_type(): data is too short");
 	v = (unsigned char *)data + offset;
 	type = (t_camera_type *)v;
 	*type = get_cam_type_value(str);

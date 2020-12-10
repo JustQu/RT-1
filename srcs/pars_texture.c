@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 16:28:12 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 21:13:02 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/10 16:23:29 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ void		pars_texture(char *str, int offset, void *data)
 
 	if (str == NULL || data == NULL)
 		rt_error("pars_texture(): given NULL pointer");
-	if (ft_strlen(data) < offset)
-		rt_error("pars_texture(): data is too short");
 	texture = (t_texture *)((unsigned char *)data + offset);
 	while (*str != '\0')
 	{
