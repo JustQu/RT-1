@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   catch_event.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/06 19:08:22 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/11 19:58:59 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "interface.h"
-# include "rt.h"
+#include "interface.h"
+#include "rt.h"
 #include "gui.h"
 
 int		is_press_button(SDL_Event *event, SDL_Rect *rect)

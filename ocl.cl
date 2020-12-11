@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:57:17 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 22:42:09 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/10 23:26:38 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 # ifndef __OPENCL_C_VERSION__
 #  include "inttypes.h"
+#  include "float.h"
 #  include "bool.h"
 #  ifdef __APPLE__
 #   include "OpenCL/opencl.h"
@@ -32,6 +33,21 @@
 
 typedef uint32_t	t_uint;
 typedef int32_t		t_int;
+typedef int8_t		t_s8;
+typedef int16_t		t_s16;
+typedef int32_t		t_s32;
+typedef int64_t		t_s64;
+
+typedef uint8_t		t_u8;
+typedef uint16_t	t_u16;
+typedef uint32_t	t_u32;
+typedef uint64_t	t_u64;
+
+typedef cl_float	t_float;
+typedef cl_float2	t_float2;
+typedef cl_float4	t_float4;
+typedef cl_float8	t_float8;
+typedef cl_float16	t_float16;
 
 # endif
 
@@ -788,7 +804,7 @@ struct			s_bvh_node
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 22:02:22 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/07 23:51:52 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -850,7 +866,7 @@ struct			s_rt_options
 # ifndef __OPENCL_C_VERSION__
 
 int				init_default_options(t_rt_options *options,
-					t_sampler_manager *sampler_manager);
+									t_sampler_manager *sampler_manager);
 
 # endif
 
@@ -3960,7 +3976,7 @@ t_color	plastic_evaluate(t_material material, t_shade_rec *shade_rec,
 	float D = ggx_normal_distribution2(a, shade_rec->normal, m);
 	float G = ggx_visibility_term2(a, shade_rec->ray.direction, wi,
 									 shade_rec->normal, m);
-	float J = 1.0f / (4.0 * MdotO);
+	float J = 1.0f / (4.0 * MdotO);;
 
 	t_color c = get_color(texture_manager, material, shade_rec);
 
@@ -4055,7 +4071,7 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 
 	t_color	beta = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
 
-	t_shade_rec	shade_rec;
+	t_shade_rec	shade_rec;;;
 	shade_rec.ray = ray;
 
 	float	material_pdf = 1.0f;
@@ -4096,7 +4112,7 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 			t_color	f;
 			float	pdf;
 			float	weight;
-			float	bsdf;
+			float	bsdf;;
 
 			/* scatter */
 			sample_material(material, &shade_rec, &f, &pdf, &weight,

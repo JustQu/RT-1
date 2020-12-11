@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/02 18:12:50 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 21:36:16 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/08 17:08:13 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,21 @@
 
 typedef struct	s_instance_info
 {
-	t_material	material;
-	t_texture	texture;
-	cl_float4	origin;
-	cl_float4	v1;
-	cl_float4	v2;
-	cl_float4	v3;
-	cl_float4	rotation;
-	cl_float4	scaling;
-	t_type		type;
-	float		r;
-	float		r2;
-	float		e;
-	float		height;
-	int			boolean;
+	t_material	material;	//64
+	t_texture	texture;	//32
+	cl_float4	origin;		//16
+	cl_float4	v1;			//16
+	cl_float4	v2;			//16
+	cl_float4	v3;			//16
+	cl_float4	rotation;	//16
+	cl_float4	scaling;	//16
+	t_type		type;		//4
+	float		r;			//4
+	float		r2;			//4
+	float		e;			//4
+	float		height;		//4
+	int			boolean;	//4
+	int			gap[2];
 }				t_instance_info;
 
 typedef struct	s_instance_extra

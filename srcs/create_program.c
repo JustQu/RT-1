@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 23:18:27 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/10 23:25:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,9 @@ cl_program		create_program(cl_context context)
 		fprintf(f, "%s\n", str[i]);
 		i++;
 	}
+	printf("1");
 	program = clCreateProgramWithSource(context, g_num_files, str, NULL, &ret);
+	printf("2");
 	assert(!ret);
 	while (i--)
 		free(str[i]);

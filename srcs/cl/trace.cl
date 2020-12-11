@@ -454,7 +454,7 @@ t_color	plastic_evaluate(t_material material, t_shade_rec *shade_rec,
 	float D = ggx_normal_distribution2(a, shade_rec->normal, m);
 	float G = ggx_visibility_term2(a, shade_rec->ray.direction, wi,
 									 shade_rec->normal, m);
-	float J = 1.0f / (4.0 * MdotO);
+	float J = 1.0f / (4.0 * MdotO);;
 
 	t_color c = get_color(texture_manager, material, shade_rec);
 
@@ -549,7 +549,7 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 
 	t_color	beta = (t_color){ .r = 1.0f, .g = 1.0f, .b = 1.0f };
 
-	t_shade_rec	shade_rec;
+	t_shade_rec	shade_rec;;;
 	shade_rec.ray = ray;
 
 	float	material_pdf = 1.0f;
@@ -590,7 +590,7 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 			t_color	f;
 			float	pdf;
 			float	weight;
-			float	bsdf;
+			float	bsdf;;
 
 			/* scatter */
 			sample_material(material, &shade_rec, &f, &pdf, &weight,

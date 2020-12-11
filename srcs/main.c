@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/06 16:37:20 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/11 19:58:06 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,14 @@ void	main_loop(t_app app)
 
 /*
 ** @todo: -s 'scene_file_name';
+** 		  --img 'img_name' -N (колво сэмплов);
+** 		  -h 
+**
+**
 ** 		  --client;
 ** 		  --server 'ip';
-** 		  --img 'img_name' -N (колво сэмплов);
 ** 		  --gui(by default)
-**		  --log "file_name" - логирование
+**		  --interface
 ** @brief
 **
 ** @param app
@@ -147,14 +150,9 @@ int main(int ac, char **av)
 {
 	t_app		app;
 	int			value;
-	t_all_rect	all_rect;
-	t_colors	color;
-	t_rt		rt;
 
 	f = fopen("ocl.cl", "w+");
-	init_colors(&color);
 	init_app(&app, ac, av);
-	init_rect(&all_rect, &app.window);
 	if (f == NULL)
 	{
 		printf("ERROR");
@@ -162,25 +160,21 @@ int main(int ac, char **av)
 	}
 	while (1)
 	{
-		value = catch_event(&app.rt, &app.window, &all_rect, &color);
+		value = catch_event(&app.rt, &app.window, &app.gui.all_rect,
+							&app.gui.colors);
 		if (value == 1)
 				break;
 		else if (value == 0)
 		{
-			init_rect(&all_rect, &app.window);
+			init_rect(&app.gui.all_rect, &app.window);
 			main_loop(app);
 			display_image(&app.window);
-			save_image_func(&app.window);
+			// save_image_func(&app.window);
 			app.rt.options.spp += NUM_SAMPLES;
 			app.rt.options.reset = 0;
-			gui(&app.window, &app.rt, &all_rect, &color);
+			gui(&app.window, &app.rt, &app.gui.all_rect, &app.gui.colors);
 			SDL_RenderPresent(app.window.renderer);
 		}
-		// else
-		// {
-		// 	gui(&app.window, &app.rt, &all_rect, &color);
-		// 	SDL_RenderPresent(app.window.renderer);
-		// }
 	}
 
 	// exit_program(app.window);

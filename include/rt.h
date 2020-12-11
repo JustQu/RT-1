@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 22:15:47 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/10 23:27:00 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # include "resource_manager.h"
 
 typedef struct s_rt		t_rt;
-
+// typedef struct s_image	t_image;
 struct	s_rt
 {
 	t_scene				scene;
@@ -46,6 +46,11 @@ struct	s_rt
 	t_rt_options		options;
 	t_cl_program		ocl_program;
 };
+
+// struct s_image
+// {
+
+// };
 
 int		init_rt(t_rt *rt, char *scene_file,
 								t_res_mngr *resource_manager);

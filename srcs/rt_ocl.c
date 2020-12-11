@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_ocl.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/06 20:29:30 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/10 23:46:55 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,64 @@ static int	init_clp(t_clp *clp)
 	return (0);
 }
 
+void CL_CALLBACK pfn_notify(cl_program program, void *data)
+{
+	int	*state;
+
+	state = data;
+	printf("ready");
+	*state = 1;
+}
+static int state = 0;
+
+
+int		test_thread(void *ptr)
+{
+	t_cl_program *p;
+
+	p = ptr;
+
+	int r;
+	r = clBuildProgram(p->program, 1, &p->info.de_id,
+					   "-cl-std=CL2.0", pfn_notify, &state);
+	SDL_Delay(500);
+	return (r);
+}
+
+
 static int	init_kernel(t_cl_program *p)
 {
-	int	r;
+	int		r;
 	size_t	a;
 
 	r = 0;
 	p->work_size = IMG_WIDTH * IMG_HEIGHT;
 	p->work_group_size = WORK_GROUP_SIZE;
 	p->program = create_program(p->info.context);
-	r = clBuildProgram(p->program, 1, &p->info.de_id,
-						"-cl-std=CL2.0", NULL, NULL);
+
+	SDL_Thread *thread;
+	int threadReturnValue;
+
+	printf("Simple SDL_CreateThread test:\n");
+
+	/* Simply create a thread */
+	thread = SDL_CreateThread(test_thread, "TestThread", (void *)p);
+
+	if (NULL == thread)
+	{
+		printf("SDL_CreateThread failed: %s\n", SDL_GetError());
+	}
+	else
+	{
+		int j = 0;
+
+		while (state != 1)
+			printf("%d\n", j++);
+		SDL_WaitThread(thread, &threadReturnValue);
+		printf("Thread returned value: %d\n", threadReturnValue);
+	}
+
+	printf("4\n");
 	cl_error(p, &p->info, r);
 	assert(!r);
 	p->new_kernel = clCreateKernel(p->program, KERNEL_NAME, &r);

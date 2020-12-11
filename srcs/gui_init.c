@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   gui_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:33:27 by user              #+#    #+#             */
-/*   Updated: 2020/11/12 13:13:32 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/11 19:55:43 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "window.h"
-#include "rt_options.h"
-#include "rt.h"
 
 void	init_rect_tree(t_all_rect *rect, t_window *win)
 {
@@ -81,4 +79,11 @@ void	init_colors(t_colors *color)
 	color->border_color = init_color(43, 43, 45, 0);
 	color->inside_color = init_color(28, 28, 30, 0);
 	color->text_color = init_color(255, 255, 255, 0);
+}
+
+void	init_gui(t_gui *const gui, int width, int height,
+				/* remove */ t_window win)
+{
+	init_colors(&gui->colors);
+	init_rect(&gui->all_rect, &win);
 }

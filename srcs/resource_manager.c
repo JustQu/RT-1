@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:55:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 22:35:55 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/10 14:36:47 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,36 @@ void			scan_instance(t_res_mngr *const mngr, t_parsed_info asset)
 	}
 }
 
+t_instance_info	get_object_info(t_res_mngr *mngr, t_instance instance,
+								t_instance_extra extra)
+{
+	t_instance_info		info;
+	t_obj				obj;
+
+	info.type = instance.type;
+	obj = mngr->scene->instance_mngr.objects[instance.object_id];
+	info.material = instance.material;
+	info.origin = extra.origin;
+	info.height = obj.maxm;
+	info.rotation = extra.rotation;
+	info.scaling = extra.scaling;
+	info.r = obj.r;
+	info.r2 = obj.r2;
+	info.texture = mngr->scene->instance_mngr.texture_manager.textures
+					   [instance.material.texture_id];
+	info.v1 = obj.direction;
+	info.v2 = obj.dir2;
+	info.e = obj.angle;
+	info.boolean = obj.shadows;
+}
+
+t_instance_info	get_triangle_info(void)
+{
+	t_instance_info	info;
+
+	return (info);
+}
+
 /*
 ** @brief Get the instance info object
 ** @todo: check array boundaries
@@ -166,10 +196,15 @@ void			scan_instance(t_res_mngr *const mngr, t_parsed_info asset)
 
 t_instance_info	get_instance_info(t_res_mngr *mngr, int id)
 {
-	t_instance_info	info;
+	t_instance			instance;
+	t_instance_extra	extra;
 
-	info.type = mngr->scene->instance_mngr.instances[id].type;
-	return (info);
+	instance = mngr->scene->instance_mngr.instances[id];
+	extra = mngr->scene->instance_mngr.extra[id];
+	if (instance.type == object)
+		return (get_object_info(mngr, instance, extra));
+	else if (instance.type == triangle)
+		return (get_triangle_info());
 }
 
 void			add_parsed_asset(t_res_mngr *const mngr, t_parsed_info asset)

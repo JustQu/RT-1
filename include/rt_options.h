@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 22:02:22 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/07 23:51:52 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ struct			s_rt_options
 # ifndef __OPENCL_C_VERSION__
 
 int				init_default_options(t_rt_options *options,
-					t_sampler_manager *sampler_manager);
+									t_sampler_manager *sampler_manager);
 
 # endif
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parsed_scene.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 20:37:35 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/03 19:21:54 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/07 23:53:10 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include "light_manager.h"
 #include "logs.h"
 
-void					set_default_camera(t_camera *camera)
+void	set_default_camera(t_camera *camera)
 {
 	camera->viewplane.pixel_size = 1.0f;
 	camera->viewplane.width = IMG_WIDTH;
@@ -36,9 +36,9 @@ void					set_default_camera(t_camera *camera)
 	//заново открыть лог файл и записать логи
 }
 
-int						init_parsed_scene(t_scene *scene,
-	t_sampler_manager *sampler_manager,
-	t_res_mngr *resource_manager, char *scene_file)
+int		init_parsed_scene(t_scene *scene,
+						t_sampler_manager *sampler_manager,
+						t_res_mngr *resource_manager, char *scene_file)
 {
 	t_instance_manager	*instance_manager;
 	t_parsed_info		asset;
@@ -47,8 +47,8 @@ int						init_parsed_scene(t_scene *scene,
 	instance_manager = &scene->instance_mngr;
 	init_instance_manager(instance_manager);
 	init_light_manager(&scene->light_manager);
-	scene->camera.sampler_id = new_sampler(sampler_manager,
-	rand_jitter, 25, DISK_SAMPLES);
+	scene->camera.sampler_id = new_sampler(sampler_manager, rand_jitter, 25,
+											DISK_SAMPLES);
 	scene->ambient_occluder.color = (t_color){.r = 1.0f, .g = 1.0f, .b = 1.0f};
 	scene->ambient_occluder.ls = 0.05f;
 	scene->ambient_occluder.min_amount =

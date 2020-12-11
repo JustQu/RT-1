@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/12/06 16:32:41 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/10 18:25:25 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,12 @@ typedef struct	s_colors
 	SDL_Color	inside_color;
 	SDL_Color	text_color;
 }				t_colors;
+
+typedef struct	s_gui
+{
+	t_colors	colors;
+	t_all_rect	all_rect;
+}				t_gui;
 
 void			init_colors(t_colors *color);
 void			init_rect(t_all_rect *rect, t_window *win);

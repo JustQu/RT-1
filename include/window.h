@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 17:05:43 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 22:18:56 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/11 20:02:07 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 #  include "rt_types.h"
 # endif
 # include "color.h"
+
+# define DEFAULT_WIDTH 800
+# define DEFAULT_HEIGHT 800
 
 /*
 ** @brief
