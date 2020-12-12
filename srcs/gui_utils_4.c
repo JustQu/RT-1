@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "gui.h"
+#include "rt_err.h"
 
 void			draw_for_button(t_window *win, SDL_Rect *rect, t_colors *color)
 {

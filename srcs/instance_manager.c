@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "utils.h"
 #include "math.h"
+#include "rt_err.h"
 
 #include <assert.h>
 

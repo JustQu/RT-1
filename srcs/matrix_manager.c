@@ -13,7 +13,7 @@
 #include "matrix.h"
 #include "instance_manager.h"
 #include "utils.h"
-
+#include "rt_err.h"
 #include "libft.h"
 #include <assert.h>
 

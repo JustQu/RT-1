@@ -12,6 +12,7 @@
 
 #include "parser.h"
 #include "logs.h"
+#include "safe_call.h"
 
 int			get_log_fd(char *str)
 {

@@ -14,7 +14,7 @@
 
 #include <math.h>
 #include <stdlib.h>
-
+#include "rt_err.h"
 #include "bvh.h"
 #include "scene.h"
 #include "utils.h"

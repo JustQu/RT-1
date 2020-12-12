@@ -161,4 +161,10 @@ void			get_color_data(t_color color,
 void			type_ambien_il(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color);
 void			free_str(char *str[4]);
+void			draw_text(t_window *win, SDL_Rect *rect,
+						  char *str, t_colors *color);
+void			is_type_lights(t_window *win, t_rt *rt,
+					  t_all_rect *rect, t_colors *color);
+void			objects_tab_cont(t_window *win, t_rt *rt,
+						t_all_rect *rect, t_colors *color);
 #endif

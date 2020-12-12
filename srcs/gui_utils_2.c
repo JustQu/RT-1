@@ -13,6 +13,7 @@
 #include "gui.h"
 #include "libft.h"
 #include "rt.h"
+#include "safe_call.h"
 
 void			draw_text(t_window *win, SDL_Rect *rect,
 					char *str, t_colors *color)
