@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 18:38:42 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/13 20:41:25 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,44 +154,44 @@ void	read_av(t_app *app, int ac, char **av)
 		{
 			if (av[i][0] == '-')
 			{
-				if (strcmp(av[i], "-s"))
+				if (!strcmp(av[i], "-s"))
 				{
 					app->options.scene_file = av[i + 1];
 					i++;
 				}
-				else if (strcmp(av[i], "--gpu"))
+				else if (!strcmp(av[i], "--gpu"))
 				{
 					app->options.render_device = CL_DEVICE_TYPE_GPU;
 				}
-				else if (strcmp(av[i], "--cpu"))
+				else if (!strcmp(av[i], "--cpu"))
 				{
 					app->options.render_device = CL_DEVICE_TYPE_CPU;
 				}
-				else if (strcmp(av[i], "--resoluion"))
+				else if (!strcmp(av[i], "--resoluion"))
 				{
 					app->options.image_width = ft_atoi(av[i + 1]);
 					app->options.image_height = ft_atoi(av[i + 2]);
 					i += 3;
 				}
-				else if (strcmp(av[i], "-N"))
+				else if (!strcmp(av[i], "-N"))
 				{
 					app->options.num_samples = ft_atoi(av[i + 1]);
 					i += 2;
 				}
-				else if (strcmp(av[i], "--img"))
+				else if (!strcmp(av[i], "--img"))
 				{
 					app->options.image_file = av[i];
 					i++;
 				}
-				else if (strcmp(av[i], "--console"))
+				else if (!strcmp(av[i], "--console"))
 				{
 
 				}
-				else if (strcmp(av[i], "-h"))
+				else if (!strcmp(av[i], "-h"))
 				{
 
 				}
-				else if (strcmp(av[i], "--nudes"))
+				else if (!strcmp(av[i], "--nudes"))
 				{
 
 				}

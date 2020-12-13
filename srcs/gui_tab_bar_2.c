@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 18:36:22 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/13 21:20:51 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,13 +116,17 @@ void			objects_tab_cont(t_window *win,
 	draw_button(win, &gui->all_rect.eight_button, str, &gui->colors);
 	free_str(str);
 	gui_material_type(win, gui);
-	get_texture_data(gui->current_instance.texture.type,
-						"texture", &str[0]);
+	get_texture_data(1,					// ?
+						"texture", str);
 	draw_line(win, &gui->colors, gui->all_rect.background,
 		gui->all_rect.ten_button);
 	draw_button(win, &gui->all_rect.ten_button, str, &gui->colors);
 	free_str(str);
-	get_float_data(1, "Color", &str[0]); // ?
+	get_color_data(gui->options.background_color, "Color", str); // ?
+	free(str[1]);
+	str[1] = NULL;
 	draw_button(win, &gui->all_rect.eleven_button, str, &gui->colors);
+	draw_color_button(win, &gui->colors, gui->options.background_color,
+		&gui->all_rect.eleven_button); //?
 	free_str(str);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:33:27 by user              #+#    #+#             */
-/*   Updated: 2020/12/13 17:49:39 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 20:56:35 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void		init_rect(t_all_rect *rect, t_window *win)
 {
 	rect->background = init_rect_size(win->width - win->width / 4,
 		0, win->width / 4, win->height);
+	rect->title_button = init_rect_size(win->width - win->width / 4,
+		MARGIN_Y, win->width / 4, MARGIN_Y * 3);
 	rect->tab_camera_button = init_rect_size(win->width - win->width / 4,
 		win->height / 9, (win->width / 4) / 3, 30);
 	rect->tab_objects_button = init_rect_size(win->width - win->width / 4

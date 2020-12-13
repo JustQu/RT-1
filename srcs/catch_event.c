@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   catch_event.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 16:33:29 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 20:54:42 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void			catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 {
 	if (is_press_button(event, &rect->title_button)
 		|| event->key.keysym.sym == SDLK_m)
+	{
 		g_show_gui ^= 1;
+		printf("\nPREESS\n");
+	}
 	if (is_press_button(event, &rect->save_img_button)
 		&& g_camera_tab_pressed == 1)
 		g_save_image = 1;
