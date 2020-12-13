@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:33:27 by user              #+#    #+#             */
-/*   Updated: 2020/12/13 07:50:35 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/13 07:56:04 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	init_rect(t_all_rect *rect, t_window *win)
 	if (rect == NULL || win == NULL)
 		rt_error("init_rect(): given NULL pointer");
 	rect->title_button = init_rect_size(win->width - win->width / 4,
-		MARGIN_Y, win->width / 4 - MARGIN_Y * 2, MARGIN_Y * 3);
+		MARGIN_Y, win->width / 4 - MARGIN_Y, MARGIN_Y * 3);
 	rect->background = init_rect_size(win->width - win->width / 4,
 		0, win->width / 4, win->height);
 	rect->tab_camera_button = init_rect_size(win->width - win->width / 4,

@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 07:51:28 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/13 07:58:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,12 @@ int		is_press_button(SDL_Event *event, SDL_Rect *rect)
 
 void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 {
-	if (is_press_button(event, &rect->title_button))
+	if (is_press_button(event, &rect->title_button)
+		|| event->key.keysym.sym == SDLK_m)
 		g_show_gui ^= 1;
 	if (is_press_button(event, &rect->save_img_button)
 		&& g_camera_tab_pressed == 1)
-	{
 		g_save_image = 1;
-		printf("I \n");
-	}
 	if (is_press_button(event, &rect->tab_camera_button))
 	{
 		g_camera_tab_pressed = 1;
