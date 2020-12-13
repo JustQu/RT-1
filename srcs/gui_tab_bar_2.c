@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   gui_tab_bar_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/06 16:35:02 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 08:10:35 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "rt.h"
 
-void			is_type_light_cont(t_window *win, t_rt *rt,
+static void		is_type_light_cont(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color)
 {
 	char		*str[4];

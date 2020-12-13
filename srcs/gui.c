@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:31:43 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 07:47:17 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/13 08:33:49 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,19 +89,15 @@ void			gui(t_window *win, t_rt *rt,
 	int			w;
 	int			h;
 
-	if (win == NULL || all_rect == NULL || color == NULL)
-		rt_error("gui(): given NULL pointer");
-	if (TTF_Init())
-		rt_error("gui(): TTF_Init() error");
-	if (win->height >= 300 && win->width >= 200)
-		draw_title_ray_tracing(win, &color->text_color);
+	gui_init_title(win, all_rect, color);
 	if (g_show_gui)
 	{
 		if (win->width / 4 >= 210)
 		{
 			if (SDL_SetRenderDrawColor(win->renderer, 240, 240, 240, 255))
 				rt_error("gui(): SDL_SetRenderDrawColor() error");
-			draw_fill_rect(win, &all_rect->background, &color->background_color);
+			draw_fill_rect(win, &all_rect->background,
+				&color->background_color);
 			if (SDL_SetRenderDrawColor(win->renderer, 43, 43, 45, 0))
 				rt_error("gui(): SDL_SetRenderDrawColor() error");
 			if (SDL_RenderDrawLine(win->renderer, all_rect->background.x - 1,
