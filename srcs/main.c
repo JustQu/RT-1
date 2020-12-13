@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 17:28:56 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 18:38:42 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ void	read_av(t_app *app, int ac, char **av)
 #define render_state 0
 
 void		display_info(t_interface *const interface,
-						t_res_mngr *const mngr, t_rt const *const rt,
+						t_res_mngr *const mngr,
 						t_window *const window)
 {
 	interface->current_instance = get_instance_info(mngr,
@@ -226,8 +226,7 @@ void		display_info(t_interface *const interface,
 			interface->gui.current_light = interface->current_light;
 			interface->gui.camera = interface->camera;
 			interface->gui.options = interface->options;
-			gui(window, (t_rt *)rt, &interface->gui.all_rect, &interface->gui.colors,
-				&interface->gui);
+			gui(window, &interface->gui);
 		}
 	}
 	else if (interface->mode == console)
@@ -256,7 +255,7 @@ static void	window_render_loop(t_app *const app)
 			app->rt.options.spp += 1;
 			app->rt.options.reset = 0;
 			display_info(&app->interface, &app->resource_manager,
-						&app->rt, &app->window);
+						&app->window);
 			// gui(&app->window, &app->rt, &app->gui.all_rect, &app->gui.colors);
 			SDL_RenderPresent(app->window.renderer);
 		}

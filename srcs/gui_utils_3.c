@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils_3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 09:49:42 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 03:29:47 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 18:27:45 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,21 @@ void			minimum_rect_size(int w, int h, SDL_Rect *rect, SDL_Rect *ptr)
 	}
 }
 
-void			type_ambien_il(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color)
+void			type_ambien_il(t_window *win,
+					t_gui *gui)
 {
 	char *str[4];
 
-	if (rt->scene.ambient_light.type == 0)
+	if (gui->current_light.type == 0) // ?
 	{
 		get_float_data(1, "coefficient", str);
-		draw_button(win, &rect->sixth_button, str, color);
+		draw_button(win, &gui->all_rect.sixth_button, str, &gui->colors);
 		free_str(str);
 	}
-	if (rt->scene.ambient_light.type == 1)
+	if (gui->current_light.type == 1) // ?
 	{
 		get_float_data(1, "min_amount", str);
-		draw_button(win, &rect->sixth_button, str, color);
+		draw_button(win, &gui->all_rect.sixth_button, str, &gui->colors);
 		free_str(str);
 	}
 }
@@ -66,7 +66,7 @@ SDL_Texture		*create_tab_subtitles(t_window *win, char *str,
 	SDL_Texture	*text;
 
 	g_font_size = FONT_SUBTITLE_SIZE;
-	text = render_text(str, "font/Title.ttf",*color, win->renderer);
+	text = render_text(str, "font/Title.ttf", *color, win->renderer);
 	return (text);
 }
 

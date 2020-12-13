@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:31:43 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 17:31:41 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 18:40:06 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,28 +67,23 @@ void			draw_fill_rect(t_window *win,
 	SDL_RenderFillRect(win->renderer, &rect);
 }
 
-void			gui(t_window *win, t_rt *rt, t_all_rect *all_rect,
-					t_colors *color, t_gui *const gui)
+void			gui(t_window *win, t_gui *const gui)
 {
-	// SDL_Texture	*img;
-	// int			w;
-	// int			h;
-
-	if (gui->colors.background_color.r >= 0)
-		printf("unused param gui\n");
-	TTF_Init();
-	if (win->height >= 300 && win->width >= 200)
-		draw_title_ray_tracing(win, &color->text_color);
-	if (win->width / 4 >= 210)
+	gui_init_title(win, &gui->all_rect, &gui->colors);
+	if (g_show_gui)
 	{
-		SDL_SetRenderDrawColor(win->renderer, 240, 240, 240, 255);
-		draw_fill_rect(win, &all_rect->background, &color->background_color);
-		SDL_SetRenderDrawColor(win->renderer, 43, 43, 45, 0);
-		SDL_RenderDrawLine(win->renderer, all_rect->background.x - 1,
-						all_rect->background.y, all_rect->background.x - 1,
-						all_rect->background.x - 1 + all_rect->background.h);
-		if (win->height >= 300)
-			draw_title_ray_tracing(win, &color->text_color);
-		gui_tab_bar(win, rt, all_rect, color);
+		if (win->width / 4 >= 210)
+		{
+			SDL_SetRenderDrawColor(win->renderer, 240, 240, 240, 255);
+			draw_fill_rect(win, &gui->all_rect.background,
+				&gui->colors.background_color);
+			SDL_SetRenderDrawColor(win->renderer, 43, 43, 45, 0);
+			SDL_RenderDrawLine(win->renderer, gui->all_rect.background.x - 1,
+			gui->all_rect.background.y, gui->all_rect.background.x - 1,
+			gui->all_rect.background.x - 1 + gui->all_rect.background.h);
+			if (win->height >= 300)
+				draw_title_ray_tracing(win, &gui->colors.text_color);
+			gui_tab_bar(win, gui);
+		}
 	}
 }

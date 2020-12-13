@@ -3,131 +3,126 @@
 /*                                                        :::      ::::::::   */
 /*   gui_tab_bar_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 17:30:15 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 18:36:22 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "rt.h"
 
-static void		is_type_light_cont(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color)
+static void		is_type_light_cont(t_window *win,
+					t_gui *gui)
 {
 	char		*str[4];
 
-	if (rt->scene.light_manager.nlights == area)
+	if (gui->current_light.type == area)
 	{
-		get_float_data(rt->scene.light_manager.nlights, "Object_id", str);
-		draw_button(win, &rect->eight_button, str, color);
+		get_float_data(gui->current_light.object_id, "Object_id", str);
+		draw_button(win, &gui->all_rect.eight_button, str, &gui->colors);
 		free_str(str);
 	}
-	if (rt->scene.light_manager.nlights == ambient_occluder)
+	if (gui->current_light.type == ambient_occluder)
 	{
-		get_float_data(rt->scene.light_manager.nlights, "Min light", str);
-		draw_button(win, &rect->eight_button, str, color);
+		get_float_data(gui->current_light.ls, "Min light", str);
+		draw_button(win, &gui->all_rect.eight_button, str, &gui->colors);
 		free_str(str);
 	}
 }
 
-void			is_type_lights(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color)
+void			is_type_lights(t_window *win,
+					t_gui *gui)
 {
 	char		*str[4];
-	int			ptr;
 
-	ptr = 0;//rt->ten.current_id;
-	if (rt->scene.light_manager.nlights == directional)
+	if (gui->current_light.type == directional)
 	{
-		get_float4_data(rt->scene.camera.direction, "Direction", str);
-		draw_button_xyz(win, &rect->eight_button, str, color);
+		get_float4_data(gui->current_light.direction, "Direction", str);
+		draw_button_xyz(win, &gui->all_rect.eight_button, str, &gui->colors);
 		free_str(str);
 	}
-	if (rt->scene.light_manager.nlights == point)
+	if (gui->current_light.type == point)
 	{
-		get_float4_data(rt->scene.camera.direction, "Origin", str);
-		draw_button_xyz(win, &rect->eight_button, str, color);
+		get_float4_data(gui->current_light.origin, "Origin", str);
+		draw_button_xyz(win, &gui->all_rect.eight_button, str, &gui->colors);
 		free_str(str);
 	}
-	is_type_light_cont(win, rt, rect, color);
+	is_type_light_cont(win, gui);
 }
 
-void			gui_material_type(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color)
+void			gui_material_type(t_window *win,
+					t_gui *gui)
 {
 	char		*str[4];
-	int			ptr;
 
-	ptr = 1;
-	if (rt->scene.instance_mngr.instances[ptr].material.type == metal)
+	if (gui->current_instance.material.type == metal)
 	{
-		get_float_data(rt->scene.instance_mngr.instances[ptr].material.kr,
+		get_float_data(gui->current_instance.material.kr, // ?
 			"reflective", str);
-		draw_button(win, &rect->nine_button, str, color);
+		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
 		free_str(str);
 	}
-	if (rt->scene.instance_mngr.instances[ptr].material.type == dielectric)
+	if (gui->current_instance.material.type == dielectric)
 	{
-		get_float_data(rt->scene.instance_mngr.instances[ptr].material.kt,
+		get_float_data(gui->current_instance.material.ks, // ?
 			"transparent", str);
-		draw_button(win, &rect->nine_button, str, color);
+		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
 		free_str(str);
 	}
-	if (rt->scene.instance_mngr.instances[ptr].material.type == emissive)
+	if (gui->current_instance.material.type == emissive)
 	{
-		get_float_data(rt->scene.instance_mngr.instances[ptr].material.ks,
+		get_float_data(gui->current_instance.material.kt, // ?
 			"specular", str);
-		draw_button(win, &rect->nine_button, str, color);
+		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
 		free_str(str);
 	}
 }
 
-void			shape_type_vision(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color)
+static void		shape_type_vision(t_window *win,
+					t_gui *gui)
 {
-	if (rt->scene.instance_mngr.instances[0].type == cone)
-		gui_cone_vision(win, rt, rect, color);
-	else if (rt->scene.instance_mngr.instances[0].type == cylinder)
-		gui_cylinder_vision(win, rt, rect, color);
-	else if (rt->scene.instance_mngr.instances[0].type == sphere)
-		gui_disk_vision(win, rt, rect, color);
-	else if (rt->scene.instance_mngr.instances[0].type == torus)
-		gui_torus_vision(win, rt, rect, color);
-	else if (rt->scene.instance_mngr.instances[0].type == box)
-		gui_box_vision(win, rt, rect, color);
-	else if (rt->scene.instance_mngr.instances[0].type == disk)
-		gui_disk_vision(win, rt, rect, color);
-	else if (rt->scene.instance_mngr.instances[0].type == rectangle)
-		gui_rectangle_vision(win, rt, rect, color);
+	if (gui->current_instance.type == cone)
+		gui_cone_vision(win, gui);
+	else if (gui->current_instance.type == cylinder)
+		gui_cylinder_vision(win, gui);
+	else if (gui->current_instance.type == sphere)
+		gui_disk_vision(win, gui);
+	else if (gui->current_instance.type == torus)
+		gui_torus_vision(win, gui);
+	else if (gui->current_instance.type == box)
+		gui_box_vision(win, gui);
+	else if (gui->current_instance.type == disk)
+		gui_disk_vision(win, gui);
+	else if (gui->current_instance.type == rectangle)
+		gui_rectangle_vision(win, gui);
 }
 
-void			objects_tab_cont(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color)
+void			objects_tab_cont(t_window *win,
+					t_gui *gui)
 {
 	char		*str[4];
-	int			ptr;
 
-	ptr = 1;
-	shape_type_vision(win, rt, rect, color);
-	draw_line(win, color, rect->background, rect->seven_button);
-	get_material_data(rt->scene.instance_mngr.instances[ptr].material.type,
+	shape_type_vision(win, gui);
+	draw_line(win, &gui->colors, gui->all_rect.background,
+		gui->all_rect.seven_button);
+	get_material_data(gui->current_instance.material.type,
 						"Material", str);
-	draw_button(win, &rect->seven_button, str, color);
+	draw_button(win, &gui->all_rect.seven_button, str, &gui->colors);
 	free_str(str);
-	get_float_data(rt->scene.instance_mngr.instances[ptr].material.ka,
+	get_float_data(gui->current_instance.material.ks, // ?
 					"ambient", str);
-	draw_button(win, &rect->eight_button, str, color);
+	draw_button(win, &gui->all_rect.eight_button, str, &gui->colors);
 	free_str(str);
-	gui_material_type(win, rt, rect, color);
-	get_texture_data(rt->scene.instance_mngr.texture_manager.textures->type,
+	gui_material_type(win, gui);
+	get_texture_data(gui->current_instance.texture.type,
 						"texture", &str[0]);
-	draw_line(win, color, rect->background, rect->ten_button);
-	draw_button(win, &rect->ten_button, str, color);
+	draw_line(win, &gui->colors, gui->all_rect.background,
+		gui->all_rect.ten_button);
+	draw_button(win, &gui->all_rect.ten_button, str, &gui->colors);
 	free_str(str);
-	get_float_data(1, "Color", &str[0]);
-	draw_button(win, &rect->eleven_button, str, color);
-	// draw_color_button(win, color, , &rect->eleven_button);
+	get_float_data(1, "Color", &str[0]); // ?
+	draw_button(win, &gui->all_rect.eleven_button, str, &gui->colors);
 	free_str(str);
 }

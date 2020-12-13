@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 17:50:26 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 18:37:56 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,7 @@ typedef struct	s_gui
 
 void			init_colors(t_colors *color);
 void			init_rect(t_all_rect *rect, t_window *win);
-void			gui(t_window *win, t_rt *rt, t_all_rect *all_rect,
-					t_colors *color, t_gui *const gui);
+void			gui(t_window *win, t_gui *const gui);
 void			render_texture(SDL_Texture *tex, SDL_Renderer *ren,
 								int x, int y);
 SDL_Texture		*load_texture(char *str, SDL_Renderer *renderer);
@@ -116,8 +115,7 @@ void			draw_button_choise(t_window *win, SDL_Rect *rect,
 					char **str_xyz, t_colors *color);
 void			draw_is_pressed_button(t_window *win, SDL_Rect *rect,
 					char *str, t_colors *color);
-void			gui_tab_bar(t_window *win, t_rt *rt, t_all_rect *rect,
-					t_colors *color);
+void			gui_tab_bar(t_window *win, t_gui *gui);
 void			draw_title_ray_tracing(t_window *win, SDL_Color *color);
 void			draw_button_rgb(t_window *win, SDL_Rect *rect,
 					char **str_xyz, t_colors *color);
@@ -141,18 +139,18 @@ void			get_float4_data(cl_float4 ptr, char *string, char *str[4]);
 void			get_shape_data(int ptr, char *string, char *str[4]);
 void			get_texture_data(int ptr, char *string, char *str[4]);
 void			get_rt_type_data(int ptr, char *string, char **str);
-void			gui_cone_vision(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color);
-void			gui_cylinder_vision(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color);
-void			gui_torus_vision(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color);
-void			gui_box_vision(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color);
-void			gui_disk_vision(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color);
-void			gui_rectangle_vision(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color);
+void			gui_cone_vision(t_window *win,
+					t_gui *gui);
+void			gui_cylinder_vision(t_window *win,
+					t_gui *gui);
+void			gui_torus_vision(t_window *win,
+					t_gui *gui);
+void			gui_box_vision(t_window *win,
+					t_gui *gui);
+void			gui_disk_vision(t_window *win,
+					t_gui *gui);
+void			gui_rectangle_vision(t_window *win,
+					t_gui *gui);
 void			get_intensive_data(int ptr, char *string,
 					char *str[4]);
 void			get_void_data(char *string, char *str[4]);
@@ -169,25 +167,25 @@ void			draw_for_button(t_window *win,
 					SDL_Rect *rect, t_colors *color);
 void			draw_line(t_window *win, t_colors *color,
 					SDL_Rect rect, SDL_Rect rect_2);
-void			option_tab_cont(t_window *win, t_rt *rt,
-					t_colors *color, t_all_rect *rect);
+void			option_tab_cont(t_window *win,
+					t_gui *gui);
 void			draw_color_button(t_window *win, t_colors *color,
 					t_color fill_color, SDL_Rect *rect);
-void			light_tab(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color);
+void			light_tab(t_window *win,
+					t_gui *gui);
 void			minimum_rect_size(int w, int h,
 					SDL_Rect *rect, SDL_Rect *ptr);
 void			get_color_data(t_color color,
 					char *string, char **str);
-void			type_ambien_il(t_window *win, t_rt *rt,
-					t_all_rect *rect, t_colors *color);
+void			type_ambien_il(t_window *win,
+					t_gui *gui);
 void			free_str(char *str[4]);
 void			draw_text(t_window *win, SDL_Rect *rect,
-						  char *str, t_colors *color);
-void			is_type_lights(t_window *win, t_rt *rt,
-					  t_all_rect *rect, t_colors *color);
-void			objects_tab_cont(t_window *win, t_rt *rt,
-						t_all_rect *rect, t_colors *color);
+					char *str, t_colors *color);
+void			is_type_lights(t_window *win,
+					t_gui *gui);
+void			objects_tab_cont(t_window *win,
+						t_gui *gui);
 
 
 //add this to work func from init.c

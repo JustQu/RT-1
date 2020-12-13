@@ -3,31 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   gui_tab_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 15:21:45 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 03:26:30 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 18:32:32 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "rt.h"
 
-void			option_tab_cont(t_window *win, t_rt *rt,
-					t_colors *color, t_all_rect *rect)
+void			option_tab_cont(t_window *win,
+					t_gui *gui)
 {
 	char		*str[4];
 
-	get_float_data(rt->options.ambient_illumination, "Ambient_il", str);
-	draw_button(win, &rect->fourth_button, str, color);
+	get_float_data(gui->options.ambient_illumination, "Ambient_il", str);
+	draw_button(win, &gui->all_rect.fourth_button, str, &gui->colors);
 	free_str(str);
-	type_ambien_il(win, rt, rect, color);
-	draw_line(win, color, rect->background, rect->sixth_button);
-	get_true_data(rt->options.shadows, "Shadows", str);
-	draw_button(win, &rect->seven_button, str, color);
+	type_ambien_il(win, gui);
+	draw_line(win, &gui->colors, gui->all_rect.background,
+		gui->all_rect.sixth_button);
+	get_true_data(gui->options.shadows, "Shadows", str);
+	draw_button(win, &gui->all_rect.seven_button, str, &gui->colors);
 	free_str(str);
-	get_float_data(rt->options.depth, "Depth", str);
-	draw_button(win, &rect->eight_button, str, color);
+	get_float_data(gui->options.depth, "Depth", str);
+	draw_button(win, &gui->all_rect.eight_button, str, &gui->colors);
 	free_str(str);
 }
 
