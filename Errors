@@ -523,9 +523,6 @@ bool    rectangle_intersection(t_ray ray, t_obj rectangle,
 <program source>:2050:7: warning: no previous prototype for function 'torus_intersecion'
  bool   torus_intersecion(t_ray ray, t_obj torus, t_shade_rec *shade_rec, float *const tmin)
       ^
-<program source>:2082:10: warning: expression result unused
-                        *tmin * 0.99f;
-   ~~~~~ ^ ~~~~~
 <program source>:2089:8: warning: no previous prototype for function 'mobius_normal'
 float4  mobius_normal(t_obj mobius, float4 point)
        ^

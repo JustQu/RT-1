@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_ocl.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 06:49:04 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 07:36:48 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	init_clp(t_clp *clp)
 	clp->de_id = NULL;
 	if ((clp->ret = clGetPlatformIDs(1, &pl_id, NULL)))
 		rt_error("init_clp(): clGetPlatformIDs error");
-	if ((clp->ret = clGetDeviceIDs(pl_id, CL_DEVICE_TYPE_GPU, 1, &clp->de_id, &nde)))
+	if ((clp->ret = clGetDeviceIDs(pl_id, CL_DEVICE_TYPE_ALL, 1, &clp->de_id, &nde)))
 		rt_error("init_clp(): clGetDeviceIDs error");
 	clp->context = clCreateContext(NULL, 1, &clp->de_id, NULL, NULL, &clp->ret);
 	if (clp->ret)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   catch_event.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/12 22:37:29 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 07:51:28 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int		is_press_button(SDL_Event *event, SDL_Rect *rect)
 
 void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 {
+	if (is_press_button(event, &rect->title_button))
+		g_show_gui ^= 1;
 	if (is_press_button(event, &rect->save_img_button)
 		&& g_camera_tab_pressed == 1)
 	{
