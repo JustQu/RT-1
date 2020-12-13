@@ -68,7 +68,7 @@ char				*get_value(char **str)
 
 	if (str == NULL)
 		rt_error("get_value(): given NULL pointer");
-	if ((b = (char *)malloc(sizeof(char) * 256)) == NULL)
+	if ((b = (char *)ft_memmalloc(sizeof(char) * 256)) == NULL)
 		rt_error("get_value(): malloc error");
 	i = 0;
 	if (**str == '{')

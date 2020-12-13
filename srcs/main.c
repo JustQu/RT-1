@@ -13,6 +13,7 @@
 #include "app.h"
 #include <stdio.h>
 #include "libft.h"
+#include "rt_err.h"
 
 #define BANANA 1
 #define printf(...) if (BANANA) printf(__VA_ARGS__);
@@ -101,13 +102,15 @@ void	main_loop(t_app app)
 	err_code = clEnqueueNDRangeKernel(app.rt.ocl_program.info.queue,
 		app.rt.ocl_program.help_kernel, 1, NULL, &app.rt.ocl_program.work_size,
 		&app.rt.ocl_program.work_group_size, 0, NULL, NULL);
-	assert(!err_code);
+	if (err_code != 0)
+		rt_error("main_loop: kernel error");
 	err_code = clEnqueueReadBuffer(app.rt.ocl_program.info.queue,
 		app.rt.ocl_program.output_image, CL_TRUE, 0,
 		app.rt.ocl_program.work_size * sizeof(uint32_t), app.window.image,
 		0, NULL, NULL);
 	cl_error(&app.rt.ocl_program, &app.rt.ocl_program.info, err_code);
-	assert(!err_code);
+	if (err_code != 0)
+		rt_error("main_loop: ocl error");
 }
 
 #include <stdlib.h>

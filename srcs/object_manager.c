@@ -39,7 +39,8 @@ int		add_triangle(t_instance_manager *mngr, t_instance_info triangle_info)
 			mngr->triangles_malloc_size, mngr->triangles_malloc_size * 2)),
 			"add_triangle(): malloc error");
 		mngr->triangles_malloc_size *= 2;
-		assert(mngr->triangles);
+		if (mngr->triangles == NULL)
+			rt_error("add_triangle: mngr->triangles is NULL");
 	}
 	triangle.vertex1 = (cl_float4){0.0f, 0.0f, 0.0f, 0.0f};
 	triangle.vector1 = triangle_info.v1;
@@ -66,7 +67,8 @@ int		add_obj(t_instance_manager *mngr, t_instance_info object_info)
 			mngr->objects_malloc_size, mngr->objects_malloc_size * 2)),
 			"add_triangle(): malloc error");
 		mngr->objects_malloc_size *= 2;
-		assert(mngr->objects);
+		if (mngr->objects == NULL)
+			rt_error("add_triangle: mngr->objects is NULL");
 	}
 	object.minm = 0.0f;
 	object.maxm = object_info.height;
