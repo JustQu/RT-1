@@ -6,7 +6,7 @@
 #    By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/12/13 17:55:53 by aapricot         ###   ########.fr        #
+#    Updated: 2020/12/13 18:03:18 by aapricot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,13 +105,13 @@ logs_third.c			catch_keydown.c			image.c					interface.c\
 
 
 
-
+LOGSDIR = ./logs/
 OBJSDIR = ./obj/
 OBJS = $(addprefix $(OBJSDIR), $(SRCS:.c=.o))
 
 all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJS) $(INCS) $(LIBFTHEAD)
+$(NAME): $(OBJS) $(INCS) $(LIBFTHEAD) $(LOGSDIR)
 	@echo 'making executable'
 	$(CC) -o $@ $(OBJS) $(LDLIBS) $(SDL) $(LDFLAGS)
 	@echo DONE!
@@ -128,12 +128,17 @@ $(OBJS): $(INCS)
 $(OBJSDIR):
 	mkdir $@
 
+$(LOGSDIR):
+	mkdir $@
+
 clean:
 	@echo deliting object files
 	@$(RM) $(OBJS)
 	@make -C $(LIBFTDIR) clean
 
 fclean: clean
+	@echo deliting logs
+	@$(RM) -r $(LOGSDIR)
 	@echo deliting executable file
 	@$(RM) $(NAME)
 	@make -C $(LIBFTDIR) fclean
