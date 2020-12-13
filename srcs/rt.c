@@ -56,7 +56,8 @@ static void	set_kernel_args(t_rt rt, int step)
 	err |= clSetKernelArg(k, 25, sizeof(cl_mem), &rt.ocl_program.perm_y);
 	err |= clSetKernelArg(k, 26, sizeof(cl_mem), &rt.ocl_program.perm_z);
 	a++;
-	assert(!err);
+	if (err < 0)
+		rt_error("set_kernels_args: cl error");
 }
 
 void		render_scene(t_rt rt)
@@ -75,7 +76,8 @@ void		render_scene(t_rt rt)
 									NULL,
 									0, NULL, NULL);
 		cl_error(&rt.ocl_program, &rt.ocl_program.info, err);
-		assert(!err);
+		if (err < 0)
+			rt_error("");
 		i++;
 	}
 }

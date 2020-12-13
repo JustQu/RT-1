@@ -13,8 +13,8 @@
 #include "texture_manager.h"
 #include "libft.h"
 #include "utils.h"
+#include "rt_err.h"
 
-#include <assert.h>
 
 int		init_texture_manager(t_texture_manager *texture_manager)
 {
@@ -32,7 +32,8 @@ int		init_texture_manager(t_texture_manager *texture_manager)
 	texture_manager->perm_x = perlin_generate_perm();
 	texture_manager->perm_y = perlin_generate_perm();
 	texture_manager->perm_z = perlin_generate_perm();
-	assert(texture_manager->textures);
+	if (texture_manager->textures == NULL)
+		rt_error("init_texture_manager malloc error");
 	return (SUCCESS);
 }
 

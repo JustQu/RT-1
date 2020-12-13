@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   rt_ocl.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/12/13 12:05:20 by aapricot         ###   ########.fr       */
+=======
+/*   Updated: 2020/12/13 08:36:27 by alex             ###   ########.fr       */
+>>>>>>> 88b2cd3aff9d23a5b9e828962b823b1d4c59b87b
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +19,6 @@
 #include "app.h"
 #include "gui.h"
 
-#include <assert.h>
 
 static char		*load_arr[20] = {
 	"./load/0001.png", "./load/0002.png", "./load/0003.png", "./load/0004.png", "./load/0005.png",
@@ -162,12 +165,15 @@ static int    init_kernel(t_cl_program *p, t_window *window)
 	loading_screen(p, window);
     printf("4\n");
     cl_error(p, &p->info, r);
-    assert(!r);
+    if (r < 0)
+    	rt_error("init_kernel error");
     p->new_kernel = clCreateKernel(p->program, KERNEL_NAME, &r);
     cl_error(p, &p->info, r);
-    assert(!r);
+	if (r < 0)
+		rt_error("init_kernel error");
     p->help_kernel = clCreateKernel(p->program, "translate_image", &r);
-    assert(!r);
+	if (r < 0)
+		rt_error("init_kernel error");
     clGetKernelWorkGroupInfo(p->new_kernel, p->info.de_id,
                         CL_KERNEL_WORK_GROUP_SIZE, sizeof(size_t), &a, NULL);
     fprintf(stdout, "Work group kernel - %zd\n", a);

@@ -16,7 +16,6 @@
 #include "math.h"
 #include "rt_err.h"
 
-#include <assert.h>
 
 int			init_instance_manager(t_instance_manager *mngr)
 {

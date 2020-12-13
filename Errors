@@ -142,7 +142,11 @@ bool    rectangle_intersection(t_ray ray, t_obj rectangle,
 <program source>:2052:7: warning: no previous prototype for function 'torus_intersecion'
  bool   torus_intersecion(t_ray ray, t_obj torus, t_shade_rec *shade_rec, float *const tmin)
       ^
+<<<<<<< HEAD
 <program source>:2091:8: warning: no previous prototype for function 'mobius_normal'
+=======
+<program source>:2089:8: warning: no previous prototype for function 'mobius_normal'
+>>>>>>> 88b2cd3aff9d23a5b9e828962b823b1d4c59b87b
 float4  mobius_normal(t_obj mobius, float4 point)
        ^
 <program source>:2103:5: warning: no previous prototype for function 'dblsgn'

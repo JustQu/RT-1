@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/12/09 16:01:20 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/13 08:33:41 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 typedef struct s_rt		t_rt;
 typedef struct s_vector	t_vector;
 
+int				g_show_gui;
 int				g_camera_tab_pressed;
 int				g_objects_tab_pressed;
 int				g_options_tab_pressed;
@@ -49,6 +50,7 @@ int				g_font_size;
 typedef struct	s_all_rect
 {
 	SDL_Rect	background;
+	SDL_Rect	title_button;
 	SDL_Rect	tab_camera_button;
 	SDL_Rect	tab_objects_button;
 	SDL_Rect	tab_textures_button;
@@ -142,7 +144,10 @@ void			get_ambient_il_data(int ptr,
 					char *string, char *str[4]);
 void			get_true_data(int ptr,
 					char *string, char *str[4]);
-
+int				catch_keydown_2(t_rt *rt, t_window *win,
+					SDL_Event event);
+void			gui_init_title(t_window *win,
+					t_all_rect *all_rect, t_colors *color);
 void			draw_save_image_text(t_window *win);
 void			draw_for_button(t_window *win,
 					SDL_Rect *rect, t_colors *color);

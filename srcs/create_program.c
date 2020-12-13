@@ -14,7 +14,6 @@
 #include "rt_ocl.h"
 #include "rt_err.h"
 #include <fcntl.h>
-#include <assert.h>
 
 #define BUFF 100000
 

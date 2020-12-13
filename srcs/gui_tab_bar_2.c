@@ -3,17 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   gui_tab_bar_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
 /*   Updated: 2020/12/13 12:41:48 by aapricot         ###   ########.fr       */
+=======
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
+/*   Updated: 2020/12/13 08:10:35 by alex             ###   ########.fr       */
+>>>>>>> 88b2cd3aff9d23a5b9e828962b823b1d4c59b87b
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "rt.h"
 
-void			is_type_light_cont(t_window *win, t_rt *rt,
+static void		is_type_light_cont(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color)
 {
 	char		*str[4];
