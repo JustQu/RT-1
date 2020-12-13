@@ -6,7 +6,7 @@
 #    By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/12/13 13:09:17 by aapricot         ###   ########.fr        #
+#    Updated: 2020/12/13 13:30:16 by aapricot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ CFLAGS = -I$(INCDIR)\
 		 -I./Libs/SDL2_ttf/include\
 		 -g\
 		 -Wall\
+		 -Werror\
 		 -Wextra
 		#  --analyze\
 		#  --analyzer-output html\

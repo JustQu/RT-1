@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 13:10:40 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 13:32:48 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ int				catch_event(t_rt *rt, t_window *win,
 {
 	SDL_Event event;
 
+	if (color->background_color.r >= 0)
+		printf("unused param catch event\n");
 	if (SDL_PollEvent(&event) != 0)
 	{
 		if (event.type == SDL_QUIT)

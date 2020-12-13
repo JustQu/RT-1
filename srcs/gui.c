@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:31:43 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 13:10:56 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 13:33:04 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ void			draw_fill_rect(t_window *win,
 void			gui(t_window *win, t_rt *rt,
 					t_all_rect *all_rect, t_colors *color)
 {
-	SDL_Texture	*img;
-	int			w;
-	int			h;
+	// SDL_Texture	*img;
+	// int			w;
+	// int			h;
 
 	gui_init_title(win, all_rect, color);
 	if (g_show_gui)

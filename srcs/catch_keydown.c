@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   catch_keydown.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 08:22:49 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 08:25:17 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/13 13:33:43 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 static int		catch_keydown_4(t_rt *rt, t_window *win, SDL_Event event)
 {
+	if (win->height >= 0)
+		printf("unused param catch keydown 4\n");
 	if (event.key.keysym.sym == SDLK_LEFT)
 	{
 		rotate_camera(&rt->scene.camera, 1, -1.0f);
