@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:51:27 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/10 18:31:27 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/11 20:06:49 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int			get_log_fd(char *str)
 		free(line_1);
 		free(line_2);
 		close(fd);
-		return (-1);
+		rt_error("get_log_fd(): logs directory was not found");
 	}
 	free(line_1);
 	free(line_2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 22:15:47 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/11 21:12:51 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ struct	s_rt
 };
 
 int		init_rt(t_rt *rt, char *scene_file,
-								t_res_mngr *resource_manager);
+								t_res_mngr *resource_manager, t_window *window);
 
 void	render_scene(t_rt rt);
 
