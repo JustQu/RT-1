@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 15:52:49 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:39:20 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ cl_program		create_program(cl_context context)
 		fprintf(f, "%s\n", str[i]);
 		i++;
 	}
-	program = clCreateProgramWithSource(context, g_num_files, str, NULL, &ret);
+	program = clCreateProgramWithSource(context, g_num_files, (const char **)str, NULL, &ret);
 	rt_is_dead(opencl_err, cl_create_program_error, ret, "creat_program 4");
 	while (i--)
 		ft_strdel(&str[i]);

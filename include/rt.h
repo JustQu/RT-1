@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:53:43 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:28:17 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # include "window.h"
 # include "gui.h"
 # include "resource_manager.h"
+# include "interface.h"
 
 typedef struct s_rt		t_rt;
 
@@ -64,8 +65,7 @@ void	read_data(t_scene *scene, t_sampler_manager *sampler_manager,
 ** event_functions
 */
 
-int		catch_event(t_rt *rt, t_window *win, t_all_rect *rect,
-						t_colors *color);
+int		catch_event(t_rt *rt, t_window *win, t_interface *interface);
 
 /*
 ** util functions

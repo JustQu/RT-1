@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:02:10 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 13:19:37 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:47:00 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_u32		g_nmsgs = sizeof(g_code_msg) / sizeof(t_code_msg);
 void	rt_die(t_error_type err_type, t_error_code err_code,
 				t_s32 c, char *additional_message)
 {
-	int		i;
+	t_u32		i;//changed from int
 
 	i = 0;
 	if (err_code < 0)
@@ -82,7 +82,7 @@ void	rt_die(t_error_type err_type, t_error_code err_code,
 void	rt_is_dead(t_error_type err_type, t_error_code err_code,
 					t_s32 c, char *additional_message)
 {
-	int i;
+	t_u32 i;//changed from int
 
 	if (err_code == 0 || c == 0)
 		return ;
@@ -95,7 +95,7 @@ void	rt_is_dead(t_error_type err_type, t_error_code err_code,
 		ft_putendl(getErrorString(c));
 	else if (err_type == sdl_err)
 		ft_putendl(SDL_GetError());
-	else if (err_type == system)
+	else if (err_type == system_err)
 		perror("");
 	ft_putendl(additional_message);
 	exit(g_code_msg[i].err_code);

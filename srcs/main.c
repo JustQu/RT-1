@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:46:54 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:28:56 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	render_image(t_app app)
 
 	err_code = 0;
 	render_scene(app.rt);
-	int	a = NUM_SAMPLES;
+	// int	a = NUM_SAMPLES;
 	err_code |= clSetKernelArg(app.rt.ocl_program.help_kernel, 0,
 								sizeof(cl_mem), &app.rt.ocl_program.rgb_image);
 	err_code |= clSetKernelArg(app.rt.ocl_program.help_kernel, 1,
@@ -226,7 +226,7 @@ void		display_info(t_interface *const interface,
 			interface->gui.current_light = interface->current_light;
 			interface->gui.camera = interface->camera;
 			interface->gui.options = interface->options;
-			gui(window, rt, &interface->gui.all_rect, &interface->gui.colors,
+			gui(window, (t_rt *)rt, &interface->gui.all_rect, &interface->gui.colors,
 				&interface->gui);
 		}
 	}
@@ -247,8 +247,7 @@ static void	window_render_loop(t_app *const app)
 	state = 0;
 	while (state != exit_loop)
 	{
-		state = catch_event(&app->rt, &app->window, &app->interface.gui.all_rect,
-							&app->interface.gui.colors);
+		state = catch_event(&app->rt, &app->window, &app->interface);
 		if (state == render_state)
 		{
 			init_rect(&app->interface.gui.all_rect, &app->window);

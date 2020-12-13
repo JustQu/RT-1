@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_ocl.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:58:45 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:45:08 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,8 +264,12 @@ int			init_ocl(t_cl_program *const program, t_scene *const scene,
 					t_image *const image,
 					cl_device_type device_type)
 {
+	if (scene->camera.zoom >= 0)
+		printf("unused param init_ocl(scene)\n");
+	if (sampler_manager->count >= 0)
+		printf("unused param init_ocl(mngr)\n");
 	init_clp(&program->info, device_type);
-	init_kernel(program, window, image);
+	init_kernel(program, (t_window *)window, image);
 	// init_buffers(program, scene, sampler_manager);
 	return (SUCCESS);
 }

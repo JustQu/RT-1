@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_button.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:52:14 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 15:48:04 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:41:22 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ SDL_Texture		*draw_button_rgb_l(t_window *win, char **str_xyz,
 {
 	SDL_Texture *text;
 
+	if (rect->h >= 0)
+		printf("unused param draw_button_rgb_l\n");
 	g_font_size = FONT_SUBTITLE_SIZE;
 	text = render_text(str_xyz[0], "font/Title.ttf", color->text_color,
 						win->renderer);
@@ -62,7 +64,7 @@ void			draw_button_rgb(t_window *win, SDL_Rect *rect,
 	int			w;
 	int			h;
 
-	text = draw_button_rgb_l(win, str_xyz, color, &rect);
+	text = draw_button_rgb_l(win, str_xyz, color, rect);//ampersant was removed
 	SDL_QueryTexture(text, NULL, NULL, &w, &h);
 	ptr = init_rect_size(win->width - win->width / 4 + MARGIN, rect->y, w, h);
 	render_rect(text, win->renderer, &ptr);
@@ -89,7 +91,7 @@ void			draw_button_xyz(t_window *win, SDL_Rect *rect,
 	int			w;
 	int			h;
 
-	text = draw_button_rgb_l(win, str_xyz, color, &rect);
+	text = draw_button_rgb_l(win, str_xyz, color, rect);//ampersant was removed
 	SDL_QueryTexture(text, NULL, NULL, &w, &h);
 	ptr = init_rect_size(win->width - win->width / 4 + MARGIN,
 		rect->y, w, h);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 17:05:43 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:54:51 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:41:48 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ struct	s_window
 	SDL_Window		*ptr;
 	SDL_Renderer	*renderer;
 	SDL_Texture		*texture;
-	t_uint			width;
-	t_uint			height;
+	int			width;
+	int			height;
 };
 
 /*
@@ -53,7 +53,7 @@ struct	s_window
 */
 
 int		init_window(t_window *const window, t_u32 w, t_u32 h);
-void	display_image(t_window *const window);
+// void	display_image(t_window *const window);
 void	free_window(t_window *const window);
 
 #endif

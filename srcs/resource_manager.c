@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   resource_manager.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:55:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:44:59 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:39:01 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,12 +182,15 @@ t_instance_info	get_object_info(t_res_mngr *mngr, t_instance instance,
 	info.v2 = obj.dir2;
 	info.e = obj.angle;
 	info.boolean = obj.shadows;
+	return (info);
 }
 
 t_instance_info	get_triangle_info(void)
 {
 	t_instance_info	info;
 
+	if (info.height >= 0)
+		printf("unused param get_triangle_info\n");
 	return (info);
 }
 
@@ -199,7 +202,7 @@ t_instance_info	get_triangle_info(void)
 ** @return **** t_instance_info
 */
 
-t_instance_info	get_instance_info(t_res_mngr *mngr, int id)
+t_instance_info	get_instance_info(t_res_mngr *mngr, t_u32 id)
 {
 	t_instance			instance;
 	t_instance_extra	extra;
@@ -210,6 +213,7 @@ t_instance_info	get_instance_info(t_res_mngr *mngr, int id)
 		return (get_object_info(mngr, instance, extra));
 	else if (instance.type == triangle)
 		return (get_triangle_info());
+	return (get_triangle_info());//was added becouse of flags errors
 }
 
 t_light			get_light_info(t_res_mngr *const mngr, t_u32 id)

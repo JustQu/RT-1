@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:33:27 by user              #+#    #+#             */
-/*   Updated: 2020/12/13 15:56:38 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:49:39 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void		init_colors(t_colors *color)
 	color->text_color = init_color(255, 255, 255, 0);
 }
 
-void	init_gui(t_gui *const gui, int width, int height,
+void	init_gui(t_gui *const gui,//, int width, int height,
 				/* remove */ t_window win)
 {
 	init_colors(&gui->colors);

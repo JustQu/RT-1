@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 15:54:27 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:50:26 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,4 +188,9 @@ void			is_type_lights(t_window *win, t_rt *rt,
 					  t_all_rect *rect, t_colors *color);
 void			objects_tab_cont(t_window *win, t_rt *rt,
 						t_all_rect *rect, t_colors *color);
+
+
+//add this to work func from init.c
+void	init_gui(t_gui *const gui,//, int width, int height,
+				/* remove */ t_window win);
 #endif

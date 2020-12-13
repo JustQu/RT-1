@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_tab_bar_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 15:47:43 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:30:15 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void			objects_tab_cont(t_window *win, t_rt *rt,
 	free_str(str);
 	gui_material_type(win, rt, rect, color);
 	get_texture_data(rt->scene.instance_mngr.texture_manager.textures->type,
-						"texture", &str);
+						"texture", &str[0]);
 	draw_line(win, color, rect->background, rect->ten_button);
 	draw_button(win, &rect->ten_button, str, color);
 	free_str(str);

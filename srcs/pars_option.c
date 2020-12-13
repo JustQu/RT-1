@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_option.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 18:55:24 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 12:34:38 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:51:53 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ t_selector		g_selector_opt[] = {
 int				g_opt_selector_size = sizeof(g_selector_opt) /
 										sizeof(t_selector);
 
-void			validate_parsed_opt(t_rt_options *options)
-{
-	;
-}
+// void			validate_parsed_opt(t_rt_options *options)
+// {
+// 	;
+// }
 
 void			fill_options(char *a, char *b, t_res_mngr *mngr)
 {
@@ -82,5 +82,5 @@ void			pars_options(char *str, t_res_mngr *mngr)
 		free(a);
 		free(b);
 	}
-	validate_parsed_opt(mngr->rt_options);
+	// validate_parsed_opt(mngr->rt_options);
 }

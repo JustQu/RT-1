@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_camera.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 18:52:00 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 15:44:42 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:42:52 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ void			validate_parsed_camera(t_camera *camera, int log)
 	}
 	if (isnan(camera->origin.x))
 	{
-		camera->origin = (cl_float4){0.0f, 1.0f, -8.0f, 0.0f};
+		camera->origin = (cl_float4){{0.0f, 1.0f, -8.0f, 0.0f}};
 		write_logs(BAD_CAMERA_ORIGIN, log, "WARNING:");
 	}
 	if (isnan(camera->direction.x))
 	{
-		camera->direction = (cl_float4){ 0.0f, -0.1f, 1.0f, 0.0f};
+		camera->direction = (cl_float4){{0.0f, -0.1f, 1.0f, 0.0f}};
 		write_logs(BAD_CAMERA_DIRECTION, log, "WARNING:");
 	}
 	if (isnan(camera->zoom))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_manager.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 18:15:15 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:46:24 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:30:27 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 int			add_matrix(t_instance_manager *mngr, t_matrix matrix)
 {
-	t_matrix	*new_memory;
+	// t_matrix	*new_memory;
 
 	if (mngr->matrices_malloc_size
 		< (mngr->nmatrices + 1) * sizeof(t_matrix))

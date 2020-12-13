@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   logs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:51:27 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 15:47:06 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:57:00 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "logs.h"
 #include "rt_error.h"
+#include <libgen.h>
 
 int			get_log_fd(char *str)
 {
@@ -20,7 +21,7 @@ int			get_log_fd(char *str)
 	char	*line_1;
 	char	*line_2;
 
-	line_1 = ft_strjoin("logs/", str);
+	line_1 = ft_strjoin("logs/", basename(str));
 	rt_is_dead(system_err, system_malloc_error, !line_1, "");
 	line_2 = ft_strjoin(line_1, ".log");
 	rt_is_dead(system_err, system_malloc_error, !line_2, "");

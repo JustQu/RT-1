@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parsed_scene.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 20:37:35 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 15:47:22 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 17:50:57 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	set_default_camera(t_camera *camera)
 	camera->viewplane.width = DEFAULT_IMAGE_WIDTH;
 	camera->viewplane.height = DEFAULT_IMAGE_HEIGHT;
 	camera->type = perspective;
-	camera->origin = (cl_float4){ 0.0f, 1.0f, -8.0f, 0.0f};
-	camera->direction = (cl_float4){ 0.0f, -0.1f, 1.0f, 0.0f};
-	camera->up = (cl_float4){ 0.0f, 1.0f, 0.0f, 0.0f};
+	camera->origin = (cl_float4){{0.0f, 1.0f, -8.0f, 0.0f}};
+	camera->direction = (cl_float4){{0.0f, -0.1f, 1.0f, 0.0f}};
+	camera->up = (cl_float4){{0.0f, 1.0f, 0.0f, 0.0f}};
 	camera->d = DEFAULT_WIDTH;
 	camera->zoom = 0.5f;
 	camera->normalized = FALSE;
