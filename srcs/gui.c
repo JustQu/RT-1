@@ -6,11 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:31:43 by alex              #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/12/13 12:35:53 by aapricot         ###   ########.fr       */
-=======
-/*   Updated: 2020/12/13 08:33:49 by alex             ###   ########.fr       */
->>>>>>> 88b2cd3aff9d23a5b9e828962b823b1d4c59b87b
+/*   Updated: 2020/12/13 13:10:56 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,22 +85,12 @@ void			draw_fill_rect(t_window *win,
 void			gui(t_window *win, t_rt *rt,
 					t_all_rect *all_rect, t_colors *color)
 {
-<<<<<<< HEAD
-	if (win == NULL || all_rect == NULL || color == NULL)
-		rt_error("gui(): given NULL pointer");
-	if (TTF_Init())
-		rt_error("gui(): TTF_Init() error");
-	if (win->height >= 300 && win->width >= 200)
-		draw_title_ray_tracing(win, &color->text_color);
-	if (win->width / 4 >= 210)
-=======
 	SDL_Texture	*img;
 	int			w;
 	int			h;
 
 	gui_init_title(win, all_rect, color);
 	if (g_show_gui)
->>>>>>> 88b2cd3aff9d23a5b9e828962b823b1d4c59b87b
 	{
 		if (win->width / 4 >= 210)
 		{

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   catch_event.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/12/13 12:46:42 by aapricot         ###   ########.fr       */
-=======
-/*   Updated: 2020/12/13 08:28:54 by alex             ###   ########.fr       */
->>>>>>> 88b2cd3aff9d23a5b9e828962b823b1d4c59b87b
+/*   Updated: 2020/12/13 13:10:40 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +86,6 @@ static int		catch_keydown(t_rt *rt, t_window *win, SDL_Event event)
 {
 	if (win->height >= 0)
 		printf("unused parametre (win)\n");
-	if (colors->background_color.r >= 0)
-		printf("unused parametre (colors)\n");
-	if (rect->background.w >= 0)
-		printf("unused parametre (rect)\n");
 	if (event.key.keysym.sym == SDLK_ESCAPE)
 		return (1);
 	if (event.key.keysym.sym == SDLK_p)
