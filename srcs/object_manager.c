@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include <assert.h>
-
+#include "safe_call.h"
+#include "rt_err.h"
 #include "libft.h"
 #include "bool.h"
 #include "instance_manager.h"

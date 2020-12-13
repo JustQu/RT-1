@@ -12,6 +12,7 @@
 
 #include "offset.h"
 #include "parser.h"
+#include "rt_err.h"
 
 float		ft_atofloat(char *str)
 {

@@ -12,6 +12,7 @@
 
 #include "offset.h"
 #include "parser.h"
+#include "rt_err.h"
 
 int					get_obj_type_value(char *str)
 {

@@ -785,10 +785,10 @@ struct			s_bvh_node
 /*                                                        :::      ::::::::   */
 /*   rt_options.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 22:02:22 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 02:43:57 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2101,7 +2101,7 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 			*tmin = roots[j];
 			shade_rec->local_hit_point = ray.direction * *tmin + ray.origin;
 			shade_rec->normal = get_torus_normal(shade_rec->local_hit_point, torus);
-			*tmin * 0.99f;
+			*tmin = *tmin * 0.99f;
 		}
 	}
 	// hit_info->t = t * 0.99f;

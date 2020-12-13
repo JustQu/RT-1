@@ -12,6 +12,7 @@
 
 #include "gui.h"
 #include "rt.h"
+#include "safe_call.h"
 
 void			draw_line(t_window *win, t_colors *color,
 					SDL_Rect rect, SDL_Rect rect_2)

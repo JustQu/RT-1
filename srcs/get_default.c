@@ -12,6 +12,7 @@
 
 #include "parser.h"
 #include "offset.h"
+#include "rt_err.h"
 
 t_camera			get_default_camera(void)
 {

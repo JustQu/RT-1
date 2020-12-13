@@ -65,7 +65,7 @@ void			draw_button_rgb(t_window *win, SDL_Rect *rect,
 	int			w;
 	int			h;
 
-	text = draw_button_rgb_l(win, str_xyz, color, &rect);
+	text = draw_button_rgb_l(win, str_xyz, color, rect);
 	if (SDL_QueryTexture(text, NULL, NULL, &w, &h))
 		rt_error("draw_button_rgb(): SDL_QueryTexture() error");
 	ptr = init_rect_size(win->width - win->width / 4 + MARGIN,
@@ -94,7 +94,7 @@ void			draw_button_xyz(t_window *win, SDL_Rect *rect,
 	int			w;
 	int			h;
 
-	text = draw_button_rgb_l(win, str_xyz, color, &rect);
+	text = draw_button_rgb_l(win, str_xyz, color, rect);
 	if (SDL_QueryTexture(text, NULL, NULL, &w, &h))
 		rt_error("draw_button_xyz(): SDL_QueryTexture() error");
 	ptr = init_rect_size(win->width - win->width / 4 + MARGIN,

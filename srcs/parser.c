@@ -15,6 +15,7 @@
 #include "logs.h"
 #include "resource_manager.h"
 #include "scene.h"
+#include "safe_call.h"
 
 char		*delete_tabs(char *str)
 {

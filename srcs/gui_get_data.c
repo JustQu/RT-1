@@ -13,6 +13,7 @@
 #include "gui.h"
 #include "libft.h"
 #include "rt.h"
+#include "safe_call.h"
 
 void			get_intensive_data(int ptr, char *string, char **str)
 {

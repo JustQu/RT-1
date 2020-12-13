@@ -12,6 +12,8 @@
 
 #include "gui.h"
 #include "libft.h"
+#include "rt_err.h"
+#include "safe_call.h"
 
 void			get_true_data(int ptr, char *string, char **str)
 {

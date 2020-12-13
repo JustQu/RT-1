@@ -12,6 +12,7 @@
 
 #include "parser.h"
 #include "offset.h"
+#include "rt_err.h"
 
 char				*get_key(char **str)
 {

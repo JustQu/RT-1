@@ -12,6 +12,8 @@
 
 #include "gui.h"
 #include "libft.h"
+#include "rt_err.h"
+#include "safe_call.h"
 
 void			get_void_data(char *string, char *str[4])
 {

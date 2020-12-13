@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 06:43:08 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 06:49:04 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void			loading_cycle(t_window *window, SDL_Rect rect, SDL_Rect mes_rec)
 
 	i = 0;
 	j = 0;
-	while (state != 2)
+	while (state != 1)
 	{
     	if (SDL_PollEvent(&e))
     		if (e.type == SDL_QUIT)

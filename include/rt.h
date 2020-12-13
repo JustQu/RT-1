@@ -33,6 +33,7 @@
 # include "scene.h"
 # include "rt_options.h"
 # include "rt_ocl.h"
+# include "rt.h"
 # include "window.h"
 # include "gui.h"
 # include "resource_manager.h"

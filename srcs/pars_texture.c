@@ -12,6 +12,7 @@
 
 #include "parser.h"
 #include "offset.h"
+#include "rt_err.h"
 
 t_selector		g_selector_tex[] = {
 	{"type", offsetof(t_texture, type), get_tex_type},
