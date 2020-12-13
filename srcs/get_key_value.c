@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_key_value.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 20:54:36 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/10 16:23:11 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 07:39:58 by jvoor            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char				*get_value(char **str)
 
 	if (str == NULL)
 		rt_error("get_value(): given NULL pointer");
-	if ((b = (char *)ft_memmalloc(sizeof(char) * 256)) == NULL)
+	if ((b = (char *)ft_memalloc(sizeof(char) * 256)) == NULL)
 		rt_error("get_value(): malloc error");
 	i = 0;
 	if (**str == '{')
