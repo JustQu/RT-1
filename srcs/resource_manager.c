@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   resource_manager.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:55:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 22:35:55 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:34:04 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,10 +174,6 @@ t_instance_info	get_instance_info(t_res_mngr *mngr, int id)
 
 void			add_parsed_asset(t_res_mngr *const mngr, t_parsed_info asset)
 {
-	int				i;
-	int				j;
-	t_parsed_light	l;
-
 	if (asset.type == object)
 	{
 		scan_instance(mngr, asset);

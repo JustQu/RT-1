@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 18:52:00 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/03 18:57:45 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 11:56:56 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void			validate_parsed_camera(t_camera *camera, int log)
 {
 	if (camera == NULL)
 		rt_error("validate_parsed_camera(): given NULL pointer");
-	if (camera->type == -2)
+	if (camera->type == cam_none)
 	{
 		camera->type = perspective;
 		write_logs(BAD_CAMERA_TYPE, log, "WARNING:");

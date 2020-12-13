@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:33:27 by user              #+#    #+#             */
-/*   Updated: 2020/11/12 13:13:32 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/13 08:29:27 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "rt_options.h"
 #include "rt.h"
 
-void	init_rect_tree(t_all_rect *rect, t_window *win)
+static void	init_rect_tree(t_all_rect *rect, t_window *win)
 {
 	if (rect == NULL || win == NULL)
 		rt_error("init_rect_tree(): given NULL pointer");
@@ -39,7 +39,7 @@ void	init_rect_tree(t_all_rect *rect, t_window *win)
 		win->width / 4, 30);
 }
 
-void	init_rect_two(t_all_rect *rect, t_window *win)
+static void	init_rect_two(t_all_rect *rect, t_window *win)
 {
 	if (rect == NULL || win == NULL)
 		rt_error("init_rect_two(): given NULL pointer");
@@ -57,10 +57,12 @@ void	init_rect_two(t_all_rect *rect, t_window *win)
 		win->width / 4, 30);
 }
 
-void	init_rect(t_all_rect *rect, t_window *win)
+void		init_rect(t_all_rect *rect, t_window *win)
 {
 	if (rect == NULL || win == NULL)
 		rt_error("init_rect(): given NULL pointer");
+	rect->title_button = init_rect_size(win->width - win->width / 4,
+		MARGIN_Y, win->width / 4 - MARGIN_Y, MARGIN_Y * 3);
 	rect->background = init_rect_size(win->width - win->width / 4,
 		0, win->width / 4, win->height);
 	rect->tab_camera_button = init_rect_size(win->width - win->width / 4,
@@ -81,7 +83,7 @@ void	init_rect(t_all_rect *rect, t_window *win)
 	init_rect_two(rect, win);
 }
 
-void	init_colors(t_colors *color)
+void		init_colors(t_colors *color)
 {
 	if (color == NULL)
 		rt_error("init_colors(): given NULL pointer");

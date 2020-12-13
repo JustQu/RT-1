@@ -3,45 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sampler_manager.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 19:14:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 22:35:01 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:18:18 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "libft.h"
 #include "utils.h"
-
-static int	realloc_sampler_manager(t_sampler_manager *sampler_manager,
-									size_t new_size)
-{
-	cl_float2	*new_samples;
-	cl_float2	*new_disk_samples;
-	cl_float3	*new_hemisphere_samples;
-
-	if (!(new_samples = malloc(sizeof(cl_float2) * new_size)))
-		return (ERROR);
-	ft_memcpy(new_samples, sampler_manager->samples,
-				sizeof(cl_float2) * sampler_manager->samples_size);
-	free(sampler_manager->samples);
-	sampler_manager->samples = new_samples;
-	if (!(new_disk_samples = malloc(sizeof(cl_float2) * new_size)))
-		return (ERROR);
-	ft_memcpy(new_disk_samples, sampler_manager->disk_samples,
-				sizeof(cl_float2) * sampler_manager->samples_size);
-	free(sampler_manager->disk_samples);
-	sampler_manager->disk_samples = new_disk_samples;
-	if (!(new_hemisphere_samples = malloc(sizeof(cl_float3) * new_size)))
-		return (ERROR);
-	ft_memcpy(new_hemisphere_samples, sampler_manager->hemisphere_samples,
-				sizeof(cl_float3) * sampler_manager->samples_size);
-	free(sampler_manager->hemisphere_samples);
-	sampler_manager->hemisphere_samples = new_hemisphere_samples;
-	sampler_manager->samples_malloc_size = new_size;
-	return (SUCCESS);
-}
 
 static int	realloc_samplers(t_sampler_manager *sampler_manager,
 								size_t new_size)
@@ -97,7 +68,7 @@ int			init_sampler1(t_sampler *sampler, t_sampler_type type,
 
 void		map_sp(t_sampler_manager *m, t_sampler *s)
 {
-	int	a;
+	t_uint	a;
 
 	a = m->samples_malloc_size;
 	if (m->samples_size >= (a = m->samples_malloc_size))

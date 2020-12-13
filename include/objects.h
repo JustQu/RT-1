@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:20 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 21:56:49 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 11:54:16 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ typedef struct s_obj		t_obj;
 typedef struct s_triangle	t_triangle;
 enum	e_types
 {
-	cone,
+	obj_none = -2,
+	cone = 0,
 	cylinder,
 	paraboloid,
 	plane,

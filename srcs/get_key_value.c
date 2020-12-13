@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_key_value.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 20:54:36 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 07:39:58 by jvoor            ###   ########.fr       */
+/*   Updated: 2020/12/13 07:52:53 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "offset.h"
 #include "rt_err.h"
+#include "libft.h"
 
 char				*get_key(char **str)
 {

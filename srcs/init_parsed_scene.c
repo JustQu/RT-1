@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 20:37:35 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/03 19:21:54 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 11:56:39 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int						init_parsed_scene(t_scene *scene,
 	if (scene == NULL || sampler_manager == NULL ||
 			resource_manager == NULL || scene_file == NULL)
 		rt_error("init_parsed_scene(): given NULL pointer");
-	scene->camera.type = -3;
+	scene->camera.type = cam_none;
 	instance_manager = &scene->instance_mngr;
 	init_instance_manager(instance_manager);
 	init_light_manager(&scene->light_manager);

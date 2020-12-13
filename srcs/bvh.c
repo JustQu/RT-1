@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 19:29:26 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/10 17:47:43 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:49:41 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,13 +202,13 @@ t_bvh	build_bvh(t_scene *scene)
 		id = -1;
 	while (++id < instance_mngr.ninstances)
 		temp_nodes[id] = (t_bvh_node){.instance_id = id,
-			.aabb = instance_mngr.extra[id].aabb, .center = (cl_float3){
+			.aabb = instance_mngr.extra[id].aabb, .center = (cl_float3){{
 				0.5f * (instance_mngr.extra[id].aabb.min.x +
 					instance_mngr.extra[id].aabb.max.x),
 				0.5f * (instance_mngr.extra[id].aabb.min.y +
 					instance_mngr.extra[id].aabb.max.y),
 				0.5f * (instance_mngr.extra[id].aabb.min.z +
-					instance_mngr.extra[id].aabb.max.z)}, .next = -1};
+					instance_mngr.extra[id].aabb.max.z)}}, .next = -1};
 	id = 0;
 	build_internal_node(bvh, &id, temp_nodes, instance_mngr.ninstances);
 	print_bvh(bvh, instance_mngr.ninstances);

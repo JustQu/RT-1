@@ -6,7 +6,7 @@
 #    By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/12/10 18:27:59 by aapricot         ###   ########.fr        #
+#    Updated: 2020/12/13 13:09:17 by aapricot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,10 +28,12 @@ CFLAGS = -I$(INCDIR)\
 		 -I/Users/dmelessa/rt2/Libs/SDL2_image.framework/Headers\
 		 -I./Libs/SDL2\
 		 -I./Libs/SDL2_ttf/include\
-		 -g
+		 -g\
+		 -Wall\
+		 -Wextra
 		#  --analyze\
 		#  --analyzer-output html\
-#		 -Wall\
+		 -Wall\
 		 -Werror\
 		 -Wextra
 ifeq ($(SYSTEM), $(MACOS))
@@ -96,7 +98,7 @@ rt_error.c              safe_call.c				gui_utils_4.c\
 get_default.c           gui_get_data_2.c        init.c                  pars_material.c         rt_options.c			validate_objects_2.c\
 get_first_values.c      gui_get_data_3.c        init_parsed_scene.c     pars_obj.c              sampler.c				validate_objects_3.c\
 get_key_value.c         gui_init.c              instance_manager.c      pars_option.c           sampler_manager.c       logs_second.c\
-logs_third.c\
+logs_third.c			catch_keydown.c\
 
 
 
