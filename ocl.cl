@@ -641,7 +641,7 @@ struct				s_ambient_occluder
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:53:59 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 22:17:12 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 00:13:03 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -682,16 +682,17 @@ enum	e_sampler_type
 
 struct	s_sampler
 {
-	t_sampler_type	type;
-	cl_int			num_samples;
-	cl_int			num_sets;
-	cl_uint			count;
-	cl_int			jump;
-	cl_int			samples_type;
+	t_sampler_type	type;			//4
+	cl_int			num_samples;	//4
+	cl_int			num_sets;		//4
+	cl_uint			count;			//4
+	cl_int			jump;			//4
+	cl_int			samples_type;	//4
 
-	cl_int			offset;
-	cl_int			disk_samples_offset;
-	cl_int			hemisphere_samples_offset;
+	cl_int			offset;			//4
+	cl_int			disk_samples_offset;	//4
+	cl_int			hemisphere_samples_offset;	//4
+	cl_int			gap[3];
 };
 
 # ifndef __OPENCL_C_VERSION__
@@ -804,7 +805,7 @@ struct			s_bvh_node
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/07 23:51:52 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/12 23:55:28 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -817,12 +818,6 @@ struct			s_bvh_node
 #  include "sampler.h"
 #  include "sampler_manager.h"
 # endif
-
-# define DEFAULT_WIDTH 800
-# define DEFAULT_HEIGHT 640
-
-# define IMG_WIDTH 800
-# define IMG_HEIGHT 640
 
 typedef enum	e_tracer_type
 {
@@ -843,24 +838,24 @@ typedef struct s_rt_options		t_rt_options;
 struct			s_rt_options
 {
 	t_sampler		sampler;
-	cl_int			ambient_illumination;
+	cl_int			ambient_illumination; //4
 
-	t_color			background_color;
+	t_color			background_color;	//16
 
-	cl_int			depth;
+	cl_int			depth;			//4
 
-	cl_int			shadows;
+	cl_int			shadows;	//4
 
-	cl_int			area_lightning;
+	cl_int			area_lightning;//4
 
-	cl_float		spp;
-	cl_int			aa_id;
+	cl_float		spp;	//4
+	cl_int			aa_id;//4
 
-	t_tracer_type	tracer_type;
+	t_tracer_type	tracer_type;//4
 
-	cl_uchar		reset;
+	cl_uchar		reset; //1
 
-	cl_uchar		strategy;
+	cl_uchar		strategy;//1
 };
 
 # ifndef __OPENCL_C_VERSION__
@@ -3115,7 +3110,7 @@ t_color		area_light_shade_phong(t_material material,
 										&light,
 										shade_rec,
 										sampler_manager,
-										seed);
+										seed);;
 
 		if (options.shadows)
 		{

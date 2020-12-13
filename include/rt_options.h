@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/07 23:51:52 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/12 23:55:28 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,6 @@
 #  include "sampler.h"
 #  include "sampler_manager.h"
 # endif
-
-# define DEFAULT_WIDTH 800
-# define DEFAULT_HEIGHT 640
-
-# define IMG_WIDTH 800
-# define IMG_HEIGHT 640
 
 typedef enum	e_tracer_type
 {
@@ -45,24 +39,24 @@ typedef struct s_rt_options		t_rt_options;
 struct			s_rt_options
 {
 	t_sampler		sampler;
-	cl_int			ambient_illumination;
+	cl_int			ambient_illumination; //4
 
-	t_color			background_color;
+	t_color			background_color;	//16
 
-	cl_int			depth;
+	cl_int			depth;			//4
 
-	cl_int			shadows;
+	cl_int			shadows;	//4
 
-	cl_int			area_lightning;
+	cl_int			area_lightning;//4
 
-	cl_float		spp;
-	cl_int			aa_id;
+	cl_float		spp;	//4
+	cl_int			aa_id;//4
 
-	t_tracer_type	tracer_type;
+	t_tracer_type	tracer_type;//4
 
-	cl_uchar		reset;
+	cl_uchar		reset; //1
 
-	cl_uchar		strategy;
+	cl_uchar		strategy;//1
 };
 
 # ifndef __OPENCL_C_VERSION__

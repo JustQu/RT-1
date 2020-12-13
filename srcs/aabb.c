@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:24:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 22:36:59 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 11:45:11 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "matrix.h"
 #include "instance_manager.h"
 #include "utils.h"
+#include "rt_error.h"
 
 #include <stdlib.h>
 #include <math.h>
@@ -58,7 +59,7 @@ t_bbox			transform_aabb(t_bbox aabb, t_matrix matrix)
 	return (transformed_aabb);
 }
 
-static void		compute_aabb_next1(t_instance_info obj, t_bbox *aabb)
+static int		compute_aabb_next1(t_instance_info obj, t_bbox *aabb)
 {
 	float a;
 
@@ -80,6 +81,9 @@ static void		compute_aabb_next1(t_instance_info obj, t_bbox *aabb)
 		a = float_max(float_max(obj.height, 3.0f), obj.r);
 		*aabb = (t_bbox){(cl_float4){a, a, a}, (cl_float4){-a, -a, -a}};
 	}
+	else
+		return (ERROR);
+	return (SUCCESS);
 }
 
 t_bbox			compute_aabb(t_instance_info obj)
@@ -106,7 +110,7 @@ t_bbox			compute_aabb(t_instance_info obj)
 	else if (obj.type == triangle)
 		aabb = (t_bbox){(cl_float4){100.0f, 100.f, 100.0f},
 						(cl_float4){ -100.0f, 100.f, -100.0f, 0.0f }};
-	compute_aabb_next1(obj, &aabb);
-	aabb = transform_aabb(aabb, get_transformation_matrix(obj));
-	return (aabb);
+	else if (compute_aabb_next1(obj, &aabb))
+		rt_is_dead(app_err, app_unknown_object_type, ERROR, "aabb.c 1");
+	return (aabb = transform_aabb(aabb, get_transformation_matrix(obj)));
 }

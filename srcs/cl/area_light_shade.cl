@@ -42,7 +42,7 @@ t_color		area_light_shade_phong(t_material material,
 										&light,
 										shade_rec,
 										sampler_manager,
-										seed);
+										seed);;
 
 		if (options.shadows)
 		{

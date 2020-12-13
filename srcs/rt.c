@@ -6,11 +6,10 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 19:54:03 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/08 17:05:04 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 13:31:26 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
 #include "app.h"
 
 static void	set_kernel_args(t_rt rt, int step)
@@ -56,7 +55,7 @@ static void	set_kernel_args(t_rt rt, int step)
 	err |= clSetKernelArg(k, 25, sizeof(cl_mem), &rt.ocl_program.perm_y);
 	err |= clSetKernelArg(k, 26, sizeof(cl_mem), &rt.ocl_program.perm_z);
 	a++;
-	assert(!err);
+	rt_is_dead(opencl_err, cl_kernel_arg_error, err, "");
 }
 
 void		render_scene(t_rt rt)
@@ -74,28 +73,23 @@ void		render_scene(t_rt rt)
 									&rt.ocl_program.work_size,
 									NULL,
 									0, NULL, NULL);
-		cl_error(&rt.ocl_program, &rt.ocl_program.info, err);
-		assert(!err);
+		rt_is_dead(opencl_err, cl_kernel_start_error, err, "");
 		i++;
 	}
 }
 
-int			init_rt(t_rt *rt, char *scene_file, t_res_mngr *resource_manager)
+int			init_rt(t_rt *rt, char *scene_file, t_res_mngr *resource_manager,
+					t_window *window, t_image *image,
+					cl_device_type device_type)
 {
 	init_sampler_manager(&rt->sampler_manager);
 	init_default_options(resource_manager->rt_options, &rt->sampler_manager);
-	if (scene_file != NULL)
-	{
-		if (init_parsed_scene(&rt->scene, &rt->sampler_manager, resource_manager, scene_file) < 0)
-			init_default_scene(&rt->scene, &rt->sampler_manager, resource_manager);
-		rt->scene.bvh = build_bvh(&rt->scene);
-		init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, rt);
-	}
-	else
-	{
-		init_default_scene(&rt->scene, &rt->sampler_manager, resource_manager);
-		rt->scene.bvh = build_bvh(&rt->scene);
-		init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, rt);
-	}
+	if (init_parsed_scene(&rt->scene, &rt->sampler_manager,
+							resource_manager, scene_file) < 0)
+		exit(-1000);
+	rt->scene.bvh = build_bvh(&rt->scene);
+	init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, window, image,
+			device_type);
+	init_buffers(&rt->ocl_program, &rt->scene, &rt->sampler_manager);
 	return (SUCCESS);
 }

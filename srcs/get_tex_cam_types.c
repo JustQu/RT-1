@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_tex_cam_types.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:35:46 by aapricot          #+#    #+#             */
-/*   Updated: 2020/11/10 00:41:19 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 02:55:19 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int					get_tex_type_value(char *str)
 		return (wave_perlin);
 	else if (!ft_strcmp(str, "image"))
 		return (image);
-	return (-1);
+	return (ERROR);
 }
 
 int					get_cam_type_value(char *str)
@@ -53,7 +53,7 @@ int					get_cam_type_value(char *str)
 		return (spherical);
 	else if (!ft_strcmp(str, "stereo"))
 		return (stereo);
-	return (-1);
+	return (ERROR);
 }
 
 void				get_tex_type(char *str, int offset, void *data)

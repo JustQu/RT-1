@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 20:06:26 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 21:14:17 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:36:04 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "logs.h"
 #include "resource_manager.h"
 #include "scene.h"
+#include "rt_error.h"
 
 void		to_lower(char *str)
 {
@@ -67,6 +68,7 @@ int			get_block_type(char *str)
 	if (str[0] == '=' || str[0] == '{')
 		return (-1);
 	type = (char *)malloc(sizeof(char) * (block_type_lengh(str) + 1));
+	rt_is_dead(system_err, system_malloc_error, !type, "");
 	while (str[i] != '{' && str[i] != '=')
 	{
 		type[j] = str[i];

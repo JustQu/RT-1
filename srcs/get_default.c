@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_default.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:11:31 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/07 20:51:45 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 02:42:26 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ t_camera			get_default_camera(void)
 	t_camera		camera;
 
 	camera.viewplane.pixel_size = 1.0f;
-	camera.viewplane.width = IMG_WIDTH;
-	camera.viewplane.height = IMG_HEIGHT;
+	camera.viewplane.width = 800;
+	camera.viewplane.height = 640;
 	camera.type = -2;
 	camera.origin.x = NAN;
 	camera.direction.x = NAN;
 	camera.up = (cl_float4){.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f};
-	camera.d = DEFAULT_WIDTH;
+	camera.d = 800;
 	camera.zoom = NAN;
 	camera.normalized = FALSE;
 	return (camera);
@@ -34,10 +34,10 @@ t_parsed_light		get_default_light(void)
 {
 	t_parsed_light	light;
 
-	light.type = point;
-	light.origin = (cl_float4){1.0f, 8.0f, -5.0f, 0.0f};
-	light.ls = 2.0f;
-	light.color = (t_color){1.0f, 1.0f, 1.0f};
+	light.type = -2;
+	light.origin.x = NAN;
+	light.ls = NAN;
+	light.color.r = NAN;
 	return (light);
 }
 

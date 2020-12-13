@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 22:57:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 22:03:40 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/12 23:27:14 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,27 @@
 static const t_camera default_camera = {
 	.viewplane = {
 		.pixel_size = 1.0f,
-		.width = IMG_WIDTH,
-		.height = IMG_HEIGHT},
+		.width = 800,
+		.height = 640},
 	.type = perspective,
 	.origin = {.x = 0.0f, .y = 1.0f, .z = -8.0f, .w = 0.0f},
 	.direction = {.x = 0.0f, .y = -0.1f, .z = 1.0f, .w = 0.0f},
 	.up = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
-	.d = DEFAULT_WIDTH,
+	.d = 800,
 	.zoom = 0.5f,
 	.normalized = FALSE};
 
 static const t_camera default_thin_lens_camera = {
 	.viewplane = {
 		.pixel_size = 1.0f,
-		.width = IMG_WIDTH,
-		.height = IMG_HEIGHT,
+		.width = 800,
+		.height = 640,
 	},
 	.type = thin_lens,
 	.origin = {.x = 0.0f, .y = 0.0f, .z = -8.0f, .w = 0.0f},
 	.direction = {.x = 0.0f, .y = 0.0f, .z = 1.0f, .w = 0.0f},
 	.up = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
-	.d = DEFAULT_WIDTH,
+	.d = 800,
 	.zoom = 0.5f,
 	.normalized = FALSE,
 
@@ -51,14 +51,14 @@ static const t_camera default_thin_lens_camera = {
 static const t_camera default_fisheye_camera = {
 	.viewplane = {
 		.pixel_size = 1.0f,
-		.width = IMG_WIDTH,
-		.height = IMG_HEIGHT,
+		.width = 800,
+		.height = 640,
 	},
 	.type = fisheye,
 	.origin = {.x = 0.0f, .y = 0.0f, .z = -8.0f, .w = 0.0f},
 	.direction = {.x = 0.0f, .y = 0.0f, .z = 1.0f, .w = 0.0f},
 	.up = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
-	.d = DEFAULT_WIDTH,
+	.d = 800,
 	.zoom = 0.5f,
 	.normalized = FALSE,
 
@@ -67,14 +67,14 @@ static const t_camera default_fisheye_camera = {
 static const t_camera default_stereo_camera = {
 	.viewplane = {
 		.pixel_size = 1.0f,
-		.width = DEFAULT_WIDTH,
-		.height = DEFAULT_HEIGHT,
+		.width = 800,
+		.height = 640,
 	},
 	.type = stereo,
 	.origin = {.x = 0.0f, .y = 0.0f, .z = -3.0f, .w = 0.0f},
 	.direction = {.x = 0.0f, .y = 0.0f, .z = 1.0f, .w = 0.0f},
 	.up = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
-	.d = DEFAULT_WIDTH / 4,
+	.d = 800 / 4,
 	.zoom = 1.0f,
 	.normalized = FALSE,
 
@@ -89,14 +89,14 @@ static const t_camera default_stereo_camera = {
 static const t_camera default_spherical_camera = {
 	.viewplane = {
 		.pixel_size = 1.0f,
-		.width = DEFAULT_WIDTH,
-		.height = DEFAULT_HEIGHT,
+		.width = 800,
+		.height = 640,
 	},
 	.type = spherical,
 	.origin = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
 	.direction = {.x = 0.0f, .y = 0.0f, .z = 1.0f, .w = 0.0f},
 	.up = {.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f},
-	.d = DEFAULT_WIDTH / 2,
+	.d = 800 / 2,
 	.zoom = 1.0f,
 	.normalized = TRUE,
 	.l = 360.0f / 2,
@@ -610,7 +610,7 @@ void	default_scene_1(t_scene *scene,
 					134, 67, 75);
 	asset.data.object.material.type = matte;
 	asset.data.object.material.kd = 1.0f;
-	add_parsed_asset(resource_manager, asset);
+	// add_parsed_asset(resource_manager, asset);
 
 	t_parsed_light light;
 
@@ -902,8 +902,8 @@ int init_default_scene(t_scene *scene,
 	// scene->camera.l = 0.0f;
 	// scene->camera.f = 1000.0f;
 	// scene->camera.viewplane.pixel_size = 1.0f;
-	// scene->camera.viewplane.width = IMG_WIDTH;
-	// scene->camera.viewplane.height = IMG_HEIGHT;
+	// scene->camera.viewplane.width = 800;
+	// scene->camera.viewplane.height = 640;
 	// scene->camera.origin =
 	// 	(cl_float4){  278.0f, .y = 278.0f, .z = -800.0f, .w = 0.0f };
 	// scene->camera.direction =

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_material.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:14:07 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/07 20:00:18 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:33:41 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void			pars_material(char *str, int offset, void *data)
 	{
 		a = get_key(&str);
 		b = get_value(&str);
-		while (*str == ';' || *str == '}')
+		while ((*str == ';' || *str == '}') && *str != '\0')
 			str++;
 		fill_material(a, b, material);
 		free(a);

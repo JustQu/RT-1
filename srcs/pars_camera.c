@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_camera.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 18:52:00 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/03 18:57:45 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:33:07 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_selector		g_selector_cam[] = {
 };
 
 int				g_cam_selector_size = sizeof(g_selector_cam) /
-sizeof(t_selector);
+										sizeof(t_selector);
 
 void			validate_parsed_camera(t_camera *camera, int log)
 {
@@ -37,12 +37,12 @@ void			validate_parsed_camera(t_camera *camera, int log)
 	}
 	if (isnan(camera->origin.x))
 	{
-		camera->origin = (cl_float4){.x = 0.0f, .y = 1.0f, .z = -8.0f, .w = 0.0f};
+		camera->origin = (cl_float4){0.0f, 1.0f, -8.0f, 0.0f};
 		write_logs(BAD_CAMERA_ORIGIN, log, "WARNING:");
 	}
 	if (isnan(camera->direction.x))
 	{
-		camera->direction = (cl_float4){.x = 0.0f, .y = -0.1f, .z = 1.0f, .w = 0.0f};
+		camera->direction = (cl_float4){ 0.0f, -0.1f, 1.0f, 0.0f};
 		write_logs(BAD_CAMERA_DIRECTION, log, "WARNING:");
 	}
 	if (isnan(camera->zoom))

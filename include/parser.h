@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 00:05:29 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/06 17:00:45 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/11 20:19:48 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@
 # include "objects.h"
 # include "light.h"
 # include "texture.h"
-# include "libft/libft.h"
+# include "libft.h"
 # include "camera.h"
 # include <math.h>
-# include <stdlib.h>
 
 typedef enum e_block_type	t_block_type;
 

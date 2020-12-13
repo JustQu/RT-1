@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_obj.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 21:41:52 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/07 20:18:27 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:33:59 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,10 @@ t_selector		g_selector_obj[] = {
 int				g_obj_selector_size = sizeof(g_selector_obj) /
 sizeof(t_selector);
 
-void			validate_parsed_obj(t_res_mngr *resource_manager,
+void			validate_parsed_obj_2(t_res_mngr *resource_manager,
 				t_parsed_info asset, int log)
 {
-	if (asset.data.object.type == -2)
-	{
-		write_logs(OBJ_TYPE_DOES_NOT_EXIST, log, "ERROR:");
-		write_logs(PARS_UNSUCCESS, log, NULL);
-		return ;
-	}
-	else if (asset.data.object.type == -1)
-	{
-		write_logs(UNKNOWN_OBJ_TYPE, log, "ERROR:");
-		write_logs(PARS_UNSUCCESS, log, NULL);
-		return ;
-	}
-	else if (asset.data.object.type == cone)
+	if (asset.data.object.type == cone)
 		validate_cone(resource_manager, asset, log);
 	else if (asset.data.object.type == cylinder)
 		validate_cylinder(resource_manager, asset, log);
@@ -65,6 +53,24 @@ void			validate_parsed_obj(t_res_mngr *resource_manager,
 		validate_triangle_box(resource_manager, asset, log);
 	else if (asset.data.object.type == rectangle)
 		validate_rectangle(resource_manager, asset, log);
+}
+
+void			validate_parsed_obj(t_res_mngr *resource_manager,
+				t_parsed_info asset, int log)
+{
+	if (asset.data.object.type == -2)
+	{
+		write_logs(OBJ_TYPE_DOES_NOT_EXIST, log, "ERROR:");
+		write_logs(PARS_UNSUCCESS, log, NULL);
+		return ;
+	}
+	else if (asset.data.object.type == -1)
+	{
+		write_logs(UNKNOWN_OBJ_TYPE, log, "ERROR:");
+		write_logs(PARS_UNSUCCESS, log, NULL);
+		return ;
+	}
+	validate_parsed_obj_2(resource_manager, asset, log);
 }
 
 void			fill_object(char *a, char *b, t_parsed_object *obj)
@@ -89,16 +95,17 @@ void			pars_object(t_res_mngr *resource_manager,
 	char			*a;
 	char			*b;
 	t_parsed_object	obj;
-
+	
 	obj = get_default_obj();
 	while (*str != '{' && *str != '\0')
 		str++;
-	str++;
+	if (*str != '\0')
+		str++;
 	while (*str != '\0')
 	{
 		a = get_key(&str);
 		b = get_value(&str);
-		while (*str == ';' || *str == '}')
+		while ((*str == ';' || *str == '}') && *str != '\0')
 			str++;
 		fill_object(a, b, &obj);
 		free(a);

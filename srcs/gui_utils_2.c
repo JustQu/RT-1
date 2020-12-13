@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 19:54:26 by alex              #+#    #+#             */
-/*   Updated: 2020/12/04 22:34:30 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 03:28:24 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ void			draw_text(t_window *win, SDL_Rect *rect,
 	int			h;
 
 	g_font_size = FONT_TEXT;
-	text = render_text(str, "font/Title.ttf",
-		color->text_color, win->renderer);
+	text = render_text(str, "font/Title.ttf", color->text_color, win->renderer);
 	SDL_QueryTexture(text, NULL, NULL, &w, &h);
 	ptr.x = rect->x + MARGIN;
 	ptr.y = rect->y + rect->h / 2 - h / 2;
@@ -37,6 +36,7 @@ char			*itoa_float(float num)
 {
 	char		*str1;
 	char		*str2;
+	char		*tmp;
 	int			ptr;
 	int			aftd;
 
@@ -44,8 +44,10 @@ char			*itoa_float(float num)
 	aftd = (num - ptr) * 1000;
 	str1 = ft_itoa(ptr);
 	str2 = ft_itoa(aftd);
-	str1 = ft_strcat(str1, ".");
-	ft_strcat(str1, str2);
+	tmp = ft_strjoin(str1, ".");
+	free(str1);
+	str1 = ft_strjoin(tmp, str2);
+	free(tmp);
 	free(str2);
 	return (str1);
 }
@@ -59,7 +61,7 @@ void			draw_title_ray_tracing(t_window *win, SDL_Color *color)
 
 	g_font_size = FONT_TITLE_SIZE * 2;
 	rt_text = render_text("Ray Tracing", "font/Title_font_CAT.ttf",
-			*color, win->renderer);
+							*color, win->renderer);
 	SDL_QueryTexture(rt_text, NULL, NULL, &w, &h);
 	if (win->width / 4 >= w)
 	{
@@ -97,8 +99,7 @@ void			gui_disk_vision(t_window *win, t_rt *rt,
 {
 	char		*str[4];
 
-	get_float_data(1,
-		"Radius", str); // radius disk
+	get_float_data(1, "Radius", str);
 	draw_button(win, &rect->fifth_button, str, color);
 	free_str(str);
 }

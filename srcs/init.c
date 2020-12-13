@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:43:55 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/10 18:32:03 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:05:31 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,17 @@
 ** @return ** int
 */
 
-int		init_app(t_app *app, int ac, char **av)
+int		init_app(t_app *app)
 {
-	char	*scene_file;
-
-	scene_file = NULL;
-	if (ac == 2)
-		scene_file = av[1];
-	init_window(&app->window);
-	init_gui(&app->gui);
+	init_window(&app->window, app->options.window_width,
+				app->options.window_height);
+	init_image(&app->image, app->options.image_width,
+				app->options.image_height);
+	init_interface(&app->interface, app->options.mode, app->options.enable_gui);
+	init_gui(&app->interface.gui);
 	init_resource_manager(&app->resource_manager, &app->rt);
-	init_rt(&app->rt, scene_file, &app->resource_manager);
+	init_rt(&app->rt, app->options.scene_file,
+			&app->resource_manager, &app->window, &app->image,
+			app->options.render_device);
 	return (SUCCESS);
 }

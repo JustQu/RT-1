@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:02:56 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 22:35:12 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 14:06:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,8 @@ cl_float2	*generate_nrooks_samples(t_sampler info, cl_float2 *samples)
 ** @return ** cl_float2*
 */
 
-void	map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples, cl_float2 *disk_samples)
+void	map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples,
+								cl_float2 *disk_samples)
 {
 	float		r;
 	float		phi;
@@ -178,7 +179,8 @@ void	map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples, cl_float2 *
 ** @return ** void
 */
 
-void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples, cl_float3 *hemisphere_samples, const float e)
+void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples,
+								cl_float3 *hemisphere_samples, const float e)
 {
 	int			size;
 	cl_float3	sp;

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 19:29:26 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/11 20:01:33 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 02:27:02 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "bvh.h"
 #include "scene.h"
 #include "utils.h"
+#include "rt_error.h"
 
 void	sort_nodes(t_bvh_node *nodes, int size,
 					int (*cmp)(t_bvh_node, t_bvh_node))
@@ -158,6 +159,10 @@ int		build_internal_node(t_bvh bvh, int *cur, t_bvh tmp_n, int size)
 	return (id);
 }
 
+/*
+** todo: remove
+*/
+
 void	print_bvh(t_bvh bvh, int n)
 {
 	int	i;
@@ -191,10 +196,10 @@ t_bvh	build_bvh(t_scene *scene)
 	int					id;
 
 	instance_mngr = scene->instance_mngr;
-	if (!(bvh = malloc(instance_mngr.ninstances * 2 * sizeof(t_bvh_node))))
-		return (NULL);
-	if (!(temp_nodes = malloc(instance_mngr.ninstances * sizeof(t_bvh_node))))
-		return (NULL);
+	bvh = ft_memalloc(instance_mngr.ninstances * 2 * sizeof(t_bvh_node));
+	rt_is_dead(system_err, system_malloc_error, !bvh, "bvh.c 1");
+	temp_nodes = ft_memalloc(instance_mngr.ninstances * sizeof(t_bvh_node));
+	rt_is_dead(system_err, system_malloc_error, !temp_nodes, "bvh.c 2");
 	id = -1;
 	while (++id < instance_mngr.ninstances)
 		temp_nodes[id] = (t_bvh_node){.instance_id = id,
@@ -207,7 +212,7 @@ t_bvh	build_bvh(t_scene *scene)
 					instance_mngr.extra[id].aabb.max.z)}, .next = -1};
 	id = 0;
 	build_internal_node(bvh, &id, temp_nodes, instance_mngr.ninstances);
-	print_bvh(bvh, instance_mngr.ninstances);
+	print_bvh(bvh, instance_mngr.ninstances); //remove
 	free(temp_nodes);
 	return (scene->bvh = bvh);
 }

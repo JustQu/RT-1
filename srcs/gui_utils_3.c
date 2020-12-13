@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 09:49:42 by alex              #+#    #+#             */
-/*   Updated: 2020/12/06 16:34:45 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 03:29:47 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ void			draw_line(t_window *win, t_colors *color,
 					SDL_Rect rect, SDL_Rect rect_2)
 {
 	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
-	color->text_color.g, color->text_color.b, color->text_color.a);
-	SDL_RenderDrawLine(win->renderer, rect.x,
-		rect_2.y - MARGIN_Y,
-		rect_2.x + rect_2.w,
-		rect_2.y - MARGIN_Y);
+			color->text_color.g, color->text_color.b, color->text_color.a);
+	SDL_RenderDrawLine(win->renderer, rect.x, rect_2.y - MARGIN_Y,
+						rect_2.x + rect_2.w, rect_2.y - MARGIN_Y);
 }
 
 void			minimum_rect_size(int w, int h, SDL_Rect *rect, SDL_Rect *ptr)
@@ -49,13 +47,13 @@ void			type_ambien_il(t_window *win, t_rt *rt,
 
 	if (rt->scene.ambient_light.type == 0)
 	{
-		get_float_data(1, "coefficient", str); // ambient coef
+		get_float_data(1, "coefficient", str);
 		draw_button(win, &rect->sixth_button, str, color);
 		free_str(str);
 	}
 	if (rt->scene.ambient_light.type == 1)
 	{
-		get_float_data(1, "min_amount", str); // min amount
+		get_float_data(1, "min_amount", str);
 		draw_button(win, &rect->sixth_button, str, color);
 		free_str(str);
 	}
@@ -67,8 +65,7 @@ SDL_Texture		*create_tab_subtitles(t_window *win, char *str,
 	SDL_Texture	*text;
 
 	g_font_size = FONT_SUBTITLE_SIZE;
-	text = render_text(str, "font/Title.ttf",
-	*color, win->renderer);
+	text = render_text(str, "font/Title.ttf",*color, win->renderer);
 	return (text);
 }
 
@@ -81,14 +78,13 @@ void			draw_button_rect_xyz(t_window *win, SDL_Rect *rect,
 	int			h;
 
 	SDL_SetRenderDrawColor(win->renderer, color->inside_color.r,
-	color->inside_color.g, color->inside_color.b, color->inside_color.a);
+		color->inside_color.g, color->inside_color.b, color->inside_color.a);
 	SDL_RenderFillRect(win->renderer, rect);
 	SDL_SetRenderDrawColor(win->renderer, color->border_color.r,
-	color->border_color.g, color->border_color.b, color->border_color.a);
+		color->border_color.g, color->border_color.b, color->border_color.a);
 	SDL_RenderDrawRect(win->renderer, rect);
 	g_font_size = FONT_TEXT;
-	text = render_text(str, "font/Title.ttf",
-		color->text_color, win->renderer);
+	text = render_text(str, "font/Title.ttf", color->text_color, win->renderer);
 	SDL_QueryTexture(text, NULL, NULL, &w, &h);
 	ptr.x = rect->x + rect->w / 2 - w / 4;
 	ptr.y = rect->y + rect->h / 2 - h / 2;

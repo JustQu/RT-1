@@ -6,13 +6,14 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:34:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 21:53:38 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 13:38:15 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "texture_manager.h"
 #include "libft.h"
 #include "utils.h"
+#include "rt_error.h"
 
 #include <assert.h>
 
@@ -22,6 +23,7 @@ int		init_texture_manager(t_texture_manager *texture_manager)
 
 	a = 100;
 	texture_manager->textures = malloc(sizeof(t_texture) * a);
+	rt_is_dead(system_err, system_malloc_error, !texture_manager->textures, "");
 	texture_manager->imgs_data = NULL;
 	texture_manager->textures_malloc_size = sizeof(t_texture) * a;
 	texture_manager->imgs_data_malloc_size = 0;
@@ -32,7 +34,6 @@ int		init_texture_manager(t_texture_manager *texture_manager)
 	texture_manager->perm_x = perlin_generate_perm();
 	texture_manager->perm_y = perlin_generate_perm();
 	texture_manager->perm_z = perlin_generate_perm();
-	assert(texture_manager->textures);
 	return (SUCCESS);
 }
 
@@ -45,6 +46,8 @@ int		add_texture(t_texture_manager *texture_manager,
 		texture_manager->textures = ft_realloc(texture_manager,
 									texture_manager->textures_malloc_size,
 									texture_manager->textures_malloc_size * 2);
+		rt_is_dead(system_err, system_malloc_error, !texture_manager->textures,
+					"");
 		texture_manager->textures_malloc_size *= 2;
 	}
 	texture_manager->textures[texture_manager->ntextures++] = texture;

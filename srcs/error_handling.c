@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 18:10:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 20:19:09 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 14:05:33 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,6 @@ switch(error){
 	}
 }
 
-void ft_clerror(cl_int ret)
-{
-	if (ret != CL_SUCCESS)
-	{
-		// ft_putendl(getErrorString(ret));
-		exit(0);
-	}
-}
-
 /**
 ** @brief
 ** print log about opencl build fail
@@ -124,12 +115,9 @@ void cl_error(t_cl_program *program, t_clp *clp, int code)
 
 		// Allocate memory for the log
 		char *log;
-		log = (char *)malloc(log_size);
-		if (!log)
-		{
-			// ft_putendl("malloc error");
-			// exit (0);
-		}
+		log = (char *)ft_memalloc(log_size);
+		if (log == NULL)
+			rt_error("cl_error(): malloc error");
 		// Get the log
 		clGetProgramBuildInfo(program->program, clp->de_id, CL_PROGRAM_BUILD_LOG,
 							  log_size, log, NULL);
@@ -137,7 +125,8 @@ void cl_error(t_cl_program *program, t_clp *clp, int code)
 		// Print the log
 		printf("%s\n", log);
 		fprintf(err_file, "%s\n", log);
-		ft_clerror(code);
-		fclose(err_file);
+		// ft_clerror(code);
+		if (fclose(err_file))
+			rt_error("cl_error(): fclose error");
 	}
 }

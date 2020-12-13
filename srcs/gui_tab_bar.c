@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/12/06 16:34:22 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:26:28 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void			camera_tab(t_window *win, t_rt *rt, t_all_rect *rect,
 	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
 		color->text_color.g, color->text_color.b, color->text_color.a);
 	SDL_RenderDrawLine(win->renderer, rect->tab_camera_button.x,
-		rect->tab_camera_button.y + rect->tab_camera_button.h,
-		rect->tab_camera_button.x + rect->tab_camera_button.w,
-		rect->tab_camera_button.y + rect->tab_camera_button.h);
+						rect->tab_camera_button.y + rect->tab_camera_button.h,
+						rect->tab_camera_button.x + rect->tab_camera_button.w,
+						rect->tab_camera_button.y + rect->tab_camera_button.h);
 	get_camera_type_data(rt->scene.camera.type, "Type camera", str);
 	draw_button(win, &rect->first_button, str, color);
 	free_str(str);
@@ -51,16 +51,14 @@ void			objects_tab(t_window *win, t_rt *rt,
 	char		*str[4];
 
 	render_tab_bar(win, &color->text_color, &rect->tab_objects_button,
-		"Objects");
+					"Objects");
 	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
-		color->text_color.g,
-		color->text_color.b, color->text_color.a);
+				color->text_color.g, color->text_color.b, color->text_color.a);
 	SDL_RenderDrawLine(win->renderer, rect->tab_objects_button.x,
-		rect->tab_objects_button.y + rect->tab_objects_button.h,
-		rect->tab_objects_button.x + rect->tab_objects_button.w,
-		rect->tab_objects_button.y + rect->tab_objects_button.h);
-	get_shape_data(
-	1, "Shape", str); // objects type
+					rect->tab_objects_button.y + rect->tab_objects_button.h,
+					rect->tab_objects_button.x + rect->tab_objects_button.w,
+					rect->tab_objects_button.y + rect->tab_objects_button.h);
+	get_shape_data(1, "Shape", str);
 	draw_button(win, &rect->first_button, str, color);
 	free_str(str);
 	get_float4_data(rt->scene.instance_mngr.objects->origin, "Origin", str);
@@ -69,8 +67,7 @@ void			objects_tab(t_window *win, t_rt *rt,
 	get_float4_data(rt->scene.instance_mngr.objects->origin, "Rotation", str);
 	draw_button_xyz(win, &rect->third_button, str, color);
 	free_str(str);
-	get_float4_data(
-	rt->scene.instance_mngr.extra->scaling, "Scalling", str); // scaling data
+	get_float4_data(rt->scene.instance_mngr.extra->scaling, "Scalling", str);
 	draw_button_xyz(win, &rect->fourth_button, str, color);
 	free_str(str);
 	objects_tab_cont(win, rt, rect, color);
@@ -82,17 +79,15 @@ void			light_tab(t_window *win, t_rt *rt,
 	char		*str[4];
 
 	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
-		color->text_color.g, color->text_color.b, color->text_color.a);
+			color->text_color.g, color->text_color.b, color->text_color.a);
 	SDL_RenderDrawLine(win->renderer, rect->tab_camera_button.x,
-		rect->fifth_button.y + rect->fifth_button.h,
-		rect->fifth_button.x + rect->fifth_button.w,
-		rect->fifth_button.y + rect->fifth_button.h);
-	get_intensive_data(rt->scene.light_manager.lights->type,
-		"Type", str); //type intensity
+							rect->fifth_button.y + rect->fifth_button.h,
+							rect->fifth_button.x + rect->fifth_button.w,
+							rect->fifth_button.y + rect->fifth_button.h);
+	get_intensive_data(rt->scene.light_manager.lights->type, "Type", str);
 	draw_button(win, &rect->sixth_button, str, color);
 	free_str(str);
-	get_float_data(1,
-		"Intensity", str); // intensity ??
+	get_float_data(1, "Intensity", str);
 	draw_button(win, &rect->seven_button, str, color);
 	is_type_lights(win, rt, rect, color);
 	free_str(str);
@@ -103,26 +98,27 @@ void			option_tab(t_window *win, t_rt *rt,
 {
 	char	*str[4];
 
-	render_tab_bar(win, &color->text_color,
-		&rect->tab_options_button, "Options");
+	render_tab_bar(win, &color->text_color, &rect->tab_options_button,
+					"Options");
 	SDL_SetRenderDrawColor(win->renderer, color->text_color.r,
-	color->text_color.g, color->text_color.b, color->text_color.a);
+				color->text_color.g, color->text_color.b, color->text_color.a);
 	SDL_RenderDrawLine(win->renderer, rect->tab_options_button.x,
-		rect->tab_options_button.y + rect->tab_options_button.h,
-		rect->tab_options_button.x + rect->tab_options_button.w,
-		rect->tab_options_button.y + rect->tab_options_button.h);
-	get_float_data(1, "Type RT", str); // need type rt
+					rect->tab_options_button.y + rect->tab_options_button.h,
+					rect->tab_options_button.x + rect->tab_options_button.w,
+					rect->tab_options_button.y + rect->tab_options_button.h);
+	get_rt_type_data(rt->options.tracer_type, "Type RT", str);
 	draw_button(win, &rect->first_button, str, color);
 	free_str(str);
-	get_float_data(1, "Samplers", str); //samplers rt->scene.camera.sampler_id
+	get_float_data(rt->options.sampler.num_samples, "Samplers", str);
 	draw_button(win, &rect->second_button, str, color);
-	free_str(&str);
-	get_color_data(rt->options.background_color, "Back_color", &str); //get background color
+	free_str(str);
+	get_color_data(rt->options.background_color, "Back_color", str);
+	free(str[1]);
 	str[1] = NULL;
-	draw_button(win, &rect->third_button, str, color);	//back color need buton_rgb
+	draw_button(win, &rect->third_button, str, color);
 	draw_color_button(win, color, rt->options.background_color, &rect->third_button);
 	draw_line(win, color, rect->background, rect->third_button);
-	free_str(&str);
+	free_str(str);
 	option_tab_cont(win, rt, color, rect);
 }
 
@@ -132,23 +128,23 @@ void			gui_tab_bar(t_window *win, t_rt *rt,
 	SDL_SetRenderDrawColor(win->renderer, color->border_color.r,
 		color->border_color.g, color->border_color.b, color->border_color.a);
 	SDL_RenderDrawLine(win->renderer, rect->tab_camera_button.x,
-		rect->tab_options_button.y + rect->tab_options_button.h,
-		rect->tab_camera_button.x + rect->tab_options_button.x +
-		rect->tab_options_button.w, rect->tab_options_button.y +
-		rect->tab_options_button.h);
+					rect->tab_options_button.y + rect->tab_options_button.h,
+					rect->tab_camera_button.x + rect->tab_options_button.x +
+						rect->tab_options_button.w, rect->tab_options_button.y +
+						rect->tab_options_button.h);
 	if (g_camera_tab_pressed == 1)
 		camera_tab(win, rt, rect, color);
 	else
-		render_tab_bar(win, &color->border_color,
-			&rect->tab_camera_button, "Camera");
+		render_tab_bar(win, &color->border_color, &rect->tab_camera_button,
+						"Camera");
 	if (g_objects_tab_pressed == 1)
 		objects_tab(win, rt, rect, color);
 	else
-		render_tab_bar(win, &color->border_color,
-			&rect->tab_objects_button, "Objects");
+		render_tab_bar(win, &color->border_color, &rect->tab_objects_button,
+						"Objects");
 	if (g_options_tab_pressed == 1)
 		option_tab(win, rt, rect, color);
 	else
-		render_tab_bar(win, &color->border_color,
-			&rect->tab_options_button, "Options");
+		render_tab_bar(win, &color->border_color, &rect->tab_options_button,
+						"Options");
 }

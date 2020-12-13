@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/11 19:58:59 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:41:27 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 		&& g_camera_tab_pressed == 1)
 	{
 		g_save_image = 1;
+		printf("I \n");
 	}
 	if (is_press_button(event, &rect->tab_camera_button))
 	{
@@ -76,12 +77,11 @@ static int	catch_window_event(t_rt *rt, t_window *win, SDL_Event event)
 		printf("Window size changed to %dx%d\n", event.window.data1,
 												event.window.data2);
 	}
-
 	return (0);
 }
 
-static int	catch_keydown(t_rt *rt, t_window *win, t_all_rect *rect,
-							t_colors *colors, SDL_Event event)
+static int	catch_keydown(t_rt *rt, t_window *win, t_interface *interface,
+							SDL_Event event)
 {
 	if (event.key.keysym.sym == SDLK_ESCAPE)
 		return (1);
@@ -172,10 +172,21 @@ static int	catch_keydown(t_rt *rt, t_window *win, t_all_rect *rect,
 	{
 		SDL_SetRelativeMouseMode(SDL_FALSE);
 	}
+	if (event.key.keysym.sym == SDLK_TAB)
+	{
+		if (g_objects_tab_pressed)
+		{
+			interface->current_instance_id++;
+		}
+		if (g_camera_tab_pressed)
+		{
+			interface->current_light_id++;
+		}
+	}
 	return (0);
 }
 
-int		catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
+int		catch_event(t_rt *rt, t_window *win, t_interface *interface)
 {
 	SDL_Event event;
 
@@ -191,7 +202,7 @@ int		catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
 		}
 		if (event.type == SDL_KEYDOWN)
 		{
-			return (catch_keydown(rt, win, rect, color, event));
+			return (catch_keydown(rt, win, interface, event));
 		}
 		if (event.type == SDL_KEYUP)
 		{
@@ -201,7 +212,7 @@ int		catch_event(t_rt *rt, t_window *win, t_all_rect *rect, t_colors *color)
 			//todo: translate window coordinates in image coordinates,
 			//e.g. windos is 1200x600 and image is 1920x1080
 			//then we need x * IMG_W/WIN_W and y * IMG_H/WIN_H
-			catch_tab_bar(&event, rect);
+			catch_tab_bar(&event, &interface->gui.all_rect);
 			printf("Mouse press at %d %d", event.button.x, event.button.y);
 		}
 		if (event.type == SDL_MOUSEBUTTONUP)

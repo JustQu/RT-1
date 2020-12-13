@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/10 23:27:00 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 13:24:06 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # include "resource_manager.h"
 
 typedef struct s_rt		t_rt;
-// typedef struct s_image	t_image;
+
 struct	s_rt
 {
 	t_scene				scene;
@@ -47,13 +47,12 @@ struct	s_rt
 	t_cl_program		ocl_program;
 };
 
-// struct s_image
-// {
-
-// };
-
 int		init_rt(t_rt *rt, char *scene_file,
-								t_res_mngr *resource_manager);
+				t_res_mngr *resource_manager, t_window *window, t_image *image,
+				cl_device_type device_type);
+
+void	init_buffers(t_cl_program *const program, t_scene *const scene,
+					t_sampler_manager *const sampler_manager);
 
 void	render_scene(t_rt rt);
 
@@ -63,6 +62,7 @@ void	read_data(t_scene *scene, t_sampler_manager *sampler_manager,
 /*
 ** event_functions
 */
+
 int		catch_event(t_rt *rt, t_window *win, t_all_rect *rect,
 						t_colors *color);
 
@@ -74,6 +74,12 @@ float	rand_float();
 int		rand_int();
 void	swap_int(int *a, int *b);
 void	swap_float2(cl_float2 *a, cl_float2 *b);
+
+/*
+**		src/rt_error.c
+*/
+
+void	rt_error(char *message);
 
 # define WIDTH 1200
 # define HEIGHT 600

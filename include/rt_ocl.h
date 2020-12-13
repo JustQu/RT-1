@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 15:45:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 21:59:22 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 13:24:50 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include "rt_options.h"
 # include "scene.h"
 # include "sampler_manager.h"
+# include "window.h"
+# include "image.h"
 
 # define KERNEL_NAME "main_kernel"
 # define KERNEL_INC "-I./include -I./srcs/cl"
@@ -102,8 +104,12 @@ typedef struct			s_cl_program
 
 typedef struct s_rt	t_rt;
 
-int						init_ocl(t_cl_program *program, t_scene *scene,
-								t_sampler_manager *sampler_manager, t_rt *rt);
+int						init_ocl(t_cl_program *const program,
+								t_scene *const scene,
+								t_sampler_manager *const sampler_manager,
+								t_window const *const window,
+								t_image *const image,
+								cl_device_type const device_type);
 int						cleanup_ocl(t_cl_program *program);
 cl_program				create_program(cl_context context);
 

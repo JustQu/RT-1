@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_tracer_type.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 20:28:18 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 20:20:08 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 02:55:39 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int					get_tracer_type_value(char *str)
 		return (ray_caster);
 	else if (!ft_strcmp(str, "direct_lightning"))
 		return (direct_lightning);
-	return (-1);
+	return (ERROR);
 }
 
 void				get_tracer_type(char *str, int offset, void *data)

@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_key_value.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 20:54:36 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 21:01:52 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 02:48:49 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "offset.h"
+#include "rt_error.h"
 
 char				*get_key(char **str)
 {
@@ -19,6 +20,7 @@ char				*get_key(char **str)
 	int				i;
 
 	a = (char *)malloc(sizeof(char) * 256);
+	rt_is_dead(system_err, system_malloc_error, !a, "get ket value 1");
 	i = 0;
 	while (**str != '=' && **str != '\0' && i < 255)
 	{
@@ -61,6 +63,7 @@ char				*get_value(char **str)
 	int				i;
 
 	b = (char *)malloc(sizeof(char) * 256);
+	rt_is_dead(system_err, system_malloc_error, !b, "get ket value 2");
 	i = 0;
 	if (**str == '{')
 		i = bracket_cycle(b, str);

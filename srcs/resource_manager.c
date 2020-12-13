@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:55:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/10 14:36:47 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:17:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "sampler_manager.h"
 #include "vector.h"
 #include "utils.h"
-
+#include "rt_error.h"
 #include "math.h"
 
 #define DEG2RAD M_PI / 360.0f
@@ -40,6 +40,10 @@ t_matrix		create_inv_transformation_matrix(t_instance_info info)
 	return (m);
 }
 
+/*
+** todo: malloc check
+*/
+
 int				add_instance(t_res_mngr *res_mngr,
 							t_instance_manager *mngr, t_instance_info data)
 {
@@ -49,8 +53,8 @@ int				add_instance(t_res_mngr *res_mngr,
 		(mngr->ninstances + 1) * sizeof(*mngr->instances))
 	{
 		mngr->instances = ft_realloc(mngr->instances,
-									mngr->instances_malloc_size,
-									mngr->instances_malloc_size * 2);
+			mngr->instances_malloc_size,mngr->instances_malloc_size * 2);
+		rt_is_dead(system_err, system_malloc_error, !mngr->instances, "");
 		mngr->instances_malloc_size *= 2;
 		mngr->extra = ft_realloc(mngr->extra, mngr->extra_size,
 								mngr->extra_size * 2);
@@ -102,7 +106,7 @@ void			add_emissive_instance(t_res_mngr *mngr, t_instance_info data)
 		j = add_parsed_light(&mngr->scene->light_manager, l);
 		mngr->scene->light_manager.lights[j].object_id = i;
 		mngr->scene->light_manager.lights[j].matrix =
-			get_transformation_matrix(mngr->info);
+										get_transformation_matrix(mngr->info);
 	}
 	else
 	{
@@ -111,7 +115,8 @@ void			add_emissive_instance(t_res_mngr *mngr, t_instance_info data)
 	}
 }
 
-int				init_resource_manager(t_res_mngr *resource_manager, t_rt *rt)
+int				init_resource_manager(t_res_mngr *resource_manager,
+										t_rt *rt)
 {
 	resource_manager->scene = &rt->scene;
 	resource_manager->sampler_manager = &rt->sampler_manager;
@@ -205,6 +210,15 @@ t_instance_info	get_instance_info(t_res_mngr *mngr, int id)
 		return (get_object_info(mngr, instance, extra));
 	else if (instance.type == triangle)
 		return (get_triangle_info());
+}
+
+t_light			get_light_info(t_res_mngr *const mngr, t_u32 id)
+{
+	t_light light;
+
+	light = mngr->scene->light_manager.lights[
+				id % mngr->scene->light_manager.nlights];
+	return (light);
 }
 
 void			add_parsed_asset(t_res_mngr *const mngr, t_parsed_info asset)

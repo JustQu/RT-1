@@ -6,11 +6,12 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 23:40:30 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 12:51:55 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:14:48 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "light_manager.h"
+#include "rt_error.h"
 #include "utils.h"
 
 void	init_light_manager(t_light_manager *light_manager)
@@ -38,6 +39,7 @@ int		add_parsed_light(t_light_manager *light_manager,
 		light_manager->lights = ft_realloc(light_manager->lights,
 			light_manager->light_malloc_size,
 			light_manager->nlights * sizeof(t_light) * 2);
+		rt_is_dead(system_err, system_malloc_error, !light_manager->lights, "");
 		light_manager->light_malloc_size = light_manager->nlights *
 			sizeof(t_light) * 2;
 	}

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/12/10 18:25:25 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:26:04 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 # include "instance_manager.h"
 # include "window.h"
+# include "rt_options.h"
 
 # define WIDTH_MENU DEFAULT_WIDTH / 4
 # define WIDTH_OFFSET DEFAULT_WIDTH - DEFAULT_WIDTH / 4
@@ -75,16 +76,25 @@ typedef struct	s_colors
 	SDL_Color	text_color;
 }				t_colors;
 
+/*
+** 288 bytes
+*/
+
 typedef struct	s_gui
 {
-	t_colors	colors;
-	t_all_rect	all_rect;
+	t_colors		colors;
+	t_all_rect		all_rect;
+
+	t_instance_info	current_instance;
+	t_light			current_light;
+	t_camera		camera;
+	t_rt_options	options;
 }				t_gui;
 
 void			init_colors(t_colors *color);
 void			init_rect(t_all_rect *rect, t_window *win);
 void			gui(t_window *win, t_rt *rt, t_all_rect *all_rect,
-					t_colors *color);
+					t_colors *color, t_gui *const gui);
 void			render_texture(SDL_Texture *tex, SDL_Renderer *ren,
 								int x, int y);
 SDL_Texture		*load_texture(char *str, SDL_Renderer *renderer);
@@ -128,6 +138,7 @@ void			get_float_data(float ptr, char *string, char *str[4]);
 void			get_float4_data(cl_float4 ptr, char *string, char *str[4]);
 void			get_shape_data(int ptr, char *string, char *str[4]);
 void			get_texture_data(int ptr, char *string, char *str[4]);
+void			get_rt_type_data(int ptr, char *string, char **str);
 void			gui_cone_vision(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color);
 void			gui_cylinder_vision(t_window *win, t_rt *rt,
@@ -149,6 +160,8 @@ void			get_true_data(int ptr,
 					char *string, char *str[4]);
 
 void			draw_save_image_text(t_window *win);
+void			draw_for_button(t_window *win,
+					SDL_Rect *rect, t_colors *color);
 void			draw_line(t_window *win, t_colors *color,
 					SDL_Rect rect, SDL_Rect rect_2);
 void			option_tab_cont(t_window *win, t_rt *rt,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_option.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 18:55:24 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/06 18:24:21 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:34:38 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_selector		g_selector_opt[] = {
 };
 
 int				g_opt_selector_size = sizeof(g_selector_opt) /
-sizeof(t_selector);
+										sizeof(t_selector);
 
 void			validate_parsed_opt(t_rt_options *options)
 {
@@ -70,12 +70,13 @@ void			pars_options(char *str, t_res_mngr *mngr)
 
 	while (*str != '{' && *str != '\0')
 		str++;
-	str++;
+	if (*str != '\0')
+		str++;
 	while (*str != '\0')
 	{
 		a = get_key(&str);
 		b = get_value(&str);
-		while (*str == ';' || *str == '}')
+		while ((*str == ';' || *str == '}') && *str != '\0')
 			str++;
 		fill_options(a, b, mngr);
 		free(a);

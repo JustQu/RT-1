@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_light_type.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:48:15 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 20:19:17 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 02:49:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int					get_light_type_value(char *str)
 		return (area);
 	else if (!ft_strcmp(str, "enviromental"))
 		return (enviromental);
-	return (-1);
+	return (ERROR);
 }
 
 cl_int				get_coefficient(char *str)
@@ -38,7 +38,7 @@ cl_int				get_coefficient(char *str)
 		return (constant);
 	else if (!ft_strcmp(str, "occluder"))
 		return (occluder);
-	return (-1);
+	return (ERROR);
 }
 
 void				get_light_type(char *str, int offset, void *data)

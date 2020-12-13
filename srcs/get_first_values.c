@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_first_values.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 00:10:21 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 20:58:14 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 02:47:05 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "offset.h"
 #include "parser.h"
+#include "rt_error.h"
 
 float		ft_atofloat(char *str)
 {
@@ -23,8 +24,9 @@ float		ft_atofloat(char *str)
 	i = 1;
 	res = 0.0;
 	arr = ft_strsplit(str, '.');
+	rt_is_dead(system_err, system_malloc_error, !arr, "Strplit error");
 	if (arr[0] == NULL)
-		return (res);
+		return (NAN);
 	if (arr[0][0] == '-' && arr[0][1] == '0')
 		i = -1;
 	res += ft_atoi(arr[0]);
@@ -47,11 +49,11 @@ void		get_color(char *str, int offset, void *data)
 	char			**rgb;
 
 	color = (t_color *)((unsigned char *)data + offset);
-	*color = (t_color){1.0f, 1.0f, 1.0f};
 	rgb = NULL;
 	if (ft_isdigit(str[0]))
 	{
 		rgb = ft_strsplit(str, ',');
+		rt_is_dead(system_err, system_malloc_error, !rgb, "Strplit error");
 		if (rgb[0] == NULL)
 		{
 			free_tab(rgb);
@@ -76,10 +78,9 @@ void		get_vector(char *str, int offset, void *data)
 	cl_float4		*vec_ptr;
 	char			**split;
 
-	v = (unsigned char *)data + offset;
-	vec_ptr = (cl_float4 *)v;
-	*vec_ptr = (cl_float4){0.0f, 0.0f, 0.0f, 0.0f};
+	vec_ptr = (cl_float4 *)((unsigned char *)data + offset);
 	split = ft_strsplit(str, ',');
+	rt_is_dead(system_err, system_malloc_error, !split, "Strplit error");
 	if (split[0] == NULL)
 	{
 		free_tab(split);

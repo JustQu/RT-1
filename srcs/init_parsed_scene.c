@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 20:37:35 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/07 23:53:10 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:11:36 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,17 @@
 #include "texture_manager.h"
 #include "light_manager.h"
 #include "logs.h"
+#include "image.h"
 
 void	set_default_camera(t_camera *camera)
 {
 	camera->viewplane.pixel_size = 1.0f;
-	camera->viewplane.width = IMG_WIDTH;
-	camera->viewplane.height = IMG_HEIGHT;
+	camera->viewplane.width = DEFAULT_IMAGE_WIDTH;
+	camera->viewplane.height = DEFAULT_IMAGE_HEIGHT;
 	camera->type = perspective;
-	camera->origin = (cl_float4){.x = 0.0f, .y = 1.0f, .z = -8.0f, .w = 0.0f};
-	camera->direction = (cl_float4){.x = 0.0f, .y = -0.1f, .z = 1.0f, .w = 0.0f};
-	camera->up = (cl_float4){.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f};
+	camera->origin = (cl_float4){ 0.0f, 1.0f, -8.0f, 0.0f};
+	camera->direction = (cl_float4){ 0.0f, -0.1f, 1.0f, 0.0f};
+	camera->up = (cl_float4){ 0.0f, 1.0f, 0.0f, 0.0f};
 	camera->d = DEFAULT_WIDTH;
 	camera->zoom = 0.5f;
 	camera->normalized = FALSE;
@@ -55,14 +56,12 @@ int		init_parsed_scene(t_scene *scene,
 	(t_color){ .r = 0.1f, .g = 0.1f, .b = 0.1f };
 	scene->ambient_occluder.sampler_id =
 	new_sampler(sampler_manager, rand_jitter, 100, HEMISPHERE_SAMPLES);
-	scene->ambient_light = (t_light){
-		.type = ambient,
-		.ls = 0.2f,
-		.color = {.r = 1.0f, .b = 1.0f, .g = 1.0f}};
+	scene->ambient_light = (t_light){ .type = ambient, .ls = 0.2f,
+									.color = {.r = 1.0f, .b = 1.0f, .g = 1.0f}};
 	if (parser(resource_manager, &asset, scene_file) < 0)
-		return (-1);
+		return (ERROR);
 	if (scene->camera.type == -3)
 		set_default_camera(&scene->camera);
 	compute_uvw(&scene->camera);
-	return (0);
+	return (SUCCESS);
 }

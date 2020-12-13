@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 00:31:48 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 20:34:12 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:41:26 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "utils.h"
 #include "perlin.h"
 #include "vector.h"
+#include "rt_error.h"
 
 #include <stdlib.h>
 #include <math.h>
@@ -60,6 +61,7 @@ int			*perlin_generate_perm(void)
 	int	i;
 
 	p = malloc(sizeof(int) * PERLIN_SIZE);
+	rt_is_dead(system_err, system_malloc_error, !p, "");
 	i = 0;
 	while (i < PERLIN_SIZE)
 	{

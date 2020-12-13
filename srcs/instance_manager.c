@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 19:52:25 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/11/14 01:58:14 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:14:10 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "utils.h"
 #include "math.h"
-
+#include "rt_error.h"
 #include <assert.h>
 
 int			init_instance_manager(t_instance_manager *mngr)
@@ -35,10 +35,10 @@ int			init_instance_manager(t_instance_manager *mngr)
 	mngr->triangles = (t_triangle *)ft_memalloc(mngr->triangles_malloc_size);
 	mngr->matrices = (t_matrix *)ft_memalloc(mngr->matrices_malloc_size);
 	mngr->extra = (t_instance_extra *)ft_memalloc(mngr->extra_size);
-	assert(mngr->instances);
-	assert(mngr->objects);
-	assert(mngr->triangles);
-	assert(mngr->matrices);
-	assert(mngr->extra);
+	rt_is_dead(system_err, system_malloc_error, !mngr->instances, "mngr 1");
+	rt_is_dead(system_err, system_malloc_error, !mngr->objects, "mngr 2");
+	rt_is_dead(system_err, system_malloc_error, !mngr->triangles, "mngr 3");
+	rt_is_dead(system_err, system_malloc_error, !mngr->matrices, "mngr 4");
+	rt_is_dead(system_err, system_malloc_error, !mngr->extra, "mngr 5");
 	return (SUCCESS);
 }

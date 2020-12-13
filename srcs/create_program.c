@@ -6,12 +6,13 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 23:25:40 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 13:51:45 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "rt_ocl.h"
+#include "rt_error.h"
 
 #include <fcntl.h>
 #include <assert.h>
@@ -74,12 +75,15 @@ static void		read_file(const char *file_name, char *str)
 		ft_strcpy(full_file_name, "./include/");
 		ft_strcpy(full_file_name + sizeof("./include/") - 1, file_name);
 		fd = open(full_file_name, O_RDONLY);
-		assert(fd != -1);
 	}
-	assert(fd != -1);
+	rt_is_dead(app_err, system_open_file_error, fd == -1, "create_program 1");
 	ret = read(fd, str, BUFF);
-	str[ret] = '\0';
-	close(fd);
+	if (ret < 0)
+		rt_warning("Warning: Could not read file");
+	else
+		str[ret] = '\0';
+	if (close(fd) == -1)
+		rt_warning("Warning: could not close file");
 }
 
 extern FILE		*f;
@@ -93,22 +97,21 @@ cl_program		create_program(cl_context context)
 	cl_program	program;
 
 	i = 0;
-	if (!(str = malloc(sizeof(char *) * g_num_files)))
-		return (program);
+	str = ft_memalloc(sizeof(char *) * g_num_files);
+	rt_is_dead(system_err, system_malloc_error, !str, "create_program 2");
 	ret = 0;
 	while (i < g_num_files)
 	{
-		str[i] = malloc(sizeof(char) * BUFF);
+		str[i] = ft_memalloc(sizeof(char) * BUFF);
+		rt_is_dead(system_err, system_malloc_error, !str, "create_program 3");
 		read_file(g_files[i], str[i]);
 		fprintf(f, "%s\n", str[i]);
 		i++;
 	}
-	printf("1");
 	program = clCreateProgramWithSource(context, g_num_files, str, NULL, &ret);
-	printf("2");
-	assert(!ret);
+	rt_is_dead(opencl_err, cl_create_program_error, ret, "creat_program 4");
 	while (i--)
-		free(str[i]);
-	free(str);
+		ft_strdel(&str[i]);
+	ft_memdel((void **)&str);
 	return (program);
 }

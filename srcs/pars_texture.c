@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 16:28:12 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 21:13:02 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:35:05 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_selector		g_selector_tex[] = {
 };
 
 int				g_tex_selector_size = sizeof(g_selector_tex) /
-sizeof(t_selector);
+										sizeof(t_selector);
 
 void		fill_texture(char *a, char *b, t_texture *texture)
 {
@@ -51,7 +51,7 @@ void		pars_texture(char *str, int offset, void *data)
 	{
 		a = get_key(&str);
 		b = get_value(&str);
-		while (*str == ';' || *str == '}')
+		while ((*str == ';' || *str == '}') && *str != '\0')
 			str++;
 		fill_texture(a, b, texture);
 		free(a);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_obj_mat_types.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:18:59 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/06 18:07:47 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 02:50:26 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int					get_obj_type_value(char *str)
 		return (rectangle);
 	else if (!ft_strcmp(str, "generic_sphere"))
 		return (generic_shere);
-	return (-1);
+	return (ERROR);
 }
 
 int					get_mat_type_value(char *str)
@@ -62,7 +62,7 @@ int					get_mat_type_value(char *str)
 		return (conductor);
 	else if (!ft_strcmp(str, "plastic"))
 		return (plastic);
-	return (-1);
+	return (ERROR);
 }
 
 void				get_obj_type(char *str, int offset, void *data)

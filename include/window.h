@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 17:05:43 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/11 20:02:07 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 00:26:52 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "color.h"
 
 # define DEFAULT_WIDTH 800
-# define DEFAULT_HEIGHT 800
+# define DEFAULT_HEIGHT 640
 
 /*
 ** @brief
@@ -41,8 +41,6 @@ struct	s_window
 	SDL_Window		*ptr;
 	SDL_Renderer	*renderer;
 	SDL_Texture		*texture;
-	t_color			*rgb_image;
-	t_uint			*image;
 	t_uint			width;
 	t_uint			height;
 };
@@ -54,8 +52,8 @@ struct	s_window
 ** @return ** int
 */
 
-int		init_window(t_window *window);
-void	display_image(t_window *window);
-void	free_window(t_window *window);
+int		init_window(t_window *const window, t_u32 w, t_u32 h);
+void	display_image(t_window *const window);
+void	free_window(t_window *const window);
 
 #endif

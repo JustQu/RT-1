@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:53:59 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 22:17:12 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 00:13:03 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,17 @@ enum	e_sampler_type
 
 struct	s_sampler
 {
-	t_sampler_type	type;
-	cl_int			num_samples;
-	cl_int			num_sets;
-	cl_uint			count;
-	cl_int			jump;
-	cl_int			samples_type;
+	t_sampler_type	type;			//4
+	cl_int			num_samples;	//4
+	cl_int			num_sets;		//4
+	cl_uint			count;			//4
+	cl_int			jump;			//4
+	cl_int			samples_type;	//4
 
-	cl_int			offset;
-	cl_int			disk_samples_offset;
-	cl_int			hemisphere_samples_offset;
+	cl_int			offset;			//4
+	cl_int			disk_samples_offset;	//4
+	cl_int			hemisphere_samples_offset;	//4
+	cl_int			gap[3];
 };
 
 # ifndef __OPENCL_C_VERSION__

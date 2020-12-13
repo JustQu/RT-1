@@ -6,50 +6,22 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 19:14:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 22:35:01 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 13:28:55 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "libft.h"
 #include "utils.h"
-
-static int	realloc_sampler_manager(t_sampler_manager *sampler_manager,
-									size_t new_size)
-{
-	cl_float2	*new_samples;
-	cl_float2	*new_disk_samples;
-	cl_float3	*new_hemisphere_samples;
-
-	if (!(new_samples = malloc(sizeof(cl_float2) * new_size)))
-		return (ERROR);
-	ft_memcpy(new_samples, sampler_manager->samples,
-				sizeof(cl_float2) * sampler_manager->samples_size);
-	free(sampler_manager->samples);
-	sampler_manager->samples = new_samples;
-	if (!(new_disk_samples = malloc(sizeof(cl_float2) * new_size)))
-		return (ERROR);
-	ft_memcpy(new_disk_samples, sampler_manager->disk_samples,
-				sizeof(cl_float2) * sampler_manager->samples_size);
-	free(sampler_manager->disk_samples);
-	sampler_manager->disk_samples = new_disk_samples;
-	if (!(new_hemisphere_samples = malloc(sizeof(cl_float3) * new_size)))
-		return (ERROR);
-	ft_memcpy(new_hemisphere_samples, sampler_manager->hemisphere_samples,
-				sizeof(cl_float3) * sampler_manager->samples_size);
-	free(sampler_manager->hemisphere_samples);
-	sampler_manager->hemisphere_samples = new_hemisphere_samples;
-	sampler_manager->samples_malloc_size = new_size;
-	return (SUCCESS);
-}
+#include "rt_error.h"
 
 static int	realloc_samplers(t_sampler_manager *sampler_manager,
 								size_t new_size)
 {
 	t_sampler *new_samplers;
 
-	if (!(new_samplers = malloc(sizeof(t_sampler) * new_size)))
-		return (ERROR);
+	new_samplers = malloc(sizeof(t_sampler) * new_size);
+	rt_is_dead(system_err, system_malloc_error, !new_sampler, "");
 	ft_memcpy(new_samplers, sampler_manager->samplers,
 			(sampler_manager->count - 1) * sizeof(t_sampler));
 	free(sampler_manager->samplers);
@@ -95,6 +67,10 @@ int			init_sampler1(t_sampler *sampler, t_sampler_type type,
 	return (1);
 }
 
+/*
+** todo: malloc check
+*/
+
 void		map_sp(t_sampler_manager *m, t_sampler *s)
 {
 	int	a;
@@ -117,10 +93,9 @@ void		map_sp(t_sampler_manager *m, t_sampler *s)
 	{
 		if (m->hemisphere_samples_size >= m->hemisphere_samples_malloc_size)
 			m->hemisphere_samples = ft_realloc(m->hemisphere_samples, a,
-				m->hemisphere_samples_malloc_size =
-					2 * m->hemisphere_samples_size);
+			m->hemisphere_samples_malloc_size = 2 * m->hemisphere_samples_size);
 		map_samples_to_hemisphere(*s, m->samples + s->offset,
-			m->hemisphere_samples + s->hemisphere_samples_offset, 0.0f);
+					m->hemisphere_samples + s->hemisphere_samples_offset, 0.0f);
 	}
 }
 

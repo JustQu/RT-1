@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:45:42 by user              #+#    #+#             */
-/*   Updated: 2020/12/06 20:35:23 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/13 03:32:14 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void			draw_save_image_text(t_window *win)
 	color = init_color(255, 255, 255, 0);
 	g_font_size = FONT_TITLE_SIZE;
 	text = render_text("Saved image as image.bmp", "font/Title.ttf",
-			color, win->renderer);
+						color, win->renderer);
 	SDL_QueryTexture(text, NULL, NULL, &w, &h);
 	rect.x = win->width / 2 - w / 2;
 	rect.y = MARGIN_Y;
@@ -53,6 +53,10 @@ void			draw_save_image_text(t_window *win)
 	rect.h = h;
 	render_rect(text, win->renderer, &rect);
 }
+
+/*
+** todo: pass image
+*/
 
 void			save_image_func(t_window *win)
 {
@@ -67,9 +71,10 @@ void			save_image_func(t_window *win)
 		surf = NULL;
 		ren_tex = NULL;
 		st = SDL_QueryTexture(win->texture, NULL, NULL, &w, &h);
-		surf = SDL_CreateRGBSurfaceWithFormatFrom(win->image, w, h,
-		SDL_BITSPERPIXEL(SDL_PIXELFORMAT_RGBA32), w *
-		SDL_BYTESPERPIXEL(SDL_PIXELFORMAT_RGBA32), SDL_PIXELFORMAT_RGBA32);
+		// surf = SDL_CreateRGBSurfaceWithFormatFrom(win->image, w, h,
+					// DL_BITSPERPIXEL(SDL_PIXELFORMAT_RGBA32), w *
+						// SDL_BYTESPERPIXEL(SDL_PIXELFORMAT_RGBA32),
+					// SDL_PIXELFORMAT_RGBA32);
 		if (!surf)
 			SDL_Log("Failed creating new surface: %s\n", SDL_GetError());
 		st = SDL_SaveBMP(surf, "image.bmp");
@@ -91,9 +96,11 @@ void			render_tab_bar(t_window *win, SDL_Color *color,
 	int			h;
 
 	SDL_SetRenderDrawColor(win->renderer, 0, 0, 0, 255);
-	SDL_RenderFillRect(win->renderer, rect);
+	if (SDL_RenderFillRect(win->renderer, rect))
+		rt_error("render_tab_bar(): SDL_RenderFillRect() error");
 	text = create_tab_subtitles(win, str, color);
-	SDL_QueryTexture(text, NULL, NULL, &w, &h);
+	if (SDL_QueryTexture(text, NULL, NULL, &w, &h))
+		rt_error("render_tab_bar(): SDL_QueryTexture() error");
 	if (w <= rect->w)
 	{
 		rect1.x = rect->x + (rect->w - w) / 2;

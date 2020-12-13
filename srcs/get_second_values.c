@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_second_values.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 20:09:10 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 20:13:52 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 02:53:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,17 @@ int			char_count(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != '\t' && str[i] != ' ' && str[i] != '\n')
+		if (str[i] == '#')
+		{
+			i++;
+			while (str[i] != '\0' && str[i] != '#')
+				i++;
+		}
+		if (str[i] != '\t' && str[i] != ' ' && str[i] != '\n' &&
+			str[i] != '#' && str[i] != '\0')
 			count++;
-		i++;
+		if (str[i] != '\0')
+			i++;
 	}
 	return (count);
 }

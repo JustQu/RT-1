@@ -15,11 +15,18 @@ in the future:
 	multi importance sampling
 	russian roulette
 
-phong in direct lightning
-options in path tracing
++options in path tracing
++-phong in direct lightning
 colors in reflections and transmissions
 free memory
 move image from window
+
+init
+parse
+create_buffers
+
+app_loop: console loop,
+		window loop: gui on/off
 
 16384
 

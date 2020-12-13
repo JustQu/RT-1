@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_light.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 18:56:59 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/02 20:34:10 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:33:22 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "offset.h"
 #include "scene.h"
 #include "resource_manager.h"
+#include "logs.h"
 
 t_selector			g_selector_light[] = {
 	{"origin", offsetof(t_parsed_light, origin), get_vector},
@@ -26,17 +27,34 @@ t_selector			g_selector_light[] = {
 int					g_light_selector_size = sizeof(g_selector_light) /
 sizeof(t_selector);
 
-void				validate_light(t_parsed_light *light, t_parsed_info asset,
-								t_res_mngr *res_mngr)
+void				validate_light(t_parsed_info asset,
+								t_res_mngr *res_mngr, int log)
 {
-	asset.type = 1;
-	asset.data.light.type = light->type;
-	asset.data.light.color = light->color;
-	asset.data.light.direction = light->direction;
-	asset.data.light.ls = light->ls;
-	asset.data.light.origin = light->origin;
-	asset.data.light.pdf = light->pdf;
-	add_parsed_asset(res_mngr, asset);
+	int				errors;
+
+	errors = 0;
+	if (asset.data.light.type == -2)
+	{
+		errors++;
+		write_logs(BAD_LIGHT_TYPE, log, "ERROR:");
+	}
+	if (isnan(asset.data.light.origin.x))
+	{
+		write_logs(BAD_ORIGIN, log, "WARNING:");
+		asset.data.light.origin = (cl_float4){1000.0f, 1000.0f, 500.0f};
+	}
+	if (isnan(asset.data.light.ls))
+	{
+		write_logs(BAD_INTENSITY, log, "WARNING:");
+		asset.data.light.ls = 1.0f;
+	}
+	if (isnan(asset.data.light.color.r))
+	{
+		write_logs(BAD_SOLID_COLOR, log, "WARNING:");
+		asset.data.light.color = (t_color){1.0f, 1.0f, 1.0f};
+	}
+	if (errors == 0)
+		add_parsed_asset(res_mngr, asset);
 }
 
 void				fill_light(char *a, char *b, t_parsed_light *light)
@@ -56,7 +74,7 @@ void				fill_light(char *a, char *b, t_parsed_light *light)
 }
 
 void				pars_light(char *str, t_parsed_info *asset,
-								t_res_mngr *res_mngr)
+								t_res_mngr *res_mngr, int log)
 {
 	char			*a;
 	char			*b;
@@ -65,7 +83,8 @@ void				pars_light(char *str, t_parsed_info *asset,
 	light = get_default_light();
 	while (*str != '{' && *str != '\0')
 		str++;
-	str++;
+	if (*str != '\0')
+		str++;
 	while (*str != '\0')
 	{
 		a = get_key(&str);
@@ -76,5 +95,7 @@ void				pars_light(char *str, t_parsed_info *asset,
 		free(a);
 		free(b);
 	}
-	validate_light(&light, *asset, res_mngr);
+	asset->type = 1;
+	asset->data.light = light;
+	validate_light(*asset, res_mngr, log);
 }
