@@ -12,6 +12,8 @@
 
 #include "offset.h"
 #include "parser.h"
+#include "rt_err.h"
+#include "safe_call.h"
 
 t_selector		g_selector_mat[] = {
 	{"type", offsetof(t_material, type), get_mat_type},

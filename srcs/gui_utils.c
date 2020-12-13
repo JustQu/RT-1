@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "gui.h"
+#include "rt_err.h"
 
 SDL_Rect		init_rect_size(int x, int y, int w, int h)
 {

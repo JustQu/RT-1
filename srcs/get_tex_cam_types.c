@@ -13,6 +13,7 @@
 #include "offset.h"
 #include "parser.h"
 #include "camera.h"
+#include "rt_err.h"
 
 int					get_tex_type_value(char *str)
 {

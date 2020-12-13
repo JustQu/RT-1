@@ -6,12 +6,13 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:11:31 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 02:42:26 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:52:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "offset.h"
+#include "rt_err.h"
 
 t_camera			get_default_camera(void)
 {
@@ -60,25 +61,25 @@ void				set_default_material(t_material *material)
 	material->kr = NAN;
 	material->ks = NAN;
 	material->kt = NAN;
-	material->reflective_color = (t_color){1.0f, 0.0f, 0.0f};
-	material->type = -2;
+	material->reflective_color = (t_color){1.0f, 0.0f, 0.0f, 0.0f};
+	material->type = mat_none;
 }
 
 t_parsed_object		get_default_obj(void)
 {
 	t_parsed_object	obj;
 
-	obj.direction = (cl_float4){NAN};
+	obj.direction.x = NAN;
 	set_default_material(&obj.material);
 	set_default_texture(&obj.texture);
 	obj.maxm = NAN;
 	obj.minm = NAN;
-	obj.origin = (cl_float4){NAN};
+	obj.origin.x = NAN;
 	obj.r2 = NAN;
 	obj.r = NAN;
 	obj.rotation.x = NAN;
-	obj.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
-	obj.type = -2;
+	obj.scaling = (cl_float3){{1.0f, 1.0f, 1.0f}};
+	obj.type = obj_none;
 	obj.vector1.x = NAN;
 	obj.vector2.x = NAN;
 	return (obj);

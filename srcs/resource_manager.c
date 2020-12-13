@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:55:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:17:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:44:59 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,10 +223,6 @@ t_light			get_light_info(t_res_mngr *const mngr, t_u32 id)
 
 void			add_parsed_asset(t_res_mngr *const mngr, t_parsed_info asset)
 {
-	int				i;
-	int				j;
-	t_parsed_light	l;
-
 	if (asset.type == object)
 	{
 		scan_instance(mngr, asset);

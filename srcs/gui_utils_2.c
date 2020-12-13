@@ -6,13 +6,14 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 19:54:26 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 03:28:24 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:47:38 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "libft.h"
 #include "rt.h"
+#include "safe_call.h"
 
 void			draw_text(t_window *win, SDL_Rect *rect,
 					char *str, t_colors *color)

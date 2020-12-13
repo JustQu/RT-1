@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 13:24:06 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:53:43 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # include "scene.h"
 # include "rt_options.h"
 # include "rt_ocl.h"
+# include "rt.h"
 # include "window.h"
 # include "gui.h"
 # include "resource_manager.h"

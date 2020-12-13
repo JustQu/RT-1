@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:34:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 13:38:15 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:43:41 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "utils.h"
 #include "rt_error.h"
 
-#include <assert.h>
 
 int		init_texture_manager(t_texture_manager *texture_manager)
 {

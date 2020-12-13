@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:46:35 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 21:28:57 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:47:36 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ typedef enum e_camera_type	t_camera_type;
 typedef struct s_camera		t_camera;
 typedef struct s_viewplane	t_viewplane;
 
-# define UP (cl_float4){ 0.0f, 1.0f, 0.0f, 0.0f }
-# define RIGHT (cl_float4) { 1.0f, 0.0f, 0.0f, 0.0f }
+# define UP (cl_float4){{0.0f, 1.0f, 0.0f, 0.0f}}
+# define RIGHT (cl_float4) {{1.0f, 0.0f, 0.0f, 0.0f}}
 
 /*
 ** @brief Набор типов камеры
@@ -42,7 +42,8 @@ typedef struct s_viewplane	t_viewplane;
 
 enum				e_camera_type
 {
-	orthographic,
+	cam_none = -2,
+	orthographic = 0,
 	perspective,
 	thin_lens,
 	fisheye,

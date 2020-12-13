@@ -6,9 +6,13 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 22:57:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/12 23:27:14 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:43:45 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#pragma GCC diagnostic ignored "-Wmissing-braces"
+#pragma GCC diagnostic ignored "-Wall"
+#pragma GCC diagnostic ignored "-Wextra"
 
 #include "scene.h"
 #include "rt_options.h"

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 13:24:14 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:58:45 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,23 @@
 #include "rt_error.h"
 #include "image.h"
 
-#include <assert.h>
+
+static char		*load_arr[20] = {
+	"./load/0001.png", "./load/0002.png", "./load/0003.png", "./load/0004.png", "./load/0005.png",
+	"./load/0006.png", "./load/0007.png", "./load/0008.png", "./load/0009.png", "./load/0010.png",
+	"./load/0011.png", "./load/0012.png", "./load/0013.png", "./load/0014.png", "./load/0015.png",
+	"./load/0016.png", "./load/0017.png", "./load/0018.png", "./load/0019.png", "./load/0020.png"
+};
+
+static char		*text_arr[32] = {
+	"./load_text/1001.png", "./load_text/1002.png", "./load_text/1003.png", "./load_text/1004.png", "./load_text/1005.png",
+	"./load_text/1006.png", "./load_text/1007.png", "./load_text/1008.png", "./load_text/1009.png", "./load_text/1010.png",
+	"./load_text/1011.png", "./load_text/1012.png", "./load_text/1013.png", "./load_text/1014.png", "./load_text/1015.png",
+	"./load_text/1016.png", "./load_text/1017.png", "./load_text/1018.png", "./load_text/1019.png", "./load_text/1020.png",
+	"./load_text/1021.png", "./load_text/1022.png", "./load_text/1023.png", "./load_text/1024.png", "./load_text/1025.png",
+	"./load_text/1026.png", "./load_text/1027.png", "./load_text/1028.png", "./load_text/1029.png", "./load_text/1030.png",
+	"./load_text/1031.png", "./load_text/1032.png"
+};
 
 static int	init_clp(t_clp *clp, cl_device_type dev_type)
 {
@@ -38,28 +54,99 @@ static int	init_clp(t_clp *clp, cl_device_type dev_type)
 
 void CL_CALLBACK pfn_notify(cl_program program, void *data)
 {
-	int	*state;
+    int    *state;
 
-	state = data;
-	printf("ready");
-	*state = 1;
+	if (program == NULL)
+		ft_putendl("pfn_notify");
+    state = data;
+    ft_putstr("ready");
+    *state = 1;
 }
-
 static int state = 0;
 
 
-int		test_thread(void *ptr)
+int        test_thread(void *ptr)
 {
-	t_cl_program *p;
+    t_cl_program *p;
 
-	p = ptr;
+    p = ptr;
 
-	int r;
-	r = clBuildProgram(p->program, 1, &p->info.de_id,
-					   "-cl-std=CL2.0", pfn_notify, &state);
-	return (r);
+    int r;
+    r = clBuildProgram(p->program, 1, &p->info.de_id,
+                       "-cl-std=CL2.0", pfn_notify, &state);
+    return (r);
 }
 
+void			resize_imgs(t_window *window, SDL_Event e, SDL_Rect *rect, SDL_Rect *mes_rec)
+{
+	window->width = e.window.data1;
+	window->height = e.window.data2;
+	*rect = (SDL_Rect){window->width / 2 - 500 * window->height / 658 / 2 ,0 ,500 * window->height / 658, 658 * window->height / 658};
+	*mes_rec = (SDL_Rect){0, 0, 800 * window->width / 800 / 5, 600 * window->width / 800 / 5};
+	printf("Window size changed to %dx%d\n", e.window.data1, e.window.data2);
+}
+
+void			add_img_to_screen(t_window *window, SDL_Surface *sur, SDL_Rect rect)
+{
+	SDL_Texture	*tex;
+
+	tex = SDL_CreateTextureFromSurface(window->renderer, sur);
+	SDL_RenderCopy(window->renderer, tex, NULL, &rect);
+	SDL_FreeSurface(sur);
+	SDL_DestroyTexture(tex);
+	SDL_Delay(25);
+}
+
+void			loading_cycle(t_window *window, SDL_Rect rect, SDL_Rect mes_rec)
+{
+	int			i;
+	int			j;
+	SDL_Surface *sur;
+	SDL_Event	e;
+
+	i = 0;
+	j = 0;
+	while (state != 1)
+	{
+		if (SDL_PollEvent(&e))
+		{
+			if (e.type == SDL_QUIT)
+				break;
+		}
+		if (e.window.event == SDL_WINDOWEVENT_RESIZED)
+			resize_imgs(window, e, &rect, &mes_rec);
+		SDL_RenderFillRect(window->renderer, NULL);
+		sur = IMG_Load(load_arr[j]);
+		add_img_to_screen(window, sur, rect);
+		sur= IMG_Load(text_arr[i]);
+		add_img_to_screen(window, sur, mes_rec);
+		SDL_RenderPresent(window->renderer);
+		i = i == 31 ? 0 : i + 1;
+		j = j == 19 ? 0 : j + 1;
+	}
+}
+
+void			loading_screen(t_cl_program *p, t_window *window)
+{
+	SDL_Thread	*thread;
+	int			threadReturnValue;
+	SDL_Rect	mes_rec;
+	SDL_Rect	rect;
+
+	mes_rec = (SDL_Rect){0, 0, 800 * window->width / 800 / 5,
+	600 * window->width / 800 / 5};
+	rect = (SDL_Rect){window->width / 2 - 500 * window->height / 658 / 2 ,
+	0 ,500 * window->height / 658, 658 * window->height / 658};
+	thread = SDL_CreateThread(test_thread, "TestThread", (void *)p);
+	SDL_SetRenderDrawColor(window->renderer, 255, 255, 255, 0);
+	if (NULL == thread)
+		printf("SDL_CreateThread failed: %s\n", SDL_GetError());
+	else
+	{
+		loading_cycle(window, rect, mes_rec);
+		SDL_WaitThread(thread, &threadReturnValue);
+	}
+}
 
 static int	init_kernel(t_cl_program *p, t_window *window, t_image *image)
 {
@@ -71,59 +158,11 @@ static int	init_kernel(t_cl_program *p, t_window *window, t_image *image)
 	p->work_group_size = WORK_GROUP_SIZE;
 	p->program = create_program(p->info.context);
 
-	SDL_Thread *thread;
-	int threadReturnValue;
+	loading_screen(p, window);
 
-	SDL_Surface *sur = SDL_LoadBMP("image.bmp");
-	if (sur == NULL)
-		printf("sur bad");
-	// SDL_Texture *tex = SDL_CreateTextureFromSurface(window->renderer, sur);
-	// SDL_RenderClear(window->renderer);
-	// SDL_UpdateTexture(tex, NULL, window->image, sizeof(uint32_t) * IMG_WIDTH);
-	// SDL_RenderCopy(window->renderer, tex, NULL, NULL);
-	// SDL_RenderPresent(window->renderer);
-
-	printf("Simple SDL_CreateThread test:\n");
-
-	/* Simply create a thread */
-	thread = SDL_CreateThread(test_thread, "TestThread", (void *)p);
-
-	if (NULL == thread)
-	{
-		printf("SDL_CreateThread failed: %s\n", SDL_GetError());
-	}
-	else
-	{
-		int j = 0;
-
-		while (state != 1)
-		{
-			SDL_Event e;
-			if (SDL_PollEvent(&e))
-			{
-				if (e.type == SDL_QUIT)
-				{
-					break;
-				}
-			}
-			if (SDL_RenderCopy(window->renderer, window->texture, NULL, NULL)
-				 == -1)
-				printf("%s\n", SDL_GetError());
-
-			SDL_RenderPresent(window->renderer);
-
-			printf("%d\n", j++);
-		}
-		SDL_WaitThread(thread, &threadReturnValue);
-		// SDL_FreeSurface(sur);
-		printf("Thread returned value: %d\n", threadReturnValue);
-	}
-
-	rt_is_dead(opencl_err, cl_build_program_error, threadReturnValue, "");
 	p->new_kernel = clCreateKernel(p->program, KERNEL_NAME, &r);
-	rt_is_dead(opencl_err, cl_create_kernel_error, r, "");
+	cl_error(p, &p->info, r);
 	p->help_kernel = clCreateKernel(p->program, "translate_image", &r);
-	rt_is_dead(opencl_err, cl_create_kernel_error, r, "");
 	clGetKernelWorkGroupInfo(p->new_kernel, p->info.de_id,
 						CL_KERNEL_WORK_GROUP_SIZE, sizeof(size_t), &a, NULL);
 	fprintf(stdout, "Work group kernel - %zd\n", a);

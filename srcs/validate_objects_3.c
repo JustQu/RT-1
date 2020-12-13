@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:58:54 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 13:39:22 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:43:31 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int			validate_material(t_parsed_info *asset, int log)
 	int		errors;
 
 	errors = 0;
-	if (asset->data.object.material.type == -2)
+	if (asset->data.object.material.type == mat_none)
 	{
 		write_logs(MATERIAL_TYPE_DOES_NOT_EXIST, log, "ERROR:");
 		errors++;
@@ -131,7 +131,7 @@ int			validate_texture(t_parsed_info *asset, int log)
 	int		errors;
 
 	errors = 0;
-	if (asset->data.object.texture.type == -2)
+	if (asset->data.object.texture.type == tex_none)
 	{
 		write_logs(TEXTURE_TYPE_DOES_NOT_EXIST, log, "ERROR:");
 		errors++;

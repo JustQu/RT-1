@@ -6,12 +6,12 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 13:22:40 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 12:30:58 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:44:31 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
-
+#include "safe_call.h"
+#include "rt_err.h"
 #include "libft.h"
 #include "bool.h"
 #include "instance_manager.h"
@@ -38,7 +38,7 @@ int		add_triangle(t_instance_manager *mngr, t_instance_info triangle_info)
 		rt_is_dead(system_err, system_malloc_error, !mngr->triangles, "");
 		mngr->triangles_malloc_size *= 2;
 	}
-	triangle.vertex1 = (cl_float4){0.0f, 0.0f, 0.0f, 0.0f};
+	triangle.vertex1 = (cl_float4){{0.0f, 0.0f, 0.0f, 0.0f}};
 	triangle.vector1 = triangle_info.v1;
 	triangle.vector2 = triangle_info.v2;
 	mngr->triangles[mngr->ntriangles] = triangle;
@@ -63,12 +63,13 @@ int		add_obj(t_instance_manager *mngr, t_instance_info object_info)
 			mngr->objects_malloc_size, mngr->objects_malloc_size * 2);
 		rt_is_dead(system_err, system_malloc_error, !mngr->triangles, "");
 		mngr->objects_malloc_size *= 2;
-		assert(mngr->objects);
+		if (mngr->objects == NULL)
+			rt_error("add_triangle: mngr->objects is NULL");
 	}
 	object.minm = 0.0f;
 	object.maxm = object_info.height;
 	object.boolean = object_info.boolean;
-	object.origin = (cl_float4){0.0f, 0.0f, 0.0f, 0.0f};
+	object.origin = (cl_float4){{0.0f, 0.0f, 0.0f, 0.0f}};
 	object.r = object_info.r;
 	object.r2 = object_info.r2;
 	object.direction = object_info.v1;

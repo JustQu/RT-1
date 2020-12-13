@@ -12,6 +12,7 @@
 
 #include "offset.h"
 #include "parser.h"
+#include "rt_err.h"
 
 void		get_uchar(char *str, int offset, void *data)
 {

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 15:26:04 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:54:27 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 typedef struct s_rt		t_rt;
 typedef struct s_vector	t_vector;
 
+int				g_show_gui;
 int				g_camera_tab_pressed;
 int				g_objects_tab_pressed;
 int				g_options_tab_pressed;
@@ -50,6 +51,7 @@ int				g_font_size;
 typedef struct	s_all_rect
 {
 	SDL_Rect	background;
+	SDL_Rect	title_button;
 	SDL_Rect	tab_camera_button;
 	SDL_Rect	tab_objects_button;
 	SDL_Rect	tab_textures_button;
@@ -158,7 +160,10 @@ void			get_ambient_il_data(int ptr,
 					char *string, char *str[4]);
 void			get_true_data(int ptr,
 					char *string, char *str[4]);
-
+int				catch_keydown_2(t_rt *rt, t_window *win,
+					SDL_Event event);
+void			gui_init_title(t_window *win,
+					t_all_rect *all_rect, t_colors *color);
 void			draw_save_image_text(t_window *win);
 void			draw_for_button(t_window *win,
 					SDL_Rect *rect, t_colors *color);
@@ -177,4 +182,10 @@ void			get_color_data(t_color color,
 void			type_ambien_il(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color);
 void			free_str(char *str[4]);
+void			draw_text(t_window *win, SDL_Rect *rect,
+						  char *str, t_colors *color);
+void			is_type_lights(t_window *win, t_rt *rt,
+					  t_all_rect *rect, t_colors *color);
+void			objects_tab_cont(t_window *win, t_rt *rt,
+						t_all_rect *rect, t_colors *color);
 #endif

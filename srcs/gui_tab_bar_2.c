@@ -6,14 +6,14 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 03:20:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:47:43 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "rt.h"
 
-void			is_type_light_cont(t_window *win, t_rt *rt,
+static void		is_type_light_cont(t_window *win, t_rt *rt,
 					t_all_rect *rect, t_colors *color)
 {
 	char		*str[4];
@@ -126,7 +126,7 @@ void			objects_tab_cont(t_window *win, t_rt *rt,
 	draw_line(win, color, rect->background, rect->ten_button);
 	draw_button(win, &rect->ten_button, str, color);
 	free_str(str);
-	get_float_data(1, "Color", &str);
+	get_float_data(1, "Color", &str[0]);
 	draw_button(win, &rect->eleven_button, str, color);
 	// draw_color_button(win, color, , &rect->eleven_button);
 	free_str(str);

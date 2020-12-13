@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:02:56 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 14:06:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:43:49 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ cl_float2	*generate_regular_samples(t_sampler sampler, cl_float2 *samples)
 
 cl_float2	*generate_pure_random_samples(t_sampler sampler, cl_float2 *samples)
 {
-	int			n = sqrtf(sampler.num_samples);
 	int			index[3];
 	int			pepa;
 	cl_float2	*sp;

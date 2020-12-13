@@ -13,6 +13,7 @@
 #include "light_manager.h"
 #include "rt_error.h"
 #include "utils.h"
+#include "rt_err.h"
 
 void	init_light_manager(t_light_manager *light_manager)
 {

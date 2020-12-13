@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:31:43 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 15:24:51 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:56:17 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ void			draw_fill_rect(t_window *win,
 void			gui(t_window *win, t_rt *rt, t_all_rect *all_rect,
 					t_colors *color, t_gui *const gui)
 {
-	SDL_Texture	*img;
-	int			w;
-	int			h;
+	// SDL_Texture	*img;
+	// int			w;
+	// int			h;
 
 	TTF_Init();
 	if (win->height >= 300 && win->width >= 200)

@@ -6,14 +6,14 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:33:27 by user              #+#    #+#             */
-/*   Updated: 2020/12/13 03:15:35 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:56:38 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "window.h"
 
-void	init_rect_tree(t_all_rect *rect, t_window *win)
+static void	init_rect_tree(t_all_rect *rect, t_window *win)
 {
 	rect->third_button = init_rect_size(win->width - win->width / 4 +
 		SPACER, rect->second_button.y + rect->second_button.h +
@@ -35,7 +35,7 @@ void	init_rect_tree(t_all_rect *rect, t_window *win)
 		win->width / 4, 30);
 }
 
-void	init_rect_two(t_all_rect *rect, t_window *win)
+static void	init_rect_two(t_all_rect *rect, t_window *win)
 {
 	rect->nine_button = init_rect_size(win->width - win->width / 4 + SPACER,
 		rect->eight_button.y + rect->eight_button.h + MARGIN_Y * 2,
@@ -51,7 +51,7 @@ void	init_rect_two(t_all_rect *rect, t_window *win)
 		win->width / 4, 30);
 }
 
-void	init_rect(t_all_rect *rect, t_window *win)
+void		init_rect(t_all_rect *rect, t_window *win)
 {
 	rect->background = init_rect_size(win->width - win->width / 4,
 		0, win->width / 4, win->height);
@@ -73,7 +73,7 @@ void	init_rect(t_all_rect *rect, t_window *win)
 	init_rect_two(rect, win);
 }
 
-void	init_colors(t_colors *color)
+void		init_colors(t_colors *color)
 {
 	color->background_color = init_color(0, 0, 0, 0);
 	color->border_color = init_color(43, 43, 45, 0);

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 19:14:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 13:28:55 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:43:54 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int			init_sampler1(t_sampler *sampler, t_sampler_type type,
 
 void		map_sp(t_sampler_manager *m, t_sampler *s)
 {
-	int	a;
+	t_uint	a;
 
 	a = m->samples_malloc_size;
 	if (m->samples_size >= (a = m->samples_malloc_size))

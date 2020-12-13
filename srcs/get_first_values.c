@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 00:10:21 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 02:47:05 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:52:33 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void		get_color(char *str, int offset, void *data)
 
 void		get_vector(char *str, int offset, void *data)
 {
-	unsigned char	*v;
 	cl_float4		*vec_ptr;
 	char			**split;
 

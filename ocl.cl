@@ -157,10 +157,10 @@ struct					s_aabb
 /*                                                        :::      ::::::::   */
 /*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:46:35 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 21:28:57 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:47:36 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,8 +180,8 @@ typedef enum e_camera_type	t_camera_type;
 typedef struct s_camera		t_camera;
 typedef struct s_viewplane	t_viewplane;
 
-# define UP (cl_float4){ 0.0f, 1.0f, 0.0f, 0.0f }
-# define RIGHT (cl_float4) { 1.0f, 0.0f, 0.0f, 0.0f }
+# define UP (cl_float4){{0.0f, 1.0f, 0.0f, 0.0f}}
+# define RIGHT (cl_float4) {{1.0f, 0.0f, 0.0f, 0.0f}}
 
 /*
 ** @brief Набор типов камеры
@@ -196,7 +196,8 @@ typedef struct s_viewplane	t_viewplane;
 
 enum				e_camera_type
 {
-	orthographic,
+	cam_none = -2,
+	orthographic = 0,
 	perspective,
 	thin_lens,
 	fisheye,
@@ -291,10 +292,10 @@ void	move_camera(t_camera *camera, int direction, float step);
 /*                                                        :::      ::::::::   */
 /*   texture.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 22:49:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 22:18:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 11:52:12 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,7 +317,8 @@ typedef struct s_texture	t_texture;
 
 enum	e_texture_type
 {
-	solid,
+	tex_none = -2,
+	solid = 0,
 	checker,
 	checker2d,
 	transparent_checker,
@@ -378,10 +380,10 @@ struct	s_texture
 /*                                                        :::      ::::::::   */
 /*   material.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 21:53:05 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 11:49:18 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -403,7 +405,8 @@ typedef struct s_material			t_material;
 
 enum	e_material_type
 {
-	matte,
+	mat_none = -2, 
+	matte = 0,
 	phong,
 
 	plastic,
@@ -464,10 +467,10 @@ int		create_material(t_material	type);
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:20 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 21:56:49 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 11:54:16 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -485,7 +488,8 @@ typedef struct s_obj		t_obj;
 typedef struct s_triangle	t_triangle;
 enum	e_types
 {
-	cone,
+	obj_none = -2,
+	cone = 0,
 	cylinder,
 	paraboloid,
 	plane,
@@ -561,10 +565,10 @@ typedef struct			s_object_info
 /*                                                        :::      ::::::::   */
 /*   light.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 17:35:29 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 21:42:07 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:07:07 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -582,7 +586,8 @@ typedef struct s_ambient_occluder	t_ambient_occluder;
 
 enum	e_light_types
 {
-	ambient,
+	light_none = -2,
+	ambient = 0,
 	ambient_occluder,
 	directional,
 	point,
@@ -802,7 +807,7 @@ struct			s_bvh_node
 /*                                                        :::      ::::::::   */
 /*   rt_options.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
 /*   Updated: 2020/12/12 23:55:28 by dmelessa         ###   ########.fr       */
@@ -2112,7 +2117,7 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 			*tmin = roots[j];
 			shade_rec->local_hit_point = ray.direction * *tmin + ray.origin;
 			shade_rec->normal = get_torus_normal(shade_rec->local_hit_point, torus);
-			*tmin * 0.99f;
+			*tmin = *tmin * 0.99f;
 		}
 	}
 	// hit_info->t = t * 0.99f;

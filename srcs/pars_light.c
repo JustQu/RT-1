@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 18:56:59 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 12:33:22 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:45:59 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void				validate_light(t_parsed_info asset,
 	int				errors;
 
 	errors = 0;
-	if (asset.data.light.type == -2)
+	if (asset.data.light.type == light_none)
 	{
 		errors++;
 		write_logs(BAD_LIGHT_TYPE, log, "ERROR:");
@@ -41,7 +41,7 @@ void				validate_light(t_parsed_info asset,
 	if (isnan(asset.data.light.origin.x))
 	{
 		write_logs(BAD_ORIGIN, log, "WARNING:");
-		asset.data.light.origin = (cl_float4){1000.0f, 1000.0f, 500.0f};
+		asset.data.light.origin = (cl_float4){{1000.0f, 1000.0f, 500.0f, 0.0f}};
 	}
 	if (isnan(asset.data.light.ls))
 	{
@@ -51,7 +51,7 @@ void				validate_light(t_parsed_info asset,
 	if (isnan(asset.data.light.color.r))
 	{
 		write_logs(BAD_SOLID_COLOR, log, "WARNING:");
-		asset.data.light.color = (t_color){1.0f, 1.0f, 1.0f};
+		asset.data.light.color = (t_color){1.0f, 1.0f, 1.0f, 0.0f};
 	}
 	if (errors == 0)
 		add_parsed_asset(res_mngr, asset);

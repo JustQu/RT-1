@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   rt_options.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:34:36 by dmelessa          #+#    #+#             */
 /*   Updated: 2020/12/12 23:55:28 by dmelessa         ###   ########.fr       */

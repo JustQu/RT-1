@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 13:51:45 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 15:52:49 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "rt_error.h"
 
 #include <fcntl.h>
-#include <assert.h>
 
 #define BUFF 100000
 
@@ -92,7 +91,6 @@ cl_program		create_program(cl_context context)
 {
 	int			ret;
 	int			i;
-	int			fd;
 	char		**str;
 	cl_program	program;
 
