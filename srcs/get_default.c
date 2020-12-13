@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:11:31 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/10 18:37:03 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:00:50 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_camera			get_default_camera(void)
 	camera.viewplane.pixel_size = 1.0f;
 	camera.viewplane.width = IMG_WIDTH;
 	camera.viewplane.height = IMG_HEIGHT;
-	camera.type = -2;
+	camera.type = cam_none;
 	camera.origin.x = NAN;
 	camera.direction.x = NAN;
 	camera.up = (cl_float4){.x = 0.0f, .y = 1.0f, .z = 0.0f, .w = 0.0f};
@@ -46,7 +46,7 @@ void				set_default_texture(t_texture *texture)
 {
 	if (texture == NULL)
 		rt_error("set_default_texture(): given NULL pointer");
-	texture->type = -2;
+	texture->type = tex_none;
 	texture->data.solid.color.r = NAN;
 	texture->data.checker.even.r = NAN;
 	texture->data.checker.odd.r = NAN;
@@ -65,25 +65,25 @@ void				set_default_material(t_material *material)
 	material->kr = NAN;
 	material->ks = NAN;
 	material->kt = NAN;
-	material->reflective_color = (t_color){1.0f, 0.0f, 0.0f};
-	material->type = -2;
+	material->reflective_color = (t_color){1.0f, 0.0f, 0.0f, 0.0f};
+	material->type = mat_none;
 }
 
 t_parsed_object		get_default_obj(void)
 {
 	t_parsed_object	obj;
 
-	obj.direction = (cl_float4){NAN};
+	obj.direction.x = NAN;
 	set_default_material(&obj.material);
 	set_default_texture(&obj.texture);
 	obj.maxm = NAN;
 	obj.minm = NAN;
-	obj.origin = (cl_float4){NAN};
+	obj.origin.x = NAN;
 	obj.r2 = NAN;
 	obj.r = NAN;
 	obj.rotation.x = NAN;
-	obj.scaling = (cl_float3){1.0f, 1.0f, 1.0f};
-	obj.type = -2;
+	obj.scaling = (cl_float3){{1.0f, 1.0f, 1.0f}};
+	obj.type = obj_none;
 	obj.vector1.x = NAN;
 	obj.vector2.x = NAN;
 	return (obj);

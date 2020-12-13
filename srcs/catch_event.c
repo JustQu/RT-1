@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/12 22:37:29 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:46:42 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 
 static int	catch_window_event(t_rt *rt, t_window *win, SDL_Event event)
 {
+	if (rt->options.shadows >= 0)
+		printf("unused parametre (rt)\n");
 	if (event.window.event == SDL_WINDOWEVENT_SHOWN)
 		;
 	else if (event.window.event == SDL_WINDOWEVENT_HIDDEN)
@@ -83,6 +85,12 @@ static int	catch_window_event(t_rt *rt, t_window *win, SDL_Event event)
 static int	catch_keydown(t_rt *rt, t_window *win, t_all_rect *rect,
 							t_colors *colors, SDL_Event event)
 {
+	if (win->height >= 0)
+		printf("unused parametre (win)\n");
+	if (colors->background_color.r >= 0)
+		printf("unused parametre (colors)\n");
+	if (rect->background.w >= 0)
+		printf("unused parametre (rect)\n");
 	if (event.key.keysym.sym == SDLK_ESCAPE)
 		return (1);
 	if (event.key.keysym.sym == SDLK_p)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 22:49:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 22:18:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 11:52:12 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ typedef struct s_texture	t_texture;
 
 enum	e_texture_type
 {
-	solid,
+	tex_none = -2,
+	solid = 0,
 	checker,
 	checker2d,
 	transparent_checker,

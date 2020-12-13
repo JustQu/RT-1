@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 17:35:29 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 21:42:07 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:07:07 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ typedef struct s_ambient_occluder	t_ambient_occluder;
 
 enum	e_light_types
 {
-	ambient,
+	light_none = -2,
+	ambient = 0,
 	ambient_occluder,
 	directional,
 	point,

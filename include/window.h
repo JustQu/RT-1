@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 17:05:43 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/10 22:26:29 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:17:31 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ struct	s_window
 	SDL_Texture		*texture;
 	t_color			*rgb_image;
 	t_uint			*image;
-	t_uint			width;
-	t_uint			height;
+	int			width;
+	int			height;
 };
 
 /*

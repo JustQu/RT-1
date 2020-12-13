@@ -6,13 +6,14 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:51:27 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/11 20:06:49 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 09:47:27 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "logs.h"
 #include "safe_call.h"
+#include <libgen.h>
 
 int			get_log_fd(char *str)
 {
@@ -22,7 +23,7 @@ int			get_log_fd(char *str)
 
 	if (str == NULL)
 		rt_error("get_log_fd(): given NULL pointer");
-	safe_call_ptr((line_1 = ft_strjoin("logs/", str)), "malloc error");
+	safe_call_ptr((line_1 = ft_strjoin("logs/", basename(str))), "malloc error");
 	safe_call_ptr((line_2 = ft_strjoin(line_1, ".log")), "malloc error");
 	if ((fd = open(line_2, O_WRONLY | O_CREAT | O_TRUNC, 0666)) < 0)
 	{

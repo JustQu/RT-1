@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/11 22:18:10 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:47:15 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	main_loop(t_app app)
 	err_code = 0;
 	render_scene(app.rt);
 
-	int	a = NUM_SAMPLES;
+	// int	a = NUM_SAMPLES;
 	clSetKernelArg(app.rt.ocl_program.help_kernel, 0, sizeof(cl_mem), &app.rt.ocl_program.rgb_image);
 	clSetKernelArg(app.rt.ocl_program.help_kernel, 1, sizeof(cl_mem), &app.rt.ocl_program.output_image);
 	clSetKernelArg(app.rt.ocl_program.help_kernel, 2, sizeof(cl_float), &app.rt.options.spp);
@@ -151,7 +151,7 @@ int main(int ac, char **av)
 	int			value;
 	t_all_rect	all_rect;
 	t_colors	color;
-	t_rt		rt;
+	// t_rt		rt;
 
 	if (av == NULL)
 		rt_error("main(): given NULL av pointer");

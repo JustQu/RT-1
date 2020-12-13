@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 22:57:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 22:03:40 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:32:27 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#pragma GCC diagnostic ignored "-Wmissing-braces"
 
 #include "scene.h"
 #include "rt_options.h"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object_manager.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 13:22:40 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 20:29:49 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:35:36 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		add_triangle(t_instance_manager *mngr, t_instance_info triangle_info)
 		mngr->triangles_malloc_size *= 2;
 		assert(mngr->triangles);
 	}
-	triangle.vertex1 = (cl_float4){0.0f, 0.0f, 0.0f, 0.0f};
+	triangle.vertex1 = (cl_float4){{0.0f, 0.0f, 0.0f, 0.0f}};
 	triangle.vector1 = triangle_info.v1;
 	triangle.vector2 = triangle_info.v2;
 	mngr->triangles[mngr->ntriangles] = triangle;
@@ -71,7 +71,7 @@ int		add_obj(t_instance_manager *mngr, t_instance_info object_info)
 	object.minm = 0.0f;
 	object.maxm = object_info.height;
 	object.boolean = object_info.boolean;
-	object.origin = (cl_float4){0.0f, 0.0f, 0.0f, 0.0f};
+	object.origin = (cl_float4){{0.0f, 0.0f, 0.0f, 0.0f}};
 	object.r = object_info.r;
 	object.r2 = object_info.r2;
 	object.direction = object_info.v1;

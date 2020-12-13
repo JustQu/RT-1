@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   material.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 00:07:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 21:53:05 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 11:49:18 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ typedef struct s_material			t_material;
 
 enum	e_material_type
 {
-	matte,
+	mat_none = -2, 
+	matte = 0,
 	phong,
 
 	plastic,

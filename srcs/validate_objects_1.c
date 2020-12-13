@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 15:05:10 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/07 20:58:56 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:01:22 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int				validate_default(t_parsed_info *asset, int log)
 	if (isnan(asset->data.object.rotation.x))
 	{
 		write_logs(BAD_ROTATION, log, "WARNING:");
-		asset->data.object.rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+		asset->data.object.rotation = (cl_float3){{0.0f, 0.0f, 0.0f}};
 	}
 	return (errors);
 }

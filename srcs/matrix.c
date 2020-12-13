@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:23:02 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 20:27:11 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:37:02 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ t_matrix	mul_matrix(t_matrix a, t_matrix b)
 {
 	t_matrix	c;
 	int			i;
-	int			j;
 
 	i = 0;
 	while (i < 16)
@@ -307,8 +306,6 @@ t_matrix	get_inverse_translation_matrix(cl_float3 v)
 
 t_matrix	get_scale_matrix(cl_float3 v)
 {
-	t_matrix	matrix;
-
 	return (t_matrix){
 		.s0 = v.x, .s1 = 0.0f, .s2 = 0.0f, .s3 = 0.0f,
 		.s4 = 0.0f, .s5 = v.y, .s6 = 0.0f, .s7 = 0.0f,

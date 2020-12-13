@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 06:49:04 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:05:20 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ void CL_CALLBACK pfn_notify(cl_program program, void *data)
 {
     int    *state;
 
+	if (program == NULL)
+		ft_putendl("pfn_notify");
     state = data;
-    printf("ready");
+    ft_putstr("ready");
     *state = 1;
 }
 static int state = 0;

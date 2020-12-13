@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 19:56:06 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/10 18:12:41 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 09:31:35 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,9 @@ int			parser(t_res_mngr *resource_manager, t_parsed_info *asset,
 		return (-1);
 	log = get_log_fd(file_name);
 	if (log == -1)
-		return (-1);
+		rt_error("parser(): cant make logs");
 	if ((fd = open(file_name, O_RDONLY)) < 0)
-		return (-1);
+		rt_error("parser(): cant read file");
 	parser_cycle(resource_manager, asset, fd, log);
 	close(log);
 	if (close(fd))

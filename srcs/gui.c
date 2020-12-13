@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:31:43 by alex              #+#    #+#             */
-/*   Updated: 2020/12/06 20:33:01 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/13 12:35:53 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,6 @@ void			draw_fill_rect(t_window *win,
 void			gui(t_window *win, t_rt *rt,
 					t_all_rect *all_rect, t_colors *color)
 {
-	SDL_Texture	*img;
-	int			w;
-	int			h;
-
 	if (win == NULL || all_rect == NULL || color == NULL)
 		rt_error("gui(): given NULL pointer");
 	if (TTF_Init())

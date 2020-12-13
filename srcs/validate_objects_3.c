@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:58:54 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/08 16:37:09 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/13 11:53:09 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int			validate_material(t_parsed_info *asset, int log)
 	int		errors;
 
 	errors = 0;
-	if (asset->data.object.material.type == -2)
+	if (asset->data.object.material.type == mat_none)
 	{
 		write_logs(MATERIAL_TYPE_DOES_NOT_EXIST, log, "ERROR:");
 		errors++;
@@ -131,7 +131,7 @@ int			validate_texture(t_parsed_info *asset, int log)
 	int		errors;
 
 	errors = 0;
-	if (asset->data.object.texture.type == -2)
+	if (asset->data.object.texture.type == tex_none)
 	{
 		write_logs(TEXTURE_TYPE_DOES_NOT_EXIST, log, "ERROR:");
 		errors++;
@@ -142,15 +142,15 @@ int			validate_texture(t_parsed_info *asset, int log)
 	{
 		write_logs(COLOR_DOES_NOT_EXIST, log, "WARNING:");
 		asset->data.object.texture.data.checker.even =
-		(t_color){0.5f, 0.5f, 0.5f};
+		(t_color){0.5f, 0.5f, 0.5f, 0.0f};
 		asset->data.object.texture.data.checker.odd =
-		(t_color){0.0f, 0.0f, 1.0f};
+		(t_color){0.0f, 0.0f, 1.0f, 0.0f};
 	}
 	else if (isnan(asset->data.object.texture.data.solid.color.r))
 	{
 		write_logs(COLOR_DOES_NOT_EXIST, log, "WARNING:");
 		asset->data.object.texture.data.solid.color =
-		(t_color){1.0f, 1.0f, 1.0f};
+		(t_color){1.0f, 1.0f, 1.0f, 0.0f};
 	}
 	return (errors);
 }
