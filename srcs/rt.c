@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 19:54:03 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/08 16:57:02 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/12 19:04:19 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void		render_scene(t_rt rt)
 	}
 }
 
-int			init_rt(t_rt *rt, char *scene_file, t_res_mngr *resource_manager)
+int			init_rt(t_rt *rt, char *scene_file, t_res_mngr *resource_manager, t_window *window)
 {
 	init_sampler_manager(&rt->sampler_manager);
 	init_default_options(resource_manager->rt_options, &rt->sampler_manager);
@@ -91,13 +91,13 @@ int			init_rt(t_rt *rt, char *scene_file, t_res_mngr *resource_manager)
 		if (init_parsed_scene(&rt->scene, &rt->sampler_manager, resource_manager, scene_file) < 0)
 			init_default_scene(&rt->scene, &rt->sampler_manager, resource_manager);
 		rt->scene.bvh = build_bvh(&rt->scene);
-		init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, rt);
+		init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, window);
 	}
 	else
 	{
 		init_default_scene(&rt->scene, &rt->sampler_manager, resource_manager);
 		rt->scene.bvh = build_bvh(&rt->scene);
-		init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, rt);
+		init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, window);
 	}
 	return (SUCCESS);
 }

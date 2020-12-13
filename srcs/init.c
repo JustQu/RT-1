@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:43:55 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/06 17:07:21 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/11 21:13:39 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		init_app(t_app *app, int ac, char **av)
 		rt_error("init_app(): init_window() error");
 	if (init_resource_manager(&app->resource_manager, &app->rt))
 		rt_error("init_app(): init_resource_manager() error");
-	if (init_rt(&app->rt, scene_file, &app->resource_manager))
+	if (init_rt(&app->rt, scene_file, &app->resource_manager, &app->window))
 		rt_error("init_app(): init_rt() error");
 	return (SUCCESS);
 }

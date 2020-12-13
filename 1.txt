@@ -1,7 +1,7 @@
 options =
 {
 	background_color = {0.5, 0.5, 1.0};
-	tracer_type = path_tracer
+	tracer_type = direct_lightning
 }
 
 object = 
@@ -25,8 +25,9 @@ object =
 }
 
 object = {
-	type = sphere;
+	type = torus;
 	radius = 1.0;
+	radius2 = 0.5;
 	origin = {1.0, 0.0, 0.0};
 	scaling = {1.0, 1.0, 1.0};
 	texture = {
@@ -34,7 +35,7 @@ object = {
 		color = {1.0, 0.0, 0.0}
 	};
 	material = {
-		type = mirror;
+		type = matte;
 		diffuse = 1.0;
 		diffuse = 0.25;
 		transmission = 1.5;
@@ -42,6 +43,7 @@ object = {
 	}
 }
 
+#
 object = {
 	type = sphere;
 	radius = 1.0;
@@ -104,6 +106,7 @@ object = {
 	maxm = 1.5
 }
 
+#
 object = {
 	type = sphere;
 	radius = 1.0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 19:44:32 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 21:56:55 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/11 21:42:13 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		init_window(t_window *window)
 	}
 	window->image = (uint32_t *)malloc(sizeof(uint32_t) *
 				IMG_WIDTH * IMG_HEIGHT);
-	ft_memset(window->image, 0, sizeof(uint32_t) * IMG_WIDTH * IMG_HEIGHT);
+	ft_memset(window->image, 100, sizeof(uint32_t) * IMG_WIDTH * IMG_HEIGHT);
 	if (!window->image)
 		perror("window->image malloc");
 	window->rgb_image = (t_color *)malloc(sizeof(t_color) *

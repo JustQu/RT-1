@@ -566,7 +566,7 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 			*tmin = roots[j];
 			shade_rec->local_hit_point = ray.direction * *tmin + ray.origin;
 			shade_rec->normal = get_torus_normal(shade_rec->local_hit_point, torus);
-			*tmin * 0.99f;
+			*tmin = *tmin * 0.99f;
 		}
 	}
 	// hit_info->t = t * 0.99f;

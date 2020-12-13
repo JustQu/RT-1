@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_ocl.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 15:45:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 21:59:22 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/11 21:14:03 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "rt_options.h"
 # include "scene.h"
 # include "sampler_manager.h"
+# include "window.h"
 
 # define KERNEL_NAME "main_kernel"
 # define KERNEL_INC "-I./include -I./srcs/cl"
@@ -103,7 +104,7 @@ typedef struct			s_cl_program
 typedef struct s_rt	t_rt;
 
 int						init_ocl(t_cl_program *program, t_scene *scene,
-								t_sampler_manager *sampler_manager, t_rt *rt);
+								t_sampler_manager *sampler_manager, t_window *window);
 int						cleanup_ocl(t_cl_program *program);
 cl_program				create_program(cl_context context);
 

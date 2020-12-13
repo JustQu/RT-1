@@ -15,7 +15,6 @@
 #include "utils.h"
 #include "rt_err.h"
 #include "libft.h"
-#include <assert.h>
 
 int			add_matrix(t_instance_manager *mngr, t_matrix matrix)
 {
