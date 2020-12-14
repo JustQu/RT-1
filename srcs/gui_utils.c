@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:45:42 by user              #+#    #+#             */
-/*   Updated: 2020/12/13 03:32:14 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/14 18:02:41 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void			draw_save_image_text(t_window *win)
 ** todo: pass image
 */
 
-void			save_image_func(t_window *win)
+void			save_image_func(t_window *win, t_image *image)
 {
 	SDL_Texture	*ren_tex;
 	SDL_Surface	*surf;
@@ -72,10 +72,10 @@ void			save_image_func(t_window *win)
 		surf = NULL;
 		ren_tex = NULL;
 		st = SDL_QueryTexture(win->texture, NULL, NULL, &w, &h);
-		// surf = SDL_CreateRGBSurfaceWithFormatFrom(win->image, w, h,
-					// DL_BITSPERPIXEL(SDL_PIXELFORMAT_RGBA32), w *
-						// SDL_BYTESPERPIXEL(SDL_PIXELFORMAT_RGBA32),
-					// SDL_PIXELFORMAT_RGBA32);
+		surf = SDL_CreateRGBSurfaceWithFormatFrom(image->pixels, w, h,
+					SDL_BITSPERPIXEL(SDL_PIXELFORMAT_RGBA32), w *
+						SDL_BYTESPERPIXEL(SDL_PIXELFORMAT_RGBA32),
+					SDL_PIXELFORMAT_RGBA32);
 		if (!surf)
 			SDL_Log("Failed creating new surface: %s\n", SDL_GetError());
 		st = SDL_SaveBMP(surf, "image.bmp");
