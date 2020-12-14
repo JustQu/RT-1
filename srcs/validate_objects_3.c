@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:58:54 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 17:51:20 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/14 17:04:14 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,15 +142,15 @@ int			validate_texture(t_parsed_info *asset, int log)
 	{
 		write_logs(COLOR_DOES_NOT_EXIST, log, "WARNING:");
 		asset->data.object.texture.data.checker.even =
-													(t_color){0.5f, 0.5f, 0.5f, 0.0f};
+											(t_color){0.5f, 0.5f, 0.5f, 0.0f};
 		asset->data.object.texture.data.checker.odd =
-													(t_color){0.0f, 0.0f, 1.0f, 0.0f};
+											(t_color){0.0f, 0.0f, 1.0f, 0.0f};
 	}
 	else if (isnan(asset->data.object.texture.data.solid.color.r))
 	{
 		write_logs(COLOR_DOES_NOT_EXIST, log, "WARNING:");
 		asset->data.object.texture.data.solid.color =
-													(t_color){1.0f, 1.0f, 1.0f, 0.0f};
+											(t_color){1.0f, 1.0f, 1.0f, 0.0f};
 	}
 	return (errors);
 }

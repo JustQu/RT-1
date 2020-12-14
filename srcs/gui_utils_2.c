@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 19:54:26 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 18:39:19 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/14 16:45:23 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ char			*itoa_float(float num)
 	int			aftd;
 
 	ptr = num;
-	aftd = (num - ptr) * 1000;
+	aftd = (num - ptr) * 10;
+	if (aftd < 0)
+		aftd = aftd * -1;
 	str1 = ft_itoa(ptr);
 	str2 = ft_itoa(aftd);
 	tmp = ft_strjoin(str1, ".");

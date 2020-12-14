@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 00:05:29 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:54:22 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/14 17:43:21 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,6 @@ void						to_lower(char *str);
 int							char_count(char *str);
 void						free_tab(char **tab);
 int							len_word(char *str);
+char						*basename(const char *filename);
 
 #endif

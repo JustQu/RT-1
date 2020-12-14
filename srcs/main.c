@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/14 17:54:41 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/14 19:27:20 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,7 @@ static void	window_render_loop(t_app *const app)
 			display_image(&app->window, &app->image);
 			app->rt.options.spp += 1;
 			app->rt.options.reset = 0;
+			save_image_func(&app->window, &app->image);
 			display_info(&app->interface, &app->resource_manager,
 						&app->window);
 			// gui(&app->window, &app->rt, &app->gui.all_rect, &app->gui.colors);
