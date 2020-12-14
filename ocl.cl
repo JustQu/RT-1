@@ -1960,26 +1960,26 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 		a *= 2.0f;
 		disc = sqrt(disc);
 		float t = (-b - disc) / a;
-			if (cylinder.maxm > 0.0f)
+		if (cylinder.maxm > 0.0f)
+		{
+			float m = ray.direction.y * t + ray.origin.y;
+			if (t > 0.0f && t < *tmin && m < cylinder.maxm && m > 0.0f)
 			{
-				float m = ray.direction.y * t + ray.origin.y;
-				if (t > 0.0f && t < *tmin && m < cylinder.maxm && m > 0.0f)
-				{
-					*tmin = t;
-					shade_rec->local_hit_point = ray.direction * t + ray.origin;
-					shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder, m);
-					return true;
-				}
-				t = (-b + disc) / a;
-				m = ray.direction.y * t + ray.origin.y;
-				if (t > 0.0f && t < *tmin && m > 0.0f && m < cylinder.maxm)
-				{
-					*tmin = t;
-					shade_rec->local_hit_point = ray.direction * t + ray.origin;
-					shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder, m);
-					return true;
-				}
+				*tmin = t;
+				shade_rec->local_hit_point = ray.direction * t + ray.origin;
+				shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder, m);
+				return true;
 			}
+			t = (-b + disc) / a;
+			m = ray.direction.y * t + ray.origin.y;
+			if (t > 0.0f && t < *tmin && m > 0.0f && m < cylinder.maxm)
+			{
+				*tmin = t;
+				shade_rec->local_hit_point = ray.direction * t + ray.origin;
+				shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder, m);
+				return true;
+			}
+		}
 	}
 	return false;
 }
@@ -4051,11 +4051,13 @@ t_color	sample_material(t_material material, t_shade_rec *shade_rec,
 	else if (material.type == dielectric)
 	{
 		return (dielectric_sample_material(material, shade_rec, f, pdf, weight,
-									texture_manager, state));
+											texture_manager, state));
 	}
 	else if(material.type == emissive)
 	{
 		*pdf = 0.0f;
+		*f = float_color_multi(material.ls, (t_color){1.0f, 1.0f, 1.0f, 0.0f});
+		return (*f);
 	}
 	*pdf = 0.0f;
 	return ((t_color){ 0.0f, 0.0f, 0.0f, 0.0f });
@@ -4098,13 +4100,12 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 													shade_rec,
 													options,
 													seed)));
-			else
+			else if (options.strategy == 1)
 				color = color_sum(color,
 							color_multi(beta,
 									sample_light(material, shade_rec,  scene,
 												sampler_manager, options, seed,
 												state)));
-
 
 			if (material_pdf == 0.0f)
 				break;
@@ -4118,8 +4119,14 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 			sample_material(material, &shade_rec, &f, &pdf, &weight,
 								scene.instance_manager.tex_mngr, seed, state);
 
-			if (is_black(f) || pdf <= 0.001f)
+			if (is_black(f))
+					break;
+			if (pdf <= 0.001f)
+			{
+				if (!is_black(f))
+					color = color_sum(color_multi(beta, f), color);
 				break;
+			}
 
 			beta = color_multi(float_color_multi(1.0f / pdf, f), beta);
 		}

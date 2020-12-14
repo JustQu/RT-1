@@ -409,26 +409,26 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 		a *= 2.0f;
 		disc = sqrt(disc);
 		float t = (-b - disc) / a;
-			if (cylinder.maxm > 0.0f)
+		if (cylinder.maxm > 0.0f)
+		{
+			float m = ray.direction.y * t + ray.origin.y;
+			if (t > 0.0f && t < *tmin && m < cylinder.maxm && m > 0.0f)
 			{
-				float m = ray.direction.y * t + ray.origin.y;
-				if (t > 0.0f && t < *tmin && m < cylinder.maxm && m > 0.0f)
-				{
-					*tmin = t;
-					shade_rec->local_hit_point = ray.direction * t + ray.origin;
-					shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder, m);
-					return true;
-				}
-				t = (-b + disc) / a;
-				m = ray.direction.y * t + ray.origin.y;
-				if (t > 0.0f && t < *tmin && m > 0.0f && m < cylinder.maxm)
-				{
-					*tmin = t;
-					shade_rec->local_hit_point = ray.direction * t + ray.origin;
-					shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder, m);
-					return true;
-				}
+				*tmin = t;
+				shade_rec->local_hit_point = ray.direction * t + ray.origin;
+				shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder, m);
+				return true;
 			}
+			t = (-b + disc) / a;
+			m = ray.direction.y * t + ray.origin.y;
+			if (t > 0.0f && t < *tmin && m > 0.0f && m < cylinder.maxm)
+			{
+				*tmin = t;
+				shade_rec->local_hit_point = ray.direction * t + ray.origin;
+				shade_rec->normal = get_cylinder_normal(shade_rec->local_hit_point, cylinder, m);
+				return true;
+			}
+		}
 	}
 	return false;
 }

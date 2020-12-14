@@ -6,23 +6,13 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 19:12:33 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 14:09:10 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/14 18:27:51 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "image.h"
 #include "rt_error.h"
 #include "libft.h"
-
-// int		init_image(t_image *const restrict image)
-// {
-// 	if (image == NULL)
-// 		return (ERROR); //todo: error
-// 	image->height = 0;
-// 	image->width = 0;
-// 	image->pixels = NULL;
-// 	return (SUCCESS);
-// }
 
 int		init_image(t_image *const image, t_u32 w, t_u32 h)
 {
