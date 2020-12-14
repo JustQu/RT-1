@@ -13,6 +13,7 @@
 #include "interface.h"
 #include "rt.h"
 #include "gui.h"
+#include "keydown.h"
 
 int				is_press_button(SDL_Event *event, SDL_Rect *rect)
 {
@@ -28,10 +29,7 @@ void			catch_tab_bar(SDL_Event *event, t_all_rect *rect)
 {
 	if (is_press_button(event, &rect->title_button)
 		|| event->key.keysym.sym == SDLK_m)
-	{
 		g_show_gui ^= 1;
-		printf("\nPREESS\n");
-	}
 	if (is_press_button(event, &rect->save_img_button)
 		&& g_camera_tab_pressed == 1)
 		g_save_image = 1;
@@ -79,17 +77,13 @@ static int		catch_window_event(t_rt *rt, t_window *win, SDL_Event event)
 	{
 		win->width = event.window.data1;
 		win->height = event.window.data2;
-		printf("Window size changed to %dx%d\n", event.window.data1,
-												event.window.data2);
 	}
 	return (0);
 }
 
-static int	catch_keydown(t_rt *rt, t_window *win, t_interface *interface,
+static int		catch_keydown(t_rt *rt, t_interface *interface,
 							SDL_Event event)
 {
-	if (win->height >= 0)
-		printf("unused parametre (win)\n");
 	if (event.key.keysym.sym == SDLK_ESCAPE)
 		return (1);
 	if (event.key.keysym.sym == SDLK_p)
@@ -111,91 +105,12 @@ static int	catch_keydown(t_rt *rt, t_window *win, t_interface *interface,
 		rt->options.reset = 1;
 		rt->options.spp = NUM_SAMPLES;
 	}
-	if (event.key.keysym.sym == SDLK_a)
-	{
-		move_camera(&rt->scene.camera, 0, -0.1f);
-		rt->options.reset = 1;
-		rt->options.spp = NUM_SAMPLES;
-	}
-	if (event.key.keysym.sym == SDLK_d)
-	{
-		move_camera(&rt->scene.camera, 0, 0.1f);
-		rt->options.reset = 1;
-		rt->options.spp = NUM_SAMPLES;
-	}
-	if (event.key.keysym.sym == SDLK_LSHIFT)
-	{
-		move_camera(&rt->scene.camera, 1, 0.1f);
-		rt->options.reset = 1;
-		rt->options.spp = NUM_SAMPLES;
-	}
-	if (event.key.keysym.sym == SDLK_LCTRL)
-	{
-		move_camera(&rt->scene.camera, 1, -0.1f);
-		rt->options.reset = 1;
-		rt->options.spp = NUM_SAMPLES;
-	}
-	if (event.key.keysym.sym == SDLK_DOWN)
-	{
-		rotate_camera(&rt->scene.camera, 0, 1.0f);
-		rt->options.reset = 1;
-		rt->options.spp = NUM_SAMPLES;
-	}
-	if (event.key.keysym.sym == SDLK_UP)
-	{
-		rotate_camera(&rt->scene.camera, 0, -1.0f);
-		rt->options.reset = 1;
-		rt->options.spp = NUM_SAMPLES;
-	}
-	if (event.key.keysym.sym == SDLK_LEFT)
-	{
-		rotate_camera(&rt->scene.camera, 1, -1.0f);
-		rt->options.reset = 1;
-		rt->options.spp = NUM_SAMPLES;
-	}
-	if (event.key.keysym.sym == SDLK_RIGHT)
-	{
-		rotate_camera(&rt->scene.camera, 1, 1.0f);
-		rt->options.reset = 1;
-		rt->options.spp = NUM_SAMPLES;
-	}
-	if (event.key.keysym.sym == SDLK_q)
-	{
-		rotate_camera(&rt->scene.camera, 2, -1.0f);
-		rt->options.reset = 1;
-		rt->options.spp = NUM_SAMPLES;
-	}
-	if (event.key.keysym.sym == SDLK_e)
-	{
-		rotate_camera(&rt->scene.camera, 2, 1.0f);
-		rt->options.reset = 1;
-		rt->options.spp = NUM_SAMPLES;
-	}
-	if (event.key.keysym.sym == SDLK_F10)
-	{
-		SDL_SetRelativeMouseMode(SDL_TRUE);
-	}
-	if (event.key.keysym.sym == SDLK_F11)
-	{
-		SDL_SetRelativeMouseMode(SDL_FALSE);
-	}
-	if (event.key.keysym.sym == SDLK_TAB)
-	{
-		if (g_objects_tab_pressed)
-		{
-			interface->current_instance_id++;
-		}
-		if (g_camera_tab_pressed)
-		{
-			interface->current_light_id++;
-		}
-	}
-	return (0);
+	return (catch_keydown_01(rt, interface, event));
 }
 
-int		catch_event(t_rt *rt, t_window *win, t_interface *interface)
+int				catch_event(t_rt *rt, t_window *win, t_interface *interface)
 {
-	SDL_Event event;
+	SDL_Event	event;
 
 	if (SDL_PollEvent(&event) != 0)
 	{
@@ -205,10 +120,7 @@ int		catch_event(t_rt *rt, t_window *win, t_interface *interface)
 			return (catch_window_event(rt, win, event));
 		if (event.type == SDL_KEYDOWN)
 		{
-			return (catch_keydown(rt, win, interface, event));
-		}
-		if (event.type == SDL_KEYUP)
-		{
+			return (catch_keydown(rt, interface, event));
 		}
 		if (event.type == SDL_MOUSEBUTTONDOWN)
 		{
@@ -218,21 +130,10 @@ int		catch_event(t_rt *rt, t_window *win, t_interface *interface)
 			catch_tab_bar(&event, &interface->gui.all_rect);
 			printf("Mouse press at %d %d", event.button.x, event.button.y);
 		}
-		if (event.type == SDL_MOUSEBUTTONUP)
-		{
-		}
 		return (-1);
 	}
 	return (0);
 }
-
-// if (event.type == SDL_MOUSEMOTION)
-// {
-// 	rotate_camera(&rt->scene.camera, 1, event.motion.xrel / 10.0f);
-// 	rotate_camera(&rt->scene.camera, 0, event.motion.yrel / 10.0f);
-// 	rt->options.reset = 1;
-// 	rt->options.spp = NUM_SAMPLES;
-// }
 
 //todo: translate window coordinates in image coordinates,
 //e.g. windos is 1200x600 and image is 1920x1080

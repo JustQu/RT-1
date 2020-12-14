@@ -67,7 +67,7 @@ void		rt_error(char *message);
 
 void		rt_warning(char *message);
 
-const char	*getErrorString(int error_code);
+const char	*get_error_string(int error_code);
 
 /*
 ** @brief  print error message and exit program.

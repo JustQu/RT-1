@@ -85,7 +85,7 @@ static void		read_file(const char *file_name, char *str)
 		rt_warning("Warning: could not close file");
 }
 
-extern FILE		*f;
+extern FILE *f;//todo: norminette Error (line 88, col 13): global named f is not well prefixed
 
 cl_program		create_program(cl_context context)
 {
@@ -106,7 +106,8 @@ cl_program		create_program(cl_context context)
 		fprintf(f, "%s\n", str[i]);
 		i++;
 	}
-	program = clCreateProgramWithSource(context, g_num_files, (const char **)str, NULL, &ret);
+	program = clCreateProgramWithSource(context,
+		g_num_files, (const char **)str, NULL, &ret);
 	rt_is_dead(opencl_err, cl_create_program_error, ret, "creat_program 4");
 	while (i--)
 		ft_strdel(&str[i]);

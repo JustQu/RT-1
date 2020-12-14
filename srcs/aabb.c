@@ -64,8 +64,8 @@ static int		compute_aabb_next1(t_instance_info obj, t_bbox *aabb)
 	float a;
 
 	if (obj.type == disk)
-		*aabb = (t_bbox){(cl_float4) {{obj.r, obj.r, obj.r}}, (cl_float4) {{-obj.r,
-			-obj.r, -obj.r}}};
+		*aabb = (t_bbox){(cl_float4) {{obj.r, obj.r, obj.r}},
+			(cl_float4) {{-obj.r, -obj.r, -obj.r}}};
 	else if (obj.type == box)
 		*aabb = (t_bbox){obj.v1, obj.v2};
 	else if (obj.type == torus)

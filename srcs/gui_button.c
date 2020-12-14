@@ -35,7 +35,7 @@ void			draw_button_rect(t_window *win, SDL_Rect *rect,
 	{
 		g_font_size -= 1;
 		text = render_text(str, "font/Title.ttf", color->text_color,
-							 win->renderer);
+						win->renderer);
 		SDL_QueryTexture(text, NULL, NULL, &w, &h);
 	}
 	minimum_rect_size(w, h, rect, &ptr);
@@ -64,7 +64,7 @@ void			draw_button_rgb(t_window *win, SDL_Rect *rect,
 	int			w;
 	int			h;
 
-	text = draw_button_rgb_l(win, str_xyz, color, rect);//ampersant was removed
+	text = draw_button_rgb_l(win, str_xyz, color, rect);
 	SDL_QueryTexture(text, NULL, NULL, &w, &h);
 	ptr = init_rect_size(win->width - win->width / 4 + MARGIN, rect->y, w, h);
 	render_rect(text, win->renderer, &ptr);
@@ -91,7 +91,7 @@ void			draw_button_xyz(t_window *win, SDL_Rect *rect,
 	int			w;
 	int			h;
 
-	text = draw_button_rgb_l(win, str_xyz, color, rect);//ampersant was removed
+	text = draw_button_rgb_l(win, str_xyz, color, rect);
 	SDL_QueryTexture(text, NULL, NULL, &w, &h);
 	ptr = init_rect_size(win->width - win->width / 4 + MARGIN,
 		rect->y, w, h);
