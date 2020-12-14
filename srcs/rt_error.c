@@ -74,7 +74,7 @@ void	rt_die(t_error_type err_type, t_error_code err_code,
 			i++;
 	ft_putendl(g_code_msg[i].msg);
 	if (err_type == opencl_err)
-		ft_putendl(getErrorString(c));
+		ft_putendl(get_error_string(c));
 	ft_putendl(additional_message);
 	exit(g_code_msg[i].err_code);
 }
@@ -92,7 +92,7 @@ void	rt_is_dead(t_error_type err_type, t_error_code err_code,
 			i++;
 	ft_putendl(g_code_msg[i].msg);
 	if (err_type == opencl_err)
-		ft_putendl(getErrorString(c));
+		ft_putendl(get_error_string(c));
 	else if (err_type == sdl_err)
 		ft_putendl(SDL_GetError());
 	else if (err_type == system_err)

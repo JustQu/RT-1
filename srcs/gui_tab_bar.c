@@ -45,8 +45,7 @@ void			camera_tab(t_window *win, t_gui *gui)
 	light_tab(win, gui);
 }
 
-void			objects_tab(t_window *win,
-					t_gui *gui)
+void			objects_tab(t_window *win, t_gui *gui)
 {
 	char		*str[4];
 

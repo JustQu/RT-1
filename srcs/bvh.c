@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include "rt_err.h"
 #include "bvh.h"
+#include "bvh_01.h"
 #include "scene.h"
 #include "utils.h"
 #include "rt_error.h"
@@ -71,21 +72,6 @@ t_bbox	compute_bvh_node_aabb(t_bvh_node *nodes, int size)
 		node_aabb.min.z = float_min(object_aabb.min.z, node_aabb.min.z);
 	}
 	return (node_aabb);
-}
-
-int		cmp_x(t_bvh_node a, t_bvh_node b)
-{
-	return (a.center.x < b.center.x);
-}
-
-int		cmp_y(t_bvh_node a, t_bvh_node b)
-{
-	return (a.center.y < b.center.y);
-}
-
-int		cmp_z(t_bvh_node a, t_bvh_node b)
-{
-	return (a.center.z < b.center.z);
 }
 
 /*
@@ -160,31 +146,6 @@ int		build_internal_node(t_bvh bvh, int *cur, t_bvh tmp_n, int size)
 }
 
 /*
-** todo: remove
-*/
-
-void	print_bvh(t_bvh bvh, int n)
-{
-	int	i;
-
-	i = 0;
-	while (i < n * 2 - 1)
-	{
-		printf("==node #%d==\n", i);
-		printf("max:\t%f, %f, %f\n", bvh[i].aabb.max.x,
-									bvh[i].aabb.max.y,
-									bvh[i].aabb.max.z);
-		printf("min:\t%f, %f, %f\n", bvh[i].aabb.min.x,
-									bvh[i].aabb.min.y,
-									bvh[i].aabb.min.z);
-		printf("instance id:\t%d\n", bvh[i].instance_id);
-		printf("next:\t%d\n", bvh[i].next);
-		printf("\n");
-		i++;
-	}
-}
-
-/*
 ** malloc 2 times more nodes of bvh tree
 */
 
@@ -212,7 +173,6 @@ t_bvh	build_bvh(t_scene *scene)
 					instance_mngr.extra[id].aabb.max.z)}}, .next = -1};
 	id = 0;
 	build_internal_node(bvh, &id, temp_nodes, instance_mngr.ninstances);
-	print_bvh(bvh, instance_mngr.ninstances); //remove
 	free(temp_nodes);
 	return (scene->bvh = bvh);
 }

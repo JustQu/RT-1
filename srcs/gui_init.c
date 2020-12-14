@@ -83,8 +83,7 @@ void		init_colors(t_colors *color)
 	color->text_color = init_color(255, 255, 255, 0);
 }
 
-void	init_gui(t_gui *const gui,//, int width, int height,
-				/* remove */ t_window win)
+void		init_gui(t_gui *const gui, t_window win)
 {
 	init_colors(&gui->colors);
 	init_rect(&gui->all_rect, &win);

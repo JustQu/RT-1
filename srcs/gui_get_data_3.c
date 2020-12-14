@@ -16,7 +16,6 @@
 
 void			get_true_data(int ptr, char *string, char **str)
 {
-
 	str[0] = ft_strdup(string);
 	rt_is_dead(system_err, system_malloc_error, !str[0], "gui_get_data_3 1");
 	if (ptr == 0)
