@@ -6,14 +6,13 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:51:27 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 17:57:00 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/14 17:43:30 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "logs.h"
 #include "rt_error.h"
-#include <libgen.h>
 
 int			get_log_fd(char *str)
 {

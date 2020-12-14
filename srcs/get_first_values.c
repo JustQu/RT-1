@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   get_first_values.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 00:10:21 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 15:52:33 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/14 17:44:13 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "offset.h"
 #include "parser.h"
 #include "rt_error.h"
+
+char		*basename(const char *filename)
+{
+  char *p;
+
+  p = ft_strrchr (filename, '/');
+  return p ? p + 1 : (char *) filename;
+}
 
 float		ft_atofloat(char *str)
 {
