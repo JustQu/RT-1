@@ -6,7 +6,7 @@
 #    By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/12/13 18:03:18 by aapricot         ###   ########.fr        #
+#    Updated: 2020/12/14 18:30:18 by aapricot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ CFLAGS = -I$(INCDIR)\
 		 -g\
 		 -Wall\
 		 -Werror\
-		 -Wextra
+		 -Wextra\
+		 -O0
 		#  --analyze\
 		#  --analyzer-output html\
 		 -Wall\
