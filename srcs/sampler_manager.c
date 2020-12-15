@@ -30,24 +30,6 @@ static int	realloc_samplers(t_sampler_manager *sampler_manager,
 	return (SUCCESS);
 }
 
-t_sampler	init_sampler(t_sampler_type sampler_type, int num_samples)
-{
-	t_sampler	sampler;
-
-	sampler.count = 0;
-	sampler.jump = 0;
-	sampler.type = num_samples == 1 ? regular_grid : sampler_type;
-	sampler.num_samples = num_samples ? num_samples : NUM_SAMPLES;
-	sampler.num_sets = NUM_SETS;
-	if (sampler_type == none)
-	{
-		sampler.type = sampler_type;
-		sampler.num_samples = 1;
-		sampler.num_sets = 1;
-		return (sampler);
-	}
-	return (sampler);
-}
 
 int			init_sampler1(t_sampler *sampler, t_sampler_type type,
 					int num_samples, int samples_type)

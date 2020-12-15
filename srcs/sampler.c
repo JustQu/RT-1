@@ -3,123 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   sampler.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:02:56 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:43:49 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/15 20:20:02 by jvoor            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "sampler_01.h"
 
-cl_float2	*generate_rand_jitter_samples(t_sampler sampler, cl_float2 *samples)
+cl_float2		*generate_nrooks_samples(t_sampler info, cl_float2 *samples)
 {
-	int			n = sqrtf(sampler.num_samples);
-	int			index[3];
-	int			pepa;
 	cl_float2	*sp;
+	int			pepa;
+	int			ctr[2];
 
+	ctr[0] = -1;
 	pepa = 0;
 	sp = samples;
-	for (index[0] = 0; index[0] < sampler.num_sets; index[0]++)
+	while (++(ctr[0]))
 	{
-		for (index[1] = 0; index[1] < n; index[1]++)
+		ctr[1] = -1;
+		while (++(ctr[1]))
 		{
-			for (index[2] = 0; index[2] < n; index[2]++)
-			{
-				sp[pepa].x = (index[2] + rand_float()) / n;
-				sp[pepa].y = (index[1] + rand_float()) / n;
-				pepa++;
-			}
+			sp[pepa].x = (ctr[1] + rand_float()) / info.num_samples;
+			sp[pepa].y = (ctr[1] + rand_float()) / info.num_samples;
+			pepa++;
 		}
 	}
-	return sp;
-}
-
-cl_float2	*generate_regular_samples(t_sampler sampler, cl_float2 *samples)
-{
-	int			n = sqrtf(sampler.num_samples);
-	int			index[3];
-	int			pepa;
-	cl_float2	*sp;
-
-	index[0] = -1;
-	index[1] = -1;
-	index[2] = -1;
-	pepa = 0;
-	sp = samples;
-	while (++index[0] < sampler.num_sets && (index[1] = -1))
-		while (++index[1] < n && (index[2] = -1))
-			while (++index[2] < n)
-			{
-				sp[pepa].x = (index[2]) / (float)n;
-				sp[pepa].y = (index[1]) / (float)n;
-				pepa++;
-			}
-	return (sp);
-}
-
-cl_float2	*generate_pure_random_samples(t_sampler sampler, cl_float2 *samples)
-{
-	int			index[3];
-	int			pepa;
-	cl_float2	*sp;
-
-	index[0] = -1;
-	index[1] = -1;
-	pepa = 0;
-	sp = samples;
-	while (++index[0] < sampler.num_sets && (index[1] = -1))
-		while (++index[1] < sampler.num_samples)
-		{
-			sp[pepa].x = rand_float();
-			sp[pepa].y = rand_float();
-			pepa++;
-		}
-	return (sp);
-}
-
-void	shuffle_x_coordinates(cl_float2 *samples, t_sampler sampler)
-{
-	for (int p = 0; p < sampler.num_sets; p++)
-		for (int i = 0; i < sampler.num_samples; i++)
-		{
-			int target = rand() % sampler.num_samples + p * sampler.num_samples;
-			float temp = samples[i + p * sampler.num_samples].x;
-			samples[i + p * sampler.num_samples].x = samples[target].x;
-			samples[target].x = temp;
-		}
-}
-
-void	shuffle_y_coordinates(cl_float2 *samples, t_sampler sampler)
-{
-	for (int p = 0; p < sampler.num_sets; p++)
-		for (int i = 0; i < sampler.num_samples; i++)
-		{
-			int target = rand() % sampler.num_samples + p * sampler.num_samples;
-			float temp = samples[i + p * sampler.num_samples].y;
-			samples[i + p * sampler.num_samples].y = samples[target].y;
-			samples[target].y = temp;
-		}
-}
-
-cl_float2	*generate_nrooks_samples(t_sampler info, cl_float2 *samples)
-{
-	cl_float2	*sp;
-	int			pepa;
-
-	pepa = 0;
-	sp = samples;
-	for (int p = 0; p < info.num_sets; p++)
-		for (int j = 0; j < info.num_samples; j++)
-		{
-			sp[pepa].x = (j + rand_float()) / info.num_samples;
-			sp[pepa].y = (j + rand_float()) / info.num_samples;
-			pepa++;
-		}
 	shuffle_x_coordinates(sp, info);
 	shuffle_y_coordinates(sp, info);
-	return sp;
+	return (sp);
 }
 
 /*
@@ -130,43 +45,47 @@ cl_float2	*generate_nrooks_samples(t_sampler info, cl_float2 *samples)
 ** @return ** cl_float2*
 */
 
-void	map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples,
-								cl_float2 *disk_samples)
+static void			extra_for_loop(cl_float2 *sp, float *r, float *phi)
+{
+	if (sp->x < sp->y)
+	{
+		*r = -sp->x;
+		*phi = 4 + sp->y / sp->x;
+	}
+	else
+	{
+		*r = -sp->y;
+		if (sp->y != 0.0f)
+			*phi = 6 - sp->x / sp->y;
+		else
+			*phi = 0.0f;
+	}
+}
+
+void		map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples,
+							cl_float2 *disk_samples)
 {
 	float		r;
 	float		phi;
 	cl_float2	sp;
-	int			size;
+	int			size[2];
 
-	size = sampler.num_samples * sampler.num_sets;
-	for (int j = 0; j < size; j++)
+	size[0] = -1;
+	size[1] = sampler.num_samples * sampler.num_sets;
+	while (++(size[0]) < size[1])
 	{
-		sp.x = 2.0 * samples[j].x - 1.0;
-		sp.y = 2.0 * samples[j].y - 1.0;
+		sp.x = 2.0 * samples[size[0]].x - 1.0;
+		sp.y = 2.0 * samples[size[0]].y - 1.0;
 		if (sp.x > -sp.y)
 		{
 			r = sp.x > sp.y ? sp.x : sp.y;
 			phi = sp.x > sp.y ? sp.y / sp.x : 2 - sp.x / sp.y;
 		}
 		else
-		{
-			if (sp.x < sp.y)
-			{
-				r = -sp.x;
-				phi = 4 + sp.y / sp.x;
-			}
-			else
-			{
-				r = -sp.y;
-				if (sp.y != 0.0f)
-					phi = 6 - sp.x / sp.y;
-				else
-					phi = 0.0f;
-			}
-		}
+			extra_for_loop(&sp, &r, &phi);
 		phi *= M_PI / 4.0f;
-		disk_samples[j].x = r * cos(phi);
-		disk_samples[j].y = r * sin(phi);
+		disk_samples[size[0]].x = r * cos(phi);
+		disk_samples[size[0]].y = r * sin(phi);
 	}
 }
 
@@ -181,22 +100,23 @@ void	map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples,
 void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples,
 								cl_float3 *hemisphere_samples, const float e)
 {
-	int			size;
+	int			size[2];
 	cl_float3	sp;
 	float		cos_phi;
 	float		sin_phi;
 
-	size = sampler.num_samples * sampler.num_sets;
-	for (int j = 0; j < size; j++)
+	size[0] = -1;
+	size[1] = sampler.num_samples * sampler.num_sets;
+	while (++(size[0]) < size[1])
 	{
-		cos_phi = cos(2.0 * M_PI * samples[j].x);
-		sin_phi = sin(2.0 * M_PI * samples[j].x);
-		sp.x = cos_phi * sqrt(1.0 - pow(pow((1.0 - samples[j].y),
+		cos_phi = cos(2.0 * M_PI * samples[size[0]].x);
+		sin_phi = sin(2.0 * M_PI * samples[size[0]].x);
+		sp.x = cos_phi * sqrt(1.0 - pow(pow((1.0 - samples[size[0]].y),
 										1.0 / (e + 1.0)), 2));
-		sp.y = sin_phi * sqrt(1.0 - pow(pow((1.0 - samples[j].y),
+		sp.y = sin_phi * sqrt(1.0 - pow(pow((1.0 - samples[size[0]].y),
 										1.0 / (e + 1.0)), 2));
-		sp.z = pow((1.0 - samples[j].y), 1.0 / (e + 1.0));
-		hemisphere_samples[j] = sp;
+		sp.z = pow((1.0 - samples[size[0]].y), 1.0 / (e + 1.0));
+		hemisphere_samples[size[0]] = sp;
 	}
 }
 
@@ -204,26 +124,14 @@ int		generate_samples(t_sampler sampler,
 						cl_float2 *samples)
 {
 	if (sampler.type == regular_grid)
-	{
 		generate_regular_samples(sampler, samples);
-	}
 	else if (sampler.type == rand_jitter)
-	{
 		generate_rand_jitter_samples(sampler, samples);
-	}
 	else if (sampler.type == pure_random)
-	{
 		generate_pure_random_samples(sampler, samples);
-	}
 	else if (sampler.type == nrooks)
-	{
 		generate_nrooks_samples(sampler, samples);
-	}
 	else
-	{
 		return (0);
-	}
-	// map_samples_to_unit_disk(sampler, samples, disk_samples);
-	// map_samples_to_hemisphere(sampler, samples, hemisphere_samples, 1.0f);
 	return (SUCCESS);
 }

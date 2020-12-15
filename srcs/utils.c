@@ -36,22 +36,22 @@ void		*ft_realloc(void *mem, size_t current_size, size_t new_size)
 	return (new_mem);
 }
 
-float	float_min(float a, float b)
+float		float_min(float a, float b)
 {
 	return (a < b ? a : b);
 }
 
-float	float_max(float a, float b)
+float		float_max(float a, float b)
 {
 	return (a > b ? a : b);
 }
 
-int		int_max(int a, int b)
+int			int_max(int a, int b)
 {
 	return (a > b ? a : b);
 }
 
-int		int_min(int a, int b)
+int			int_min(int a, int b)
 {
 	return (a < b ? a : b);
 }
