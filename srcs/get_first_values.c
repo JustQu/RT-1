@@ -16,10 +16,10 @@
 
 char		*basename(const char *filename)
 {
-  char *p;
+	char *p;
 
-  p = ft_strrchr (filename, '/');
-  return p ? p + 1 : (char *) filename;
+	p = ft_strrchr(filename, '/');
+	return (p ? p + 1 : (char *)filename);
 }
 
 float		ft_atofloat(char *str)

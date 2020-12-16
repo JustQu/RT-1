@@ -27,12 +27,7 @@ void			camera_tab(t_window *win, t_gui *gui)
 	gui->all_rect.tab_camera_button.y + gui->all_rect.tab_camera_button.h,
 	gui->all_rect.tab_camera_button.x + gui->all_rect.tab_camera_button.w,
 	gui->all_rect.tab_camera_button.y + gui->all_rect.tab_camera_button.h);
-	get_camera_type_data(gui->camera.type, "Type camera", str);
-	draw_button(win, &gui->all_rect.first_button, str, &gui->colors);
-	free_str(str);
-	get_float4_data(gui->camera.origin, "Position", str);
-	draw_button_xyz(win, &gui->all_rect.second_button, str, &gui->colors);
-	free_str(str);
+	util_call_camera_tab(win, gui, str);
 	get_float4_data(gui->camera.direction, "Direction", str);
 	draw_button_xyz(win, &gui->all_rect.third_button, str, &gui->colors);
 	free_str(str);
@@ -58,12 +53,7 @@ void			objects_tab(t_window *win, t_gui *gui)
 	gui->all_rect.tab_objects_button.y + gui->all_rect.tab_objects_button.h,
 	gui->all_rect.tab_objects_button.x + gui->all_rect.tab_objects_button.w,
 	gui->all_rect.tab_objects_button.y + gui->all_rect.tab_objects_button.h);
-	get_shape_data(gui->current_instance.type, "Shape", str);
-	draw_button(win, &gui->all_rect.first_button, str, &gui->colors);
-	free_str(str);
-	get_float4_data(gui->current_instance.origin, "Origin", str);
-	draw_button_xyz(win, &gui->all_rect.second_button, str, &gui->colors);
-	free_str(str);
+	util_call_object_tab(win, gui, str);
 	get_float4_data(gui->current_instance.rotation, "Rotation", str);
 	draw_button_xyz(win, &gui->all_rect.third_button, str, &gui->colors);
 	free_str(str);
@@ -108,12 +98,7 @@ void			option_tab(t_window *win,
 	gui->all_rect.tab_options_button.y + gui->all_rect.tab_options_button.h,
 	gui->all_rect.tab_options_button.x + gui->all_rect.tab_options_button.w,
 	gui->all_rect.tab_options_button.y + gui->all_rect.tab_options_button.h);
-	get_rt_type_data(gui->options.tracer_type, "Type RT", str);
-	draw_button(win, &gui->all_rect.first_button, str, &gui->colors);
-	free_str(str);
-	get_float_data(gui->options.sampler.num_samples, "Samplers", str); // ?
-	draw_button(win, &gui->all_rect.second_button, str, &gui->colors);
-	free_str(str);
+	utils_call_option_tab(win, gui, str);
 	get_color_data(gui->options.background_color, "Back_color", str);
 	free(str[1]);
 	str[1] = NULL;

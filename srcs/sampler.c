@@ -45,7 +45,7 @@ cl_float2		*generate_nrooks_samples(t_sampler info, cl_float2 *samples)
 ** @return ** cl_float2*
 */
 
-static void			extra_for_loop(cl_float2 *sp, float *r, float *phi)
+static void		extra_for_loop(cl_float2 *sp, float *r, float *phi)
 {
 	if (sp->x < sp->y)
 	{
@@ -62,7 +62,7 @@ static void			extra_for_loop(cl_float2 *sp, float *r, float *phi)
 	}
 }
 
-void		map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples,
+void			map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples,
 							cl_float2 *disk_samples)
 {
 	float		r;
@@ -97,7 +97,7 @@ void		map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples,
 ** @return ** void
 */
 
-void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples,
+void			map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples,
 								cl_float3 *hemisphere_samples, const float e)
 {
 	int			size[2];
@@ -120,7 +120,7 @@ void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples,
 	}
 }
 
-int		generate_samples(t_sampler sampler,
+int				generate_samples(t_sampler sampler,
 						cl_float2 *samples)
 {
 	if (sampler.type == regular_grid)

@@ -15,7 +15,7 @@
 #include "utils.h"
 #include "rt_error.h"
 
-static int	realloc_samplers(t_sampler_manager *sampler_manager,
+static int		realloc_samplers(t_sampler_manager *sampler_manager,
 								size_t new_size)
 {
 	t_sampler *new_samplers;
@@ -30,8 +30,7 @@ static int	realloc_samplers(t_sampler_manager *sampler_manager,
 	return (SUCCESS);
 }
 
-
-int			init_sampler1(t_sampler *sampler, t_sampler_type type,
+int				init_sampler1(t_sampler *sampler, t_sampler_type type,
 					int num_samples, int samples_type)
 {
 	sampler->count = 0;
@@ -53,7 +52,7 @@ int			init_sampler1(t_sampler *sampler, t_sampler_type type,
 ** todo: malloc check
 */
 
-void		map_sp(t_sampler_manager *m, t_sampler *s)
+void			map_sp(t_sampler_manager *m, t_sampler *s)
 {
 	t_uint	a;
 
@@ -81,7 +80,7 @@ void		map_sp(t_sampler_manager *m, t_sampler *s)
 	}
 }
 
-int			new_sampler(t_sampler_manager *mngr,
+int				new_sampler(t_sampler_manager *mngr,
 					t_sampler_type sampler_type,
 					int nsp,
 					int type)
@@ -109,7 +108,7 @@ int			new_sampler(t_sampler_manager *mngr,
 	return (mngr->count - 1);
 }
 
-int			init_sampler_manager(t_sampler_manager *sampler_manager)
+int				init_sampler_manager(t_sampler_manager *sampler_manager)
 {
 	sampler_manager->count = 0;
 	sampler_manager->samplers_malloc_size = 0;

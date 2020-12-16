@@ -187,6 +187,11 @@ void			is_type_lights(t_window *win,
 					t_gui *gui);
 void			objects_tab_cont(t_window *win,
 						t_gui *gui);
+void			utils_call_option_tab(t_window *win, t_gui *gui, char **str);
+void			util_call_object_tab(t_window *win, t_gui *gui, char **str);
+void			util_call_camera_tab(t_window *win, t_gui *gui, char **str);
+void			utils_call_objects_tab_cont(t_window *win,
+											t_gui *gui, char **str);
 
 
 //add this to work func from init.c

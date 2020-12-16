@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   resource_manager.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 20:25:22 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:18:20 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/16 13:08:43 by jvoor            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,22 @@ void			add_parsed_asset(t_res_mngr *const mngr,
 int				init_resource_manager(t_res_mngr *resource_manager,
 										t_rt *rt);
 
-t_instance_info	get_instance_info(t_res_mngr *const mngr, t_u32 id);
-t_light			get_light_info(t_res_mngr *const mngr, t_u32 id);
+t_instance_info		get_instance_info(t_res_mngr *const mngr, t_u32 id);
+t_light				get_light_info(t_res_mngr *const mngr, t_u32 id);
+void				scan_instance_01(t_res_mngr *const mngr, t_parsed_info asset);
+void				scan_instance(t_res_mngr *const mngr, t_parsed_info asset);
+void				add_parsed_asset(t_res_mngr *const mngr, t_parsed_info asset);
+t_instance_info		get_instance_info(t_res_mngr *mngr, t_u32 id);
+t_light				get_light_info(t_res_mngr *const mngr, t_u32 id);
+t_matrix			create_inv_transformation_matrix(t_instance_info info);
+int					add_instance(t_res_mngr *res_mngr,
+							t_instance_manager *mngr, t_instance_info data);
+float				compute_area(t_instance_info info);
+void				add_emissive_instance(t_res_mngr *mngr, t_instance_info data);
+int					init_resource_manager(t_res_mngr *resource_manager,
+										t_rt *rt);
+t_instance_info		get_object_info(t_res_mngr *mngr, t_instance instance,
+								t_instance_extra extra);
+t_instance_info		get_triangle_info(void);
 
 #endif
