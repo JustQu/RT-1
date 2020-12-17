@@ -21,4 +21,3 @@ void			utils_call_objects_tab_cont(t_window *win,
 	draw_button(win, &gui->all_rect.ten_button, str, &gui->colors);
 	free_str(str);
 }
-

@@ -25,8 +25,7 @@ t_selector		g_selector_cam[] = {
 	{"zoom", offsetof(t_camera, zoom), get_float}
 };
 
-int				g_cam_selector_size = sizeof(g_selector_cam) /
-										sizeof(t_selector);
+int			g_cam_selector_size = sizeof(g_selector_cam) / sizeof(t_selector);
 
 void			validate_parsed_camera(t_camera *camera, int log)
 {

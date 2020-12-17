@@ -34,7 +34,7 @@ void	set_default_camera(t_camera *camera)
 	camera->d = DEFAULT_WIDTH;
 	camera->zoom = 0.5f;
 	camera->normalized = FALSE;
-	//заново открыть лог файл и записать логи
+	//todo:заново открыть лог файл и записать логи
 }
 
 int		init_parsed_scene(t_scene *scene,

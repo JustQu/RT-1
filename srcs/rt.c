@@ -54,7 +54,7 @@ static void	set_kernel_args(t_rt rt, int step)
 	err |= clSetKernelArg(k, 24, sizeof(cl_mem), &rt.ocl_program.perm_x);
 	err |= clSetKernelArg(k, 25, sizeof(cl_mem), &rt.ocl_program.perm_y);
 	err |= clSetKernelArg(k, 26, sizeof(cl_mem), &rt.ocl_program.perm_z);
-	a++;
+	a++;//TODO: breaking into two funcs causes strong lags
 	rt_is_dead(opencl_err, cl_kernel_arg_error, err, "");
 }
 

@@ -18,23 +18,8 @@
 
 FILE *f;
 
-// #include <windows.h>
-
-// #define _CRTDBG_MAP_ALLOC
-// #include <stdlib.h>
-// #include <crtdbg.h>
-
 void	exit_program(t_window window)
 {
-/*
-    err = clFlush(command_queue);
-    err = clFinish(command_queue);
-    err = clReleaseKernel(kernel);
-    err = clReleaseProgram(program);
-    err = clReleaseMemObject(img_cl);
-    err = clReleaseMemObject(obj_cl);
-    err = clReleaseCommandQueue(command_queue);
-    err = clReleaseContext(context);*/
 	SDL_DestroyTexture(window.texture);
 	SDL_DestroyRenderer(window.renderer);
 	SDL_DestroyWindow(window.ptr);
@@ -47,26 +32,6 @@ void	exit_program(t_window window)
 ** @param rt
 ** @return ** void
 */
-
-// void cleanup(t_rt rt)
-// {
-// 	clReleaseMemObject(rt.program.disk_samples);
-// 	clReleaseMemObject(rt.program.samplers);
-// 	clReleaseMemObject(rt.program.hemisphere_samples);
-// 	clReleaseMemObject(rt.program.samples);
-// 	clReleaseMemObject(rt.program.lights);
-// 	clReleaseMemObject(rt.program.objects);
-// 	clReleaseMemObject(rt.program.output_image);
-// 	clReleaseMemObject(rt.program.triangles);
-// 	clReleaseKernel(rt.program.help_kernel);
-// 	clReleaseKernel(rt.program.new_kernel);
-// 	// clReleaseKernel(rt.program.kernel);
-// 	clReleaseProgram(rt.program.program);
-// 	clReleaseCommandQueue(rt.program.info.queue);
-// 	clReleaseContext(rt.program.info.context);
-// 	free(rt.scene.lights);
-// 	free(rt.window.image);
-// }
 
 /*
 ** @brief
@@ -83,15 +48,12 @@ void	display_image(t_window *w, t_image *image)
 	SDL_RenderCopy(w->renderer, w->texture, NULL, NULL);
 }
 
-#include "time.h"
-
 void	render_image(t_app app)
 {
 	int		err_code;
 
 	err_code = 0;
 	render_scene(app.rt);
-	// int	a = NUM_SAMPLES;
 	err_code |= clSetKernelArg(app.rt.ocl_program.help_kernel, 0,
 								sizeof(cl_mem), &app.rt.ocl_program.rgb_image);
 	err_code |= clSetKernelArg(app.rt.ocl_program.help_kernel, 1,
@@ -133,7 +95,6 @@ void	render_image(t_app app)
 
 void	read_av(t_app *app, int ac, char **av)
 {
-	//
 	app->options.render_device = CL_DEVICE_TYPE_DEFAULT;
 	app->options.num_samples = NUM_SAMPLES;
 	app->options.image_width = DEFAULT_IMAGE_WIDTH;
@@ -144,12 +105,12 @@ void	read_av(t_app *app, int ac, char **av)
 	app->options.enable_gui = TRUE;
 	app->options.enable_logs = FALSE;
 	app->options.mode = window_mode;
-	//
 	if (ac == 2)
 	{
 		app->options.scene_file = av[1];
 	}
 	else
+	{
 		for (int i = 1; i < ac; i++)
 		{
 			if (av[i][0] == '-')
@@ -183,26 +144,15 @@ void	read_av(t_app *app, int ac, char **av)
 					app->options.image_file = av[i];
 					i++;
 				}
-				else if (!strcmp(av[i], "--console"))
-				{
-
-				}
-				else if (!strcmp(av[i], "-h"))
-				{
-
-				}
-				else if (!strcmp(av[i], "--nudes"))
-				{
-
-				}
 				else
 				{
 					ft_putendl_fd("Options error.", 1);
-					//call usage
+					//todo:call usage
 					exit(0);
 				}
 			}
 		}
+	}
 	rt_is_dead(app_err, app_no_scene_file, !app->options.scene_file, NULL);
 }
 
@@ -214,8 +164,9 @@ void		display_info(t_interface *const interface,
 						t_window *const window)
 {
 	interface->current_instance = get_instance_info(mngr,
-												interface->current_instance_id);
-	interface->current_light = get_light_info(mngr, interface->current_light_id);
+								interface->current_instance_id);
+	interface->current_light = get_light_info(mngr,
+								interface->current_light_id);
 	interface->camera = mngr->scene->camera;
 	interface->options = *mngr->rt_options;
 	if (interface->mode == window_mode)
@@ -228,14 +179,6 @@ void		display_info(t_interface *const interface,
 			interface->gui.options = interface->options;
 			gui(window, &interface->gui);
 		}
-	}
-	else if (interface->mode == console)
-	{
-		;
-	}
-	else
-	{
-		;
 	}
 }
 
@@ -257,7 +200,6 @@ static void	window_render_loop(t_app *const app)
 			save_image_func(&app->window, &app->image);
 			display_info(&app->interface, &app->resource_manager,
 						&app->window);
-			// gui(&app->window, &app->rt, &app->gui.all_rect, &app->gui.colors);
 			SDL_RenderPresent(app->window.renderer);
 		}
 	}
@@ -271,9 +213,5 @@ int			main(int ac, char **av)
 	read_av(&app, ac, av);
 	init_app(&app);
 	window_render_loop(&app);
-	// exit_program(app.window);
-
-	// fprintf(stdout, "AAA: %d\n",_CrtDumpMemoryLeaks());
-
 	return (0);
 }

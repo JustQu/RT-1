@@ -22,6 +22,17 @@ typedef cl_float16				t_matrix;
 # define IDENTITY_MATRIX (t_matrix){{1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}}
 # define ZERO_MATRIX (t_matrix){{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}
 
+/*
+** @brief Identity matrix
+*/
+
+static const t_matrix g_default_matrix = {
+	.s0 = 1.0f, .s1 = 0.0f, .s2 = 0.0f, .s3 = 0.0f,
+	.s4 = 0.0f, .s5 = 1.0f, .s6 = 0.0f, .s7 = 0.0f,
+	.s8 = 0.0f, .s9 = 0.0f, .sA = 1.0f, .sB = 0.0f,
+	.sC = 0.0f, .sD = 0.0f, .sE = 0.0f, .sF = 1.0f
+};
+
 void		print_matrix(t_matrix matrix);
 
 t_matrix	mul_matrix(t_matrix a, t_matrix b);
