@@ -15,8 +15,6 @@
 
 # define OPEN_CL __OPENCL_C_VERSION__
 
-// # define CL_TARGET_OPENCL_VERSION 220
-
 /*
 ** @brief Host code
 */

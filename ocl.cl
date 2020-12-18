@@ -15,8 +15,6 @@
 
 # define OPEN_CL __OPENCL_C_VERSION__
 
-// # define CL_TARGET_OPENCL_VERSION 220
-
 /*
 ** @brief Host code
 */
@@ -405,7 +403,7 @@ typedef struct s_material			t_material;
 
 enum	e_material_type
 {
-	mat_none = -2, 
+	mat_none = -2,
 	matte = 0,
 	phong,
 
@@ -660,7 +658,7 @@ struct				s_ambient_occluder
 typedef enum e_sampler_type	t_sampler_type;
 typedef struct s_sampler	t_sampler;
 
-enum	e_sampler_type
+enum						e_sampler_type
 {
 	none,
 	regular_grid,
@@ -685,27 +683,28 @@ enum	e_sampler_type
 ** jump - random index jump
 */
 
-struct	s_sampler
+struct						s_sampler
 {
-	t_sampler_type	type;			//4
-	cl_int			num_samples;	//4
-	cl_int			num_sets;		//4
-	cl_uint			count;			//4
-	cl_int			jump;			//4
-	cl_int			samples_type;	//4
-
-	cl_int			offset;			//4
-	cl_int			disk_samples_offset;	//4
-	cl_int			hemisphere_samples_offset;	//4
-	cl_int			gap[3];
+	t_sampler_type			type;
+	cl_int					num_samples;
+	cl_int					num_sets;
+	cl_uint					count;
+	cl_int					jump;
+	cl_int					samples_type;
+	cl_int					offset;
+	cl_int					disk_samples_offset;
+	cl_int					hemisphere_samples_offset;
+	cl_int					gap[3];
 };
 
 # ifndef __OPENCL_C_VERSION__
 
-void	map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples,
-								cl_float2 *disk_samples);
-void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples,
-								cl_float3 *hemisphere_samples, const float e);
+void						map_samples_to_unit_disk(t_sampler sampler,
+					cl_float2 *samples,
+					cl_float2 *disk_samples);
+void						map_samples_to_hemisphere(t_sampler sampler,
+					cl_float2 *samples,
+					cl_float3 *hemisphere_samples, const float e);
 
 # endif
 
@@ -843,24 +842,16 @@ typedef struct s_rt_options		t_rt_options;
 struct			s_rt_options
 {
 	t_sampler		sampler;
-	cl_int			ambient_illumination; //4
-
-	t_color			background_color;	//16
-
-	cl_int			depth;			//4
-
-	cl_int			shadows;	//4
-
-	cl_int			area_lightning;//4
-
-	cl_float		spp;	//4
-	cl_int			aa_id;//4
-
-	t_tracer_type	tracer_type;//4
-
-	cl_uchar		reset; //1
-
-	cl_uchar		strategy;//1
+	cl_int			ambient_illumination;
+	t_color			background_color;
+	cl_int			depth;
+	cl_int			shadows;
+	cl_int			area_lightning;
+	cl_float		spp;
+	cl_int			aa_id;
+	t_tracer_type	tracer_type;
+	cl_uchar		reset;
+	cl_uchar		strategy;
 };
 
 # ifndef __OPENCL_C_VERSION__
