@@ -62,7 +62,8 @@ void		validate_paraboloid(t_res_mngr *mngr, t_parsed_info asset, int log);
 void		validate_plane(t_res_mngr *mngr, t_parsed_info asset, int log);
 void		validate_sphere(t_res_mngr *mngr, t_parsed_info asset, int log);
 void		validate_torus_disk(t_res_mngr *mngr, t_parsed_info asset, int log);
-void		validate_triangle_box(t_res_mngr *mngr, t_parsed_info asset, int log);
+void		validate_triangle_box(t_res_mngr *mngr,
+							t_parsed_info asset, int log);
 void		validate_rectangle(t_res_mngr *mngr, t_parsed_info asset, int log);
 int			validate_texture(t_parsed_info *asset, int log);
 int			validate_material(t_parsed_info *asset, int log);

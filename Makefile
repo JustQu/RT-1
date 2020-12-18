@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+         #
+#    By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/12/13 18:03:18 by aapricot         ###   ########.fr        #
+#    Updated: 2020/12/15 20:16:16 by jvoor            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,7 +87,7 @@ INCS = *.h
 INCS := $(addprefix $(INCDIR)/, $(INCS))
 
 SRCSDIR	= ./srcs/
-SRCS =aabb.c            get_light_type.c        gui_object_vision.c     light_manager.c         pars_texture.c          scene.c\
+SRCS =aabb.c            get_light_type.c        gui_object_vision.c     light_manager.c         pars_texture.c\
 bvh.c                   bvh_01.c                get_obj_mat_types.c     gui_render_text.c       logs.c                  parser.c                swap.c\
 camera.c                get_second_values.c     gui_tab_bar.c           main.c                  parser_functions.c\
 catch_event.c           catch_event_01.c        get_tex_cam_types.c     gui_tab_bar_2.c         matrix.c                perlin.c                texture_manager.c\
@@ -95,11 +95,13 @@ get_tracer_type.c       gui_tab_utils.c         matrix_manager.c        random.c
 color.c                 gui.c                   gui_utils.c             object_manager.c        resource_manager.c      vector.c\
 create_program.c        gui_button.c            gui_utils_2.c           pars_camera.c           rt.c                    window.c\
 error_handling.c        error_handling_01.c     gui_get_data.c          gui_utils_3.c           pars_light.c            rt_ocl.c				validate_objects_1.c\
-rt_error.c              safe_call.c				gui_utils_4.c\
+rt_error.c              safe_call.c				gui_utils_4.c			vector_utils.c          \
 get_default.c           gui_get_data_2.c        init.c                  pars_material.c         rt_options.c			validate_objects_2.c\
 get_first_values.c      gui_get_data_3.c        init_parsed_scene.c     pars_obj.c              sampler.c				validate_objects_3.c\
 get_key_value.c         gui_init.c              instance_manager.c      pars_option.c           sampler_manager.c       logs_second.c\
-logs_third.c			catch_keydown.c			image.c					interface.c\
+logs_third.c			image.c					interface.c				sampler_01.c			gui_tab_utils_2.c		resource_manager_utils.c\
+matrix_01.c             matrix_02.c             matrix_03.c		        resource_manager_utils01.c
+
 
 
 

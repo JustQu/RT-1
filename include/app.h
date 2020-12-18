@@ -29,27 +29,27 @@
 typedef struct s_app			t_app;
 typedef struct s_app_options	t_app_opt;
 
-struct	s_app_options
+struct							s_app_options
 {
-	char	*scene_file;
+	char						*scene_file;
 
-	int		num_samples;
+	int							num_samples;
 
-	int		enable_gui;
-	int		mode;//console or window or server or client
-	int		interface;//gui or console or no
+	int							enable_gui;
+	int							mode;
+	int							interface;
 
-	t_u32	window_width;
-	t_u32	window_height;
+	t_u32						window_width;
+	t_u32						window_height;
 
-	int		render_device;//cpu or gpu
+	int							render_device;
 
-	int		enable_logs;
-	char	*log_file;
+	int							enable_logs;
+	char						*log_file;
 
-	char	*image_file;
-	t_u32	image_width;
-	t_u32	image_height;
+	char						*image_file;
+	t_u32						image_width;
+	t_u32						image_height;
 };
 
 /*
@@ -57,37 +57,38 @@ struct	s_app_options
 ** todo: interface struct
 */
 
-struct	s_app
+struct							s_app
 {
-	t_res_mngr		resource_manager;
-	t_rt			rt;
-	t_window		window;
-	t_interface		interface;
+	t_res_mngr					resource_manager;
+	t_rt						rt;
+	t_window					window;
+	t_interface					interface;
 
-	t_app_opt		options;
+	t_app_opt					options;
 
-	t_image			image;
+	t_image						image;
 
-	t_s32			render_mode;//console mode, window mode
+	t_s32						render_mode;
 };
 
 /*
 ** Initialization of our app
 */
 
-int			init_app(t_app *app);
+int								init_app(t_app *app);
 
 /*
 ** Cleaning everything on exit
 */
 
-void		cleanup_app(t_app *app);
+void							cleanup_app(t_app *app);
 
 /*
 ** Error functions
 */
 
-void cl_error(t_cl_program *program, t_clp *clp, int code);
-void ft_clerror(cl_int ret);
+void							cl_error(t_cl_program *program,
+								t_clp *clp, int code);
+void							ft_clerror(cl_int ret);
 
 #endif

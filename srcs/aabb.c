@@ -103,9 +103,9 @@ t_bbox			compute_aabb(t_instance_info obj)
 						(cl_float4){{-1.f, -1.f, -1.f}}};
 	else if (obj.type == cylinder)
 		aabb = (t_bbox){(cl_float4){{float_max(obj.r, obj.height) + 1,
-				float_max(obj.r, obj.height) + 1, float_max(obj.r, obj.height) + 1}},
-			(cl_float4){{-float_max(obj.r, obj.height),
-				-float_max(obj.r, obj.height), -float_max(obj.r, obj.height)}}};
+		float_max(obj.r, obj.height) + 1, float_max(obj.r, obj.height) + 1}},
+		(cl_float4){{-float_max(obj.r, obj.height),
+		-float_max(obj.r, obj.height), -float_max(obj.r, obj.height)}}};
 	else if (obj.type == plane)
 		aabb = (t_bbox){(cl_float4){{1000.0f, 0.0001f, 1000.0f}},
 						(cl_float4){{-1000.0f, 0.0f, -1000.0f}}};

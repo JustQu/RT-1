@@ -15,7 +15,6 @@
 #include "utils.h"
 #include "rt_error.h"
 
-
 int		init_texture_manager(t_texture_manager *texture_manager)
 {
 	int	a;

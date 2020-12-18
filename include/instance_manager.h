@@ -19,34 +19,34 @@
 # include "parser.h"
 # include "texture_manager.h"
 
-typedef struct	s_instance_info
+typedef struct			s_instance_info
 {
-	t_material	material;	//64
-	t_texture	texture;	//32
-	cl_float4	origin;		//16
-	cl_float4	v1;			//16
-	cl_float4	v2;			//16
-	cl_float4	v3;			//16
-	cl_float4	rotation;	//16
-	cl_float4	scaling;	//16
-	t_type		type;		//4
-	float		r;			//4
-	float		r2;			//4
-	float		e;			//4
-	float		height;		//4
-	int			boolean;	//4
-	int			gap[2];
-}				t_instance_info;
+	t_material			material;
+	t_texture			texture;
+	cl_float4			origin;
+	cl_float4			v1;
+	cl_float4			v2;
+	cl_float4			v3;
+	cl_float4			rotation;
+	cl_float4			scaling;
+	t_type				type;
+	float				r;
+	float				r2;
+	float				e;
+	float				height;
+	int					boolean;
+	int					gap[2];
+}						t_instance_info;
 
-typedef struct	s_instance_extra
+typedef struct			s_instance_extra
 {
-	t_aabb		aabb;
-	cl_float4	origin;
-	cl_float4	rotation;
-	cl_float4	scaling;
-}				t_instance_extra;
+	t_aabb				aabb;
+	cl_float4			origin;
+	cl_float4			rotation;
+	cl_float4			scaling;
+}						t_instance_extra;
 
-typedef struct	s_instance_manager
+typedef struct			s_instance_manager
 {
 	t_texture_manager	texture_manager;
 	t_instance			*instances;
@@ -64,20 +64,22 @@ typedef struct	s_instance_manager
 	int					ntriangles;
 	int					nmatrices;
 	uint32_t			gap[4];
-}				t_instance_manager;
+}						t_instance_manager;
 
-int				init_instance_manager(t_instance_manager *instance_manager);
+int						init_instance_manager(t_instance_manager
+					*instance_manager);
 
-int				add_object(t_instance_manager *instance_manager,
+int						add_object(t_instance_manager *instance_manager,
 							t_instance_info object_info);
-int				add_matrix(t_instance_manager *mngr, t_matrix matrix);
+int						add_matrix(t_instance_manager *mngr,
+							t_matrix matrix);
 
-t_matrix		get_transformation_matrix(t_instance_info info);
-t_matrix		create_inv_transformation_matrix(t_instance_info info);
+t_matrix				get_transformation_matrix(t_instance_info info);
+t_matrix				create_inv_transformation_matrix(t_instance_info info);
 
-t_aabb			compute_aabb(t_instance_info info);
+t_aabb					compute_aabb(t_instance_info info);
 
-void			set_sampler(t_instance_manager *instance_manager,
+void					set_sampler(t_instance_manager *instance_manager,
 							int id, int sampler_id);
 
 #endif

@@ -22,8 +22,7 @@ t_selector		g_selector_tex[] = {
 	{"scale", offsetof(t_texture, data.smooth_perlin.scale), get_float}
 };
 
-int				g_tex_selector_size = sizeof(g_selector_tex) /
-										sizeof(t_selector);
+int			g_tex_selector_size = sizeof(g_selector_tex) / sizeof(t_selector);
 
 void		fill_texture(char *a, char *b, t_texture *texture)
 {

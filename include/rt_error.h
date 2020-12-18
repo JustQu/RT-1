@@ -21,7 +21,7 @@ typedef struct s_code_msg	t_code_msg;
 typedef enum e_error_code	t_error_code;
 typedef enum e_error_type	t_error_type;
 
-enum	e_error_code
+enum						e_error_code
 {
 	undefinded_error = -1,
 
@@ -48,7 +48,7 @@ enum	e_error_code
 	sdl_create_texture_error = -19
 };
 
-enum	e_error_type
+enum						e_error_type
 {
 	system_err,
 	opencl_err,
@@ -56,18 +56,18 @@ enum	e_error_type
 	app_err
 };
 
-struct s_code_msg
+struct						s_code_msg
 {
-	t_s32			err_type; //system, sdl, ocl
-	t_error_code	err_code;
-	char			*msg;
+	t_s32					err_type;
+	t_error_code			err_code;
+	char					*msg;
 };
 
-void		rt_error(char *message);
+void						rt_error(char *message);
 
-void		rt_warning(char *message);
+void						rt_warning(char *message);
 
-const char	*get_error_string(int error_code);
+const char					*get_error_string(int error_code);
 
 /*
 ** @brief  print error message and exit program.
@@ -75,18 +75,19 @@ const char	*get_error_string(int error_code);
 **
 ** @param error_type type error: system, OpenCL, SDL
 ** @param error_code error code inside our app
-** @param error_type_code code error for additional info of different error types
+** @param error_type_code code error for additional info
+** 			of different error types
 ** 			if not error occures must be 0 or erroc_code
 ** @param additional_message what message to print after error
 ** @return ** void
 */
 
-void		rt_is_dead(t_error_type error_type,
+void						rt_is_dead(t_error_type error_type,
 						t_error_code error_code,
 						t_s32 error_type_code,
 						char *additional_message);
 
-void		rt_die(t_error_type error_type,
+void						rt_die(t_error_type error_type,
 					t_error_code error_code,
 					t_s32 error_type_code,
 					char *additional_message);

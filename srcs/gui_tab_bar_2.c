@@ -116,12 +116,9 @@ void			objects_tab_cont(t_window *win,
 	draw_button(win, &gui->all_rect.eight_button, str, &gui->colors);
 	free_str(str);
 	gui_material_type(win, gui);
-	get_texture_data(1,					// ?
+	get_texture_data(1,// ?
 						"texture", str);
-	draw_line(win, &gui->colors, gui->all_rect.background,
-		gui->all_rect.ten_button);
-	draw_button(win, &gui->all_rect.ten_button, str, &gui->colors);
-	free_str(str);
+	utils_call_objects_tab_cont(win, gui, str);
 	get_color_data(gui->options.background_color, "Color", str); // ?
 	free(str[1]);
 	str[1] = NULL;

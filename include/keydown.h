@@ -13,9 +13,9 @@
 #ifndef RT_LEGACY_KEYDOWN_H
 # define RT_LEGACY_KEYDOWN_H
 
-#include "interface.h"
-#include "rt.h"
-#include "gui.h"
+# include "interface.h"
+# include "rt.h"
+# include "gui.h"
 
 int		catch_keydown_01(t_rt *rt, t_interface *interface, SDL_Event event);
 

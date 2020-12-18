@@ -23,15 +23,6 @@
 
 typedef enum e_block_type	t_block_type;
 
-// enum	e_block_type
-// {
-// 	// ambient_light = -1,
-// 	object,
-// 	light,
-// 	camera,
-// 	options
-// };
-
 typedef enum				e_ambient_illumination
 {
 	no,
@@ -72,7 +63,7 @@ typedef struct				s_parsed_light
 	t_color					color;
 	cl_float				ls;
 	t_light_type			type;
-	cl_float				pdf; //computed value
+	cl_float				pdf;
 }							t_parsed_light;
 
 typedef union				u_parsed_data
@@ -81,7 +72,7 @@ typedef union				u_parsed_data
 	t_parsed_light			light;
 }							t_parsed_data;
 
-typedef struct				u_parsed_info
+typedef struct				s_parsed_info
 {
 	t_parsed_type			type;
 	t_parsed_data			data;

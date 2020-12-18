@@ -41,8 +41,8 @@ struct	s_window
 	SDL_Window		*ptr;
 	SDL_Renderer	*renderer;
 	SDL_Texture		*texture;
-	int			width;
-	int			height;
+	int				width;
+	int				height;
 };
 
 /*
@@ -53,7 +53,6 @@ struct	s_window
 */
 
 int		init_window(t_window *const window, t_u32 w, t_u32 h);
-// void	display_image(t_window *const window);
 void	free_window(t_window *const window);
 
 #endif

@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   logs_third.c                                       :+:      :+:    :+:   */
+/*   vector_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 18:21:51 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/10 18:23:58 by aapricot         ###   ########.fr       */
+/*   Created: 2020/12/15 16:15:21 by jvoor             #+#    #+#             */
+/*   Updated: 2020/12/15 16:15:36 by jvoor            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "logs.h"
+#include "vector.h"
+#include "math.h"
 
-void		write_logs_10(int num_log, int fd, char *str)
+float		vec4_len(cl_float4 vec)
 {
-	if (num_log == BAD_LIGHT_TYPE)
-	{
-		ft_putendl_fd(str, fd);
-		ft_putendl_fd("Light type does not exist", fd);
-	}
+	return (sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z));
 }

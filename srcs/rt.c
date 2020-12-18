@@ -12,9 +12,32 @@
 
 #include "app.h"
 
-static void	set_kernel_args(t_rt rt, int step)
+static void inline	set_kernel_args_01(t_rt rt, cl_kernel k, int err)
 {
 	static uint32_t	a;
+
+	err |= clSetKernelArg(k, 12, sizeof(t_camera), &rt.scene.camera);
+	err |= clSetKernelArg(k, 13, sizeof(t_light), &rt.scene.ambient_light);
+	err |= clSetKernelArg(k, 14, sizeof(t_ambient_occluder),
+						&rt.scene.ambient_occluder);
+	err |= clSetKernelArg(k, 15, sizeof(cl_mem), &rt.ocl_program.bvh);
+	err |= clSetKernelArg(k, 16, sizeof(t_rt_options), &rt.options);
+	err |= clSetKernelArg(k, 17, sizeof(cl_mem), &rt.ocl_program.samplers);
+	err |= clSetKernelArg(k, 18, sizeof(cl_mem), &rt.ocl_program.samples);
+	err |= clSetKernelArg(k, 19, sizeof(cl_mem), &rt.ocl_program.disk_samples);
+	err |= clSetKernelArg(k, 20, sizeof(cl_mem),
+						&rt.ocl_program.hemisphere_samples);
+	err |= clSetKernelArg(k, 21, sizeof(uint32_t), &a);
+	err |= clSetKernelArg(k, 22, sizeof(cl_mem), &rt.ocl_program.textures);
+	err |= clSetKernelArg(k, 23, sizeof(cl_mem), &rt.ocl_program.ranvec);
+	err |= clSetKernelArg(k, 24, sizeof(cl_mem), &rt.ocl_program.perm_x);
+	err |= clSetKernelArg(k, 25, sizeof(cl_mem), &rt.ocl_program.perm_y);
+	err |= clSetKernelArg(k, 26, sizeof(cl_mem), &rt.ocl_program.perm_z);
+	a++;
+}
+
+static void			set_kernel_args(t_rt rt, int step)
+{
 	cl_kernel		k;
 	int				err;
 
@@ -37,31 +60,14 @@ static void	set_kernel_args(t_rt rt, int step)
 	err |= clSetKernelArg(k, 10, sizeof(cl_mem), &rt.ocl_program.lights);
 	err |= clSetKernelArg(k, 11, sizeof(cl_int),
 							&rt.scene.light_manager.nlights);
-	err |= clSetKernelArg(k, 12, sizeof(t_camera), &rt.scene.camera);
-	err |= clSetKernelArg(k, 13, sizeof(t_light), &rt.scene.ambient_light);
-	err |= clSetKernelArg(k, 14, sizeof(t_ambient_occluder),
-							&rt.scene.ambient_occluder);
-	err |= clSetKernelArg(k, 15, sizeof(cl_mem), &rt.ocl_program.bvh);
-	err |= clSetKernelArg(k, 16, sizeof(t_rt_options), &rt.options);
-	err |= clSetKernelArg(k, 17, sizeof(cl_mem), &rt.ocl_program.samplers);
-	err |= clSetKernelArg(k, 18, sizeof(cl_mem), &rt.ocl_program.samples);
-	err |= clSetKernelArg(k, 19, sizeof(cl_mem), &rt.ocl_program.disk_samples);
-	err |= clSetKernelArg(k, 20, sizeof(cl_mem),
-							&rt.ocl_program.hemisphere_samples);
-	err |= clSetKernelArg(k, 21, sizeof(uint32_t), &a);
-	err |= clSetKernelArg(k, 22, sizeof(cl_mem), &rt.ocl_program.textures);
-	err |= clSetKernelArg(k, 23, sizeof(cl_mem), &rt.ocl_program.ranvec);
-	err |= clSetKernelArg(k, 24, sizeof(cl_mem), &rt.ocl_program.perm_x);
-	err |= clSetKernelArg(k, 25, sizeof(cl_mem), &rt.ocl_program.perm_y);
-	err |= clSetKernelArg(k, 26, sizeof(cl_mem), &rt.ocl_program.perm_z);
-	a++;
+	set_kernel_args_01(rt, k, err);
 	rt_is_dead(opencl_err, cl_kernel_arg_error, err, "");
 }
 
-void		render_scene(t_rt rt)
+void				render_scene(t_rt rt)
 {
-	int	err;
-	int	i;
+	int				err;
+	int				i;
 
 	i = 0;
 	while (i < NUM_SAMPLES)
@@ -78,18 +84,18 @@ void		render_scene(t_rt rt)
 	}
 }
 
-int			init_rt(t_rt *rt, char *scene_file, t_res_mngr *resource_manager,
-					t_window *window, t_image *image,
-					cl_device_type device_type)
+int					init_rt(t_app *app)
 {
-	init_sampler_manager(&rt->sampler_manager);
-	init_default_options(resource_manager->rt_options, &rt->sampler_manager);
-	if (init_parsed_scene(&rt->scene, &rt->sampler_manager,
-							resource_manager, scene_file) < 0)
+	init_sampler_manager(&app->rt.sampler_manager);
+	init_default_options(app->resource_manager.rt_options,
+					&app->rt.sampler_manager);
+	if (init_parsed_scene(&app->rt.scene, &app->rt.sampler_manager,
+					&app->resource_manager, app->options.scene_file) < 0)
 		exit(-1000);
-	rt->scene.bvh = build_bvh(&rt->scene);
-	init_ocl(&rt->ocl_program, &rt->scene, &rt->sampler_manager, window, image,
-			device_type);
-	init_buffers(&rt->ocl_program, &rt->scene, &rt->sampler_manager);
+	app->rt.scene.bvh = build_bvh(&app->rt.scene);
+	init_ocl(&app->rt.ocl_program, &app->rt.scene, &app->rt.sampler_manager,
+			&app->window, &app->image, app->options.render_device);
+	init_buffers(&app->rt.ocl_program, &app->rt.scene,
+			&app->rt.sampler_manager);
 	return (SUCCESS);
 }

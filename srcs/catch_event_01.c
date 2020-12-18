@@ -15,8 +15,8 @@
 #include "gui.h"
 #include "ocl_err_handl.h"
 
-static int		catch_keydown_03(t_rt *rt, t_interface *interface,
-				   SDL_Event event)
+static int			catch_keydown_03(t_rt *rt, t_interface *interface,
+									SDL_Event event)
 {
 	if (event.key.keysym.sym == SDLK_q)
 	{
@@ -44,8 +44,8 @@ static int		catch_keydown_03(t_rt *rt, t_interface *interface,
 	return (0);
 }
 
-static int		catch_keydown_02(t_rt *rt, t_interface *interface,
-				   SDL_Event event)
+static int			catch_keydown_02(t_rt *rt, t_interface *interface,
+									SDL_Event event)
 {
 	if (event.key.keysym.sym == SDLK_DOWN)
 	{
@@ -74,8 +74,8 @@ static int		catch_keydown_02(t_rt *rt, t_interface *interface,
 	return (catch_keydown_03(rt, interface, event));
 }
 
-int		catch_keydown_01(t_rt *rt, t_interface *interface,
-				   SDL_Event event)
+int					catch_keydown_01(t_rt *rt, t_interface *interface,
+							SDL_Event event)
 {
 	if (event.key.keysym.sym == SDLK_a)
 	{

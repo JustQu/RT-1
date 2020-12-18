@@ -13,7 +13,35 @@
 #include "gui.h"
 #include "rt.h"
 
+void			utils_call_option_tab(t_window *win, t_gui *gui, char **str)
+{
+	get_rt_type_data(gui->options.tracer_type, "Type RT", str);
+	draw_button(win, &gui->all_rect.first_button, str, &gui->colors);
+	free_str(str);
+	get_float_data(gui->options.sampler.num_samples, "Samplers", str); // ?
+	draw_button(win, &gui->all_rect.second_button, str, &gui->colors);
+	free_str(str);
+}
 
+void			util_call_object_tab(t_window *win, t_gui *gui, char **str)
+{
+	get_shape_data(gui->current_instance.type, "Shape", str);
+	draw_button(win, &gui->all_rect.first_button, str, &gui->colors);
+	free_str(str);
+	get_float4_data(gui->current_instance.origin, "Origin", str);
+	draw_button_xyz(win, &gui->all_rect.second_button, str, &gui->colors);
+	free_str(str);
+}
+
+void			util_call_camera_tab(t_window *win, t_gui *gui, char **str)
+{
+	get_camera_type_data(gui->camera.type, "Type camera", str);
+	draw_button(win, &gui->all_rect.first_button, str, &gui->colors);
+	free_str(str);
+	get_float4_data(gui->camera.origin, "Position", str);
+	draw_button_xyz(win, &gui->all_rect.second_button, str, &gui->colors);
+	free_str(str);
+}
 
 void			option_tab_cont(t_window *win,
 					t_gui *gui)

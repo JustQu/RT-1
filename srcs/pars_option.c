@@ -27,13 +27,7 @@ t_selector		g_selector_opt[] = {
 	{"strategy", offsetof(t_rt_options, strategy), get_int}
 };
 
-int				g_opt_selector_size = sizeof(g_selector_opt) /
-										sizeof(t_selector);
-
-// void			validate_parsed_opt(t_rt_options *options)
-// {
-// 	;
-// }
+int			g_opt_selector_size = sizeof(g_selector_opt) / sizeof(t_selector);
 
 void			fill_options(char *a, char *b, t_res_mngr *mngr)
 {
@@ -82,5 +76,4 @@ void			pars_options(char *str, t_res_mngr *mngr)
 		free(a);
 		free(b);
 	}
-	// validate_parsed_opt(mngr->rt_options);
 }

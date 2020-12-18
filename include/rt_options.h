@@ -39,24 +39,16 @@ typedef struct s_rt_options		t_rt_options;
 struct			s_rt_options
 {
 	t_sampler		sampler;
-	cl_int			ambient_illumination; //4
-
-	t_color			background_color;	//16
-
-	cl_int			depth;			//4
-
-	cl_int			shadows;	//4
-
-	cl_int			area_lightning;//4
-
-	cl_float		spp;	//4
-	cl_int			aa_id;//4
-
-	t_tracer_type	tracer_type;//4
-
-	cl_uchar		reset; //1
-
-	cl_uchar		strategy;//1
+	cl_int			ambient_illumination;
+	t_color			background_color;
+	cl_int			depth;
+	cl_int			shadows;
+	cl_int			area_lightning;
+	cl_float		spp;
+	cl_int			aa_id;
+	t_tracer_type	tracer_type;
+	cl_uchar		reset;
+	cl_uchar		strategy;
 };
 
 # ifndef __OPENCL_C_VERSION__

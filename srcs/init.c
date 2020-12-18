@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:43:55 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/15 22:02:18 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/18 22:51:29 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ int		init_app(t_app *app)
 	init_interface(&app->interface, app->options.mode, app->options.enable_gui);
 	init_gui(&app->interface.gui, app->window);
 	init_resource_manager(&app->resource_manager, &app->rt);
-	init_rt(&app->rt, app->options.scene_file,
-			&app->resource_manager, &app->window, &app->image,
-			app->options.render_device);
+	init_rt(app);
 	app->rt.scene.camera.viewplane.width = app->image.width;
 	app->rt.scene.camera.viewplane.height = app->image.height;
 	return (SUCCESS);

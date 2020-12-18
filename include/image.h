@@ -29,11 +29,8 @@ struct	s_rendered_image
 	t_u32	height;
 };
 
-// int		init_image(t_image *const image);
-
-int		init_image(t_image  *const image, t_u32 width, t_u32 height);
+int		init_image(t_image *const image, t_u32 width, t_u32 height);
 
 int		save_image_to_file(t_image *image);
-
 
 #endif
