@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:43:55 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 17:50:16 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/15 22:02:18 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ int		init_app(t_app *app)
 	init_rt(&app->rt, app->options.scene_file,
 			&app->resource_manager, &app->window, &app->image,
 			app->options.render_device);
+	app->rt.scene.camera.viewplane.width = app->image.width;
+	app->rt.scene.camera.viewplane.height = app->image.height;
 	return (SUCCESS);
 }

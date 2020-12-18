@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/14 19:27:20 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/15 22:03:20 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ void	read_av(t_app *app, int ac, char **av)
 	else
 		for (int i = 1; i < ac; i++)
 		{
+			printf("%s\n", av[i]);
 			if (av[i][0] == '-')
 			{
 				if (!strcmp(av[i], "-s"))
@@ -167,31 +168,30 @@ void	read_av(t_app *app, int ac, char **av)
 				{
 					app->options.render_device = CL_DEVICE_TYPE_CPU;
 				}
-				else if (!strcmp(av[i], "--resoluion"))
+				else if (!strcmp(av[i], "--resolution"))
 				{
 					app->options.image_width = ft_atoi(av[i + 1]);
 					app->options.image_height = ft_atoi(av[i + 2]);
+					app->options.window_width = ft_atoi(av[i + 1]);
+					app->options.window_height = ft_atoi(av[i + 2]);
 					i += 3;
 				}
 				else if (!strcmp(av[i], "-N"))
 				{
 					app->options.num_samples = ft_atoi(av[i + 1]);
-					i += 2;
+					printf("%d\n", app->options.num_samples);
+					i += 1;
 				}
 				else if (!strcmp(av[i], "--img"))
 				{
 					app->options.image_file = av[i];
-					i++;
 				}
 				else if (!strcmp(av[i], "--console"))
 				{
-
+					printf("f\n");
+					app->options.mode = console;
 				}
 				else if (!strcmp(av[i], "-h"))
-				{
-
-				}
-				else if (!strcmp(av[i], "--nudes"))
 				{
 
 				}
@@ -263,6 +263,27 @@ static void	window_render_loop(t_app *const app)
 	}
 }
 
+static void	console_render_loop(t_app *const app)
+{
+	int	i;
+
+	i = 0;
+	printf("%d\n", app->options.num_samples);
+	while (i < app->options.num_samples)
+	{
+		if (i > 1)
+			app->rt.options.reset = 0;
+		render_image(*app);
+		app->rt.options.spp += 1;
+		printf("\rRendering in progress %f",
+					(float)i / app->options.num_samples);
+		save_image_func(&app->window, &app->image);
+		i++;
+	}
+	g_save_image = 1;
+	save_image_func(&app->window, &app->image);
+}
+
 int			main(int ac, char **av)
 {
 	t_app		app;
@@ -270,7 +291,14 @@ int			main(int ac, char **av)
 	f = fopen("ocl.cl", "w+"); //todo: delete
 	read_av(&app, ac, av);
 	init_app(&app);
-	window_render_loop(&app);
+	if (app.options.mode == window_mode)
+	{
+		window_render_loop(&app);
+	}
+	else
+	{
+		console_render_loop(&app);
+	}
 	// exit_program(app.window);
 
 	// fprintf(stdout, "AAA: %d\n",_CrtDumpMemoryLeaks());

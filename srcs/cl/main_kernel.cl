@@ -100,8 +100,8 @@ void main_kernel(__global t_color *image,	//0
 
 	/* Инициализируем нужные переменные и структуры */
 	global_id = get_global_id(0);
-	if (global_id == 0)
-		printf("Rendering: %f%%\n", step / options.spp * 100.0f);
+	// if (global_id == 0)
+	// 	printf("Rendering: %f%%\n", step / options.spp * 100.0f);
 	x = global_id % camera.viewplane.width;
 	y = global_id / camera.viewplane.width;
 

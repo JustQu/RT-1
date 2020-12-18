@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parsed_scene.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 20:37:35 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 17:50:57 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/15 22:05:15 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int		init_parsed_scene(t_scene *scene,
 	scene->ambient_occluder.ls = 0.05f;
 	scene->ambient_occluder.min_amount =
 	(t_color){ .r = 0.1f, .g = 0.1f, .b = 0.1f };
-	scene->ambient_occluder.sampler_id =
-	new_sampler(sampler_manager, rand_jitter, 100, HEMISPHERE_SAMPLES);
+	scene->ambient_occluder.sampler_id = new_sampler(sampler_manager,
+										rand_jitter, 100, HEMISPHERE_SAMPLES);
 	scene->ambient_light = (t_light){ .type = ambient, .ls = 0.2f,
 									.color = {.r = 1.0f, .b = 1.0f, .g = 1.0f}};
 	if (parser(resource_manager, &asset, scene_file) < 0)

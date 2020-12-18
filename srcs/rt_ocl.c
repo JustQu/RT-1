@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_ocl.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 17:45:08 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/15 22:12:04 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 
 
 static char		*load_arr[20] = {
-	"./load/0001.png", "./load/0002.png", "./load/0003.png", "./load/0004.png", "./load/0005.png",
-	"./load/0006.png", "./load/0007.png", "./load/0008.png", "./load/0009.png", "./load/0010.png",
-	"./load/0011.png", "./load/0012.png", "./load/0013.png", "./load/0014.png", "./load/0015.png",
-	"./load/0016.png", "./load/0017.png", "./load/0018.png", "./load/0019.png", "./load/0020.png"
+	"load\\0001.png", "load\\0002.png", "load\\0003.png", "load\\0004.png", "load\\0005.png",
+	"load\\0006.png", "load\\0007.png", "load\\0008.png", "load\\0009.png", "load\\0010.png",
+	"load\\0011.png", "load\\0012.png", "load\\0013.png", "load\\0014.png", "load\\0015.png",
+	"load\\0016.png", "load\\0017.png", "load\\0018.png", "load\\0019.png", "load\\0020.png"
 };
 
 static char		*text_arr[32] = {

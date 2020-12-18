@@ -4,49 +4,10 @@
 <kernel>:1504:1: warning: control may reach end of non-void function
 }
 ^
-<kernel>:2343:1: warning: control may reach end of non-void function
-}
-^
-<kernel>:2395:1: warning: control may reach end of non-void function
-}
-^
-<kernel>:2408:1: warning: control may reach end of non-void function
-}
-^
-<kernel>:2494:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:2746:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:2826:1: warning: control may reach end of non-void function
-}
-^
-<kernel>:3460:17: warning: implicit declaration of function 'random_in_unit_sphere' is invalid in C99
+<kernel>:2298:13: error: member reference base type 'char __constant[3]' is not a structure or union
+        printf("%d". instance.type);
+               ~~~~^ ~~~~~~~~
+<kernel>:3461:17: warning: implicit declaration of function 'random_in_unit_sphere' is invalid in C99
                                                         + 0.3f * random_in_unit_sphere(state);
                                                                  ^
-<kernel>:3687:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:3787:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:3878:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:3928:1: warning: control may reach end of non-void function
-}
-^
-<kernel>:3960:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:3991:1: warning: control reaches end of non-void function
-}
-^
-<kernel>:4027:76: error: expected ')'
-                return (float_color_multi(material.ls, (t_color){1.0f, 1.0f, 1.0f, 0.0f});
-                                                                                         ^
-<kernel>:4027:10: note: to match this '('
-                return (float_color_multi(material.ls, (t_color){1.0f, 1.0f, 1.0f, 0.0f});
-                       ^
 

@@ -23,7 +23,7 @@ object =
 		roughness = 0.1
 	}
 }
-
+#
 object = {
 	type = torus;
 	radius = 1.0;
@@ -42,7 +42,7 @@ object = {
 		reflective = 1.0
 	}
 }
-
+#
 object = {
 	type = sphere;
 	radius = 1.0;
@@ -62,7 +62,7 @@ object = {
 		ambient = 0.25
 	}
 }
-
+#
 object = {
 	type = cylinder;
 	radius = 1.0;
@@ -83,7 +83,7 @@ object = {
 	minm = 0.0;
 	maxm = 1.0
 }
-
+#
 object = {
 	type = cone;
 	origin = {-3.0, 2.0, -4.0};
@@ -121,7 +121,7 @@ object = {
 		diffuse = 1.0
 	}
 }
-
+#
 object = {
 	type = sphere;
 	radius = 1.0;
@@ -139,7 +139,7 @@ object = {
 		diffuse = 2.0
 	}
 }
-
+#
 object = {
 	type = sphere;
 	radius = 1.0;
@@ -160,6 +160,7 @@ object = {
 	}
 }
 
+#
 object = {
 	type = sphere;
 	radius = 1.0;
@@ -176,7 +177,6 @@ object = {
 	}
 }
 
-#
 object = {
 	type = triangle;
 	origin = {0.0, 0.0, -2.0};

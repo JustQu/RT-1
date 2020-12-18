@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sampler_manager.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 19:14:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 17:54:05 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/15 21:58:51 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void		map_sp(t_sampler_manager *m, t_sampler *s)
 	{
 		if (m->disk_samples_size >= (a = m->disk_samples_malloc_size))
 			m->disk_samples = ft_realloc(m->disk_samples, a,
-			m->disk_samples_malloc_size = 2 * m->disk_samples_size);
+					m->disk_samples_malloc_size = 2 * m->disk_samples_size);
 		map_samples_to_unit_disk(*s, m->samples + s->offset,
 								m->disk_samples + s->disk_samples_offset);
 	}

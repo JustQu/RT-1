@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils_3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 09:49:42 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 18:27:45 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/18 22:47:31 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "rt.h"
-#include "safe_call.h"
 
 void			draw_line(t_window *win, t_colors *color,
 					SDL_Rect rect, SDL_Rect rect_2)

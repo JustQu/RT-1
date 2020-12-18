@@ -291,7 +291,7 @@ t_color	conductor_sample_material(t_material material, t_shade_rec *shade_rec,
 													ndotwo);
 
 		*f = float_color_multi(fr * d * g / (4.0f * ndotwo),
-								get_color(texture_manager, material, shade_rec));
+							get_color(texture_manager, material, shade_rec));
 		*pdf = d * ndoth / (4.0f * hdotwi);
 	}
 }

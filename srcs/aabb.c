@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:24:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/14 17:51:28 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/18 22:46:16 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ t_matrix		get_transformation_matrix(t_instance_info info)
 	m = mul_matrix(m, get_rotation_matrix(info.rotation));
 	m = mul_matrix(m, get_scale_matrix(info.scaling));
 	return (m);
+}
+
+t_bbox			transform_aabb2(t_bbox aabb, t_matrix matrix)
+{
+	cl_float4	vertices[8];
+	t_bbox		new_bbox;
+	return (aabb);
 }
 
 t_bbox			transform_aabb(t_bbox aabb, t_matrix matrix)

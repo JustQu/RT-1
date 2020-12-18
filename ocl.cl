@@ -1330,10 +1330,7 @@ t_color	float_color_multi(float	c, t_color color)
 	return (res);
 }
 
-/*
-** TODO: randomness §5
-** ??????? ??? ????????(???????)
-*/
+
 float2	sample_unit_square(t_sampler *sampler, __global float2 *samples, uint2 *seed)
 {
 	// if (sampler->count % sampler->num_samples == 0) // ?????? ?????? ???????
@@ -1344,9 +1341,6 @@ float2	sample_unit_square(t_sampler *sampler, __global float2 *samples, uint2 *s
 	// return (samples[sampler->jump + sampler->shuffled_indices[sampler->jump + sampler->count++ % sampler->num_samples]]);
 }
 
-/*
-** ??????? ??? ?????
-*/
 float2	sample_unit_disk(t_sampler *sampler, __global float2 *disk_samples, uint2 *seed)
 {
 	// if (sampler->count % sampler->num_samples == 0)
@@ -1360,9 +1354,6 @@ float2	sample_unit_disk(t_sampler *sampler, __global float2 *disk_samples, uint2
 	// return ((disk_samples + sampler->offset)[sampler->jump + sampler->count++ % (sampler->num_samples)]);
 }
 
-/*
-** ??????? ??? ?????????
-*/
 float3	sample_hemisphere(t_sampler *sampler, __global float3 *hemisphere_samples, uint2 *seed)
 {
 	if (sampler->count % sampler->num_samples == 0)
@@ -3813,7 +3804,7 @@ t_color	conductor_sample_material(t_material material, t_shade_rec *shade_rec,
 													ndotwo);
 
 		*f = float_color_multi(fr * d * g / (4.0f * ndotwo),
-								get_color(texture_manager, material, shade_rec));
+							get_color(texture_manager, material, shade_rec));
 		*pdf = d * ndoth / (4.0f * hdotwi);
 	}
 }
@@ -4500,8 +4491,8 @@ void main_kernel(__global t_color *image,	//0
 
 	/* Инициализируем нужные переменные и структуры */
 	global_id = get_global_id(0);
-	if (global_id == 0)
-		printf("Rendering: %f%%\n", step / options.spp * 100.0f);
+	// if (global_id == 0)
+	// 	printf("Rendering: %f%%\n", step / options.spp * 100.0f);
 	x = global_id % camera.viewplane.width;
 	y = global_id / camera.viewplane.width;
 

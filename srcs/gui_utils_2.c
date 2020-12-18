@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 19:54:26 by alex              #+#    #+#             */
-/*   Updated: 2020/12/14 16:45:23 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/18 22:47:37 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "libft.h"
 #include "rt.h"
-#include "safe_call.h"
 
 void			draw_text(t_window *win, SDL_Rect *rect,
 					char *str, t_colors *color)
