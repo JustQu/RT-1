@@ -1,6 +1,6 @@
 options =
 {
-	background_color = {0.5, 0.5, 1.0};
+	background_color = {0.0, 0.0, 0.0};
 	tracer_type = path_tracer
 }
 
@@ -177,6 +177,7 @@ object = {
 	}
 }
 
+#
 object = {
 	type = triangle;
 	origin = {0.0, 0.0, -2.0};
@@ -191,7 +192,7 @@ object = {
 	material = {
 		type = matte
 	}
-}
+}#
 
 camera = {
 	zoom = 0.5;

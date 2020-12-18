@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:24:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/18 22:46:16 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/18 23:07:27 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ t_bbox			compute_aabb(t_instance_info obj)
 	}
 	else if (obj.type == triangle)
 		aabb = (t_bbox){(cl_float4){{100.0f, 100.f, 100.0f}},
-						(cl_float4){{-100.0f, 100.f, -100.0f, 0.0f }}};
+						(cl_float4){{-100.0f, -100.f, -100.0f, 0.0f }}};
 	else if (compute_aabb_next1(obj, &aabb))
 		rt_is_dead(app_err, app_unknown_object_type, ERROR, "aabb.c 1");
 	return (aabb = transform_aabb(aabb, get_transformation_matrix(obj)));

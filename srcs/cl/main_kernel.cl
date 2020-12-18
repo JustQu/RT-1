@@ -133,6 +133,14 @@ void main_kernel(__global t_color *image,	//0
 	options.sampler.count = global_id + num;
 
 	sampler_manager.sampler = &options.sampler;
+
+	// t_sampler ssp = get_sampler(sampler_manager, 4);
+	// if (global_id == 0)
+	// 	for (int i = 0; i < ssp.num_samples * ssp.num_sets; i++)
+	// 	{
+	// 		float2 s =  sample_unit_square(&ssp,sampler_manager.samples, &seed);
+	// 		printf("%f %f++++", s.x, s.y);
+	// 	}
 	/* получаем семплер для антиалиасинга и текущий шаг. */
 	// ao_sampler = get_sampler(sampler_manager, options.aa_id);
 	// ao_sampler.count = global_id * ao_sampler.num_samples + step;

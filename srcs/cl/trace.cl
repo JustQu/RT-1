@@ -290,9 +290,12 @@ t_color	conductor_sample_material(t_material material, t_shade_rec *shade_rec,
 		float g = ggx_visibility_term(material.exp * material.exp, ndotwi,
 													ndotwo);
 
-		*f = float_color_multi(fr * d * g / (4.0f * ndotwo),
-							get_color(texture_manager, material, shade_rec));
 		*pdf = d * ndoth / (4.0f * hdotwi);
+		if (*pdf < 0.05f)
+			*f = (t_color){0.0f, 0.0f, 0.0f, 0.0f};
+		else
+			*f = float_color_multi(fr * d * g / (4.0f * ndotwo),
+							get_color(texture_manager, material, shade_rec));
 	}
 }
 
@@ -599,7 +602,7 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 
 			if (is_black(f))
 					break;
-			if (pdf <= 0.001f)
+			if (pdf <= 0.01f)
 			{
 				if (!is_black(f))
 					color = color_sum(color_multi(beta, f), color);

@@ -2338,7 +2338,7 @@ float4	sample_object(t_instance_manager instance_manager,
 					* sampler.num_samples;
 		sampler.count = get_global_id(0) + random(seed);
 
-		float2 sp = sample_unit_square(sampler_manager.sampler,
+		float2 sp = sample_unit_square(&sampler,
 									sampler_manager.samples, seed);
 		float4 point = object.origin
 					+ sp.x * object.direction * object.r
@@ -3794,9 +3794,12 @@ t_color	conductor_sample_material(t_material material, t_shade_rec *shade_rec,
 		float g = ggx_visibility_term(material.exp * material.exp, ndotwi,
 													ndotwo);
 
-		*f = float_color_multi(fr * d * g / (4.0f * ndotwo),
-							get_color(texture_manager, material, shade_rec));
 		*pdf = d * ndoth / (4.0f * hdotwi);
+		if (*pdf < 0.05f)
+			*f = (t_color){0.0f, 0.0f, 0.0f, 0.0f};
+		else
+			*f = float_color_multi(fr * d * g / (4.0f * ndotwo),
+							get_color(texture_manager, material, shade_rec));
 	}
 }
 
@@ -4103,7 +4106,7 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 
 			if (is_black(f))
 					break;
-			if (pdf <= 0.001f)
+			if (pdf <= 0.01f)
 			{
 				if (!is_black(f))
 					color = color_sum(color_multi(beta, f), color);
@@ -4515,6 +4518,14 @@ void main_kernel(__global t_color *image,	//0
 	options.sampler.count = global_id + num;
 
 	sampler_manager.sampler = &options.sampler;
+
+	// t_sampler ssp = get_sampler(sampler_manager, 4);
+	// if (global_id == 0)
+	// 	for (int i = 0; i < ssp.num_samples * ssp.num_sets; i++)
+	// 	{
+	// 		float2 s =  sample_unit_square(&ssp,sampler_manager.samples, &seed);
+	// 		printf("%f %f++++", s.x, s.y);
+	// 	}
 	/* получаем семплер для антиалиасинга и текущий шаг. */
 	// ao_sampler = get_sampler(sampler_manager, options.aa_id);
 	// ao_sampler.count = global_id * ao_sampler.num_samples + step;

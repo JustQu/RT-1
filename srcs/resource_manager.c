@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   resource_manager.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:55:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 17:39:01 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/19 00:07:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ float			compute_area(t_instance_info info)
 	s = 0.0f;
 	if (info.type == rectangle)
 	{
-		s = info.r * info.r2 * info.scaling.x * info.scaling.y;
+		s = info.r * info.r2 * info.scaling.x * info.scaling.z;
 	}
 	return (s);
 }
@@ -95,7 +95,7 @@ void			add_emissive_instance(t_res_mngr *mngr, t_instance_info data)
 	{
 		i = add_instance(mngr, &mngr->scene->instance_mngr, mngr->info);
 		set_sampler(&mngr->scene->instance_mngr, i,
-					new_sampler(mngr->sampler_manager, nrooks,
+					new_sampler(mngr->sampler_manager, pure_random,
 								1024, DEFAULT_SAMPLES));
 		l.ls = data.material.ls;
 		l.color = data.texture.data.solid.color;

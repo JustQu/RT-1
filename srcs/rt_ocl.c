@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/15 22:12:04 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/19 00:50:42 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 
 
 static char		*load_arr[20] = {
-	"load\\0001.png", "load\\0002.png", "load\\0003.png", "load\\0004.png", "load\\0005.png",
-	"load\\0006.png", "load\\0007.png", "load\\0008.png", "load\\0009.png", "load\\0010.png",
-	"load\\0011.png", "load\\0012.png", "load\\0013.png", "load\\0014.png", "load\\0015.png",
-	"load\\0016.png", "load\\0017.png", "load\\0018.png", "load\\0019.png", "load\\0020.png"
+	"./load/0001.png", "./load/0002.png", "./load/0003.png", "./load/0004.png", "./load/0005.png",
+	"./load/0006.png", "./load/0007.png", "./load/0008.png", "./load/0009.png", "./load/0010.png",
+	"./load/0011.png", "./load/0012.png", "./load/0013.png", "./load/0014.png", "./load/0015.png",
+	"./load/0016.png", "./load/0017.png", "./load/0018.png", "./load/0019.png", "./load/0020.png"
 };
 
 static char		*text_arr[32] = {
@@ -54,27 +54,28 @@ static int	init_clp(t_clp *clp, cl_device_type dev_type)
 
 void CL_CALLBACK pfn_notify(cl_program program, void *data)
 {
-    int    *state;
+	int	*state;
 
 	if (program == NULL)
 		ft_putendl("pfn_notify");
-    state = data;
-    ft_putstr("ready");
-    *state = 1;
+	state = data;
+	ft_putstr("ready");
+	*state = 1;
 }
 static int state = 0;
 
 
-int        test_thread(void *ptr)
+int		test_thread(void *ptr)
 {
-    t_cl_program *p;
+	t_cl_program *p;
 
-    p = ptr;
+	p = ptr;
 
-    int r;
-    r = clBuildProgram(p->program, 1, &p->info.de_id,
-                       "-cl-std=CL2.0", pfn_notify, &state);
-    return (r);
+	int r;
+	SDL_Delay(5000);
+	r = clBuildProgram(p->program, 1, &p->info.de_id,
+						"-cl-std=CL2.0", pfn_notify, &state);
+	return (r);
 }
 
 void			resize_imgs(t_window *window, SDL_Event e, SDL_Rect *rect, SDL_Rect *mes_rec)
@@ -117,6 +118,7 @@ void			loading_cycle(t_window *window, SDL_Rect rect, SDL_Rect mes_rec)
 			resize_imgs(window, e, &rect, &mes_rec);
 		SDL_RenderFillRect(window->renderer, NULL);
 		sur = IMG_Load(load_arr[j]);
+		fprintf(stdout, "%s", IMG_GetError());
 		add_img_to_screen(window, sur, rect);
 		sur= IMG_Load(text_arr[i]);
 		add_img_to_screen(window, sur, mes_rec);
