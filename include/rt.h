@@ -39,6 +39,11 @@
 # include "resource_manager.h"
 # include "interface.h"
 
+
+typedef struct s_rt_options		t_rt_options;
+
+typedef struct s_app	t_app;
+
 typedef struct s_rt		t_rt;
 
 struct	s_rt
@@ -49,9 +54,10 @@ struct	s_rt
 	t_cl_program		ocl_program;
 };
 
-int		init_rt(t_rt *rt, char *scene_file,
-				t_res_mngr *resource_manager, t_window *window, t_image *image,
-				cl_device_type device_type);
+//int		init_rt(t_rt *rt, char *scene_file,
+//				t_res_mngr *resource_manager, t_window *window, t_image *image,
+//				cl_device_type device_type);
+int 		init_rt(t_app *app);
 
 void	init_buffers(t_cl_program *const program, t_scene *const scene,
 					t_sampler_manager *const sampler_manager);

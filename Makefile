@@ -87,7 +87,7 @@ INCS = *.h
 INCS := $(addprefix $(INCDIR)/, $(INCS))
 
 SRCSDIR	= ./srcs/
-SRCS =aabb.c            get_light_type.c        gui_object_vision.c     light_manager.c         pars_texture.c          scene.c\
+SRCS =aabb.c            get_light_type.c        gui_object_vision.c     light_manager.c         pars_texture.c\
 bvh.c                   bvh_01.c                get_obj_mat_types.c     gui_render_text.c       logs.c                  parser.c                swap.c\
 camera.c                get_second_values.c     gui_tab_bar.c           main.c                  parser_functions.c\
 catch_event.c           catch_event_01.c        get_tex_cam_types.c     gui_tab_bar_2.c         matrix.c                perlin.c                texture_manager.c\
@@ -100,7 +100,7 @@ get_default.c           gui_get_data_2.c        init.c                  pars_mat
 get_first_values.c      gui_get_data_3.c        init_parsed_scene.c     pars_obj.c              sampler.c				validate_objects_3.c\
 get_key_value.c         gui_init.c              instance_manager.c      pars_option.c           sampler_manager.c       logs_second.c\
 logs_third.c			image.c					interface.c				sampler_01.c			gui_tab_utils_2.c		resource_manager_utils.c\
-matrix_01.c             matrix_02.c             matrix_03.c
+matrix_01.c             matrix_02.c             matrix_03.c		        resource_manager_utils01.c
 
 
 

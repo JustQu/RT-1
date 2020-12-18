@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resourse_manager_utils01.c                         :+:      :+:    :+:   */
+/*   resource_manager_utils01.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -18,17 +18,8 @@
 #include "rt_error.h"
 #include "math.h"
 
-int				init_resource_manager(t_res_mngr *resource_manager,
-										 t_rt *rt)
-{
-	resource_manager->scene = &rt->scene;
-	resource_manager->sampler_manager = &rt->sampler_manager;
-	resource_manager->rt_options = &rt->options;
-	return (SUCCESS);
-}
-
 t_instance_info	get_object_info(t_res_mngr *mngr, t_instance instance,
-								   t_instance_extra extra)
+								t_instance_extra extra)
 {
 	t_instance_info		info;
 	t_obj				obj;
@@ -48,5 +39,14 @@ t_instance_info	get_object_info(t_res_mngr *mngr, t_instance instance,
 	info.v2 = obj.dir2;
 	info.e = obj.angle;
 	info.boolean = obj.shadows;
+	return (info);
+}
+
+t_instance_info	get_triangle_info(void)
+{
+	t_instance_info	info;
+
+	if (info.height >= 0)
+		printf("unused param get_triangle_info\n");
 	return (info);
 }

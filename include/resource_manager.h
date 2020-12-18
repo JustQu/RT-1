@@ -53,5 +53,8 @@ int					init_resource_manager(t_res_mngr *resource_manager,
 t_instance_info		get_object_info(t_res_mngr *mngr, t_instance instance,
 								t_instance_extra extra);
 t_instance_info		get_triangle_info(void);
+t_instance_info		get_object_info(t_res_mngr *mngr, t_instance instance,
+								   t_instance_extra extra);
+t_instance_info		get_triangle_info(void);
 
 #endif

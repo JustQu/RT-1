@@ -861,7 +861,6 @@ add_executable(RT_legacy
         srcs/rt_options.c
         srcs/sampler.c
         srcs/sampler_manager.c
-        srcs/scene.c
         srcs/swap.c
         srcs/trace_mouse_ray.c
         srcs/utils.c

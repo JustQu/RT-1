@@ -32,8 +32,6 @@ int		init_app(t_app *app)
 	init_interface(&app->interface, app->options.mode, app->options.enable_gui);
 	init_gui(&app->interface.gui, app->window);
 	init_resource_manager(&app->resource_manager, &app->rt);
-	init_rt(&app->rt, app->options.scene_file,
-			&app->resource_manager, &app->window, &app->image,
-			app->options.render_device);
+	init_rt(app);
 	return (SUCCESS);
 }
