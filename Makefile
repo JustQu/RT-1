@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+         #
+#    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/12/15 20:16:16 by jvoor            ###   ########.fr        #
+#    Updated: 2020/12/19 09:50:44 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,7 +95,7 @@ get_tracer_type.c       gui_tab_utils.c         matrix_manager.c        random.c
 color.c                 gui.c                   gui_utils.c             object_manager.c        resource_manager.c      vector.c\
 create_program.c        gui_button.c            gui_utils_2.c           pars_camera.c           rt.c                    window.c\
 error_handling.c        error_handling_01.c     gui_get_data.c          gui_utils_3.c           pars_light.c            rt_ocl.c				validate_objects_1.c\
-rt_error.c              safe_call.c				gui_utils_4.c			vector_utils.c          \
+rt_error.c              				gui_utils_4.c			vector_utils.c          \
 get_default.c           gui_get_data_2.c        init.c                  pars_material.c         rt_options.c			validate_objects_2.c\
 get_first_values.c      gui_get_data_3.c        init_parsed_scene.c     pars_obj.c              sampler.c				validate_objects_3.c\
 get_key_value.c         gui_init.c              instance_manager.c      pars_option.c           sampler_manager.c       logs_second.c\

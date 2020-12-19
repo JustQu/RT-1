@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/12/14 18:02:20 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/19 13:24:17 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define WIDTH_MENU DEFAULT_WIDTH / 4
 # define WIDTH_OFFSET DEFAULT_WIDTH - DEFAULT_WIDTH / 4
 # define MARGIN 5
-# define MARGIN_Y 10
+# define MARGIN_Y 7
 # define FONT_TITLE_SIZE 20
 # define FONT_SUBTITLE_SIZE 15
 # define FONT_TEXT 12
@@ -68,6 +68,8 @@ typedef struct			s_all_rect
 	SDL_Rect			nine_button;
 	SDL_Rect			ten_button;
 	SDL_Rect			eleven_button;
+	SDL_Rect			twelve_button;
+	SDL_Rect			thirteen_button;
 	SDL_Rect			save_img_button;
 }						t_all_rect;
 
@@ -160,6 +162,8 @@ void					get_ambient_il_data(int ptr,
 					char *string, char *str[4]);
 void					get_true_data(int ptr,
 					char *string, char *str[4]);
+void					get_illumin_data(int ptr,
+					char *string, char **str);
 int						catch_keydown_2(t_rt *rt, t_window *win,
 					SDL_Event event);
 void					gui_init_title(t_window *win,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aabb.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:24:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/18 23:07:27 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/19 09:50:03 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ t_matrix		get_transformation_matrix(t_instance_info info)
 	return (m);
 }
 
-t_bbox			transform_aabb2(t_bbox aabb, t_matrix matrix)
-{
-	cl_float4	vertices[8];
-	t_bbox		new_bbox;
-	return (aabb);
-}
+// t_bbox			transform_aabb2(t_bbox aabb, t_matrix matrix)
+// {
+// 	cl_float4	vertices[8];
+// 	t_bbox		new_bbox;
+// 	return (aabb);
+// }
 
 t_bbox			transform_aabb(t_bbox aabb, t_matrix matrix)
 {

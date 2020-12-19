@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_get_data.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 20:39:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 15:47:48 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/19 12:24:13 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,18 +106,20 @@ void			get_material_data(int ptr, char *string, char **str)
 {
 	str[0] = ft_strdup(string);
 	rt_is_dead(system_err, system_malloc_error, !str[0], "gui_get_data 8");
-	if (ptr == 0)
+	if (ptr == matte)
 		str[1] = ft_strdup("matte");
-	else if (ptr == 1)
+	else if (ptr == phong)
 		str[1] = ft_strdup("phong");
-	else if (ptr == 2)
+	else if (ptr == emissive)
 		str[1] = ft_strdup("emissive");
-	else if (ptr == 3)
-		str[1] = ft_strdup("reflective");
-	else if (ptr == 4)
-		str[1] = ft_strdup("metal");
-	else if (ptr == 5)
+	else if (ptr == mirror)
+		str[1] = ft_strdup("mirror");
+	else if (ptr == conductor)
+		str[1] = ft_strdup("conductor");
+	else if (ptr == dielectric)
 		str[1] = ft_strdup("dielectric");
+	else if (ptr == plastic)
+		str[1] = ft_strdup("plastic");
 	else
 		str[1] = ft_strdup("no material");
 	rt_is_dead(system_err, system_malloc_error, !str[1], "gui_get_data 9");

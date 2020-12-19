@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/12/13 21:07:17 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/19 12:17:57 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void			camera_tab(t_window *win, t_gui *gui)
 	gui->all_rect.tab_camera_button.x + gui->all_rect.tab_camera_button.w,
 	gui->all_rect.tab_camera_button.y + gui->all_rect.tab_camera_button.h);
 	util_call_camera_tab(win, gui, str);
-	get_float4_data(gui->camera.direction, "Direction", str);
+	get_float4_data(gui->camera.w, "Direction", str);
 	draw_button_xyz(win, &gui->all_rect.third_button, str, &gui->colors);
 	free_str(str);
 	get_str_data("save", "Save image", str);
