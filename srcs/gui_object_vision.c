@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:16:50 by alex              #+#    #+#             */
-/*   Updated: 2020/12/19 12:21:49 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/19 14:55:51 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ void			gui_rectangle_vision(t_window *win, t_gui *gui)
 
 	if (gui->options.depth >= 0)
 		;
-	get_float4_data(gui->current_instance.v1, "Vector 1", str);
+	get_float_data(gui->current_instance.r, "Width", str);
 	draw_button(win, &gui->all_rect.fifth_button, str, &gui->colors);
 	free_str(str);
-	get_float4_data(gui->current_instance.v2, "Vector 2", str);
+	get_float_data(gui->current_instance.r2, "Height", str);
 	draw_button(win, &gui->all_rect.sixth_button, str, &gui->colors);
 	free_str(str);
 }
