@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 15:21:45 by alex              #+#    #+#             */
-/*   Updated: 2020/12/19 13:26:11 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/19 20:27:45 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void			utils_call_option_tab(t_window *win, t_gui *gui, char **str)
 	get_rt_type_data(gui->options.tracer_type, "Type RT", str);
 	draw_button(win, &gui->all_rect.first_button, str, &gui->colors);
 	free_str(str);
-	get_illumin_data(gui->options.ambient_illumination, "Ambient_il type", str); 
+	get_illumin_data(gui->options.ambient_illumination, "Ambient_il type", str);
 	draw_button(win, &gui->all_rect.second_button, str, &gui->colors);
 	free_str(str);
 }

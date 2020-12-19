@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/19 13:11:53 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/19 20:27:13 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,12 +157,12 @@ void			objects_tab_cont(t_window *win,
 						"texture", str);
 	utils_call_objects_tab_cont(win, gui, str);
 	get_color_data(gui->current_instance.texture.data.solid.color,
-		"Color", str); // ?
+		"Color", str);
 	free(str[1]);
 	str[1] = NULL;
 	draw_button(win, &gui->all_rect.thirteen_button, str, &gui->colors);
 	draw_color_button(win, &gui->colors,
 		gui->current_instance.texture.data.solid.color,
-		&gui->all_rect.thirteen_button); //?
+		&gui->all_rect.thirteen_button);
 	free_str(str);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 19:54:26 by alex              #+#    #+#             */
-/*   Updated: 2020/12/18 22:47:37 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/19 20:19:32 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void			gui_disk_vision(t_window *win,
 
 	if (gui->options.depth >= 0)
 		printf("unused param gui_dis_vision\n");
-	get_float_data(gui->current_instance.r, "Radius", str); // ?
-	draw_button(win, &gui->all_rect.first_button, str, &gui->colors);
+	get_float_data(gui->current_instance.r, "Radius", str);
+	draw_button(win, &gui->all_rect.eleven_button, str, &gui->colors);
 	free_str(str);
 }

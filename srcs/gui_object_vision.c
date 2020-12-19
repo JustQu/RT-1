@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:16:50 by alex              #+#    #+#             */
-/*   Updated: 2020/12/19 14:55:51 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/19 20:29:29 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ void			gui_box_vision(t_window *win, t_gui *gui)
 
 	if (gui->options.depth >= 0)
 		;
-	get_float4_data(gui->current_instance.v1, "minimum", str); // ?
+	get_float4_data(gui->current_instance.v1, "minimum", str);
 	draw_button_xyz(win, &gui->all_rect.fifth_button, str, &gui->colors);
 	free_str(str);
-	get_float4_data(gui->current_instance.v2, "maximum", str); // ?
+	get_float4_data(gui->current_instance.v2, "maximum", str);
 	draw_button_xyz(win, &gui->all_rect.sixth_button, str, &gui->colors);
 	free_str(str);
 }
