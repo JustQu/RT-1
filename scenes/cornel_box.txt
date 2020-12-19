@@ -20,11 +20,8 @@ object = {
 		color = {1.0, 0.0, 0.0}
 	};
 	material = {
-		#type = phong;
-		diffuse = 1#
-		type = conductor;
-		reflective = 1;
-		roughness = 0.1
+		type = matte;
+		diffuse = 1
 	}
 }
 
@@ -64,11 +61,8 @@ object = {
 		color = {0, 1, 0}
 	};
 	material = {
-		#type = phong;
-		diffuse = 1#
-		type = conductor;
-		reflective = 1;
-		roughness = 0.1
+		type = matte;
+		diffuse = 1
 	}
 }
 
@@ -85,9 +79,6 @@ object = {
 	material = {
 		type = matte;
 		diffuse = 1
-		#type = conductor;
-		reflective = 1;
-		roughness = 0.1#
 	}
 }
 
@@ -104,9 +95,6 @@ object = {
 	material = {
 		type = matte;
 		diffuse = 1
-		#type = conductor;
-		reflective = 1;
-		roughness = 0.1#
 	}
 }
 
@@ -137,7 +125,7 @@ object = {
 	rotation = {0, 18, 0};
 	texture = {
 		type = solid;
-		color = {0.5, 0.5 ,1}
+		color = {1.0, 1.0 ,1}
 	};
 	material = {
 		type = matte;
@@ -160,13 +148,8 @@ object = {
 		color = {0, 0 ,1}
 	};
 	material = {
-		type = dielectric;
-		transmission = 1.5;
-		roughness = 0.01;
+		type = matte;
 		diffuse = 1
-		#type = conductor;
-		reflective = 1;
-		roughness = 0.1#
 	}
 }
 
@@ -203,10 +186,7 @@ object = {
 		color = {1, 1, 1}
 	};
 	material = {
-		#type = matte;
-		diffuse = 1#
-		type = conductor;
-		reflective = 1;
-		roughness = 0.1
+		type = matte;
+		diffuse = 1
 	}
 }

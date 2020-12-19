@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_manager.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:34:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:43:41 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/16 20:04:41 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		add_texture(t_texture_manager *texture_manager,
 	if ((1 + texture_manager->ntextures) * sizeof(t_texture)
 		> texture_manager->textures_malloc_size)
 	{
-		texture_manager->textures = ft_realloc(texture_manager,
+		texture_manager->textures = ft_realloc(texture_manager->textures,
 									texture_manager->textures_malloc_size,
 									texture_manager->textures_malloc_size * 2);
 		rt_is_dead(system_err, system_malloc_error, !texture_manager->textures,

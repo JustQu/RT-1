@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   logs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:51:27 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/14 17:43:30 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/14 19:27:32 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			get_log_fd(char *str)
 	char	*line_1;
 	char	*line_2;
 
-	line_1 = ft_strjoin("logs/", basename(str));
+	line_1 = ft_strdup(str);
 	rt_is_dead(system_err, system_malloc_error, !line_1, "");
 	line_2 = ft_strjoin(line_1, ".log");
 	rt_is_dead(system_err, system_malloc_error, !line_2, "");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_default.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:11:31 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 15:52:40 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/14 22:20:29 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_parsed_object		get_default_obj(void)
 	obj.rotation.x = NAN;
 	obj.scaling = (cl_float3){{1.0f, 1.0f, 1.0f}};
 	obj.type = obj_none;
-	obj.vector1.x = NAN;
-	obj.vector2.x = NAN;
+	obj.vector1 = (cl_float4){{NAN, 0.0f, 0.0f, 0.0f}};
+	obj.vector2 = (cl_float4){{NAN, 0.0f, 0.0f, 0.0f}};
 	return (obj);
 }

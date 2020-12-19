@@ -25,6 +25,7 @@ object =
 	}
 }
 
+#
 object = {
 	type = torus;
 	radius = 1.0;
@@ -57,7 +58,7 @@ object = {
 		even = {0.5, 0.5, 0.0}
 	};
 	material = {
-		type = plastic;
+		type = phong;
 		specular = 0.2;
 		roughness = 10.0;
 		diffuse = 0.8;
@@ -65,6 +66,7 @@ object = {
 	}
 }
 
+#
 object = {
 	type = cylinder;
 	radius = 1.0;
@@ -86,6 +88,7 @@ object = {
 	maxm = 1.0
 }
 
+#
 object = {
 	type = cone;
 	origin = {-3.0, 2.0, -4.0};
@@ -124,6 +127,7 @@ object = {
 	}
 }
 
+#
 object = {
 	type = sphere;
 	radius = 1.0;
@@ -142,6 +146,7 @@ object = {
 	}
 }
 
+#
 object = {
 	type = sphere;
 	radius = 1.0;
@@ -170,7 +175,8 @@ object = {
 	scaling = {0.5, 0.5, 0.5};
 	texture = {
 		type = turbulence_perlin;
-		scale = 3.0
+		scale = 3.0;
+		color = {1, 0, 0}
 	};
 	material = {
 		type = matte;
@@ -178,7 +184,6 @@ object = {
 	}
 }
 
-#
 object = {
 	type = triangle;
 	origin = {0.0, 0.0, -2.0};
@@ -197,14 +202,14 @@ object = {
 
 camera = {
 	zoom = 0.5;
-	origin = {0.0, 1, -8}
+	origin = {0.0, 0, -8};
 }
 
 light = {
 	type = point;
 	ls = 2.5;
 	color = {1.0, 1.0, 1.0};
-	origin = {10.0, 10.0, 1.0}
+	origin = {10.0, 10.0, -10.0}
 }
 
 light = {

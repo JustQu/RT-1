@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 20:41:25 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/15 22:02:03 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,10 +167,12 @@ void	read_av(t_app *app, int ac, char **av)
 				{
 					app->options.render_device = CL_DEVICE_TYPE_CPU;
 				}
-				else if (!strcmp(av[i], "--resoluion"))
+				else if (!strcmp(av[i], "--resolution"))
 				{
 					app->options.image_width = ft_atoi(av[i + 1]);
 					app->options.image_height = ft_atoi(av[i + 2]);
+					app->options.window_width = ft_atoi(av[i + 1]);
+					app->options.window_height = ft_atoi(av[i + 2]);
 					i += 3;
 				}
 				else if (!strcmp(av[i], "-N"))
@@ -254,6 +256,7 @@ static void	window_render_loop(t_app *const app)
 			display_image(&app->window, &app->image);
 			app->rt.options.spp += 1;
 			app->rt.options.reset = 0;
+			save_image_func(&app->window, &app->image);
 			display_info(&app->interface, &app->resource_manager,
 						&app->window);
 			// gui(&app->window, &app->rt, &app->gui.all_rect, &app->gui.colors);

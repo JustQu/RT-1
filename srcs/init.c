@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:43:55 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 17:50:16 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/15 21:10:42 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ int		init_app(t_app *app)
 	init_rt(&app->rt, app->options.scene_file,
 			&app->resource_manager, &app->window, &app->image,
 			app->options.render_device);
+	app->rt.scene.camera.viewplane.width = app->options.image_width;
+	app->rt.scene.camera.viewplane.height = app->options.image_height;
 	return (SUCCESS);
 }

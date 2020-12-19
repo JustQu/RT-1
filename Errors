@@ -31,399 +31,12 @@ void    print_all(t_scene scene)
 <program source>:1065:5: warning: no previous prototype for function 'SolveQuadric'
 int SolveQuadric(double c[3], double s[2])
     ^
-<program source>:1087:19: error: call to '__cl_sqrt' is ambiguous
-                double sqrt_D = sqrt(D);
-                  ^~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4788:23: note: expanded from macro 'sqrt'
-    #define sqrt(__x) __cl_sqrt(__x)
-                      ^~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-__CLFN_FD_1FD(__cl_sqrt);
-              ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:367:48: note: expanded from macro '__CLFN_FD_1FD'
-#define __CLFN_FD_1FD(name) float __OVERLOAD__ name(float x); \
-                                               ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:368:21: note: expanded from macro '__CLFN_FD_1FD'
-float2 __OVERLOAD__ name(float2 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:369:21: note: expanded from macro '__CLFN_FD_1FD'
-float3 __OVERLOAD__ name(float3 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:370:21: note: expanded from macro '__CLFN_FD_1FD'
-float4 __OVERLOAD__ name(float4 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:371:21: note: expanded from macro '__CLFN_FD_1FD'
-float8 __OVERLOAD__ name(float8 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:372:22: note: expanded from macro '__CLFN_FD_1FD'
-float16 __OVERLOAD__ name(float16 x);
-                     ^
 <program source>:1095:5: warning: no previous prototype for function 'SolveCubic'
 int SolveCubic(double c[4], double s[3])
     ^
-<program source>:1130:15: error: call to '__cl_cbrt' is ambiguous
-                        double u = cbrt(-q);
-              ^~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4505:23: note: expanded from macro 'cbrt'
-    #define cbrt(__x) __cl_cbrt(__x)
-                      ^~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-__CLFN_FD_1FD(__cl_cbrt);
-              ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:367:48: note: expanded from macro '__CLFN_FD_1FD'
-#define __CLFN_FD_1FD(name) float __OVERLOAD__ name(float x); \
-                                               ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:368:21: note: expanded from macro '__CLFN_FD_1FD'
-float2 __OVERLOAD__ name(float2 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:369:21: note: expanded from macro '__CLFN_FD_1FD'
-float3 __OVERLOAD__ name(float3 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:370:21: note: expanded from macro '__CLFN_FD_1FD'
-float4 __OVERLOAD__ name(float4 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:371:21: note: expanded from macro '__CLFN_FD_1FD'
-float8 __OVERLOAD__ name(float8 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:372:22: note: expanded from macro '__CLFN_FD_1FD'
-float16 __OVERLOAD__ name(float16 x);
-                     ^
-<program source>:1138:36: error: call to '__cl_sqrt' is ambiguous
-                double phi = 1.0 / 3 * acos(-q / sqrt(-cb_p));
-                                   ^~~~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4788:23: note: expanded from macro 'sqrt'
-    #define sqrt(__x) __cl_sqrt(__x)
-                      ^~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4453:33: note: expanded from macro 'acos'
-    #define acos(__x) __cl_acos(__x)
-                                ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-__CLFN_FD_1FD(__cl_sqrt);
-              ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:367:48: note: expanded from macro '__CLFN_FD_1FD'
-#define __CLFN_FD_1FD(name) float __OVERLOAD__ name(float x); \
-                                               ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:368:21: note: expanded from macro '__CLFN_FD_1FD'
-float2 __OVERLOAD__ name(float2 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:369:21: note: expanded from macro '__CLFN_FD_1FD'
-float3 __OVERLOAD__ name(float3 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:370:21: note: expanded from macro '__CLFN_FD_1FD'
-float4 __OVERLOAD__ name(float4 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:371:21: note: expanded from macro '__CLFN_FD_1FD'
-float8 __OVERLOAD__ name(float8 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:372:22: note: expanded from macro '__CLFN_FD_1FD'
-float16 __OVERLOAD__ name(float16 x);
-                     ^
-<program source>:1139:18: error: call to '__cl_sqrt' is ambiguous
-                double t = 2 * sqrt(-p);
-                 ^~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4788:23: note: expanded from macro 'sqrt'
-    #define sqrt(__x) __cl_sqrt(__x)
-                      ^~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-__CLFN_FD_1FD(__cl_sqrt);
-              ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:367:48: note: expanded from macro '__CLFN_FD_1FD'
-#define __CLFN_FD_1FD(name) float __OVERLOAD__ name(float x); \
-                                               ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:368:21: note: expanded from macro '__CLFN_FD_1FD'
-float2 __OVERLOAD__ name(float2 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:369:21: note: expanded from macro '__CLFN_FD_1FD'
-float3 __OVERLOAD__ name(float3 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:370:21: note: expanded from macro '__CLFN_FD_1FD'
-float4 __OVERLOAD__ name(float4 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:371:21: note: expanded from macro '__CLFN_FD_1FD'
-float8 __OVERLOAD__ name(float8 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:372:22: note: expanded from macro '__CLFN_FD_1FD'
-float16 __OVERLOAD__ name(float16 x);
-                     ^
-<program source>:1141:14: error: call to '__fast_relax_cos' is ambiguous
-                s[0] = t * cos(phi);
-             ^~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4758:22: note: expanded from macro 'cos'
-    #define cos(__x) __fast_relax_cos(__x)
-                     ^~~~~~~~~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-    __CLFN_FD_1FD_FAST_RELAX(__fast_relax_cos, native_cos, __cl_cos);
-                             ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:417:27: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float __OVERLOAD__ _name(float x) { return _default_name(x); } \
-                          ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:418:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float2 __OVERLOAD__ _name(float2 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:419:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float3 __OVERLOAD__ _name(float3 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:420:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float4 __OVERLOAD__ _name(float4 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:421:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float8 __OVERLOAD__ _name(float8 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:422:29: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float16 __OVERLOAD__ _name(float16 x){ return _default_name(x); }
-                            ^
-<program source>:1142:15: error: call to '__fast_relax_cos' is ambiguous
-                s[1] = -t * cos(phi + M_PI / 3);
-              ^~~~~~~~~~~~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4758:22: note: expanded from macro 'cos'
-    #define cos(__x) __fast_relax_cos(__x)
-                     ^~~~~~~~~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-    __CLFN_FD_1FD_FAST_RELAX(__fast_relax_cos, native_cos, __cl_cos);
-                             ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:417:27: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float __OVERLOAD__ _name(float x) { return _default_name(x); } \
-                          ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:418:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float2 __OVERLOAD__ _name(float2 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:419:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float3 __OVERLOAD__ _name(float3 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:420:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float4 __OVERLOAD__ _name(float4 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:421:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float8 __OVERLOAD__ _name(float8 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:422:29: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float16 __OVERLOAD__ _name(float16 x){ return _default_name(x); }
-                            ^
-<program source>:1143:15: error: call to '__fast_relax_cos' is ambiguous
-                s[2] = -t * cos(phi - M_PI / 3);
-              ^~~~~~~~~~~~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4758:22: note: expanded from macro 'cos'
-    #define cos(__x) __fast_relax_cos(__x)
-                     ^~~~~~~~~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-    __CLFN_FD_1FD_FAST_RELAX(__fast_relax_cos, native_cos, __cl_cos);
-                             ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:417:27: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float __OVERLOAD__ _name(float x) { return _default_name(x); } \
-                          ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:418:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float2 __OVERLOAD__ _name(float2 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:419:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float3 __OVERLOAD__ _name(float3 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:420:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float4 __OVERLOAD__ _name(float4 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:421:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float8 __OVERLOAD__ _name(float8 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4756:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:422:29: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float16 __OVERLOAD__ _name(float16 x){ return _default_name(x); }
-                            ^
-<program source>:1148:19: error: call to '__cl_sqrt' is ambiguous
-                double sqrt_D = sqrt(D);
-                  ^~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4788:23: note: expanded from macro 'sqrt'
-    #define sqrt(__x) __cl_sqrt(__x)
-                      ^~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-__CLFN_FD_1FD(__cl_sqrt);
-              ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:367:48: note: expanded from macro '__CLFN_FD_1FD'
-#define __CLFN_FD_1FD(name) float __OVERLOAD__ name(float x); \
-                                               ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:368:21: note: expanded from macro '__CLFN_FD_1FD'
-float2 __OVERLOAD__ name(float2 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:369:21: note: expanded from macro '__CLFN_FD_1FD'
-float3 __OVERLOAD__ name(float3 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:370:21: note: expanded from macro '__CLFN_FD_1FD'
-float4 __OVERLOAD__ name(float4 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:371:21: note: expanded from macro '__CLFN_FD_1FD'
-float8 __OVERLOAD__ name(float8 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:372:22: note: expanded from macro '__CLFN_FD_1FD'
-float16 __OVERLOAD__ name(float16 x);
-                     ^
-<program source>:1149:14: error: call to '__cl_cbrt' is ambiguous
-                double u = cbrt(sqrt_D - q);
-             ^~~~~~~~~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4505:23: note: expanded from macro 'cbrt'
-    #define cbrt(__x) __cl_cbrt(__x)
-                      ^~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-__CLFN_FD_1FD(__cl_cbrt);
-              ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:367:48: note: expanded from macro '__CLFN_FD_1FD'
-#define __CLFN_FD_1FD(name) float __OVERLOAD__ name(float x); \
-                                               ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:368:21: note: expanded from macro '__CLFN_FD_1FD'
-float2 __OVERLOAD__ name(float2 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:369:21: note: expanded from macro '__CLFN_FD_1FD'
-float3 __OVERLOAD__ name(float3 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:370:21: note: expanded from macro '__CLFN_FD_1FD'
-float4 __OVERLOAD__ name(float4 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:371:21: note: expanded from macro '__CLFN_FD_1FD'
-float8 __OVERLOAD__ name(float8 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:372:22: note: expanded from macro '__CLFN_FD_1FD'
-float16 __OVERLOAD__ name(float16 x);
-                     ^
-<program source>:1150:15: error: call to '__cl_cbrt' is ambiguous
-                double v = -cbrt(sqrt_D + q);
-              ^~~~~~~~~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4505:23: note: expanded from macro 'cbrt'
-    #define cbrt(__x) __cl_cbrt(__x)
-                      ^~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-__CLFN_FD_1FD(__cl_cbrt);
-              ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:367:48: note: expanded from macro '__CLFN_FD_1FD'
-#define __CLFN_FD_1FD(name) float __OVERLOAD__ name(float x); \
-                                               ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:368:21: note: expanded from macro '__CLFN_FD_1FD'
-float2 __OVERLOAD__ name(float2 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:369:21: note: expanded from macro '__CLFN_FD_1FD'
-float3 __OVERLOAD__ name(float3 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:370:21: note: expanded from macro '__CLFN_FD_1FD'
-float4 __OVERLOAD__ name(float4 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:371:21: note: expanded from macro '__CLFN_FD_1FD'
-float8 __OVERLOAD__ name(float8 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4502:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:372:22: note: expanded from macro '__CLFN_FD_1FD'
-float16 __OVERLOAD__ name(float16 x);
-                     ^
 <program source>:1166:5: warning: no previous prototype for function 'SolveQuartic'
 int SolveQuartic(double c[5], double s[4])
     ^
-<program source>:1225:8: error: call to '__cl_sqrt' is ambiguous
-                        u = sqrt(u);
-       ^~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4788:23: note: expanded from macro 'sqrt'
-    #define sqrt(__x) __cl_sqrt(__x)
-                      ^~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-__CLFN_FD_1FD(__cl_sqrt);
-              ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:367:48: note: expanded from macro '__CLFN_FD_1FD'
-#define __CLFN_FD_1FD(name) float __OVERLOAD__ name(float x); \
-                                               ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:368:21: note: expanded from macro '__CLFN_FD_1FD'
-float2 __OVERLOAD__ name(float2 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:369:21: note: expanded from macro '__CLFN_FD_1FD'
-float3 __OVERLOAD__ name(float3 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:370:21: note: expanded from macro '__CLFN_FD_1FD'
-float4 __OVERLOAD__ name(float4 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:371:21: note: expanded from macro '__CLFN_FD_1FD'
-float8 __OVERLOAD__ name(float8 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:372:22: note: expanded from macro '__CLFN_FD_1FD'
-float16 __OVERLOAD__ name(float16 x);
-                     ^
-<program source>:1232:8: error: call to '__cl_sqrt' is ambiguous
-                        v = sqrt(v);
-       ^~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4788:23: note: expanded from macro 'sqrt'
-    #define sqrt(__x) __cl_sqrt(__x)
-                      ^~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-__CLFN_FD_1FD(__cl_sqrt);
-              ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:367:48: note: expanded from macro '__CLFN_FD_1FD'
-#define __CLFN_FD_1FD(name) float __OVERLOAD__ name(float x); \
-                                               ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:368:21: note: expanded from macro '__CLFN_FD_1FD'
-float2 __OVERLOAD__ name(float2 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:369:21: note: expanded from macro '__CLFN_FD_1FD'
-float3 __OVERLOAD__ name(float3 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:370:21: note: expanded from macro '__CLFN_FD_1FD'
-float4 __OVERLOAD__ name(float4 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:371:21: note: expanded from macro '__CLFN_FD_1FD'
-float8 __OVERLOAD__ name(float8 x); \
-                    ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4785:15: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:372:22: note: expanded from macro '__CLFN_FD_1FD'
-float16 __OVERLOAD__ name(float16 x);
-                     ^
 <program source>:1258:7: warning: no previous prototype for function 'random'
 uint            random(uint2 *seed)
       ^
@@ -487,9 +100,15 @@ float4  get_torus_normal(float4 point, t_obj torus)
 <program source>:1440:8: warning: no previous prototype for function 'get_box_normal'
 float4  get_box_normal(float4 point, t_obj box, t_hit_info hit_info)
        ^
+<program source>:1466:1: warning: control may reach end of non-void function
+}
+^
 <program source>:1468:8: warning: no previous prototype for function 'get_object_normal'
 float4  get_object_normal(float4 point, t_obj object, t_hit_info hit_info, t_type type)
        ^
+<program source>:1504:1: warning: control may reach end of non-void function
+}
+^
 <program source>:1506:8: warning: no previous prototype for function 'transform_normal'
 float4  transform_normal(float4 normal, t_matrix matrix)
        ^
@@ -547,309 +166,281 @@ bool    mobius_intersection(t_ray ray, t_obj mobius, t_shade_rec *shade_rec, flo
 <program source>:2201:6: warning: no previous prototype for function 'triangle_intersection'
 bool    triangle_intersection(t_ray ray, t_triangle triangle,
      ^
-<program source>:2234:1: warning: no previous prototype for function 'is_intersect'
+<program source>:2205:14: error: expected ';' after expression
+        printf("A ")
+             ^
+             ;
+<program source>:2235:1: warning: no previous prototype for function 'is_intersect'
 is_intersect(t_obj const obj, t_type const type, t_ray const ray,
 ^
-<program source>:2280:7: warning: no previous prototype for function 'transform_ray'
+<program source>:2281:7: warning: no previous prototype for function 'transform_ray'
 t_ray   transform_ray(t_ray ray, t_matrix transformation_matrix)
       ^
-<program source>:2289:6: warning: no previous prototype for function 'instance_hit'
+<program source>:2290:6: warning: no previous prototype for function 'instance_hit'
 bool    instance_hit(t_instance_manager instance_mngr,
      ^
-<program source>:2318:8: warning: no previous prototype for function 'sample_object'
+<program source>:2319:8: warning: no previous prototype for function 'sample_object'
 float4  sample_object(t_instance_manager instance_manager,
        ^
-<program source>:2345:8: warning: no previous prototype for function 'get_light_direction'
+<program source>:2346:8: warning: no previous prototype for function 'get_light_direction'
 float4  get_light_direction(t_light light, t_shade_rec shade_rec)
        ^
-<program source>:2357:8: warning: no previous prototype for function 'get_light_direction2'
+<program source>:2358:8: warning: no previous prototype for function 'get_light_direction2'
 float4  get_light_direction2(t_scene scene, t_light *light,
        ^
-<program source>:2397:9: warning: no previous prototype for function 'get_light_radiance'
+<program source>:2398:9: warning: no previous prototype for function 'get_light_radiance'
 t_color get_light_radiance(t_light light)
         ^
-<program source>:2410:9: warning: no previous prototype for function 'light_l'
+<program source>:2411:9: warning: no previous prototype for function 'light_l'
 t_color light_l(t_light light, float4 wi)
         ^
-<program source>:2435:7: warning: no previous prototype for function 'light_g'
+<program source>:2436:7: warning: no previous prototype for function 'light_g'
 float   light_g(t_light light, float4 wi, t_shade_rec shade_rec)
       ^
-<program source>:2449:7: warning: no previous prototype for function 'light_pdf'
+<program source>:2450:7: warning: no previous prototype for function 'light_pdf'
 float   light_pdf(t_light light)
       ^
-<program source>:2478:1: warning: no previous prototype for function 'f'
+<program source>:2479:1: warning: no previous prototype for function 'f'
 f(t_shade_rec const shade_rec,
 ^
-<program source>:2500:9: warning: no previous prototype for function 'lambertian_f'
+<program source>:2501:9: warning: no previous prototype for function 'lambertian_f'
 t_color lambertian_f(float kd, t_color color)
         ^
-<program source>:2505:9: warning: no previous prototype for function 'lambertian_rho'
+<program source>:2506:9: warning: no previous prototype for function 'lambertian_rho'
 t_color lambertian_rho(float kd, t_color color)
         ^
-<program source>:2510:9: warning: no previous prototype for function 'glossy_specular_f'
+<program source>:2511:9: warning: no previous prototype for function 'glossy_specular_f'
 t_color glossy_specular_f(float4 camera_direction, float4 normal,
         ^
-<program source>:2524:9: warning: no previous prototype for function 'perfect_specular_f'
+<program source>:2525:9: warning: no previous prototype for function 'perfect_specular_f'
 t_color perfect_specular_f(float4 ray_dir, float4 normal, float kr, t_color cr)
         ^
-<program source>:2531:8: warning: no previous prototype for function 'get_ambient_occluder_direction'
+<program source>:2532:8: warning: no previous prototype for function 'get_ambient_occluder_direction'
 float4  get_ambient_occluder_direction(t_ambient_occluder ambient_occluder,
        ^
-<program source>:2542:6: warning: no previous prototype for function 'in_shadow'
+<program source>:2543:6: warning: no previous prototype for function 'in_shadow'
 bool    in_shadow(t_ray shadow_ray, t_scene scene)
      ^
-<program source>:2544:8: warning: unused variable 't'
+<program source>:2545:8: warning: unused variable 't'
         float   t;
        ^
-<program source>:2582:9: warning: no previous prototype for function 'ambient_occlusion_l'
+<program source>:2583:9: warning: no previous prototype for function 'ambient_occlusion_l'
 t_color ambient_occlusion_l(t_scene scene,
         ^
-<program source>:2609:7: warning: no previous prototype for function 'trilinear_interp'
+<program source>:2610:7: warning: no previous prototype for function 'trilinear_interp'
 float   trilinear_interp(float c[2][2][2], float u, float v, float w)
       ^
-<program source>:2622:7: warning: no previous prototype for function 'perlin_interp'
+<program source>:2623:7: warning: no previous prototype for function 'perlin_interp'
 float   perlin_interp(float3 c[2][2][2], float u, float v, float w)
       ^
-<program source>:2641:7: warning: no previous prototype for function 'perlin_noise'
+<program source>:2642:7: warning: no previous prototype for function 'perlin_noise'
 float   perlin_noise(__global float4 *perlin_noise,
       ^
-<program source>:2659:7: warning: no previous prototype for function 'smooth_perlin_noise'
+<program source>:2660:7: warning: no previous prototype for function 'smooth_perlin_noise'
 float   smooth_perlin_noise(__global float4 *ranvec,
       ^
-<program source>:2682:7: warning: no previous prototype for function 'turbulence_perlin_noise'
+<program source>:2683:7: warning: no previous prototype for function 'turbulence_perlin_noise'
 float   turbulence_perlin_noise(__global float4 *ranvec,
       ^
-<program source>:2698:11: warning: no previous prototype for function 'get_texture'
+<program source>:2699:11: warning: no previous prototype for function 'get_texture'
 t_texture       get_texture(t_texture_manager texture_manager, int texture_id)
           ^
-<program source>:2703:10: warning: no previous prototype for function 'get_solid_texture_color'
+<program source>:2704:10: warning: no previous prototype for function 'get_solid_texture_color'
 t_color         get_solid_texture_color(t_texture texture)
          ^
-<program source>:2711:10: warning: no previous prototype for function 'get_checker_texture_color'
+<program source>:2712:10: warning: no previous prototype for function 'get_checker_texture_color'
 t_color         get_checker_texture_color(t_texture texture, float4 point)
          ^
-<program source>:2739:10: warning: no previous prototype for function 'get_checker2d_texture_color'
+<program source>:2740:10: warning: no previous prototype for function 'get_checker2d_texture_color'
 t_color         get_checker2d_texture_color(t_texture texture, float4 point)
          ^
-<program source>:2744:8: warning: unused variable 'fx'
+<program source>:2745:8: warning: unused variable 'fx'
         float   fx = point.x / 1.0f - ix;
        ^
-<program source>:2745:8: warning: unused variable 'fz'
+<program source>:2746:8: warning: unused variable 'fz'
         float   fz = point.z / 1.0f - iz;
        ^
-<program source>:2748:10: warning: no previous prototype for function 'get_perlin_texture_color'
+<program source>:2749:10: warning: no previous prototype for function 'get_perlin_texture_color'
 t_color         get_perlin_texture_color(t_texture_manager mngr,
          ^
-<program source>:2756:9: warning: no previous prototype for function 'get_smooth_perlin_texture_color'
+<program source>:2757:9: warning: no previous prototype for function 'get_smooth_perlin_texture_color'
 t_color get_smooth_perlin_texture_color(t_texture_manager mngr,
         ^
-<program source>:2767:9: warning: no previous prototype for function 'get_turbulence_perlin_texture_color'
+<program source>:2768:9: warning: no previous prototype for function 'get_turbulence_perlin_texture_color'
 t_color get_turbulence_perlin_texture_color(t_texture_manager mngr,
         ^
-<program source>:2777:10: warning: no previous prototype for function 'get_wave_perlin_texture_color'
+<program source>:2778:10: warning: no previous prototype for function 'get_wave_perlin_texture_color'
 t_color         get_wave_perlin_texture_color(t_texture_manager mngr,
          ^
-<program source>:2790:10: warning: no previous prototype for function 'get_color'
+<program source>:2791:10: warning: no previous prototype for function 'get_color'
 t_color         get_color(t_texture_manager texture_manager,
          ^
-<program source>:2827:7: warning: no previous prototype for function 'shadow_hit'
+<program source>:2828:7: warning: no previous prototype for function 'shadow_hit'
 bool            shadow_hit(t_scene scene, t_light light, t_ray shadow_ray, t_shade_rec shade_rec)
       ^
-<program source>:2829:8: warning: unused variable 't'
+<program source>:2830:8: warning: unused variable 't'
         float   t;
        ^
-<program source>:2873:10: warning: no previous prototype for function 'shade_phong'
+<program source>:2874:10: warning: no previous prototype for function 'shade_phong'
 t_color         shade_phong(t_material material,
          ^
-<program source>:2881:8: warning: unused variable 'dirdotn'
+<program source>:2882:8: warning: unused variable 'dirdotn'
         float   dirdotn;
        ^
-<program source>:3045:10: warning: no previous prototype for function 'area_light_shade_phong'
+<program source>:3046:10: warning: no previous prototype for function 'area_light_shade_phong'
 t_color         area_light_shade_phong(t_material material,
          ^
-<program source>:3128:10: warning: no previous prototype for function 'area_light_shade_matte'
+<program source>:3129:10: warning: no previous prototype for function 'area_light_shade_matte'
 t_color         area_light_shade_matte(t_material material,
          ^
-<program source>:3135:9: warning: unused variable 'wo'
+<program source>:3136:9: warning: unused variable 'wo'
         float4  wo = -shade_rec.ray.direction;
         ^
-<program source>:3208:10: warning: no previous prototype for function 'area_light_shade_emissive'
+<program source>:3209:10: warning: no previous prototype for function 'area_light_shade_emissive'
 t_color         area_light_shade_emissive(t_scene scene,
          ^
-<program source>:3222:10: warning: no previous prototype for function 'area_light_shade'
+<program source>:3223:10: warning: no previous prototype for function 'area_light_shade'
 t_color         area_light_shade(t_scene scene,
          ^
-<program source>:3307:6: warning: no previous prototype for function 'bvh_intersection'
+<program source>:3308:6: warning: no previous prototype for function 'bvh_intersection'
 bool    bvh_intersection(t_scene scene, t_shade_rec *shade_rec)
      ^
-<program source>:3346:6: warning: no previous prototype for function 'scene_intersection'
+<program source>:3347:6: warning: no previous prototype for function 'scene_intersection'
 bool    scene_intersection(t_scene scene, t_ray ray, t_shade_rec *shade_rec)
      ^
-<program source>:3355:9: warning: no previous prototype for function 'ray_cast'
+<program source>:3356:9: warning: no previous prototype for function 'ray_cast'
 t_color ray_cast(t_ray ray, t_scene scene, t_rt_options options,
         ^
-<program source>:3358:8: warning: unused variable 'local_id'
+<program source>:3359:8: warning: unused variable 'local_id'
         int                     local_id = get_local_id(0);
        ^
-<program source>:3415:7: warning: no previous prototype for function 'GPURnd'
+<program source>:3416:7: warning: no previous prototype for function 'GPURnd'
 float   GPURnd(float4 *state)
       ^
-<program source>:3433:8: warning: no previous prototype for function 'random_cosine_direction'
+<program source>:3434:8: warning: no previous prototype for function 'random_cosine_direction'
 float4  random_cosine_direction(float4 *state)
        ^
-<program source>:3448:6: warning: no previous prototype for function 'metal_scatter'
+<program source>:3449:6: warning: no previous prototype for function 'metal_scatter'
 bool    metal_scatter(t_texture_manager texture_manager,
      ^
-<program source>:3460:17: warning: implicit declaration of function 'random_in_unit_sphere' is invalid in C99
+<program source>:3461:17: warning: implicit declaration of function 'random_in_unit_sphere' is invalid in C99
                                                         + 0.3f * random_in_unit_sphere(state);
                 ^
-<program source>:3469:6: warning: no previous prototype for function 'build_from_w'
+<program source>:3470:6: warning: no previous prototype for function 'build_from_w'
 void    build_from_w(float4 *const u, float4 *const v, float4 *const w,
      ^
-<program source>:3484:8: warning: no previous prototype for function 'local_dir'
+<program source>:3485:8: warning: no previous prototype for function 'local_dir'
 float4  local_dir(float4 const *const u,
        ^
-<program source>:3497:9: warning: no previous prototype for function 'matte_sample_light'
+<program source>:3498:9: warning: no previous prototype for function 'matte_sample_light'
 t_color matte_sample_light(t_material material,
         ^
-<program source>:3553:9: warning: no previous prototype for function 'phong_sample_light'
+<program source>:3554:9: warning: no previous prototype for function 'phong_sample_light'
 t_color phong_sample_light(t_material material,
         ^
-<program source>:3610:9: warning: no previous prototype for function 'sample_light'
+<program source>:3611:9: warning: no previous prototype for function 'sample_light'
 t_color sample_light(t_material material, t_shade_rec shade_rec, t_scene scene,
         ^
-<program source>:3645:9: warning: no previous prototype for function 'matte_sample_material'
+<program source>:3646:9: warning: no previous prototype for function 'matte_sample_material'
 t_color matte_sample_material(t_material material, t_shade_rec *shade_rec,
         ^
-<program source>:3671:9: warning: no previous prototype for function 'mirror_sample_material'
+<program source>:3672:9: warning: no previous prototype for function 'mirror_sample_material'
 t_color mirror_sample_material(t_material material, t_shade_rec *shade_rec,
         ^
-<program source>:3689:7: warning: no previous prototype for function 'fresnel_conductor'
+<program source>:3690:7: warning: no previous prototype for function 'fresnel_conductor'
 float   fresnel_conductor(float cos_theta)
       ^
-<program source>:3694:7: warning: no previous prototype for function 'ggx_visibility'
+<program source>:3695:7: warning: no previous prototype for function 'ggx_visibility'
 float   ggx_visibility(float roughness_sq, float cos_theta)
       ^
-<program source>:3700:7: warning: no previous prototype for function 'ggx_visibility_term'
+<program source>:3701:7: warning: no previous prototype for function 'ggx_visibility_term'
 float   ggx_visibility_term(float roughness_sq, float t0, float t1)
       ^
-<program source>:3705:7: warning: no previous prototype for function 'ggx_visibility2'
+<program source>:3706:7: warning: no previous prototype for function 'ggx_visibility2'
 float   ggx_visibility2(float a_sq, float4 w, float4 n, float4 m)
       ^
-<program source>:3720:7: warning: no previous prototype for function 'ggx_visibility_term2'
+<program source>:3721:7: warning: no previous prototype for function 'ggx_visibility_term2'
 float   ggx_visibility_term2(float a_sq, float4 wo, float4 wi,
       ^
-<program source>:3726:7: warning: no previous prototype for function 'ggx_normal_distribution'
+<program source>:3727:7: warning: no previous prototype for function 'ggx_normal_distribution'
 float   ggx_normal_distribution(float roughness_sq, float cos_theta)
       ^
-<program source>:3732:7: warning: no previous prototype for function 'ggx_normal_distribution2'
+<program source>:3733:7: warning: no previous prototype for function 'ggx_normal_distribution2'
 float   ggx_normal_distribution2(float a_sq, float4 n, float4 m)
       ^
-<program source>:3740:8: warning: no previous prototype for function 'sample_ggx_distriburion'
+<program source>:3741:8: warning: no previous prototype for function 'sample_ggx_distriburion'
 float4  sample_ggx_distriburion(float4 wi, float cos_theta, float4 *state)
        ^
-<program source>:3757:9: warning: no previous prototype for function 'conductor_sample_material'
+<program source>:3758:9: warning: no previous prototype for function 'conductor_sample_material'
 t_color conductor_sample_material(t_material material, t_shade_rec *shade_rec,
         ^
-<program source>:3789:7: warning: no previous prototype for function 'fresnel_dielectric'
+<program source>:3790:7: warning: no previous prototype for function 'fresnel_dielectric'
 float   fresnel_dielectric(float4 wo, float4 m, float eta)
       ^
-<program source>:3809:7: warning: no previous prototype for function 'remap_roughness'
+<program source>:3810:7: warning: no previous prototype for function 'remap_roughness'
 float   remap_roughness(float roughness, float ndotwo)
       ^
-<program source>:3817:7: warning: no previous prototype for function 'sqr'
+<program source>:3818:7: warning: no previous prototype for function 'sqr'
 float   sqr(float a)
       ^
-<program source>:3822:9: warning: no previous prototype for function 'evaluate_dielectric'
+<program source>:3823:9: warning: no previous prototype for function 'evaluate_dielectric'
 t_color evaluate_dielectric(t_material material, t_shade_rec *shade_rec,
         ^
-<program source>:3880:9: warning: no previous prototype for function 'dielectric_sample_material'
+<program source>:3881:9: warning: no previous prototype for function 'dielectric_sample_material'
 t_color dielectric_sample_material(t_material material, t_shade_rec *shade_rec,
         ^
-<program source>:3930:9: warning: no previous prototype for function 'plastic_evaluate'
+<program source>:3931:9: warning: no previous prototype for function 'plastic_evaluate'
 t_color plastic_evaluate(t_material material, t_shade_rec *shade_rec,
         ^
-<program source>:3964:9: warning: no previous prototype for function 'plastic_sample_material'
+<program source>:3965:9: warning: no previous prototype for function 'plastic_sample_material'
 t_color plastic_sample_material(t_material material, t_shade_rec *shade_rec,
         ^
-<program source>:3994:9: warning: no previous prototype for function 'sample_material'
+<program source>:3995:9: warning: no previous prototype for function 'sample_material'
 t_color sample_material(t_material material, t_shade_rec *shade_rec,
         ^
-<program source>:4034:9: warning: no previous prototype for function 'trace'
+<program source>:4037:9: warning: no previous prototype for function 'trace'
 t_color trace(t_ray ray, t_scene scene, t_rt_options options,
         ^
-<program source>:4083:10: warning: unused variable 'bsdf'
+<program source>:4085:10: warning: unused variable 'bsdf'
                         float   bsdf;;
          ^
-<program source>:4046:8: warning: unused variable 'light_pdf'
+<program source>:4049:8: warning: unused variable 'light_pdf'
         float   light_pdf = 1.0f;
        ^
-<program source>:4050:7: warning: unused variable 'specular_hit'
+<program source>:4053:7: warning: unused variable 'specular_hit'
         bool    specular_hit = false;
       ^
-<program source>:4104:9: warning: no previous prototype for function 'direct_light_plastic_sample_material'
+<program source>:4112:9: warning: no previous prototype for function 'direct_light_plastic_sample_material'
 t_color direct_light_plastic_sample_material(t_material material,
         ^
-<program source>:4138:9: warning: no previous prototype for function 'direct_light_sample_material'
+<program source>:4146:9: warning: no previous prototype for function 'direct_light_sample_material'
 t_color direct_light_sample_material(t_material material, t_shade_rec *shade_rec,
         ^
-<program source>:4178:9: warning: no previous prototype for function 'area_light_tracer'
+<program source>:4186:9: warning: no previous prototype for function 'area_light_tracer'
 t_color area_light_tracer(t_ray ray, t_scene scene, t_rt_options options,
         ^
-<program source>:4218:10: warning: unused variable 'bsdf'
+<program source>:4226:10: warning: unused variable 'bsdf'
                         float   bsdf;
          ^
-<program source>:4190:7: warning: unused variable 'continue_loop'
+<program source>:4198:7: warning: unused variable 'continue_loop'
         bool    continue_loop = true;
       ^
-<program source>:4246:7: warning: no previous prototype for function 'cast_camera_ray'
+<program source>:4254:7: warning: no previous prototype for function 'cast_camera_ray'
 t_ray cast_camera_ray(t_camera camera, float x, float y,
       ^
-<program source>:4333:18: error: call to '__fast_relax_tan' is ambiguous
-                float xx = r * tan(0.5f * camera.f * 0.0174532925199432957);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4772:22: note: expanded from macro 'tan'
-    #define tan(__x) __fast_relax_tan(__x)
-                     ^~~~~~~~~~~~~~~~
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4770:30: note: candidate function
-    __CLFN_FD_1FD_FAST_RELAX(__fast_relax_tan, native_tan, __cl_tan);
-                             ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:417:27: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float __OVERLOAD__ _name(float x) { return _default_name(x); } \
-                          ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4770:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:418:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float2 __OVERLOAD__ _name(float2 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4770:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:419:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float3 __OVERLOAD__ _name(float3 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4770:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:420:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float4 __OVERLOAD__ _name(float4 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4770:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:421:28: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float8 __OVERLOAD__ _name(float8 x) { return _default_name(x); } \
-                           ^
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:4770:30: note: candidate function
-/System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/A/lib/clang/3.5/include/cl_kernel.h:422:29: note: expanded from macro '__CLFN_FD_1FD_FAST_RELAX'
-inline float16 __OVERLOAD__ _name(float16 x){ return _default_name(x); }
-                            ^
-<program source>:4359:6: warning: no previous prototype for function 'init_scene'
+<program source>:4367:6: warning: no previous prototype for function 'init_scene'
 void    init_scene(t_scene *scene,
      ^
-<program source>:4399:6: warning: no previous prototype for function 'init_sampler_manager'
+<program source>:4407:6: warning: no previous prototype for function 'init_sampler_manager'
 void    init_sampler_manager(t_sampler_manager *sampler_manager,
      ^
-<program source>:4411:8: warning: no previous prototype for function 'hash'
+<program source>:4419:8: warning: no previous prototype for function 'hash'
 float           hash(float seed)
        ^
-<program source>:4457:14: warning: unused variable 'ao_sampler'
-        t_sampler                       ao_sampler;
-             ^
-<program source>:4510:9: warning: unused variable 'sp'
+<program source>:4518:9: warning: unused variable 'sp'
         float2  sp = sample_unit_square(&options.sampler, sampler_manager.samples, &seed);
         ^
+<program source>:4465:14: warning: unused variable 'ao_sampler'
+        t_sampler                       ao_sampler;
+             ^
 

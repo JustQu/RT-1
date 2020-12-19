@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 19:14:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 17:54:05 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/15 22:27:29 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	realloc_samplers(t_sampler_manager *sampler_manager,
 	t_sampler *new_samplers;
 
 	new_samplers = malloc(sizeof(t_sampler) * new_size);
-	rt_is_dead(system_err, system_malloc_error, !&new_sampler, "");
+	rt_is_dead(system_err, system_malloc_error, !new_samplers, "");
 	ft_memcpy(new_samplers, sampler_manager->samplers,
 			(sampler_manager->count - 1) * sizeof(t_sampler));
 	free(sampler_manager->samplers);

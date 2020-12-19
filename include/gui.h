@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 18:37:56 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/14 18:02:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 # include "instance_manager.h"
 # include "window.h"
+# include "image.h"
 # include "rt_options.h"
 
 # define WIDTH_MENU DEFAULT_WIDTH / 4
@@ -123,7 +124,7 @@ void			render_tab_bar(t_window *win, SDL_Color *color,
 					SDL_Rect *rect, char *str);
 SDL_Rect		init_rect_size(int x, int y, int w, int h);
 SDL_Color		init_color(int r, int g, int b, int a);
-void			save_image_func(t_window *win);
+void			save_image_func(t_window *win, t_image *image);
 SDL_Texture		*create_tab_subtitles(t_window *win, char *str,
 					SDL_Color *color);
 char			*itoa_float(float num);

@@ -21,9 +21,9 @@ object = {
 	};
 	material = {
 		type = plastic;
-		reflective = 0.1;
-		roughness = 0.1,
-		diffuse = 0.9
+		reflective = 0.4;
+		roughness = 0.01,
+		diffuse = 0.6
 	}
 }
 
@@ -60,7 +60,7 @@ object = {
 	};
 	material = {
 		type = emissive;
-		intensity = 15;
+		intensity = 10;
 	}
 }
 
@@ -91,9 +91,9 @@ object = {
 	};
 	material = {
 		type = plastic;
-		reflective = 0.1;
-		roughness = 0.1,
-		diffuse = 0.9
+		reflective = 0.4;
+		roughness = 0.01,
+		diffuse = 0.6
 	}
 }
 
@@ -164,9 +164,9 @@ object = {
 	};
 	material = {
 		type = plastic;
-		reflective = 0.1;
-		roughness = 0.1,
-		diffuse = 0.9
+		reflective = 0.4;
+		roughness = 0.01,
+		diffuse = 0.6
 	}
 }
 

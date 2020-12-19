@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aabb.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:24:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:53:23 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/14 23:01:29 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ t_bbox			compute_aabb(t_instance_info obj)
 		aabb = (t_bbox){(cl_float4){{1.f, 1.f, 1.f}},
 						(cl_float4){{-1.f, -1.f, -1.f}}};
 	else if (obj.type == cylinder)
-		aabb = (t_bbox){(cl_float4){{float_max(obj.r, obj.height),
-				float_max(obj.r, obj.height), float_max(obj.r, obj.height)}},
+		aabb = (t_bbox){(cl_float4){{float_max(obj.r, obj.height) + 1,
+				float_max(obj.r, obj.height) + 1, float_max(obj.r, obj.height) + 1}},
 			(cl_float4){{-float_max(obj.r, obj.height),
 				-float_max(obj.r, obj.height), -float_max(obj.r, obj.height)}}};
 	else if (obj.type == plane)
@@ -109,7 +109,7 @@ t_bbox			compute_aabb(t_instance_info obj)
 	}
 	else if (obj.type == triangle)
 		aabb = (t_bbox){(cl_float4){{100.0f, 100.f, 100.0f}},
-						(cl_float4){{-100.0f, 100.f, -100.0f, 0.0f }}};
+						(cl_float4){{-100.0f, -100.f, -100.0f, 0.0f }}};
 	else if (compute_aabb_next1(obj, &aabb))
 		rt_is_dead(app_err, app_unknown_object_type, ERROR, "aabb.c 1");
 	return (aabb = transform_aabb(aabb, get_transformation_matrix(obj)));
