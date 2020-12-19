@@ -1,8 +1,7 @@
 options =
 {
-	background_color = {0.5, 0.5, 1.0};
-	tracer_type = direct_lightning;
-	depth = 5
+	background_color = {0.0, 0.0, 0.0};
+	tracer_type = path_tracer
 }
 
 object =
@@ -24,7 +23,6 @@ object =
 		roughness = 0.1
 	}
 }
-
 #
 object = {
 	type = torus;
@@ -44,7 +42,6 @@ object = {
 		reflective = 1.0
 	}
 }
-
 #
 object = {
 	type = sphere;
@@ -65,7 +62,6 @@ object = {
 		ambient = 0.25
 	}
 }
-
 #
 object = {
 	type = cylinder;
@@ -87,7 +83,6 @@ object = {
 	minm = 0.0;
 	maxm = 1.0
 }
-
 #
 object = {
 	type = cone;
@@ -126,7 +121,6 @@ object = {
 		diffuse = 1.0
 	}
 }
-
 #
 object = {
 	type = sphere;
@@ -145,7 +139,6 @@ object = {
 		diffuse = 2.0
 	}
 }
-
 #
 object = {
 	type = sphere;
@@ -167,6 +160,7 @@ object = {
 	}
 }
 
+#
 object = {
 	type = sphere;
 	radius = 1.0;
@@ -198,7 +192,7 @@ object = {
 	material = {
 		type = matte
 	}
-}
+}#
 
 camera = {
 	zoom = 0.5;

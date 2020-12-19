@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:24:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/14 23:01:29 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/19 19:53:32 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@ t_matrix		get_transformation_matrix(t_instance_info info)
 	m = mul_matrix(m, get_scale_matrix(info.scaling));
 	return (m);
 }
+
+// t_bbox			transform_aabb2(t_bbox aabb, t_matrix matrix)
+// {
+// 	cl_float4	vertices[8];
+// 	t_bbox		new_bbox;
+// 	return (aabb);
+// }
 
 t_bbox			transform_aabb(t_bbox aabb, t_matrix matrix)
 {
@@ -96,9 +103,9 @@ t_bbox			compute_aabb(t_instance_info obj)
 						(cl_float4){{-1.f, -1.f, -1.f}}};
 	else if (obj.type == cylinder)
 		aabb = (t_bbox){(cl_float4){{float_max(obj.r, obj.height) + 1,
-				float_max(obj.r, obj.height) + 1, float_max(obj.r, obj.height) + 1}},
-			(cl_float4){{-float_max(obj.r, obj.height),
-				-float_max(obj.r, obj.height), -float_max(obj.r, obj.height)}}};
+		float_max(obj.r, obj.height) + 1, float_max(obj.r, obj.height) + 1}},
+		(cl_float4){{-float_max(obj.r, obj.height),
+		-float_max(obj.r, obj.height), -float_max(obj.r, obj.height)}}};
 	else if (obj.type == plane)
 		aabb = (t_bbox){(cl_float4){{1000.0f, 0.0001f, 1000.0f}},
 						(cl_float4){{-1000.0f, 0.0f, -1000.0f}}};

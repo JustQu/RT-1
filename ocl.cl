@@ -15,8 +15,6 @@
 
 # define OPEN_CL __OPENCL_C_VERSION__
 
-// # define CL_TARGET_OPENCL_VERSION 220
-
 /*
 ** @brief Host code
 */
@@ -405,7 +403,7 @@ typedef struct s_material			t_material;
 
 enum	e_material_type
 {
-	mat_none = -2, 
+	mat_none = -2,
 	matte = 0,
 	phong,
 
@@ -660,7 +658,7 @@ struct				s_ambient_occluder
 typedef enum e_sampler_type	t_sampler_type;
 typedef struct s_sampler	t_sampler;
 
-enum	e_sampler_type
+enum						e_sampler_type
 {
 	none,
 	regular_grid,
@@ -685,27 +683,28 @@ enum	e_sampler_type
 ** jump - random index jump
 */
 
-struct	s_sampler
+struct						s_sampler
 {
-	t_sampler_type	type;			//4
-	cl_int			num_samples;	//4
-	cl_int			num_sets;		//4
-	cl_uint			count;			//4
-	cl_int			jump;			//4
-	cl_int			samples_type;	//4
-
-	cl_int			offset;			//4
-	cl_int			disk_samples_offset;	//4
-	cl_int			hemisphere_samples_offset;	//4
-	cl_int			gap[3];
+	t_sampler_type			type;
+	cl_int					num_samples;
+	cl_int					num_sets;
+	cl_uint					count;
+	cl_int					jump;
+	cl_int					samples_type;
+	cl_int					offset;
+	cl_int					disk_samples_offset;
+	cl_int					hemisphere_samples_offset;
+	cl_int					gap[3];
 };
 
 # ifndef __OPENCL_C_VERSION__
 
-void	map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples,
-								cl_float2 *disk_samples);
-void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples,
-								cl_float3 *hemisphere_samples, const float e);
+void						map_samples_to_unit_disk(t_sampler sampler,
+					cl_float2 *samples,
+					cl_float2 *disk_samples);
+void						map_samples_to_hemisphere(t_sampler sampler,
+					cl_float2 *samples,
+					cl_float3 *hemisphere_samples, const float e);
 
 # endif
 
@@ -843,24 +842,16 @@ typedef struct s_rt_options		t_rt_options;
 struct			s_rt_options
 {
 	t_sampler		sampler;
-	cl_int			ambient_illumination; //4
-
-	t_color			background_color;	//16
-
-	cl_int			depth;			//4
-
-	cl_int			shadows;	//4
-
-	cl_int			area_lightning;//4
-
-	cl_float		spp;	//4
-	cl_int			aa_id;//4
-
-	t_tracer_type	tracer_type;//4
-
-	cl_uchar		reset; //1
-
-	cl_uchar		strategy;//1
+	cl_int			ambient_illumination;
+	t_color			background_color;
+	cl_int			depth;
+	cl_int			shadows;
+	cl_int			area_lightning;
+	cl_float		spp;
+	cl_int			aa_id;
+	t_tracer_type	tracer_type;
+	cl_uchar		reset;
+	cl_uchar		strategy;
 };
 
 # ifndef __OPENCL_C_VERSION__
@@ -1330,10 +1321,7 @@ t_color	float_color_multi(float	c, t_color color)
 	return (res);
 }
 
-/*
-** TODO: randomness §5
-** ??????? ??? ????????(???????)
-*/
+
 float2	sample_unit_square(t_sampler *sampler, __global float2 *samples, uint2 *seed)
 {
 	// if (sampler->count % sampler->num_samples == 0) // ?????? ?????? ???????
@@ -1344,9 +1332,6 @@ float2	sample_unit_square(t_sampler *sampler, __global float2 *samples, uint2 *s
 	// return (samples[sampler->jump + sampler->shuffled_indices[sampler->jump + sampler->count++ % sampler->num_samples]]);
 }
 
-/*
-** ??????? ??? ?????
-*/
 float2	sample_unit_disk(t_sampler *sampler, __global float2 *disk_samples, uint2 *seed)
 {
 	// if (sampler->count % sampler->num_samples == 0)
@@ -1360,9 +1345,6 @@ float2	sample_unit_disk(t_sampler *sampler, __global float2 *disk_samples, uint2
 	// return ((disk_samples + sampler->offset)[sampler->jump + sampler->count++ % (sampler->num_samples)]);
 }
 
-/*
-** ??????? ??? ?????????
-*/
 float3	sample_hemisphere(t_sampler *sampler, __global float3 *hemisphere_samples, uint2 *seed)
 {
 	if (sampler->count % sampler->num_samples == 0)
@@ -2356,7 +2338,7 @@ float4	sample_object(t_instance_manager instance_manager,
 					* sampler.num_samples;
 		sampler.count = get_global_id(0) + random(seed);
 
-		float2 sp = sample_unit_square(sampler_manager.sampler,
+		float2 sp = sample_unit_square(&sampler,
 									sampler_manager.samples, seed);
 		float4 point = object.origin
 					+ sp.x * object.direction * object.r
@@ -3812,9 +3794,12 @@ t_color	conductor_sample_material(t_material material, t_shade_rec *shade_rec,
 		float g = ggx_visibility_term(material.exp * material.exp, ndotwi,
 													ndotwo);
 
-		*f = float_color_multi(fr * d * g / (4.0f * ndotwo),
-								get_color(texture_manager, material, shade_rec));
 		*pdf = d * ndoth / (4.0f * hdotwi);
+		if (*pdf < 0.05f)
+			*f = (t_color){0.0f, 0.0f, 0.0f, 0.0f};
+		else
+			*f = float_color_multi(fr * d * g / (4.0f * ndotwo),
+							get_color(texture_manager, material, shade_rec));
 	}
 }
 
@@ -4121,7 +4106,7 @@ t_color	trace(t_ray ray, t_scene scene, t_rt_options options,
 
 			if (is_black(f))
 					break;
-			if (pdf <= 0.001f)
+			if (pdf <= 0.01f)
 			{
 				if (!is_black(f))
 					color = color_sum(color_multi(beta, f), color);
@@ -4500,8 +4485,8 @@ void main_kernel(__global t_color *image,	//0
 
 	/* Инициализируем нужные переменные и структуры */
 	global_id = get_global_id(0);
-	if (global_id == 0)
-		printf("Rendering: %f%%\n", step / options.spp * 100.0f);
+	// if (global_id == 0)
+	// 	printf("Rendering: %f%%\n", step / options.spp * 100.0f);
 	x = global_id % camera.viewplane.width;
 	y = global_id / camera.viewplane.width;
 
@@ -4533,6 +4518,14 @@ void main_kernel(__global t_color *image,	//0
 	options.sampler.count = global_id + num;
 
 	sampler_manager.sampler = &options.sampler;
+
+	// t_sampler ssp = get_sampler(sampler_manager, 4);
+	// if (global_id == 0)
+	// 	for (int i = 0; i < ssp.num_samples * ssp.num_sets; i++)
+	// 	{
+	// 		float2 s =  sample_unit_square(&ssp,sampler_manager.samples, &seed);
+	// 		printf("%f %f++++", s.x, s.y);
+	// 	}
 	/* получаем семплер для антиалиасинга и текущий шаг. */
 	// ao_sampler = get_sampler(sampler_manager, options.aa_id);
 	// ao_sampler.count = global_id * ao_sampler.num_samples + step;

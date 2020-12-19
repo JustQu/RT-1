@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:45:42 by user              #+#    #+#             */
-/*   Updated: 2020/12/15 22:18:49 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/19 19:53:49 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,14 @@ void			save_image_func(t_window *win, t_image *image)
 	int			w;
 	int			h;
 
+	static int a = 0;
+
+	if (!a)
+	{
+		IMG_Init(IMG_INIT_JPG);
+		a = 1;
+	}
+
 	if (g_save_image)
 	{
 		surf = NULL;
@@ -81,6 +89,8 @@ void			save_image_func(t_window *win, t_image *image)
 		st = SDL_SaveBMP(surf, "image.bmp");
 		if (st != 0)
 			SDL_Log("Failed saving image: %s\n", SDL_GetError());
+		if (!(st = IMG_SaveJPG(surf, "test.jpg", 100)))
+			exit(00);
 		draw_save_image_text(win);
 		SDL_FreeSurface(surf);
 		SDL_DestroyTexture(ren_tex);

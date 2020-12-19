@@ -3,16 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   gui_get_data_3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 09:58:19 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 15:47:53 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/19 13:23:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "libft.h"
 #include "rt_error.h"
+
+void			get_illumin_data(int ptr, char *string, char **str)
+{
+	str[0] = ft_strdup(string);
+	rt_is_dead(system_err, system_malloc_error, !str[0], "gui_get_data_3 1");
+	if (ptr == 0)
+		str[1] = ft_strdup("no");
+	else if (ptr == 1)
+		str[1] = ft_strdup("constant");
+	else if (ptr == 2)
+		str[1] = ft_strdup("occluder");
+	rt_is_dead(system_err, system_malloc_error, !str[1], "gui_get_data_3 2");
+	str[2] = NULL;
+	str[3] = NULL;
+}
 
 void			get_true_data(int ptr, char *string, char **str)
 {

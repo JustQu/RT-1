@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 19:14:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/15 22:27:29 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/19 19:53:52 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "utils.h"
 #include "rt_error.h"
 
-static int	realloc_samplers(t_sampler_manager *sampler_manager,
+static int		realloc_samplers(t_sampler_manager *sampler_manager,
 								size_t new_size)
 {
 	t_sampler *new_samplers;
@@ -30,26 +30,7 @@ static int	realloc_samplers(t_sampler_manager *sampler_manager,
 	return (SUCCESS);
 }
 
-t_sampler	init_sampler(t_sampler_type sampler_type, int num_samples)
-{
-	t_sampler	sampler;
-
-	sampler.count = 0;
-	sampler.jump = 0;
-	sampler.type = num_samples == 1 ? regular_grid : sampler_type;
-	sampler.num_samples = num_samples ? num_samples : NUM_SAMPLES;
-	sampler.num_sets = NUM_SETS;
-	if (sampler_type == none)
-	{
-		sampler.type = sampler_type;
-		sampler.num_samples = 1;
-		sampler.num_sets = 1;
-		return (sampler);
-	}
-	return (sampler);
-}
-
-int			init_sampler1(t_sampler *sampler, t_sampler_type type,
+int				init_sampler1(t_sampler *sampler, t_sampler_type type,
 					int num_samples, int samples_type)
 {
 	sampler->count = 0;
@@ -71,7 +52,7 @@ int			init_sampler1(t_sampler *sampler, t_sampler_type type,
 ** todo: malloc check
 */
 
-void		map_sp(t_sampler_manager *m, t_sampler *s)
+void			map_sp(t_sampler_manager *m, t_sampler *s)
 {
 	t_uint	a;
 
@@ -84,7 +65,7 @@ void		map_sp(t_sampler_manager *m, t_sampler *s)
 	{
 		if (m->disk_samples_size >= (a = m->disk_samples_malloc_size))
 			m->disk_samples = ft_realloc(m->disk_samples, a,
-			m->disk_samples_malloc_size = 2 * m->disk_samples_size);
+					m->disk_samples_malloc_size = 2 * m->disk_samples_size);
 		map_samples_to_unit_disk(*s, m->samples + s->offset,
 								m->disk_samples + s->disk_samples_offset);
 	}
@@ -99,7 +80,7 @@ void		map_sp(t_sampler_manager *m, t_sampler *s)
 	}
 }
 
-int			new_sampler(t_sampler_manager *mngr,
+int				new_sampler(t_sampler_manager *mngr,
 					t_sampler_type sampler_type,
 					int nsp,
 					int type)
@@ -127,7 +108,7 @@ int			new_sampler(t_sampler_manager *mngr,
 	return (mngr->count - 1);
 }
 
-int			init_sampler_manager(t_sampler_manager *sampler_manager)
+int				init_sampler_manager(t_sampler_manager *sampler_manager)
 {
 	sampler_manager->count = 0;
 	sampler_manager->samplers_malloc_size = 0;

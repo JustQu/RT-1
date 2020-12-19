@@ -28,7 +28,7 @@ typedef struct s_material			t_material;
 
 enum	e_material_type
 {
-	mat_none = -2, 
+	mat_none = -2,
 	matte = 0,
 	phong,
 

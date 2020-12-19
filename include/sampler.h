@@ -20,7 +20,7 @@
 typedef enum e_sampler_type	t_sampler_type;
 typedef struct s_sampler	t_sampler;
 
-enum	e_sampler_type
+enum						e_sampler_type
 {
 	none,
 	regular_grid,
@@ -45,27 +45,28 @@ enum	e_sampler_type
 ** jump - random index jump
 */
 
-struct	s_sampler
+struct						s_sampler
 {
-	t_sampler_type	type;			//4
-	cl_int			num_samples;	//4
-	cl_int			num_sets;		//4
-	cl_uint			count;			//4
-	cl_int			jump;			//4
-	cl_int			samples_type;	//4
-
-	cl_int			offset;			//4
-	cl_int			disk_samples_offset;	//4
-	cl_int			hemisphere_samples_offset;	//4
-	cl_int			gap[3];
+	t_sampler_type			type;
+	cl_int					num_samples;
+	cl_int					num_sets;
+	cl_uint					count;
+	cl_int					jump;
+	cl_int					samples_type;
+	cl_int					offset;
+	cl_int					disk_samples_offset;
+	cl_int					hemisphere_samples_offset;
+	cl_int					gap[3];
 };
 
 # ifndef __OPENCL_C_VERSION__
 
-void	map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples,
-								cl_float2 *disk_samples);
-void	map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples,
-								cl_float3 *hemisphere_samples, const float e);
+void						map_samples_to_unit_disk(t_sampler sampler,
+					cl_float2 *samples,
+					cl_float2 *disk_samples);
+void						map_samples_to_hemisphere(t_sampler sampler,
+					cl_float2 *samples,
+					cl_float3 *hemisphere_samples, const float e);
 
 # endif
 

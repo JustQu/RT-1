@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:34:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/16 20:04:41 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/19 19:53:53 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "libft.h"
 #include "utils.h"
 #include "rt_error.h"
-
 
 int		init_texture_manager(t_texture_manager *texture_manager)
 {

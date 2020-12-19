@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:33:27 by user              #+#    #+#             */
-/*   Updated: 2020/12/13 20:56:35 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/19 13:14:05 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	init_rect_tree(t_all_rect *rect, t_window *win)
 		rect->fifth_button.y + rect->fifth_button.h + MARGIN_Y * 2,
 		win->width / 4, 30);
 	rect->seven_button = init_rect_size(win->width - win->width / 4 + SPACER,
-		rect->sixth_button.y + rect->sixth_button.h + MARGIN_Y * 2,
+		rect->sixth_button.y + rect->sixth_button.h + MARGIN_Y * 4,
 		win->width / 4, 30);
 	rect->eight_button = init_rect_size(win->width - win->width / 4 +
 	SPACER, rect->seven_button.y + rect->seven_button.h + MARGIN_Y * 2,
@@ -46,6 +46,12 @@ static void	init_rect_two(t_all_rect *rect, t_window *win)
 	rect->eleven_button = init_rect_size(win->width - win->width / 4 +
 	SPACER, rect->ten_button.y + rect->ten_button.h + MARGIN_Y * 2,
 		win->width / 4, 30);
+	rect->twelve_button = init_rect_size(win->width - win->width / 4 +
+	SPACER, rect->eleven_button.y + rect->eleven_button.h + MARGIN_Y * 2,
+		win->width / 4, 30);
+	rect->thirteen_button = init_rect_size(win->width - win->width / 4 +
+	SPACER, rect->twelve_button.y + rect->twelve_button.h + MARGIN_Y * 2,
+		win->width / 4, 30);
 	rect->save_img_button = init_rect_size(win->width - win->width / 4 + SPACER,
 		rect->third_button.y + rect->third_button.h + MARGIN_Y * 4,
 		win->width / 4, 30);
@@ -58,13 +64,13 @@ void		init_rect(t_all_rect *rect, t_window *win)
 	rect->title_button = init_rect_size(win->width - win->width / 4,
 		MARGIN_Y, win->width / 4, MARGIN_Y * 3);
 	rect->tab_camera_button = init_rect_size(win->width - win->width / 4,
-		win->height / 9, (win->width / 4) / 3, 30);
+		win->height / 13, (win->width / 4) / 3, 30);
 	rect->tab_objects_button = init_rect_size(win->width - win->width / 4
 		+ rect->tab_camera_button.w,
-		win->height / 9, (win->width / 4) / 3, 30);
+		win->height / 13, (win->width / 4) / 3, 30);
 	rect->tab_options_button = init_rect_size(win->width - win->width / 4 +
 		rect->tab_camera_button.w + rect->tab_objects_button.w,
-		win->height / 9, (win->width / 4) / 3, 30);
+		win->height / 13, (win->width / 4) / 3, 30);
 	rect->first_button = init_rect_size(win->width - win->width / 4 + SPACER,
 		rect->tab_camera_button.y + rect->tab_camera_button.h + MARGIN_Y,
 		win->width / 4, 30);

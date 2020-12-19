@@ -16,7 +16,7 @@ float4	sample_object(t_instance_manager instance_manager,
 					* sampler.num_samples;
 		sampler.count = get_global_id(0) + random(seed);
 
-		float2 sp = sample_unit_square(sampler_manager.sampler,
+		float2 sp = sample_unit_square(&sampler,
 									sampler_manager.samples, seed);
 		float4 point = object.origin
 					+ sp.x * object.direction * object.r

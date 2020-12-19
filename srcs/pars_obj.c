@@ -49,7 +49,8 @@ void			validate_parsed_obj_2(t_res_mngr *resource_manager,
 		validate_sphere(resource_manager, asset, log);
 	else if (asset.data.object.type == torus || asset.data.object.type == disk)
 		validate_torus_disk(resource_manager, asset, log);
-	else if (asset.data.object.type == triangle || asset.data.object.type == box)
+	else if (asset.data.object.type == triangle || asset.data.object.type
+		== box)
 		validate_triangle_box(resource_manager, asset, log);
 	else if (asset.data.object.type == rectangle)
 		validate_rectangle(resource_manager, asset, log);
@@ -95,7 +96,7 @@ void			pars_object(t_res_mngr *resource_manager,
 	char			*a;
 	char			*b;
 	t_parsed_object	obj;
-	
+
 	obj = get_default_obj();
 	while (*str != '{' && *str != '\0')
 		str++;

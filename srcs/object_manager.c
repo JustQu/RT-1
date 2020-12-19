@@ -6,11 +6,10 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 13:22:40 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:44:31 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/18 22:47:40 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "safe_call.h"
 #include "rt_err.h"
 #include "libft.h"
 #include "bool.h"

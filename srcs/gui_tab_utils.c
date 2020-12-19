@@ -6,14 +6,42 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 15:21:45 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 18:32:32 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/19 13:26:11 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "rt.h"
 
+void			utils_call_option_tab(t_window *win, t_gui *gui, char **str)
+{
+	get_rt_type_data(gui->options.tracer_type, "Type RT", str);
+	draw_button(win, &gui->all_rect.first_button, str, &gui->colors);
+	free_str(str);
+	get_illumin_data(gui->options.ambient_illumination, "Ambient_il type", str); 
+	draw_button(win, &gui->all_rect.second_button, str, &gui->colors);
+	free_str(str);
+}
 
+void			util_call_object_tab(t_window *win, t_gui *gui, char **str)
+{
+	get_shape_data(gui->current_instance.type, "Shape", str);
+	draw_button(win, &gui->all_rect.first_button, str, &gui->colors);
+	free_str(str);
+	get_float4_data(gui->current_instance.origin, "Origin", str);
+	draw_button_xyz(win, &gui->all_rect.second_button, str, &gui->colors);
+	free_str(str);
+}
+
+void			util_call_camera_tab(t_window *win, t_gui *gui, char **str)
+{
+	get_camera_type_data(gui->camera.type, "Type camera", str);
+	draw_button(win, &gui->all_rect.first_button, str, &gui->colors);
+	free_str(str);
+	get_float4_data(gui->camera.origin, "Position", str);
+	draw_button_xyz(win, &gui->all_rect.second_button, str, &gui->colors);
+	free_str(str);
+}
 
 void			option_tab_cont(t_window *win,
 					t_gui *gui)
@@ -39,8 +67,8 @@ void			draw_color_button(t_window *win, t_colors *color,
 {
 	SDL_Rect	button;
 
-	SDL_SetRenderDrawColor(win->renderer, fill_color.r, fill_color.g,
-							fill_color.b, fill_color.a);
+	SDL_SetRenderDrawColor(win->renderer, fill_color.r * 255, fill_color.g * 255,
+							fill_color.b * 255, fill_color.a * 255);
 	button = init_rect_size(rect->x + MARGIN, rect->y,
 							rect->w - MARGIN * 2 - 150, rect->h);
 	SDL_RenderFillRect(win->renderer, &button);

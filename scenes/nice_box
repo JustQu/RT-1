@@ -1,5 +1,5 @@
 options = {
-	background_color = {0.01, 0.01, 0.01};
+	background_color = {0.4, 0.4, 0.4};
 	ambient_illumination = occluder;
 	ambient_coefficient = 0.5;
 	ambient_occlusion = {1, 1, 1};
@@ -60,7 +60,7 @@ object = {
 	};
 	material = {
 		type = emissive;
-		intensity = 10;
+		intensity = 5;
 	}
 }
 

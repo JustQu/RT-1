@@ -14,11 +14,6 @@
 #include "math.h"
 #include "matrix.h"
 
-float		vec4_len(cl_float4 vec)
-{
-	return (sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z));
-}
-
 /*
 ** @brief Normalize vector
 **

@@ -6,7 +6,7 @@
 /*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 20:37:35 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/15 22:04:47 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/19 19:53:49 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	set_default_camera(t_camera *camera)
 	camera->d = DEFAULT_WIDTH;
 	camera->zoom = 0.5f;
 	camera->normalized = FALSE;
-	//заново открыть лог файл и записать логи
+	//todo:заново открыть лог файл и записать логи
 }
 
 int		init_parsed_scene(t_scene *scene,
@@ -54,8 +54,8 @@ int		init_parsed_scene(t_scene *scene,
 	scene->ambient_occluder.ls = 0.05f;
 	scene->ambient_occluder.min_amount =
 	(t_color){ .r = 0.1f, .g = 0.1f, .b = 0.1f };
-	scene->ambient_occluder.sampler_id =
-	new_sampler(sampler_manager, rand_jitter, 100, HEMISPHERE_SAMPLES);
+	scene->ambient_occluder.sampler_id = new_sampler(sampler_manager,
+										rand_jitter, 100, HEMISPHERE_SAMPLES);
 	scene->ambient_light = (t_light){ .type = ambient, .ls = 0.2f,
 									.color = {.r = 1.0f, .b = 1.0f, .g = 1.0f}};
 	if (parser(resource_manager, &asset, scene_file) < 0)
