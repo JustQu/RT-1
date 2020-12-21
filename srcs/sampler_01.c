@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sampler_01.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 20:15:21 by jvoor             #+#    #+#             */
-/*   Updated: 2020/12/15 20:22:29 by jvoor            ###   ########.fr       */
+/*   Updated: 2020/12/21 17:34:48 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ cl_float2	*generate_rand_jitter_samples(t_sampler sampler, cl_float2 *samples)
 	int			pepa;
 	cl_float2	*sp;
 
-	n = sqrtf(sampler.num_samples);
+	n = (int)sqrtf((float)sampler.num_samples);
 	pepa = 0;
 	sp = samples;
 	i[0] = -1;
@@ -48,7 +48,7 @@ cl_float2	*generate_regular_samples(t_sampler sampler, cl_float2 *samples)
 	int			pepa;
 	cl_float2	*sp;
 
-	n = sqrtf(sampler.num_samples);
+	n = (int)sqrtf((float)sampler.num_samples);
 	index[0] = -1;
 	index[1] = -1;
 	index[2] = -1;

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 15:21:45 by alex              #+#    #+#             */
-/*   Updated: 2020/12/20 23:03:46 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:34:29 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,16 @@ void			option_tab_cont(t_window *win,
 {
 	char		*str[4];
 
-	get_float_data(gui->options.ambient_illumination, "Ambient_il", str);
+	get_float_data((float)gui->options.ambient_illumination, "Ambient_il", str);
 	draw_button(win, &gui->all_rect.fourth_button, str, &gui->colors);
 	free_str(str);
 	type_ambien_il(win, gui);
 	draw_line(win, &gui->colors, gui->all_rect.background,
-		gui->all_rect.sixth_button);
+				gui->all_rect.sixth_button);
 	get_true_data(gui->options.shadows, "Shadows", str);
 	draw_button(win, &gui->all_rect.seven_button, str, &gui->colors);
 	free_str(str);
-	get_float_data(gui->options.depth, "Depth", str);
+	get_float_data((float)gui->options.depth, "Depth", str);
 	draw_button(win, &gui->all_rect.eight_button, str, &gui->colors);
 	free_str(str);
 }
@@ -68,9 +68,10 @@ void			draw_color_button(t_window *win, t_colors *color,
 {
 	SDL_Rect	button;
 
-	SDL_SetRenderDrawColor(win->renderer, sqrtf(fill_color.r) * 255,
-						sqrtf(fill_color.g) * 255, sqrtf(fill_color.b) * 255,
-						sqrtf(fill_color.a) * 255);
+	SDL_SetRenderDrawColor(win->renderer, (t_u8)(sqrtf(fill_color.r) * 255.0f),
+						(t_u8)(sqrtf(fill_color.g) * 255.0f),
+						(t_u8)(sqrtf(fill_color.b) * 255.0f),
+						(t_u8)(sqrtf(fill_color.a) * 255.0f));
 	button = init_rect_size(rect->x + MARGIN, rect->y,
 							rect->w - MARGIN * 2 - 150, rect->h);
 	SDL_RenderFillRect(win->renderer, &button);

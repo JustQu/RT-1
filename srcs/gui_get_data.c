@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 20:39:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/19 12:24:13 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/19 20:36:47 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,18 @@ void			get_texture_data(int ptr, char *string, char **str)
 
 void			get_shape_data_2(int ptr, char **str)
 {
-	if (ptr == 6)
+	if (ptr == triangle)
 		str[1] = ft_strdup("triangle");
-	else if (ptr == 7)
+	else if (ptr == box)
 		str[1] = ft_strdup("box");
-	else if (ptr == 8)
+	else if (ptr == disk)
 		str[1] = ft_strdup("disk");
-	else if (ptr == 9)
+	else if (ptr == rectangle)
 		str[1] = ft_strdup("rectangle");
-	else if (ptr == 10)
+	else if (ptr == generic_shere)
 		str[1] = ft_strdup("generic_shere");
-	else
-		str[1] = ft_strdup("no shape");
+	// else
+	// 	str[1] = ft_strdup("no shape");
 	rt_is_dead(system_err, system_malloc_error, !str[1], "gui_get_data 5");
 }
 
@@ -86,15 +86,17 @@ void			get_shape_data(int ptr, char *string, char **str)
 {
 	str[0] = ft_strdup(string);
 	rt_is_dead(system_err, system_malloc_error, !str[0], "gui_get_data 6");
-	if (ptr == 0)
+	if (ptr == cone)
 		str[1] = ft_strdup("cone");
-	else if (ptr == 2)
+	else if (ptr == cylinder)
+		str[1] = ft_strdup("cylinder");
+	else if (ptr == paraboloid)
 		str[1] = ft_strdup("paraboloid");
-	else if (ptr == 3)
+	else if (ptr == plane)
 		str[1] = ft_strdup("plane");
-	else if (ptr == 4)
+	else if (ptr == sphere)
 		str[1] = ft_strdup("sphere");
-	else if (ptr == 5)
+	else if (ptr == torus)
 		str[1] = ft_strdup("torus");
 	rt_is_dead(system_err, system_malloc_error, !str[1], "gui_get_data 7");
 	get_shape_data_2(ptr, str);

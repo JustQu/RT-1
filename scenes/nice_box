@@ -6,7 +6,7 @@ options = {
 	shadows = true;
 	tracer_type = path_tracer;
 	depth = 5;
-	strategy = 1
+	strategy = 0
 }
 
 object = {
@@ -21,9 +21,28 @@ object = {
 	};
 	material = {
 		type = plastic;
-		reflective = 0.1;
-		roughness = 0.1,
-		diffuse = 0.9
+		reflective = 0.4;
+		roughness = 0.01,
+		diffuse = 0.6
+	}
+}
+
+#
+object = {
+	type = rectangle;
+	origin = {200, 553, 250};
+	radius = 175;
+	radius2 = 175;
+	rotation = {0, 0, 0};
+	vector1 = {1, 0, 0};
+	vector2 = {0, 0, 1};
+	texture = {
+		type = solid;
+		color = {1, 1, 1}
+	};
+	material = {
+		type = emissive;
+		intensity = 7;
 	}
 }
 
@@ -45,6 +64,14 @@ object = {
 	}
 }
 
+#
+light = {
+	type = point;
+	ls = 0.2;
+	color = {1.0, 1.0, 1.0};
+	origin = {230.0, 500.0, 300.0}
+}
+
 camera = {
 	origin = {278, 278, -800};
 	direction = {0, 0, 1};
@@ -64,9 +91,9 @@ object = {
 	};
 	material = {
 		type = plastic;
-		reflective = 0.1;
-		roughness = 0.1,
-		diffuse = 0.9
+		reflective = 0.4;
+		roughness = 0.01,
+		diffuse = 0.6
 	}
 }
 
@@ -84,7 +111,7 @@ object = {
 	};
 	material = {
 		type = mirror;
-		intensity = 30;
+		reflective = 0.9
 	}
 }
 
@@ -99,7 +126,7 @@ object = {
 		color = {1, 1, 1}
 	};
 	material = {
-		type = plastic;
+		type = matte;
 		reflective = 0.1;
 		roughness = 0.1,
 		diffuse = 0.9
@@ -136,45 +163,45 @@ object = {
 		color = {1, 1, 1}
 	};
 	material = {
-		type = matte;
-		diffuse = 1
-		#type = conductor;
-		reflective = 1;
-		roughness = 0.1#
+		type = plastic;
+		reflective = 0.4;
+		roughness = 0.01,
+		diffuse = 0.6
 	}
 }
 
 object = {
-	type = box;
-	origin = {265, 0, 135};
-	vector1 = {0, 0, 0};
-	vector2 = {165, 165, 165};
-	rotation = {0, 18, 0};
+	type = sphere;
+	origin = {400, 95, 430};
+	radius = 0.8;
+	radius2 = 0.4;
+	scaling = {120, 120, 120};
+	rotation = {-20, 18, 0};
 	texture = {
 		type = solid;
-		color = {0.5, 0.5 ,1}
+		color = {1, 1 ,1}
 	};
 	material = {
-		type = matte;
-		diffuse = 1
+		type = conductor;
+		reflective = 0.9;
+		roughness = 0.02;
 	}
 }
 
 object = {
-	type = box;
-	origin = {130, 0, 265};
-	vector1 = {0, 0, 0};
-	vector2 = {165, 330, 165};
+	type = sphere;
+	origin = {145, 250, 275};
 	rotation = {0, -18, 0};
+	radius = 0.8;
+	radius2 = 0.4;
+	scaling = {120, 120, 120};
 	texture = {
 		type = solid;
 		color = {1, 1, 1}
 	};
 	material = {
-		#type = matte;
-		diffuse = 1#
-		type = conductor;
-		reflective = 1;
-		roughness = 0.1
+		type = dielectric;
+		roughness = 0.01;
+		transmission = 1.5
 	}
 }

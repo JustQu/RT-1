@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/20 10:52:14 by alex              #+#    #+#             */
-/*   Updated: 2020/12/20 22:47:37 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:39:06 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void			draw_button_xyz(t_window *win, SDL_Rect *rect,
 	int			w;
 	int			h;
 
-	text = draw_button_rgb_l(win, str_xyz, color, rect);
+	text = draw_button_rgb_l(win, str_xyz, color);
 	SDL_QueryTexture(text, NULL, NULL, &w, &h);
 	ptr = init_rect_size(win->width - win->width / 4 + MARGIN,
 		rect->y, w, h);

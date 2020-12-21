@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 20:06:26 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/20 20:54:02 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:24:35 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void		to_lower(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		str[i] = ft_tolower(str[i]);
+		str[i] = (char)ft_tolower(str[i]);
 		i++;
 	}
 }

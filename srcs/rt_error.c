@@ -6,13 +6,13 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:02:10 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/20 23:54:23 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:47:48 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt_error.h"
 
-void	rt_warning(char *message)
+void	rt_warning(const char *message)
 {
 	ft_putendl(message);
 }
@@ -56,7 +56,8 @@ static t_u32		g_nmsgs = sizeof(g_code_msg) / sizeof(t_code_msg);
 */
 
 void	rt_is_dead(t_error_type err_type, t_error_code err_code,
-					t_s32 c, char *additional_message)
+					t_s32 c,
+					const char *additional_message)
 {
 	t_u32	i;
 

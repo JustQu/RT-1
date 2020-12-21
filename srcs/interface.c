@@ -6,18 +6,18 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 15:01:35 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 00:20:10 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:42:10 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "interface.h"
 #include "resource_manager.h"
 
-void	init_interface(t_interface *interface, int mode, int enable_gui)
+void	init_interface(t_interface * const interface, int mode, int enable_gui)
 {
 	interface->mode = mode;
 	interface->enable_gui = enable_gui;
-	interface->current_instance_id = 0;
+	interface->current_instance_id = 7;
 	interface->current_light_id = 0;
 	interface->relative_mouse = FALSE;
 	interface->movement_step = 0.1f;

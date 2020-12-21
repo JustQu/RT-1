@@ -1,8 +1,8 @@
 options =
 {
 	background_color = {0.5, 0.5, 1.0};
-	tracer_type = direct_lightning;
-	depth = 3
+	tracer_type = path_tracer;
+	depth = 5
 }
 
 object = {
@@ -18,17 +18,16 @@ object = {
 		type = dielectric;
 		roughness = 0.01;
 		diffuse = 1.0;
-		transmission = 1.5;
+		transmission = 0.99;
 	}
 }
 
 object = {
 	type = box;
-	#origin = {0, 0.2, -6};#
-	origin = {0, 0, 0};
+	origin = {0, 0.2, -6};
 	vector1 = {0, 0, 0};
 	vector2 = {3, 3, 3};
-	rotation = {0, 30, 60};
+	rotation = {0, 0, 0};
 	texture = {
 		type = solid;
 		color = {0.5, 1, 0.5}
@@ -66,8 +65,8 @@ object = {
 	vector2 = {20.0, 0.0, 20.0};
 	texture = {
 		type = checker;
-		even = {1.0, 0.0, 0.0};
-		odd = {0.0, 1.0, 0.0};
+		even = {0.5, 0.5, 0.5};
+		odd = {0.0, 0.0, 1.0}
 	};
 	material = {
 		type = conductor;
@@ -103,15 +102,14 @@ object = {
 	};
 	material = {
 		type = plastic;
-		reflective = 0.6;
+		reflective = 0.4;
 		roughness = 0.01,
-		diffuse = 0.4
+		diffuse = 0.6
 	}
 	minm = 0.0;
 	maxm = 1.0
 }
 
-#
 object = {
 	type = triangle;
 	origin = {-1.0, 0.0, 0.0};
@@ -135,7 +133,7 @@ object = {
 	scaling = {1.0, 1.0, 1.0};
 	texture = {
 		type = turbulence_perlin;
-		color = {0.0, 1.0, 0.0}
+		scale = 0.5
 	};
 	material = {
 		type = matte;
@@ -149,23 +147,9 @@ object = {
 	maxm = 1.5
 }
 
-object = {
-	type = sphere;
-	origin = { -0.5, 5, 1.0 }
-	texture = {
-		type = solid;
-		color = {1.0, 0.0, .0.0}
-	};
-	material = {
-		type = matte;
-	};
-	radius = 0.1;
-}
-
 camera = {
-	zoom = 1.0;
-	origin = {0.5, 3.5, -6};
-	d = 400;
+	zoom = 0.5;
+	origin = {0.0, -0.5, -8};
 }
 
 light = {

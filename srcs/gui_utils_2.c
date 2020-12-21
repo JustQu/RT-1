@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 19:54:26 by alex              #+#    #+#             */
-/*   Updated: 2020/12/20 23:50:36 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:23:26 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ char			*itoa_float(float num)
 	int			ptr;
 	int			aftd;
 
-	ptr = num;
-	aftd = (num - ptr) * 10;
+	ptr = (int)num;
+	aftd = ((int)num - ptr) * 10;
 	if (aftd < 0)
 		aftd = aftd * -1;
 	str1 = ft_itoa(ptr);

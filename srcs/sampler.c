@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sampler.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:02:56 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/15 20:20:02 by jvoor            ###   ########.fr       */
+/*   Updated: 2020/12/21 17:32:53 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void		extra_for_loop(cl_float2 *sp, float *r, float *phi)
 	if (sp->x < sp->y)
 	{
 		*r = -sp->x;
-		*phi = 4 + sp->y / sp->x;
+		*phi = 4.0f + sp->y / sp->x;
 	}
 	else
 	{
@@ -74,8 +74,8 @@ void			map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples,
 	size[1] = sampler.num_samples * sampler.num_sets;
 	while (++(size[0]) < size[1])
 	{
-		sp.x = 2.0 * samples[size[0]].x - 1.0;
-		sp.y = 2.0 * samples[size[0]].y - 1.0;
+		sp.x = 2.0f * samples[size[0]].x - 1.0f;
+		sp.y = 2.0f * samples[size[0]].y - 1.0f;
 		if (sp.x > -sp.y)
 		{
 			r = sp.x > sp.y ? sp.x : sp.y;
@@ -83,9 +83,9 @@ void			map_samples_to_unit_disk(t_sampler sampler, cl_float2 *samples,
 		}
 		else
 			extra_for_loop(&sp, &r, &phi);
-		phi *= M_PI / 4.0f;
-		disk_samples[size[0]].x = r * cos(phi);
-		disk_samples[size[0]].y = r * sin(phi);
+		phi *= (float)M_PI / 4.0f;
+		disk_samples[size[0]].x = r * cosf(phi);
+		disk_samples[size[0]].y = r * sinf(phi);
 	}
 }
 
@@ -109,13 +109,13 @@ void			map_samples_to_hemisphere(t_sampler sampler, cl_float2 *samples,
 	size[1] = sampler.num_samples * sampler.num_sets;
 	while (++(size[0]) < size[1])
 	{
-		cos_phi = cos(2.0 * M_PI * samples[size[0]].x);
-		sin_phi = sin(2.0 * M_PI * samples[size[0]].x);
-		sp.x = cos_phi * sqrt(1.0 - pow(pow((1.0 - samples[size[0]].y),
-										1.0 / (e + 1.0)), 2));
-		sp.y = sin_phi * sqrt(1.0 - pow(pow((1.0 - samples[size[0]].y),
-										1.0 / (e + 1.0)), 2));
-		sp.z = pow((1.0 - samples[size[0]].y), 1.0 / (e + 1.0));
+		cos_phi = cosf(2.0f * (float)M_PI * samples[size[0]].x);
+		sin_phi = sinf(2.0f * (float)M_PI * samples[size[0]].x);
+		sp.x = cos_phi * sqrtf(1.0f - powf(powf((1.0f - samples[size[0]].y),
+										1.0f / (e + 1.0f)), 2.0f));
+		sp.y = sin_phi * sqrtf(1.0f - powf(powf((1.0f - samples[size[0]].y),
+										1.0f / (e + 1.0f)), 2.0f));
+		sp.z = powf((1.0f - samples[size[0]].y), 1.0f / (e + 1.0f));
 		hemisphere_samples[size[0]] = sp;
 	}
 }

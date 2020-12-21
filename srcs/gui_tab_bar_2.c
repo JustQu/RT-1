@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/21 13:17:52 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:20:36 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void		is_type_light_cont(t_window *win,
 
 	if (gui->current_light.type == area)
 	{
-		get_float_data(gui->current_light.object_id, "Object_id", str);
+		get_float_data((float)gui->current_light.object_id, "Object_id", str);
 		draw_button(win, &gui->all_rect.eight_button, str, &gui->colors);
 		free_str(str);
 	}

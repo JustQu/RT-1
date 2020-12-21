@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:24:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/20 22:12:20 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 14:10:37 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "utils.h"
 #include "rt_error.h"
 
-#include <stdlib.h>
 #include <math.h>
 
 t_matrix		get_transformation_matrix(t_instance_info info)
@@ -39,10 +38,10 @@ t_bbox			transform_aabb(t_bbox aabb, t_matrix matrix)
 	float	b;
 
 	ij[0] = 0;
-	transformed_aabb.min = (cl_float4){.x = matrix.s3,
-									.y = matrix.s7,
-									.z = matrix.sB,
-									.w = 0.0f};
+	transformed_aabb.min.x = matrix.s3;
+	transformed_aabb.min.y = matrix.s7;
+	transformed_aabb.min.z = matrix.sB;
+	transformed_aabb.min.w = 0.0f;
 	transformed_aabb.max = transformed_aabb.min;
 	while (ij[0] < 3)
 	{
@@ -111,7 +110,7 @@ t_bbox			compute_aabb(t_instance_info obj)
 	else if (obj.type == triangle)
 		aabb = (t_bbox){(cl_float4){{100.0f, 100.f, 100.0f}},
 						(cl_float4){{-100.0f, -100.f, -100.0f, 0.0f }}};
-	else if (compute_aabb_next1(obj, &aabb))
+	else if (compute_aabb_next1(obj, &aabb) == ERROR)
 		rt_is_dead(app_err, app_unknown_object_type, ERROR, "aabb.c 1");
 	return (aabb = transform_aabb(aabb, get_transformation_matrix(obj)));
 }

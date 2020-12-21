@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:59:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/20 22:44:59 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:40:29 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ struct						s_code_msg
 	char					*msg;
 };
 
-void						rt_error(char *message);
-
-void						rt_warning(char *message);
+void						rt_warning(const char *message);
 
 const char					*get_error_string(int error_code);
 
@@ -81,13 +79,8 @@ const char					*get_error_string(int error_code);
 */
 
 void						rt_is_dead(t_error_type error_type,
-						t_error_code error_code,
-						t_s32 error_type_code,
-						char *additional_message);
-
-void						rt_die(t_error_type error_type,
-					t_error_code error_code,
-					t_s32 error_type_code,
-					char *additional_message);
+										t_error_code error_code,
+										t_s32 error_type_code,
+										const char *additional_message);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 19:14:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/15 21:58:51 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:34:03 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int		realloc_samplers(t_sampler_manager *sampler_manager,
 	t_sampler *new_samplers;
 
 	new_samplers = malloc(sizeof(t_sampler) * new_size);
-	rt_is_dead(system_err, system_malloc_error, !&new_sampler, "");
+	rt_is_dead(system_err, system_malloc_error, !new_samplers, "");
 	ft_memcpy(new_samplers, sampler_manager->samplers,
 			(sampler_manager->count - 1) * sizeof(t_sampler));
 	free(sampler_manager->samplers);
@@ -54,7 +54,7 @@ int				init_sampler1(t_sampler *sampler, t_sampler_type type,
 
 void			map_sp(t_sampler_manager *m, t_sampler *s)
 {
-	t_uint	a;
+	size_t	a;
 
 	a = m->samples_malloc_size;
 	if (m->samples_size >= (a = m->samples_malloc_size))
@@ -88,16 +88,16 @@ int				new_sampler(t_sampler_manager *mngr,
 	t_sampler	s;
 
 	init_sampler1(&s, sampler_type, nsp, type);
-	s.offset = mngr->samples_size / sizeof(cl_float2);
+	s.offset = (int)mngr->samples_size / sizeof(cl_float2);
 	mngr->samples_size += nsp * s.num_sets * sizeof(cl_float2);
 	if (type & DISK_SAMPLES)
 	{
-		s.disk_samples_offset = mngr->disk_samples_size / sizeof(cl_float2);
+		s.disk_samples_offset = (int)mngr->disk_samples_size / sizeof(cl_float2);
 		mngr->disk_samples_size += nsp * s.num_sets * sizeof(cl_float2);
 	}
 	if (type & HEMISPHERE_SAMPLES)
 	{
-		s.hemisphere_samples_offset = mngr->hemisphere_samples_size
+		s.hemisphere_samples_offset = (int)mngr->hemisphere_samples_size
 									/ sizeof(cl_float3);
 		mngr->hemisphere_samples_size += nsp * s.num_sets * sizeof(cl_float3);
 	}

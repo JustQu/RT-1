@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 23:27:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/20 23:56:14 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:41:42 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,9 @@ static void		init_buffers2(t_cl_program *p, t_scene *s,
 ** @return ** void
 */
 
-void			init_buffers(t_cl_program *p, t_scene *s,
-						t_sampler_manager *sampler_manager)
+void			init_buffers(t_cl_program *const p,
+							t_scene *const s,
+							t_sampler_manager *const sampler_manager)
 {
 	int			ret;
 	int			ro;

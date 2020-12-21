@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 18:59:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/20 23:27:45 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:25:17 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static int	init_clp(t_clp *clp, cl_device_type dev_type)
 static int	init_kernel(t_cl_program *p, t_window *window, t_image *image)
 {
 	int		r;
-	size_t	a;
 
 	r = 0;
 	p->work_size = image->width * image->height;
@@ -66,7 +65,7 @@ static int	init_kernel(t_cl_program *p, t_window *window, t_image *image)
 int			init_ocl(t_cl_program *const program,
 					t_window const *const window,
 					t_image *const image,
-					cl_device_type device_type)
+					cl_device_type const device_type)
 {
 	init_clp(&program->info, device_type);
 	init_kernel(program, (t_window *)window, image);

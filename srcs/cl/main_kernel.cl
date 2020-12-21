@@ -165,7 +165,7 @@ void main_kernel(__global t_color *image,	//0
 
 	if (scene.camera.type == thin_lens)
 	{
-		camera_sampler = get_sampler(sampler_manager, scene.camera.sampler_id);
+		camera_sampler = get_sampler(sampler_manager, 0);
 		camera_sampler.count = global_id;
 		// if (camera_sampler.count % camera_sampler.num_samples == 0)
 		camera_sampler.jump = ((random(&seed)) % camera_sampler.num_sets) * camera_sampler.num_samples;

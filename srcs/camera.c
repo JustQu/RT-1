@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/13 01:05:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/04 12:30:44 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:18:31 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,21 +71,21 @@ void	rotate_camera(t_camera *camera, int axis, float angle_degrees)
 
 	if (axis == 0)
 	{
-		m = rotate_about_axis(camera->u, angle_degrees * M_PI / 180.0f);
+		m = rotate_about_axis(camera->u, angle_degrees * (float)M_PI / 180.0f);
 		camera->u = norm4(vector_matrix_mul(camera->u, m));
 		camera->v = norm4(vector_matrix_mul(camera->v, m));
 		camera->w = norm4(vector_matrix_mul(camera->w, m));
 	}
 	else if (axis == 1)
 	{
-		m = rotate_about_axis(camera->v, angle_degrees * M_PI / 180.0f);
+		m = rotate_about_axis(camera->v, angle_degrees * (float)M_PI / 180.0f);
 		camera->u = norm4(vector_matrix_mul(camera->u, m));
 		camera->v = norm4(vector_matrix_mul(camera->v, m));
 		camera->w = norm4(vector_matrix_mul(camera->w, m));
 	}
 	else
 	{
-		m = rotate_about_axis(camera->w, angle_degrees * M_PI / 180.0f);
+		m = rotate_about_axis(camera->w, angle_degrees * (float)M_PI / 180.0f);
 		camera->u = norm4(vector_matrix_mul(camera->u, m));
 		camera->v = norm4(vector_matrix_mul(camera->v, m));
 		camera->w = norm4(vector_matrix_mul(camera->w, m));

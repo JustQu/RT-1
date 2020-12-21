@@ -769,7 +769,7 @@ bool	instance_hit(t_instance_manager instance_mngr,
 	if (instance.type == triangle)
 	{
 		intersect = (triangle_intersection(ray,
-										instance_mngr.triangles[0],
+										instance_mngr.triangles[instance.object_id],
 										shade_rec, tmin));
 	}
 	else

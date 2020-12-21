@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:57:17 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/20 22:34:19 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:24:58 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef cl_float16	t_float16;
 # define SUCCESS	0
 # define ERROR	-1
 
-# define DEG2RAD M_PI / 360.0f
+# define DEG2RAD (float)M_PI / 360.0f
 
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846264338327950288

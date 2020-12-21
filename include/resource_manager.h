@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 20:25:22 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 13:21:40 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:42:53 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct			s_resource_manager
 }						t_res_mngr;
 
 void					add_parsed_asset(t_res_mngr *const mngr,
-				t_parsed_info asset);
+										t_parsed_info asset);
 
 int						init_resource_manager(t_res_mngr *resource_manager,
 										t_rt *rt);
@@ -40,7 +40,6 @@ void					scan_instance(t_res_mngr *const mngr,
 										t_parsed_info asset);
 void					add_parsed_asset(t_res_mngr *const mngr,
 										t_parsed_info asset);
-t_instance_info			get_instance_info(t_res_mngr *mngr, t_u32 id);
 t_light					get_light_info(t_res_mngr *const mngr,
 										t_u32 id);
 t_matrix				create_inv_transformation_matrix(t_instance_info info);
@@ -55,7 +54,5 @@ t_instance_info			get_object_info(t_res_mngr *mngr, t_instance instance,
 										t_instance_extra extra);
 t_instance_info			get_triangle_info(t_res_mngr *mngr, t_instance instance,
 											t_instance_extra extra);
-
-
 
 #endif

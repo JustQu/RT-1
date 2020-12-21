@@ -169,7 +169,8 @@ object = {
 	scaling = {0.5, 0.5, 0.5};
 	texture = {
 		type = turbulence_perlin;
-		scale = 3.0
+		scale = 3.0;
+		color = {1, 0, 0}
 	};
 	material = {
 		type = matte;
@@ -177,7 +178,6 @@ object = {
 	}
 }
 
-#
 object = {
 	type = triangle;
 	origin = {0.0, 0.0, -2.0};
@@ -196,14 +196,14 @@ object = {
 
 camera = {
 	zoom = 0.5;
-	origin = {0.0, 1, -8}
+	origin = {0.0, 0, -8};
 }
 
 light = {
 	type = point;
 	ls = 2.5;
 	color = {1.0, 1.0, 1.0};
-	origin = {10.0, 10.0, 1.0}
+	origin = {10.0, 10.0, -10.0}
 }
 
 light = {

@@ -6,13 +6,11 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 23:21:28 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/20 22:15:00 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:20:07 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "interface.h"
-#include "rt.h"
-#include "state.h"
+#include "app.h"
 
 int				is_press_button(SDL_Event *event, SDL_Rect *rect)
 {

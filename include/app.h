@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 17:02:27 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 00:19:27 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:19:59 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ struct							s_app
 	t_s32						render_mode;
 };
 
+void							read_av(t_app *app, int ac, char **av);
+
 void							loading_screen(t_cl_program *p,
 												t_window *window);
 
@@ -80,7 +82,8 @@ void							loading_screen(t_cl_program *p,
 */
 
 int								catch_event(t_rt *rt,
-					t_window *win, t_interface *interface);
+											t_window *win,
+											t_interface *interface);
 int								catch_keydown(t_rt *rt, t_interface *interface,
 											SDL_Event event);
 

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 00:19:42 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:41:48 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ struct							s_rt
 int								init_rt(t_app *app);
 
 void							init_buffers(t_cl_program *const program,
-											t_scene *const scene,
+									t_scene *const scene,
 									t_sampler_manager *const sampler_manager);
 
 void							render_scene(t_rt rt);

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 11:41:38 by jvoor             #+#    #+#             */
-/*   Updated: 2020/12/21 13:21:59 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:32:16 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void		scan_instance_01(t_res_mngr *const mngr, t_parsed_info asset)
 	}
 	mngr->info.r2 = asset.data.object.r2;
 	if (mngr->info.type == cone)
-		mngr->info.r2 = pow(tanf(asset.data.object.r2 * DEG2RAD), 2) + 1.0f;
+		mngr->info.r2 = powf(tanf(asset.data.object.r2 * DEG2RAD), 2.0f) + 1.0f;
 	mngr->info.v1 = asset.data.object.vector1;
 	mngr->info.v2 = asset.data.object.vector2;
 	if (mngr->info.type == rectangle)
@@ -87,7 +87,7 @@ void			add_parsed_asset(t_res_mngr *const mngr, t_parsed_info asset)
 ** @return **** t_instance_info
 */
 
-t_instance_info	get_instance_info(t_res_mngr *mngr, t_u32 id)
+t_instance_info	get_instance_info(t_res_mngr *const mngr, t_u32 id)
 {
 	t_instance			instance;
 	t_instance_extra	extra;

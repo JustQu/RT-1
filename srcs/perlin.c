@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 00:31:48 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 12:41:26 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:28:16 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ cl_float4	*perlin_generate(void)
 	int			i;
 	cl_float4	*p;
 
-	if (!(p = malloc(sizeof(*p) * PERLIN_SIZE)))
+	p = ft_memalloc(sizeof(*p) * PERLIN_SIZE);
+	if (!p)
 		return (NULL);
 	i = 0;
 	while (i < PERLIN_SIZE)
@@ -60,7 +61,7 @@ int			*perlin_generate_perm(void)
 	int	*p;
 	int	i;
 
-	p = malloc(sizeof(int) * PERLIN_SIZE);
+	p = ft_memalloc(sizeof(int) * PERLIN_SIZE);
 	rt_is_dead(system_err, system_malloc_error, !p, "");
 	i = 0;
 	while (i < PERLIN_SIZE)

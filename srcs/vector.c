@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/13 00:14:36 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/19 21:07:30 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:28:47 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ cl_float4	norm4(cl_float4 vec)
 {
 	float	magnitude;
 
-	magnitude = sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+	magnitude = sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
 	vec.x = vec.x / magnitude;
 	vec.y = vec.y / magnitude;
 	vec.z = vec.z / magnitude;
@@ -81,8 +81,8 @@ t_matrix	rotate_about_axis(cl_float4 axis, float angle)
 	t_matrix	m;
 
 	a = norm4(axis);
-	sin_theta = sin(angle);
-	cos_theta = cos(angle);
+	sin_theta = sinf(angle);
+	cos_theta = cosf(angle);
 	m = IDENTITY_MATRIX;
 	m.s0 = a.x * a.x + (1 - a.x * a.x) * cos_theta;
 	m.s1 = a.x * a.y * (1 - cos_theta) - a.z * sin_theta;

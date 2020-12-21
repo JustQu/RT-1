@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:45:42 by user              #+#    #+#             */
-/*   Updated: 2020/12/20 23:17:15 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 18:43:38 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ SDL_Color		init_color(int r, int g, int b, int a)
 {
 	SDL_Color	color;
 
-	color.r = r;
-	color.g = g;
-	color.b = b;
-	color.a = a;
+	color.r = (t_u8)r;
+	color.g = (t_u8)g;
+	color.b = (t_u8)b;
+	color.a = (t_u8)a;
 	return (color);
 }
 
@@ -65,8 +65,6 @@ void			save_image_func(t_window *win, t_image *image)
 {
 	SDL_Surface	*surf;
 	int			st;
-	int			w;
-	int			h;
 
 	if (!g_is_init)
 	{
@@ -75,10 +73,9 @@ void			save_image_func(t_window *win, t_image *image)
 	}
 	if (g_save_image)
 	{
-		st = SDL_QueryTexture(win->texture, NULL, NULL, &w, &h);
-		surf = SDL_CreateRGBSurfaceWithFormatFrom(image->pixels, w, h,
-					SDL_BITSPERPIXEL(SDL_PIXELFORMAT_ABGR8888), w *
-						SDL_BYTESPERPIXEL(SDL_PIXELFORMAT_ABGR8888),
+		surf = SDL_CreateRGBSurfaceWithFormatFrom(image->pixels, image->width,
+			image->height, SDL_BITSPERPIXEL(SDL_PIXELFORMAT_ABGR8888),
+			image->width * SDL_BYTESPERPIXEL(SDL_PIXELFORMAT_ABGR8888),
 					SDL_PIXELFORMAT_ABGR8888);
 		if (st = IMG_SaveJPG(surf, "test.jpg", 1000))
 			rt_warning(SDL_GetError());

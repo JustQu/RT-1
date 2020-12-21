@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:34:21 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/20 19:37:15 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:33:49 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ int		add_texture(t_texture_manager *texture_manager,
 	if ((1 + texture_manager->ntextures) * sizeof(t_texture)
 		> texture_manager->textures_malloc_size)
 	{
-		texture_manager->textures = ft_realloc(texture_manager,
-								texture_manager->textures_malloc_size,
-								texture_manager->textures_malloc_size * 2);
+		texture_manager->textures = ft_realloc(texture_manager->textures,
+									texture_manager->textures_malloc_size,
+									texture_manager->textures_malloc_size * 2);
 		rt_is_dead(system_err, system_malloc_error, !texture_manager->textures,
 					"");
 		texture_manager->textures_malloc_size *= 2;

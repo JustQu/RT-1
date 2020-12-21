@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 15:22:07 by jvoor             #+#    #+#             */
-/*   Updated: 2020/12/20 22:57:20 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:32:01 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ t_matrix	get_inverse_y_rotation_matrix(float angle)
 	float	sina;
 	float	cosa;
 
-	cosa = cos(angle * M_PI / 180.0f);
-	sina = sin(angle * M_PI / 180.0f);
+	cosa = cosf(angle * (float)M_PI / 180.0f);
+	sina = sinf(angle * (float)M_PI / 180.0f);
 	return (t_matrix){
 			.s0 = cosa, .s1 = 0.0f, .s2 = -sina, .s3 = 0.0f,
 			.s4 = 0.0f, .s5 = 1.0f, .s6 = 0.0f, .s7 = 0.0f,
@@ -92,8 +92,8 @@ t_matrix	get_inverse_z_rotation_matrix(float angle)
 	float	sina;
 	float	cosa;
 
-	cosa = cos(angle * M_PI / 180.0f);
-	sina = sin(angle * M_PI / 180.0f);
+	cosa = cosf(angle * (float)M_PI / 180.0f);
+	sina = sinf(angle * (float)M_PI / 180.0f);
 	return (t_matrix){
 			.s0 = cosa, .s1 = sina, .s2 = 0.0f, .s3 = 0.0f,
 			.s4 = -sina, .s5 = cosa, .s6 = 0.0f, .s7 = 0.0f,

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 23:57:55 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 13:27:30 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:38:42 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	usage(void)
 
 static void	check_args(t_app *app, int ac, int *i, char **av)
 {
-	if (!ft_strcmp(av, "--resolution"))
+	if (!ft_strcmp(av[*i], "--resolution"))
 	{
 		if (*i + 2 >= ac)
 			usage();

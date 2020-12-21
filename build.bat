@@ -3,7 +3,8 @@ rem ===================build rt on windows using nvidia opencl lib==============
 
 mkdir .\build
 pushd .\build
-cl -FC -Zi   ..\srcs\main.c ..\srcs\*.c ^
+cl /wd4204 /wd4996 /wd4706 /W4 /WX -FC -Zi /D CL_TARGET_OPENCL_VERSION=220^
+					..\srcs\main.c ..\srcs\*.c ^
 					-I ../include ^
 					-I ../Libs/libft/includes ^
 					-I ../Libs ^
