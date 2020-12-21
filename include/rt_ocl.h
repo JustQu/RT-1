@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 15:45:58 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:53:55 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:09:56 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,10 @@ typedef struct			s_cl_program
 typedef struct s_rt	t_rt;
 
 int						init_ocl(t_cl_program *const program,
-								t_scene *const scene,
-								t_sampler_manager *const sampler_manager,
 								t_window const *const window,
 								t_image *const image,
 								cl_device_type const device_type);
-int						cleanup_ocl(t_cl_program *program);
 cl_program				create_program(cl_context context);
+void					cleanup_buffers(t_cl_program ocl_program);
 
 #endif

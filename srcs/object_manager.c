@@ -6,11 +6,10 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 13:22:40 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/18 22:47:40 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:54:56 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_err.h"
 #include "libft.h"
 #include "bool.h"
 #include "instance_manager.h"
@@ -60,10 +59,8 @@ int		add_obj(t_instance_manager *mngr, t_instance_info object_info)
 	{
 		mngr->objects = (t_obj *)ft_realloc(mngr->objects,
 			mngr->objects_malloc_size, mngr->objects_malloc_size * 2);
-		rt_is_dead(system_err, system_malloc_error, !mngr->triangles, "");
+		rt_is_dead(system_err, system_malloc_error, !mngr->objects, "");
 		mngr->objects_malloc_size *= 2;
-		if (mngr->objects == NULL)
-			rt_error("add_triangle: mngr->objects is NULL");
 	}
 	object.minm = 0.0f;
 	object.maxm = object_info.height;
@@ -87,8 +84,6 @@ int		add_obj(t_instance_manager *mngr, t_instance_info object_info)
 
 int		add_object(t_instance_manager *mngr, t_instance_info object_info)
 {
-	if (mngr == NULL)
-		rt_error("add_object(): given NULL pointer");
 	if (object_info.type == triangle)
 	{
 		return (add_triangle(mngr, object_info));
@@ -103,8 +98,6 @@ void	set_sampler(t_instance_manager *instance_manager,
 					int id,
 					int sampler_id)
 {
-	if (instance_manager == NULL)
-		rt_error("set_sampler(): given NULL pointer");
 	instance_manager->objects[
 		instance_manager->instances[id].object_id].sampler_id = sampler_id;
 }

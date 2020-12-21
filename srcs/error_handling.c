@@ -6,11 +6,12 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 18:10:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 14:05:33 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 22:41:41 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "rt_error.h"
 #include "ocl_err_handl.h"
 
 const char			*get_error_string_03(cl_int error)
@@ -140,24 +141,20 @@ const char			*get_error_string(cl_int error)
 
 void				cl_error(t_cl_program *program, t_clp *clp, int code)
 {
-	static FILE		*err_file;
 	char			*log;
 	size_t			log_size;
 
 	if (code != CL_SUCCESS)
 	{
-		if (!err_file)
-			err_file = fopen("Errors", "w+");
-		printf("%d:", code);
+		ft_putnbr_fd(code, 2);
+		ft_putstr_fd(": ", 2);
 		clGetProgramBuildInfo(program->program, clp->de_id,
-				CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
+							CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
 		log = (char *)ft_memalloc(log_size);
-		if (log == NULL)
-			rt_error("cl_error(): malloc error");
+		rt_is_dead(system_err, system_malloc_error, !log, "");
 		clGetProgramBuildInfo(program->program, clp->de_id,
-					CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
-		fprintf(err_file, "%s\n", log);
-		if (fclose(err_file))
-			rt_error("cl_error(): fclose error");
+							CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
+		ft_putstr_fd(log, 2);
+		ft_memdel(&log);
 	}
 }

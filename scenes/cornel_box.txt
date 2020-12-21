@@ -42,7 +42,7 @@ object = {
 	};
 	material = {
 		type = emissive;
-		intensity = 15;
+		intensity = 5;
 	}
 }
 

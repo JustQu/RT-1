@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 20:06:26 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 12:36:04 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 20:54:02 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int			get_block_type(char *str)
 	j = 0;
 	if (str[0] == '=' || str[0] == '{')
 		return (-1);
-	type = (char *)malloc(sizeof(char) * (block_type_lengh(str) + 1));
+	type = (char *)ft_memalloc(sizeof(char) * (block_type_lengh(str) + 1));
 	rt_is_dead(system_err, system_malloc_error, !type, "");
 	while (str[i] != '{' && str[i] != '=')
 	{

@@ -6,12 +6,14 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:45:42 by user              #+#    #+#             */
-/*   Updated: 2020/12/15 22:19:55 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:17:15 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
-#include "rt_err.h"
+#include "rt_error.h"
+
+static t_bool	g_is_init = FALSE;
 
 SDL_Rect		init_rect_size(int x, int y, int w, int h)
 {
@@ -61,39 +63,29 @@ void			draw_save_image_text(t_window *win)
 
 void			save_image_func(t_window *win, t_image *image)
 {
-	SDL_Texture	*ren_tex;
 	SDL_Surface	*surf;
 	int			st;
 	int			w;
 	int			h;
 
-	static int a = 0;
-
-	if (!a)
+	if (!g_is_init)
 	{
-		IMG_Init(IMG_INIT_JPG);
-		a = 1;
+		IMG_Init(IMG_INIT_JPG | IMG_INIT_JPG);
+		g_is_init = 1;
 	}
-
 	if (g_save_image)
 	{
-		surf = NULL;
-		ren_tex = NULL;
 		st = SDL_QueryTexture(win->texture, NULL, NULL, &w, &h);
 		surf = SDL_CreateRGBSurfaceWithFormatFrom(image->pixels, w, h,
-					SDL_BITSPERPIXEL(SDL_PIXELFORMAT_RGBA32), w *
-						SDL_BYTESPERPIXEL(SDL_PIXELFORMAT_RGBA32),
-					SDL_PIXELFORMAT_RGBA32);
-		if (!surf)
-			SDL_Log("Failed creating new surface: %s\n", SDL_GetError());
-		st = SDL_SaveBMP(surf, "image.bmp");
-		if (st != 0)
-			SDL_Log("Failed saving image: %s\n", SDL_GetError());
-		if (!(st = IMG_SaveJPG(surf, "test.jpg", 100)))
-			exit(00);
+					SDL_BITSPERPIXEL(SDL_PIXELFORMAT_ABGR8888), w *
+						SDL_BYTESPERPIXEL(SDL_PIXELFORMAT_ABGR8888),
+					SDL_PIXELFORMAT_ABGR8888);
+		if (st = IMG_SaveJPG(surf, "test.jpg", 1000))
+			rt_warning(SDL_GetError());
+		if (st = SDL_SaveBMP(surf, "image.bmp"))
+			rt_warning(SDL_GetError());
 		draw_save_image_text(win);
 		SDL_FreeSurface(surf);
-		SDL_DestroyTexture(ren_tex);
 		g_save_image = 0;
 	}
 }
@@ -107,11 +99,9 @@ void			render_tab_bar(t_window *win, SDL_Color *color,
 	int			h;
 
 	SDL_SetRenderDrawColor(win->renderer, 0, 0, 0, 255);
-	if (SDL_RenderFillRect(win->renderer, rect))
-		rt_error("render_tab_bar(): SDL_RenderFillRect() error");
+	SDL_RenderFillRect(win->renderer, rect);
 	text = create_tab_subtitles(win, str, color);
-	if (SDL_QueryTexture(text, NULL, NULL, &w, &h))
-		rt_error("render_tab_bar(): SDL_QueryTexture() error");
+	SDL_QueryTexture(text, NULL, NULL, &w, &h);
 	if (w <= rect->w)
 	{
 		rect1.x = rect->x + (rect->w - w) / 2;

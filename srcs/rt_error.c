@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   rt_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:02:10 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 17:47:00 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:54:23 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt_error.h"
-
-void	rt_error(char *message)
-{
-	ft_putstr(RED);
-	ft_putendl(message);
-	ft_putstr(EOC);
-	exit(-1);
-}
 
 void	rt_warning(char *message)
 {
@@ -31,12 +23,12 @@ static t_code_msg	g_code_msg[] = {
 
 	{opencl_err, cl_get_platform_id_error, "Error! Could not get platform id."},
 	{opencl_err, cl_get_device_id_error, "Error! Could not get device id."},
-	{opencl_err, cl_create_context_error, "Error! Could not create OpenCL_err\
-										context."},
-	{opencl_err, cl_create_command_queue_error, "Error! Could not create "\
-												"command queue."},
-	{opencl_err, cl_kernel_arg_error, "Error! Could not pass argument to \
-										kernel."},
+	{opencl_err, cl_create_context_error,
+		"Error! Could not create OpenCL_err context."},
+	{opencl_err, cl_create_command_queue_error,
+		"Error! Could not create command queue."},
+	{opencl_err, cl_kernel_arg_error,
+		"Error! Could not pass argument to kernel."},
 	{opencl_err, cl_kernel_start_error, "Error! Could not start kernel."},
 	{opencl_err, cl_read_buffer_error, "Error! Could not read from buffer."},
 	{opencl_err, cl_create_program_error, "Error! Could not create program."},
@@ -63,26 +55,10 @@ static t_u32		g_nmsgs = sizeof(g_code_msg) / sizeof(t_code_msg);
 ** @return ** void
 */
 
-void	rt_die(t_error_type err_type, t_error_code err_code,
-				t_s32 c, char *additional_message)
-{
-	t_u32		i;//changed from int
-
-	i = 0;
-	if (err_code < 0)
-		while (err_code != g_code_msg[i].err_code && i < g_nmsgs)
-			i++;
-	ft_putendl(g_code_msg[i].msg);
-	if (err_type == opencl_err)
-		ft_putendl(get_error_string(c));
-	ft_putendl(additional_message);
-	exit(g_code_msg[i].err_code);
-}
-
 void	rt_is_dead(t_error_type err_type, t_error_code err_code,
 					t_s32 c, char *additional_message)
 {
-	t_u32 i;//changed from int
+	t_u32	i;
 
 	if (err_code == 0 || c == 0)
 		return ;
@@ -90,13 +66,13 @@ void	rt_is_dead(t_error_type err_type, t_error_code err_code,
 	if (err_code < 0)
 		while (err_code != g_code_msg[i].err_code && i < g_nmsgs)
 			i++;
-	ft_putendl(g_code_msg[i].msg);
+	ft_putendl_fd(g_code_msg[i].msg, 2);
 	if (err_type == opencl_err)
-		ft_putendl(get_error_string(c));
+		ft_putendl_fd(get_error_string(c), 2);
 	else if (err_type == sdl_err)
-		ft_putendl(SDL_GetError());
+		ft_putendl_fd(SDL_GetError(), 2);
 	else if (err_type == system_err)
 		perror("");
-	ft_putendl(additional_message);
+	ft_putendl_fd(additional_message, 2);
 	exit(g_code_msg[i].err_code);
 }

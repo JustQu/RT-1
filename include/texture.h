@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 22:49:19 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 11:52:12 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/20 18:53:43 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@
 # endif
 
 typedef enum e_texture_type	t_texture_type;
-
-/*
-** 32 bytes
-*/
 
 typedef struct s_texture	t_texture;
 
@@ -54,6 +50,7 @@ struct	s_checker_texture
 
 struct	s_smooth_perlin_texture
 {
+	t_color		color;
 	cl_float	scale;
 };
 
@@ -71,15 +68,11 @@ union	u_texture_data
 	struct s_smooth_perlin_texture	smooth_perlin;
 };
 
-/*
-** todo:
-** move ?
-** scale ?
-*/
-
 struct	s_texture
 {
 	union u_texture_data	data;
+	cl_float3				scale;
+	cl_float3				translate;
 	t_texture_type			type;
 	char					gap[12];
 };

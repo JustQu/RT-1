@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 17:39:20 by aapricot         ###   ########.fr       */
+/*   Updated: 2020/12/20 22:27:57 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #define BUFF 100000
 
 static const char	*g_files[] = {
-	"rt_types.h",
+	"cl_types.h",
 	"color.h",
 	"aabb.h",
 	"camera.h",
@@ -85,8 +85,6 @@ static void		read_file(const char *file_name, char *str)
 		rt_warning("Warning: could not close file");
 }
 
-extern FILE *f;//todo: norminette Error (line 88, col 13): global named f is not well prefixed
-
 cl_program		create_program(cl_context context)
 {
 	int			ret;
@@ -103,7 +101,6 @@ cl_program		create_program(cl_context context)
 		str[i] = ft_memalloc(sizeof(char) * BUFF);
 		rt_is_dead(system_err, system_malloc_error, !str, "create_program 3");
 		read_file(g_files[i], str[i]);
-		fprintf(f, "%s\n", str[i]);
 		i++;
 	}
 	program = clCreateProgramWithSource(context,

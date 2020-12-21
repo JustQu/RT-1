@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   gui_tab_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 15:21:45 by alex              #+#    #+#             */
-/*   Updated: 2020/12/19 13:26:11 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/20 23:03:46 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
-#include "rt.h"
+#include "window.h"
+#include <math.h>
 
 void			utils_call_option_tab(t_window *win, t_gui *gui, char **str)
 {
 	get_rt_type_data(gui->options.tracer_type, "Type RT", str);
 	draw_button(win, &gui->all_rect.first_button, str, &gui->colors);
 	free_str(str);
-	get_illumin_data(gui->options.ambient_illumination, "Ambient_il type", str); 
+	get_illumin_data(gui->options.ambient_illumination, "Ambient type", str);
 	draw_button(win, &gui->all_rect.second_button, str, &gui->colors);
 	free_str(str);
 }
@@ -67,8 +68,9 @@ void			draw_color_button(t_window *win, t_colors *color,
 {
 	SDL_Rect	button;
 
-	SDL_SetRenderDrawColor(win->renderer, fill_color.r * 255, fill_color.g * 255,
-							fill_color.b * 255, fill_color.a * 255);
+	SDL_SetRenderDrawColor(win->renderer, sqrtf(fill_color.r) * 255,
+						sqrtf(fill_color.g) * 255, sqrtf(fill_color.b) * 255,
+						sqrtf(fill_color.a) * 255);
 	button = init_rect_size(rect->x + MARGIN, rect->y,
 							rect->w - MARGIN * 2 - 150, rect->h);
 	SDL_RenderFillRect(win->renderer, &button);

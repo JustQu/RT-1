@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 19:54:26 by alex              #+#    #+#             */
-/*   Updated: 2020/12/18 22:47:37 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:50:36 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void			draw_title_ray_tracing(t_window *win, SDL_Color *color)
 		rect.y = MARGIN_Y;
 		rect.w = w;
 		rect.h = h;
-		render_rect(rt_text, win->renderer, &rect);
 	}
 	else
 	{
@@ -79,8 +78,9 @@ void			draw_title_ray_tracing(t_window *win, SDL_Color *color)
 		rect.y = MARGIN_Y;
 		rect.w = win->width / 4 - MARGIN * 2;
 		rect.h = h;
-		render_rect(rt_text, win->renderer, &rect);
 	}
+	render_rect(rt_text, win->renderer, &rect);
+	SDL_DestroyTexture(rt_text);
 }
 
 void			free_str(char *str[4])
@@ -96,14 +96,11 @@ void			free_str(char *str[4])
 	}
 }
 
-void			gui_disk_vision(t_window *win,
-					t_gui *gui)
+void			gui_disk_vision(t_window *win, t_gui *gui)
 {
 	char		*str[4];
 
-	if (gui->options.depth >= 0)
-		printf("unused param gui_dis_vision\n");
-	get_float_data(gui->current_instance.r, "Radius", str); // ?
+	get_float_data(gui->current_instance.r, "Radius", str);
 	draw_button(win, &gui->all_rect.first_button, str, &gui->colors);
 	free_str(str);
 }

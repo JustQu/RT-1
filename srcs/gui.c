@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:31:43 by alex              #+#    #+#             */
-/*   Updated: 2020/12/13 18:40:06 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/20 23:17:38 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void			gui(t_window *win, t_gui *const gui)
 	gui_init_title(win, &gui->all_rect, &gui->colors);
 	if (g_show_gui)
 	{
-		if (win->width / 4 >= 210)
+		if (win->width / 4 >= 200)
 		{
 			SDL_SetRenderDrawColor(win->renderer, 240, 240, 240, 255);
 			draw_fill_rect(win, &gui->all_rect.background,

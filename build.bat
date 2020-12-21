@@ -3,7 +3,7 @@ rem ===================build rt on windows using nvidia opencl lib==============
 
 mkdir .\build
 pushd .\build
-cl -FC -Zi ..\srcs\main.c ..\srcs\*.c ^
+cl -FC -Zi   ..\srcs\main.c ..\srcs\*.c ^
 					-I ../include ^
 					-I ../Libs/libft/includes ^
 					-I ../Libs ^
@@ -20,5 +20,5 @@ cl -FC -Zi ..\srcs\main.c ..\srcs\*.c ^
 					"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\lib\x64\OpenCL.lib"^
 					"Shell32.lib"
 rem /link /SUBSYSTEM:CONSOLE ^ ..\srcs\*.c
-rem /MDd
+rem /MDd /W4 /D_CRTDBG_MAP_ALLOC /EHsc
 popd

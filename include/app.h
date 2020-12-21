@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 17:02:27 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 14:59:39 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 00:19:27 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include "parser.h"
 # include "resource_manager.h"
 # include "rt_error.h"
+# include "state.h"
 
 typedef struct s_app			t_app;
 typedef struct s_app_options	t_app_opt;
@@ -71,6 +72,22 @@ struct							s_app
 	t_s32						render_mode;
 };
 
+void							loading_screen(t_cl_program *p,
+												t_window *window);
+
+/*
+** event_functions
+*/
+
+int								catch_event(t_rt *rt,
+					t_window *win, t_interface *interface);
+int								catch_keydown(t_rt *rt, t_interface *interface,
+											SDL_Event event);
+
+void							display_info(t_interface *const interface,
+											t_res_mngr *const mngr,
+											t_window *const window);
+
 /*
 ** Initialization of our app
 */
@@ -81,14 +98,13 @@ int								init_app(t_app *app);
 ** Cleaning everything on exit
 */
 
-void							cleanup_app(t_app *app);
+void							cleanup(t_app app);
 
 /*
 ** Error functions
 */
 
-void							cl_error(t_cl_program *program,
-								t_clp *clp, int code);
-void							ft_clerror(cl_int ret);
+void							cl_error(t_cl_program *program, t_clp *clp,
+										int code);
 
 #endif

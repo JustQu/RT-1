@@ -6,13 +6,12 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:48:15 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 02:49:40 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:53:02 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "offset.h"
 #include "parser.h"
-#include "rt_err.h"
 
 int					get_light_type_value(char *str)
 {

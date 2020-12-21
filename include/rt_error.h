@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:59:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 14:09:44 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 22:44:59 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define RT_ERROR_H
 
 # include "rt.h"
-# define RED "\033[38;2;200;20;20m"
-# define EOC "\033[0m"
 
 typedef struct s_code_msg	t_code_msg;
 typedef enum e_error_code	t_error_code;

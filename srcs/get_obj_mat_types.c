@@ -6,13 +6,12 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:18:59 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 02:50:26 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:51:00 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "offset.h"
 #include "parser.h"
-#include "rt_err.h"
 
 int					get_obj_type_value(char *str)
 {

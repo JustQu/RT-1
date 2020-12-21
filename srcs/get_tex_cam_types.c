@@ -6,14 +6,13 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:35:46 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 02:55:19 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:51:12 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "offset.h"
 #include "parser.h"
 #include "camera.h"
-#include "rt_err.h"
 
 int					get_tex_type_value(char *str)
 {

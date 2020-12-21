@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_03.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 15:22:07 by jvoor             #+#    #+#             */
-/*   Updated: 2020/12/17 15:22:08 by jvoor            ###   ########.fr       */
+/*   Updated: 2020/12/20 22:57:20 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,20 @@ t_matrix	get_inverse_z_rotation_matrix(float angle)
 			.sC = 0.0f, .sD = 0.0f, .sE = 0.0f, .sF = 1.0f};
 }
 
+/*
+** @brief Get the rotation matrix object
+** Поскольку мы умножаем на вектор столбец,
+** нам надо умножать матрицы в обратном порядке
+** @param v rotation vector
+** @return ** t_matrix
+*/
+
 t_matrix	get_rotation_matrix(cl_float3 v)
 {
 	t_matrix	matrix;
 
-	matrix = get_x_rotation_matrix(v.x);
+	matrix = get_z_rotation_matrix(v.z);
 	matrix = mul_matrix(matrix, get_y_rotation_matrix(v.y));
-	matrix = mul_matrix(matrix, get_z_rotation_matrix(v.z));
+	matrix = mul_matrix(matrix, get_x_rotation_matrix(v.x));
 	return (matrix);
 }

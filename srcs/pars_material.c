@@ -6,13 +6,12 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:14:07 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/18 22:47:00 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:53:25 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "offset.h"
 #include "parser.h"
-#include "rt_err.h"
 
 t_selector		g_selector_mat[] = {
 	{"type", offsetof(t_material, type), get_mat_type},

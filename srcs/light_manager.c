@@ -6,14 +6,13 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 23:40:30 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:14:48 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:53:16 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "light_manager.h"
 #include "rt_error.h"
 #include "utils.h"
-#include "rt_err.h"
 
 void	init_light_manager(t_light_manager *light_manager)
 {

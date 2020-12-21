@@ -6,13 +6,12 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:11:31 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 15:52:40 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:51:06 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "offset.h"
-#include "rt_err.h"
 
 t_camera			get_default_camera(void)
 {
@@ -49,6 +48,8 @@ void				set_default_texture(t_texture *texture)
 	texture->data.checker.even.r = NAN;
 	texture->data.checker.odd.r = NAN;
 	texture->data.smooth_perlin.scale = NAN;
+	texture->scale = (cl_float3){{1.0f, 1.0f, 1.0f}};
+	texture->translate = (cl_float3){{1.0f, 1.0f, 1.0f}};
 }
 
 void				set_default_material(t_material *material)
@@ -82,5 +83,7 @@ t_parsed_object		get_default_obj(void)
 	obj.type = obj_none;
 	obj.vector1.x = NAN;
 	obj.vector2.x = NAN;
+	obj.vector1.w = 0.0f;
+	obj.vector2.w = 0.0f;
 	return (obj);
 }

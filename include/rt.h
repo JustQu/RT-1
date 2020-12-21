@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/18 17:53:34 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 00:19:42 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@
 # include "window.h"
 # include "gui.h"
 # include "resource_manager.h"
-# include "interface.h"
 
 typedef struct s_rt_options		t_rt_options;
 
@@ -56,21 +55,14 @@ struct							s_rt
 int								init_rt(t_app *app);
 
 void							init_buffers(t_cl_program *const program,
-					t_scene *const scene,
-					t_sampler_manager *const sampler_manager);
+											t_scene *const scene,
+									t_sampler_manager *const sampler_manager);
 
 void							render_scene(t_rt rt);
 
 void							read_data(t_scene *scene,
-					t_sampler_manager *sampler_manager,
-					char *scene_file);
-
-/*
-** event_functions
-*/
-
-int								catch_event(t_rt *rt,
-					t_window *win, t_interface *interface);
+											t_sampler_manager *sampler_manager,
+											char *scene_file);
 
 /*
 ** util functions
@@ -80,14 +72,5 @@ float							rand_float();
 int								rand_int();
 void							swap_int(int *a, int *b);
 void							swap_float2(cl_float2 *a, cl_float2 *b);
-
-/*
-**		src/rt_error.c
-*/
-
-void							rt_error(char *message);
-
-# define WIDTH 1200
-# define HEIGHT 600
 
 #endif

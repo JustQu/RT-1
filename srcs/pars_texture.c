@@ -6,20 +6,20 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 16:28:12 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 12:35:05 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:53:37 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "offset.h"
-#include "rt_err.h"
 
 t_selector		g_selector_tex[] = {
 	{"type", offsetof(t_texture, type), get_tex_type},
 	{"color", offsetof(t_texture, data.solid.color), get_color},
 	{"odd", offsetof(t_texture, data.checker.odd), get_color},
 	{"even", offsetof(t_texture, data.checker.even), get_color},
-	{"scale", offsetof(t_texture, data.smooth_perlin.scale), get_float}
+	{"scale", offsetof(t_texture, scale), get_vector},
+	{"translate", offsetof(t_texture, translate), get_vector}
 };
 
 int			g_tex_selector_size = sizeof(g_selector_tex) / sizeof(t_selector);

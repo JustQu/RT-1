@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   resource_manager_utils01.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 13:18:15 by jvoor             #+#    #+#             */
-/*   Updated: 2020/12/16 13:18:19 by jvoor            ###   ########.fr       */
+/*   Updated: 2020/12/21 13:12:29 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,17 @@ t_instance_info	get_object_info(t_res_mngr *mngr, t_instance instance,
 	return (info);
 }
 
-t_instance_info	get_triangle_info(void)
+t_instance_info	get_triangle_info(t_res_mngr *mngr, t_instance instance,
+							t_instance_extra extra)
 {
 	t_instance_info	info;
+	t_triangle		triangle;
 
-	if (info.height >= 0)
-		printf("unused param get_triangle_info\n");
+	info.type = instance.type;
+	triangle = mngr->scene->instance_mngr.triangles[instance.object_id];
+	info.rotation = extra.rotation;
+	info.scaling = extra.scaling;
+	info.v1 = triangle.vector1;
+	info.v2 = triangle.vector2;
 	return (info);
 }

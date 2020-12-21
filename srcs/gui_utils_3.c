@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils_3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 09:49:42 by alex              #+#    #+#             */
-/*   Updated: 2020/12/19 13:16:02 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/21 13:25:23 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ void			type_ambien_il(t_window *win,
 {
 	char *str[4];
 
-	if (gui->current_light.type == 0) // ?
+	if (gui->current_light.type == 0)
 	{
 		get_float_data(1, "coefficient", str);
 		draw_button(win, &gui->all_rect.sixth_button, str, &gui->colors);
 		free_str(str);
 	}
-	if (gui->current_light.type == 1) // ?
+	if (gui->current_light.type == 1)
 	{
 		get_float_data(1, "min_amount", str);
 		draw_button(win, &gui->all_rect.sixth_button, str, &gui->colors);

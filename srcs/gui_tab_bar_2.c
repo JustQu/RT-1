@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_tab_bar_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/19 13:11:53 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/21 13:17:52 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ static void		is_type_light_cont(t_window *win,
 	}
 	if (gui->current_light.type == ambient_occluder)
 	{
-		get_float_data(gui->current_light.ls, "Min light", str);
+		get_float_data(gui->current_light.ls, "Intensity", str);
 		draw_button(win, &gui->all_rect.eight_button, str, &gui->colors);
 		free_str(str);
 	}
 }
 
 void			is_type_lights(t_window *win,
-					t_gui *gui)
+								t_gui *gui)
 {
 	char		*str[4];
 
@@ -59,59 +59,49 @@ void			gui_material_type(t_window *win,
 
 	if (gui->current_instance.material.type == conductor)
 	{
-		get_float_data(gui->current_instance.material.kr, // ?
-			"reflective", str);
+		get_float_data(gui->current_instance.material.kr, "reflectivity", str);
 		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
 		free_str(str);
-		get_float_data(gui->current_instance.material.exp, // ?
-			"roughness", str);
+		get_float_data(gui->current_instance.material.exp, "roughness", str);
 		draw_button(win, &gui->all_rect.ten_button, str, &gui->colors);
 		free_str(str);
 	}
 	if (gui->current_instance.material.type == dielectric)
 	{
-		get_float_data(gui->current_instance.material.kt, // ?
-			"transparent", str);
+		get_float_data(gui->current_instance.material.kt, "transparency", str);
 		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
 		free_str(str);
-		get_float_data(gui->current_instance.material.exp, // ?
-			"roughness", str);
+		get_float_data(gui->current_instance.material.exp, "roughness", str);
 		draw_button(win, &gui->all_rect.ten_button, str, &gui->colors);
 		free_str(str);
 	}
 	if (gui->current_instance.material.type == emissive)
 	{
-		get_float_data(gui->current_instance.material.ls, // ?
-			"specular", str);
+		get_float_data(gui->current_instance.material.ls, "Intensivity", str);
 		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
 		free_str(str);
 	}
 	if (gui->current_instance.material.type == matte)
 	{
-		get_float_data(gui->current_instance.material.kd, // ?
-			"diffuse", str);
+		get_float_data(gui->current_instance.material.kd, "diffuse", str);
 		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
 		free_str(str);
 	}
 	if (gui->current_instance.material.type == plastic)
 	{
-		get_float_data(gui->current_instance.material.kd, // ?
-			"diffuse", str);
+		get_float_data(gui->current_instance.material.kd, "diffuseness", str);
 		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
 		free_str(str);
-		get_float_data(gui->current_instance.material.kr, // ?
-			"refflection", str);
+		get_float_data(gui->current_instance.material.kr, "reflectivity", str);
 		draw_button(win, &gui->all_rect.ten_button, str, &gui->colors);
 		free_str(str);
-		get_float_data(gui->current_instance.material.exp, // ?
-			"roughness", str);
-		draw_button(win, &gui->all_rect.eleven_button, str, &gui->colors); //button
+		get_float_data(gui->current_instance.material.exp, "roughness", str);
+		draw_button(win, &gui->all_rect.eleven_button, str, &gui->colors);
 		free_str(str);
 	}
 	if (gui->current_instance.material.type == mirror)
 	{
-		get_float_data(gui->current_instance.material.kr, // ?
-			"refflection", str);
+		get_float_data(gui->current_instance.material.kr, "reflectivity", str);
 		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
 		free_str(str);
 	}
@@ -144,25 +134,22 @@ void			objects_tab_cont(t_window *win,
 	shape_type_vision(win, gui);
 	draw_line(win, &gui->colors, gui->all_rect.background,
 		gui->all_rect.seven_button);
-	get_material_data(gui->current_instance.material.type,
-						"Material", str);
+	get_material_data(gui->current_instance.material.type, "Material", str);
 	draw_button(win, &gui->all_rect.seven_button, str, &gui->colors);
 	free_str(str);
-	get_float_data(gui->current_instance.material.ka, // ?
-		"ambient", str);
+	get_float_data(gui->current_instance.material.ka, "ambience", str);
 	draw_button(win, &gui->all_rect.eight_button, str, &gui->colors);
 	free_str(str);
 	gui_material_type(win, gui);
-	get_texture_data(gui->current_instance.texture.type,
-						"texture", str);
+	get_texture_data(gui->current_instance.texture.type, "texture", str);
 	utils_call_objects_tab_cont(win, gui, str);
 	get_color_data(gui->current_instance.texture.data.solid.color,
-		"Color", str); // ?
+					"Color", str);
 	free(str[1]);
 	str[1] = NULL;
 	draw_button(win, &gui->all_rect.thirteen_button, str, &gui->colors);
 	draw_color_button(win, &gui->colors,
-		gui->current_instance.texture.data.solid.color,
-		&gui->all_rect.thirteen_button); //?
+						gui->current_instance.texture.data.solid.color,
+						&gui->all_rect.thirteen_button);
 	free_str(str);
 }

@@ -6,13 +6,12 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 20:09:10 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 02:53:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:53:08 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "offset.h"
 #include "parser.h"
-#include "rt_err.h"
 
 void		get_uchar(char *str, int offset, void *data)
 {

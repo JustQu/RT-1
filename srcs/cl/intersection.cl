@@ -450,12 +450,12 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 	c = dot(x, x) - cone.r2 * xv * xv;
 	disc = b * b - 4.0f * a * c;
 
-	if (disc >= EPSILON)
+	if (disc >= 0.0f)
 	{
 		a *= 2.0f;
 		disc = sqrt(disc);
 		float	t = (-b - disc) / a;
-		if (t > EPSILON && t < *tmin)
+		if (t > 0.0f && t < *tmin)
 		{
 			float	m = ray.direction.y * t + ray.origin.y;
 			if (m >= cone.minm && m <= cone.maxm)
@@ -469,7 +469,7 @@ bool	rectangle_intersection(t_ray ray, t_obj rectangle,
 		}
 
 		t = (-b + disc) / a;
-		if (t > EPSILON && t < *tmin)
+		if (t > 0.0f && t < *tmin)
 		{
 			float	m = ray.direction.y * t + ray.origin.y;
 			if (m >= cone.minm && m <= cone.maxm)

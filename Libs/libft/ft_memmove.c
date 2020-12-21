@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmaxima <rmaxima@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 13:54:56 by rmaxima           #+#    #+#             */
-/*   Updated: 2019/09/16 14:49:13 by rmaxima          ###   ########.fr       */
+/*   Updated: 2020/12/20 20:16:44 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 		return (dst);
 	if (str2 < str1)
 	{
-		str2 = (unsigned char*)src + len - 1;
-		str1 = dst + len - 1;
+		str2 = (unsigned char *)src + len - 1;
+		str1 = (unsigned char *)dst + len - 1;
 		while (len--)
 			*str1-- = *str2--;
 	}

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 20:37:35 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/15 22:05:15 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:01:58 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	set_default_camera(t_camera *camera)
 	camera->d = DEFAULT_WIDTH;
 	camera->zoom = 0.5f;
 	camera->normalized = FALSE;
-	//todo:заново открыть лог файл и записать логи
 }
 
 int		init_parsed_scene(t_scene *scene,

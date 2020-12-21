@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:57:17 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/10 23:26:38 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 22:34:19 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 # define RT_TYPES_H
 
 # define OPEN_CL __OPENCL_C_VERSION__
-
-/*
-** @brief Host code
-*/
 
 # ifndef __OPENCL_C_VERSION__
 #  include "inttypes.h"
@@ -52,22 +48,10 @@ typedef cl_float16	t_float16;
 # define SUCCESS	0
 # define ERROR	-1
 
+# define DEG2RAD M_PI / 360.0f
+
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846264338327950288
-# endif
-
-# ifdef __OPENCL_C_VERSION__
-#  define cl_float16 float16
-#  define cl_float4 float4
-#  define cl_float3 float3
-#  define cl_float float
-#  define cl_int4 int4
-#  define cl_int3 int3
-#  define cl_int int
-#  define cl_char char
-#  define cl_uchar uchar
-#  define cl_bool bool
-#  define cl_uint unsigned int
 # endif
 
 #endif

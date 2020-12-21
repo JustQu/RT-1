@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_tab_bar.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 18:03:59 by user              #+#    #+#             */
-/*   Updated: 2020/12/19 12:17:57 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/21 13:19:13 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void			option_tab(t_window *win,
 	gui->all_rect.tab_options_button.x + gui->all_rect.tab_options_button.w,
 	gui->all_rect.tab_options_button.y + gui->all_rect.tab_options_button.h);
 	utils_call_option_tab(win, gui, str);
-	get_color_data(gui->options.background_color, "Back_color", str);
+	get_color_data(gui->options.background_color, "Back color", str);
 	free(str[1]);
 	str[1] = NULL;
 	draw_button(win, &gui->all_rect.third_button, str, &gui->colors);
@@ -114,26 +114,26 @@ void			option_tab(t_window *win,
 void			gui_tab_bar(t_window *win, t_gui *gui)
 {
 	SDL_SetRenderDrawColor(win->renderer, gui->colors.border_color.r,
-	gui->colors.border_color.g, gui->colors.border_color.b,
-		gui->colors.border_color.a);
+						gui->colors.border_color.g, gui->colors.border_color.b,
+						gui->colors.border_color.a);
 	SDL_RenderDrawLine(win->renderer, gui->all_rect.tab_camera_button.x,
-	gui->all_rect.tab_options_button.y + gui->all_rect.tab_options_button.h,
-	gui->all_rect.tab_camera_button.x + gui->all_rect.tab_options_button.x +
-	gui->all_rect.tab_options_button.w, gui->all_rect.tab_options_button.y +
-	gui->all_rect.tab_options_button.h);
+		gui->all_rect.tab_options_button.y + gui->all_rect.tab_options_button.h,
+		gui->all_rect.tab_camera_button.x + gui->all_rect.tab_options_button.x +
+		gui->all_rect.tab_options_button.w, gui->all_rect.tab_options_button.y +
+		gui->all_rect.tab_options_button.h);
 	if (g_camera_tab_pressed == 1)
 		camera_tab(win, gui);
 	else
 		render_tab_bar(win, &gui->colors.border_color,
-		&gui->all_rect.tab_camera_button, "Camera");
+						&gui->all_rect.tab_camera_button, "Camera");
 	if (g_objects_tab_pressed == 1)
 		objects_tab(win, gui);
 	else
 		render_tab_bar(win, &gui->colors.border_color,
-		&gui->all_rect.tab_objects_button, "Objects");
+						&gui->all_rect.tab_objects_button, "Objects");
 	if (g_options_tab_pressed == 1)
 		option_tab(win, gui);
 	else
 		render_tab_bar(win, &gui->colors.border_color,
-			&gui->all_rect.tab_options_button, "Options");
+						&gui->all_rect.tab_options_button, "Options");
 }

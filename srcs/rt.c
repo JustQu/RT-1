@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 19:54:03 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 19:49:08 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/20 23:10:27 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ int					init_rt(t_app *app)
 					&app->resource_manager, app->options.scene_file) < 0)
 		exit(-1000);
 	app->rt.scene.bvh = build_bvh(&app->rt.scene);
-	init_ocl(&app->rt.ocl_program, &app->rt.scene, &app->rt.sampler_manager,
-			&app->window, &app->image, app->options.render_device);
+	init_ocl(&app->rt.ocl_program, &app->window, &app->image,
+				app->options.render_device);
 	init_buffers(&app->rt.ocl_program, &app->rt.scene,
 			&app->rt.sampler_manager);
 	return (SUCCESS);

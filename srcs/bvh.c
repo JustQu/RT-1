@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 19:29:26 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/13 15:53:17 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:13:14 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <math.h>
 #include <stdlib.h>
-#include "rt_err.h"
+
 #include "bvh.h"
 #include "bvh_01.h"
 #include "scene.h"

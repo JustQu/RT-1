@@ -6,13 +6,12 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 20:28:18 by aapricot          #+#    #+#             */
-/*   Updated: 2020/12/13 02:55:39 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/20 23:55:53 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "offset.h"
 #include "parser.h"
-#include "rt_err.h"
 
 int					get_tracer_type_value(char *str)
 {
@@ -22,7 +21,7 @@ int					get_tracer_type_value(char *str)
 		return (ray_caster);
 	else if (!ft_strcmp(str, "direct_lightning"))
 		return (direct_lightning);
-	return (ERROR);
+	return (ray_caster);
 }
 
 void				get_tracer_type(char *str, int offset, void *data)

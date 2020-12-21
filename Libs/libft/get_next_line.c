@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 14:27:23 by ageorgan          #+#    #+#             */
-/*   Updated: 2020/06/29 17:17:57 by user             ###   ########.fr       */
+/*   Updated: 2020/12/20 21:52:33 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ int					get_next_line(const int fd, char **line)
 			return (-1);
 	}
 	if (ret == 0 && !ft_strlen(buff))
+	{
+		ft_memdel(&buff);
 		return (0);
+	}
 	*line = ft_strdup(buff);
 	ft_strdel(&buff);
 	return (1);

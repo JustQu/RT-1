@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 11:41:38 by jvoor             #+#    #+#             */
-/*   Updated: 2020/12/18 23:03:00 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:21:59 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@
 #include "rt_error.h"
 #include "math.h"
 
-#define DEG2RAD M_PI / 360.0f
-
-void			scan_instance_01(t_res_mngr *const mngr, t_parsed_info asset)
+static void		scan_instance_01(t_res_mngr *const mngr, t_parsed_info asset)
 {
 	if (mngr->info.type == cylinder)
 	{
@@ -98,9 +96,8 @@ t_instance_info	get_instance_info(t_res_mngr *mngr, t_u32 id)
 									id % mngr->scene->instance_mngr.ninstances];
 	extra = mngr->scene->instance_mngr.extra[
 									id % mngr->scene->instance_mngr.ninstances];
-
 	if (instance.type == triangle)
-		return (get_triangle_info());
+		return (get_triangle_info(mngr, instance, extra));
 	else
 		return (get_object_info(mngr, instance, extra));
 }
@@ -110,6 +107,6 @@ t_light			get_light_info(t_res_mngr *const mngr, t_u32 id)
 	t_light light;
 
 	light = mngr->scene->light_manager.lights[
-										id % mngr->scene->light_manager.nlights];
+									id % mngr->scene->light_manager.nlights];
 	return (light);
 }

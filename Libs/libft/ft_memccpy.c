@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmaxima <rmaxima@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/14 19:33:47 by rmaxima           #+#    #+#             */
-/*   Updated: 2019/09/16 14:10:44 by rmaxima          ###   ########.fr       */
+/*   Updated: 2020/12/20 20:16:18 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
 	{
 		str1[i] = str2[i];
 		if (str2[i] == rev)
-			return ((void*)(dst + i + 1));
+			return ((void*)((unsigned char *)dst + i + 1));
 		i++;
 	}
 	return (NULL);

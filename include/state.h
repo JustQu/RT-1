@@ -1,18 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_err.h                                           :+:      :+:    :+:   */
+/*   state.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/18 19:43:31 by jvoor             #+#    #+#             */
-/*   Updated: 2020/12/18 19:43:32 by jvoor            ###   ########.fr       */
+/*   Created: 2020/12/20 15:12:16 by dmelessa          #+#    #+#             */
+/*   Updated: 2020/12/20 15:27:38 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_ERR_H
-# define RT_ERR_H
+#ifndef STATE_H
+# define STATE_H
 
-void	rt_error(char *message);
+typedef enum e_state	t_state;
+
+enum	e_state
+{
+	exit_state,
+	render_state,
+	update_gui_state,
+	another_state,
+};
 
 #endif
