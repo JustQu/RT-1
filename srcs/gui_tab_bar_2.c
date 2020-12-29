@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/29 15:31:40 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/29 15:59:04 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,6 @@ void			is_type_lights(t_window *win,
 		free_str(str);
 	}
 	is_type_light_cont(win, gui);
-}
-
-void			gui_triangle_vision(t_window *win, t_gui *gui)
-{
-	char		*str[4];
-
-	if (gui->options.depth >= 0)
-		;
-	get_float4_data(gui->current_instance.v1, "Vertex 1", str);
-	draw_button_xyz(win, &gui->all_rect.fifth_button, str, &gui->colors);
-	free_str(str);
-	get_float4_data(gui->current_instance.v2, "Vertex 2", str);
-	draw_button_xyz(win, &gui->all_rect.sixth_button, str, &gui->colors);
-	free_str(str);
 }
 
 static void		shape_type_vision(t_window *win,

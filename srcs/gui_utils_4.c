@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils_4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 16:02:53 by alex              #+#    #+#             */
-/*   Updated: 2020/12/20 22:59:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 16:01:25 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,32 @@ void			gui_init_title(t_window *win,
 		return ;
 	if (win->height >= 300 && win->width >= 200)
 		draw_title_ray_tracing(win, &color->text_color);
+}
+
+void			gui_triangle_vision(t_window *win, t_gui *gui)
+{
+	char		*str[4];
+
+	if (gui->options.depth >= 0)
+		;
+	get_float4_data(gui->current_instance.v1, "Vertex 1", str);
+	draw_button_xyz(win, &gui->all_rect.fifth_button, str, &gui->colors);
+	free_str(str);
+	get_float4_data(gui->current_instance.v2, "Vertex 2", str);
+	draw_button_xyz(win, &gui->all_rect.sixth_button, str, &gui->colors);
+	free_str(str);
+}
+
+void			get_texture_data_2(int ptr, char **str)
+{
+	if (ptr == 6)
+		str[1] = ft_strdup("smooth_perlin");
+	else if (ptr == 7)
+		str[1] = ft_strdup("turbulence_perlin");
+	else if (ptr == 8)
+		str[1] = ft_strdup("wave_perlin");
+	else if (ptr == 9)
+		str[1] = ft_strdup("image");
+	else
+		str[1] = ft_strdup("no texture");
 }

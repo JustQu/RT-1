@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/12/22 00:39:58 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 16:01:04 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ void					gui_rectangle_vision(t_window *win,
 					t_gui *gui);
 void					get_intensive_data(int ptr, char *string,
 					char *str[4]);
+void					gui_triangle_vision(t_window *win, t_gui *gui);
 void					get_void_data(char *string, char *str[4]);
 void					get_ambient_il_data(int ptr,
 					char *string, char *str[4]);
@@ -188,6 +189,7 @@ void					type_ambien_il(t_window *win,
 void					free_str(char *str[4]);
 void					draw_text(t_window *win, SDL_Rect *rect,
 					char *str, t_colors *color);
+void					get_texture_data_2(int ptr, char **str);
 void					is_type_lights(t_window *win,
 					t_gui *gui);
 void					objects_tab_cont(t_window *win,

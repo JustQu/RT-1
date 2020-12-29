@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup_buffers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 16:04:56 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/29 15:23:11 by jvoor            ###   ########.fr       */
+/*   Updated: 2020/12/29 16:08:29 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void		cleanup_buffers(t_cl_program ocl_program)
 	clReleaseMemObject(ocl_program.lights);
 	clReleaseMemObject(ocl_program.bvh);
 	clReleaseMemObject(ocl_program.matrices);
-	clReleaseMemObject(ocl_program.buff);
 	clReleaseMemObject(ocl_program.samplers);
 	clReleaseMemObject(ocl_program.samples);
 	clReleaseMemObject(ocl_program.disk_samples);

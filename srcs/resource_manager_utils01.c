@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 13:18:15 by jvoor             #+#    #+#             */
-/*   Updated: 2020/12/29 15:44:50 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/29 15:59:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,8 @@ t_instance_info	get_triangle_info(t_res_mngr *mngr, t_instance instance,
 	info.v1 = triangle.vector1;
 	info.v2 = triangle.vector2;
 	info.origin = triangle.vertex3;
+	info.material = instance.material;
+	info.texture = mngr->scene->instance_mngr.texture_manager.textures
+	[instance.material.texture_id];
 	return (info);
 }

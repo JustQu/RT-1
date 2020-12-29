@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 20:39:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/29 15:34:35 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/29 16:01:19 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,7 @@ void			get_texture_data(int ptr, char *string, char **str)
 		str[1] = ft_strdup("reflective_checker");
 	else if (ptr == 5)
 		str[1] = ft_strdup("perlin");
-	else if (ptr == 6)
-		str[1] = ft_strdup("smooth_perlin");
-	else if (ptr == 7)
-		str[1] = ft_strdup("turbulence_perlin");
-	else if (ptr == 8)
-		str[1] = ft_strdup("wave_perlin");
-	else if (ptr == 9)
-		str[1] = ft_strdup("image");
-	else
-		str[1] = ft_strdup("no texture");
+	get_texture_data_2(ptr, str);
 	rt_is_dead(system_err, system_malloc_error, !str[1], "gui_get_data 4");
 	str[2] = NULL;
 	str[3] = NULL;
