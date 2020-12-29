@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 16:04:56 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/20 23:02:10 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 14:29:32 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void		cleanup_buffers(t_cl_program ocl_program)
 
 static void	cleanup2(t_app app)
 {
+	cleanup_buffers(app.rt.ocl_program);
 	SDL_DestroyTexture(app.window.texture);
 	SDL_DestroyRenderer(app.window.renderer);
 	SDL_DestroyWindow(app.window.ptr);
@@ -44,7 +45,6 @@ static void	cleanup2(t_app app)
 	clReleaseContext(app.rt.ocl_program.info.context);
 	clReleaseMemObject(app.rt.ocl_program.rgb_image);
 	clReleaseMemObject(app.rt.ocl_program.output_image);
-	cleanup_buffers(app.rt.ocl_program);
 }
 
 /*
@@ -74,5 +74,7 @@ void		cleanup(t_app app)
 	ft_memdel(&app.rt.scene.instance_mngr.texture_manager.perm_x);
 	ft_memdel(&app.rt.scene.instance_mngr.texture_manager.perm_y);
 	ft_memdel(&app.rt.scene.instance_mngr.texture_manager.perm_z);
+	ft_memdel(&app.image.png_image);
+	ft_memdel(&app.image.bmp_image);
 	cleanup2(app);
 }

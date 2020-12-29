@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 19:54:03 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 13:33:43 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 14:06:23 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,10 @@ int					init_rt(t_app *app)
 	if (init_parsed_scene(&app->rt.scene, &app->rt.sampler_manager,
 					&app->resource_manager, app->options.scene_file) < 0)
 		exit(-1000);
+	rt_is_dead(app_err, app_no_objects,
+				!app->rt.scene.instance_mngr.ninstances, "");
+	rt_is_dead(app_err, app_no_lights,
+				!app->rt.scene.light_manager.nlights, "");
 	app->rt.scene.bvh = build_bvh(&app->rt.scene);
 	init_ocl(&app->rt.ocl_program, &app->window, &app->image,
 				app->options.render_device);

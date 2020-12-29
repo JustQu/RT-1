@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:59:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 13:40:29 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 14:05:51 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,13 @@ enum						e_error_code
 	cl_create_buffer_error = -14,
 
 	app_no_scene_file = -15,
-	app_unknown_object_type = -16,
+	app_no_objects = -16,
+	app_no_lights = -17,
+	app_unknown_object_type = -18,
 
-	sdl_init_error = -17,
-	sdl_create_window_error = -18,
-	sdl_create_texture_error = -19
+	sdl_init_error = -19,
+	sdl_create_window_error = -20,
+	sdl_create_texture_error = -21
 };
 
 enum						e_error_type

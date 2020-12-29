@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 17:10:47 by alex              #+#    #+#             */
-/*   Updated: 2020/12/19 20:27:10 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/22 00:39:58 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,10 @@ void					util_call_object_tab(t_window *win,
 void					util_call_camera_tab(t_window *win,
 							t_gui *gui, char **str);
 void					utils_call_objects_tab_cont(t_window *win,
-											t_gui *gui, char **str);
+													t_gui *gui, char **str);
 
 void					init_gui(t_gui *const gui, t_window win);
+void					gui_material_type(t_window *win,
+											t_gui *gui);
+
 #endif

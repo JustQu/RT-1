@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 19:14:37 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 17:34:03 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/22 00:12:48 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ int				new_sampler(t_sampler_manager *mngr,
 	mngr->samples_size += nsp * s.num_sets * sizeof(cl_float2);
 	if (type & DISK_SAMPLES)
 	{
-		s.disk_samples_offset = (int)mngr->disk_samples_size / sizeof(cl_float2);
+		s.disk_samples_offset = (int)mngr->disk_samples_size /
+									sizeof(cl_float2);
 		mngr->disk_samples_size += nsp * s.num_sets * sizeof(cl_float2);
 	}
 	if (type & HEMISPHERE_SAMPLES)

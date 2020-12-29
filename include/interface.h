@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 15:31:08 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 17:19:52 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/22 00:42:20 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include "console.h"
 
 typedef struct s_interface			t_interface;
-typedef struct s_gui				t_gui;
 typedef struct s_console_handler	t_console;
 
 typedef enum e_interface_mode		t_interface_mode;

@@ -6,14 +6,14 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 15:01:35 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 13:42:10 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/22 00:12:14 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "interface.h"
 #include "resource_manager.h"
 
-void	init_interface(t_interface * const interface, int mode, int enable_gui)
+void	init_interface(t_interface *const interface, int mode, int enable_gui)
 {
 	interface->mode = mode;
 	interface->enable_gui = enable_gui;

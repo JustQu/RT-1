@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 16:58:26 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/12 23:08:36 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 14:15:41 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@ struct	s_rendered_image
 	t_color	*rgb;
 	t_u32	width;
 	t_u32	height;
+	char	*png_image;
+	char	*bmp_image;
 };
 
-int		init_image(t_image *const image, t_u32 width, t_u32 height);
+int		init_image(t_image *const image, t_u32 width, t_u32 height,
+					char *image_file);
 
 int		save_image_to_file(t_image *image);
 

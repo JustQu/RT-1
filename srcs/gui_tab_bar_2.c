@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/21 17:20:36 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/22 00:15:22 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,61 +50,6 @@ void			is_type_lights(t_window *win,
 		free_str(str);
 	}
 	is_type_light_cont(win, gui);
-}
-
-void			gui_material_type(t_window *win,
-					t_gui *gui)
-{
-	char		*str[4];
-
-	if (gui->current_instance.material.type == conductor)
-	{
-		get_float_data(gui->current_instance.material.kr, "reflectivity", str);
-		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
-		free_str(str);
-		get_float_data(gui->current_instance.material.exp, "roughness", str);
-		draw_button(win, &gui->all_rect.ten_button, str, &gui->colors);
-		free_str(str);
-	}
-	if (gui->current_instance.material.type == dielectric)
-	{
-		get_float_data(gui->current_instance.material.kt, "transparency", str);
-		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
-		free_str(str);
-		get_float_data(gui->current_instance.material.exp, "roughness", str);
-		draw_button(win, &gui->all_rect.ten_button, str, &gui->colors);
-		free_str(str);
-	}
-	if (gui->current_instance.material.type == emissive)
-	{
-		get_float_data(gui->current_instance.material.ls, "Intensivity", str);
-		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
-		free_str(str);
-	}
-	if (gui->current_instance.material.type == matte)
-	{
-		get_float_data(gui->current_instance.material.kd, "diffuse", str);
-		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
-		free_str(str);
-	}
-	if (gui->current_instance.material.type == plastic)
-	{
-		get_float_data(gui->current_instance.material.kd, "diffuseness", str);
-		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
-		free_str(str);
-		get_float_data(gui->current_instance.material.kr, "reflectivity", str);
-		draw_button(win, &gui->all_rect.ten_button, str, &gui->colors);
-		free_str(str);
-		get_float_data(gui->current_instance.material.exp, "roughness", str);
-		draw_button(win, &gui->all_rect.eleven_button, str, &gui->colors);
-		free_str(str);
-	}
-	if (gui->current_instance.material.type == mirror)
-	{
-		get_float_data(gui->current_instance.material.kr, "reflectivity", str);
-		draw_button(win, &gui->all_rect.nine_button, str, &gui->colors);
-		free_str(str);
-	}
 }
 
 static void		shape_type_vision(t_window *win,
