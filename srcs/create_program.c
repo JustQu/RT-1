@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 16:19:38 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/20 22:27:57 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 15:31:25 by jvoor            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #define BUFF 100000
 
 static const char	*g_files[] = {
-	"cl_types.h",
+	"cl_types.clh",
 	"color.h",
 	"aabb.h",
 	"camera.h",
@@ -31,7 +31,7 @@ static const char	*g_files[] = {
 	"instance.h",
 	"bvh.h",
 	"rt_options.h",
-	"cl_rt.h",
+	"cl_rt.clh",
 	"utils.cl",
 	"print.cl",
 	"solver.cl",

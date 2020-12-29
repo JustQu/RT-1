@@ -6,7 +6,7 @@
 /*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 11:47:02 by rmaxima           #+#    #+#             */
-/*   Updated: 2020/12/29 14:56:27 by jvoor            ###   ########.fr       */
+/*   Updated: 2020/12/29 15:23:03 by jvoor            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 #  include <io.h>
 # endif
 # include "get_next_line.h"
-
-#include <stdlib.h>
 
 typedef struct		s_list
 {

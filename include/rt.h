@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:00:53 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 13:41:48 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 14:48:35 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@
 # include "scene.h"
 # include "rt_options.h"
 # include "rt_ocl.h"
-# include "rt.h"
-# include "window.h"
-# include "gui.h"
-# include "resource_manager.h"
 
 typedef struct s_rt_options		t_rt_options;
 

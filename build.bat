@@ -3,7 +3,7 @@ rem ===================build rt on windows using nvidia opencl lib==============
 
 mkdir .\build
 pushd .\build
-cl /wd4204 /wd4996 /wd4706 /W4 /WX -FC -Zi /D CL_TARGET_OPENCL_VERSION=220^
+cl  /wd4204 /wd4996 /wd4706 /W4 /WX -FC -Zi /D CL_TARGET_OPENCL_VERSION=220^
 					..\srcs\main.c ..\srcs\*.c ^
 					-I ../include ^
 					-I ../Libs/libft/includes ^
@@ -21,5 +21,5 @@ cl /wd4204 /wd4996 /wd4706 /W4 /WX -FC -Zi /D CL_TARGET_OPENCL_VERSION=220^
 					"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\lib\x64\OpenCL.lib"^
 					"Shell32.lib"
 rem /link /SUBSYSTEM:CONSOLE ^ ..\srcs\*.c
-rem /MDd /W4 /D_CRTDBG_MAP_ALLOC /EHsc
+rem /MDd /W4 /D_CRTDBG_MAP_ALLOC /EHsc /wd4204 /wd4996 /wd4706 /W4 /WX -
 popd

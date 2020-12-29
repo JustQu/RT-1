@@ -6,7 +6,7 @@
 #    By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/12/29 15:11:39 by jvoor            ###   ########.fr        #
+#    Updated: 2020/12/29 15:37:29 by jvoor            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,7 +115,8 @@ gui_get_data_2.c		matrix_03.c			validate_objects_2.c\
 gui_get_data_3.c		matrix_manager.c		validate_objects_3.c\
 gui_init.c			object_manager.c		vector.c\
 gui_object_vision.c		pars_camera.c			vector_utils.c\
-gui_render_text.c		pars_light.c			window.c
+gui_render_text.c		pars_light.c			window.c\
+gui_material_type.c
 
 
 LOGSDIR = ./logs/
@@ -126,7 +127,7 @@ all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS) $(INCS) $(LIBFTHEAD) $(LOGSDIR)
 	@echo 'making executable'
-	$(CC) -o $@ $(OBJS) $(LDLIBS) $(SDL) $(LDFLAGS)
+	@$(CC) -o $@ $(OBJS) $(LDLIBS) $(SDL) $(LDFLAGS)
 	@echo DONE!
 
 
@@ -134,7 +135,7 @@ $(LIBFT):
 	@make -C $(LIBFTDIR)
 
 $(OBJS): $(OBJSDIR)%.o: $(SRCSDIR)%.c | $(OBJSDIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJS): $(INCS)
 

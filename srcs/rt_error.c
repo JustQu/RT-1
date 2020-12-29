@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:02:10 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 13:47:48 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 14:07:00 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static t_code_msg	g_code_msg[] = {
 	{app_err, app_no_scene_file, "Error! Could not open scene file."},
 	{app_err, app_unknown_object_type, "Error! Unknow object type."},
 
+	{app_err, app_no_objects, "Error! No objecs in the scene file."},
+	{app_err, app_no_lights, "Error! No lights in the scene file."},
 	{app_err, undefinded_error, "Something went wrong!"},
 };
 static t_u32		g_nmsgs = sizeof(g_code_msg) / sizeof(t_code_msg);

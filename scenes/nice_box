@@ -1,11 +1,11 @@
 options = {
-	background_color = {0.4, 0.4, 0.4};
-	ambient_illumination = occluder;
+	background_color = {0.0, 0.0, 0.0};
+	ambient_illumination = no;
 	ambient_coefficient = 0.5;
 	ambient_occlusion = {1, 1, 1};
 	shadows = true;
 	tracer_type = path_tracer;
-	depth = 5;
+	depth = 10;
 	strategy = 0
 }
 
@@ -75,7 +75,7 @@ light = {
 camera = {
 	origin = {278, 278, -800};
 	direction = {0, 0, 1};
-	d = 900;
+	d = 3000
 	zoom = 1.0
 }
 

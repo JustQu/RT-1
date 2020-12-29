@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/23 15:26:15 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/03 22:16:08 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 14:47:41 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct		s_sampler_manager
 
 	size_t			samplers_malloc_size;
 	uint32_t		count;
+	t_u8			gap[12];
 }					t_sampler_manager;
 
 int					init_sampler_manager(t_sampler_manager *sampler_manager);

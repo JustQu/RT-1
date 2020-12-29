@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_get_data.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 20:39:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/19 20:36:47 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/22 00:18:49 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ void			get_shape_data_2(int ptr, char **str)
 		str[1] = ft_strdup("rectangle");
 	else if (ptr == generic_shere)
 		str[1] = ft_strdup("generic_shere");
-	// else
-	// 	str[1] = ft_strdup("no shape");
 	rt_is_dead(system_err, system_malloc_error, !str[1], "gui_get_data 5");
 }
 

@@ -6,7 +6,7 @@
 /*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 14:27:23 by ageorgan          #+#    #+#             */
-/*   Updated: 2020/12/29 15:12:54 by jvoor            ###   ########.fr       */
+/*   Updated: 2020/12/29 15:35:32 by jvoor            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,7 @@ int					get_next_line(const int fd, char **line)
 	while (ret > 0)
 	{
 		if ((str = ft_strchr(buff, '\n')) != NULL)
-		{
-			buff = get(str, line, buff);
-			return (1);
-		}
+			return (!!(buff = get(str, line, buff)));
 		if (!(buff = read_str(buff, &ret, fd)))
 			return (-1);
 	}

@@ -6,7 +6,7 @@
 /*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 15:18:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 13:33:23 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 14:19:50 by dmelessa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ static void	console_render_loop(t_app *const app)
 		save_image_func(&app->window, &app->image);
 		i++;
 	}
+	ft_putendl("");
+	ft_putendl("Done!");
 	g_save_image = 1;
 	save_image_func(&app->window, &app->image);
 }

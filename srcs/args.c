@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 23:57:55 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 13:38:42 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 15:29:32 by jvoor            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,15 @@ static void	check_args(t_app *app, int ac, int *i, char **av)
 		*i += 2;
 	}
 	else if (!ft_strcmp(av[*i], "-N"))
-	{
 		if (*i + 1 == ac)
 			usage();
-		app->options.num_samples = ft_atoi(av[*i + 1]);
-		(*i)++;
-	}
+		else
+			app->options.num_samples = ft_atoi(av[++(*i)]);
 	else if (!ft_strcmp(av[*i], "--img"))
-		app->options.image_file = av[*i];
+		if (*i + 1 == ac)
+			usage();
+		else
+			app->options.image_file = av[++(*i)];
 	else if (!ft_strcmp(av[*i], "--console"))
 		app->options.mode = console;
 	else
@@ -113,6 +114,7 @@ void		read_av(t_app *app, int ac, char **av)
 	app->options.scene_file = NULL;
 	app->options.enable_gui = TRUE;
 	app->options.enable_logs = FALSE;
+	app->options.image_file = "image";
 	app->options.mode = window_mode;
 	if (ac == 2)
 	{

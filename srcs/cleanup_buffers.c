@@ -6,7 +6,7 @@
 /*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 16:04:56 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/29 15:13:39 by jvoor            ###   ########.fr       */
+/*   Updated: 2020/12/29 15:23:11 by jvoor            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void		cleanup_buffers(t_cl_program ocl_program)
 
 static void	cleanup2(t_app app)
 {
+	cleanup_buffers(app.rt.ocl_program);
 	SDL_DestroyTexture(app.window.texture);
 	SDL_DestroyRenderer(app.window.renderer);
 	SDL_DestroyWindow(app.window.ptr);
@@ -44,7 +45,6 @@ static void	cleanup2(t_app app)
 	clReleaseContext(app.rt.ocl_program.info.context);
 	clReleaseMemObject(app.rt.ocl_program.rgb_image);
 	clReleaseMemObject(app.rt.ocl_program.output_image);
-	cleanup_buffers(app.rt.ocl_program);
 }
 
 /*
