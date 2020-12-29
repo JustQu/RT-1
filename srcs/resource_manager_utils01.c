@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   resource_manager_utils01.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 13:18:15 by jvoor             #+#    #+#             */
-/*   Updated: 2020/12/21 13:12:29 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 15:44:50 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ t_instance_info	get_triangle_info(t_res_mngr *mngr, t_instance instance,
 	info.scaling = extra.scaling;
 	info.v1 = triangle.vector1;
 	info.v2 = triangle.vector2;
+	info.origin = triangle.vertex3;
 	return (info);
 }
