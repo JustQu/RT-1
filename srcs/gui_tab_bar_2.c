@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_tab_bar_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/29 16:22:45 by jvoor            ###   ########.fr       */
+/*   Updated: 2020/12/29 15:31:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void			objects_tab_cont(t_window *win,
 	utils_call_objects_tab_cont(win, gui, str);
 	get_color_data(gui->current_instance.texture.data.solid.color,
 					"Color", str);
-	// free(str[1]);
+	free(str[1]);
 	str[1] = NULL;
 	draw_button(win, &gui->all_rect.thirteen_button, str, &gui->colors);
 	draw_color_button(win, &gui->colors,
