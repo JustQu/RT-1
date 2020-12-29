@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_object_vision.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:16:50 by alex              #+#    #+#             */
-/*   Updated: 2020/12/21 13:31:56 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 15:17:03 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ void			gui_rectangle_vision(t_window *win, t_gui *gui)
 	if (gui->options.depth >= 0)
 		;
 	get_float4_data(gui->current_instance.v1, "Side a", str);
-	draw_button(win, &gui->all_rect.fifth_button, str, &gui->colors);
+	draw_button_xyz(win, &gui->all_rect.fifth_button, str, &gui->colors);
 	free_str(str);
-	get_float4_data(gui->current_instance.v2, "Side b", str);
+	get_float4_data_xyz(gui->current_instance.v2, "Side b", str);
 	draw_button(win, &gui->all_rect.sixth_button, str, &gui->colors);
 	free_str(str);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 13:45:42 by user              #+#    #+#             */
-/*   Updated: 2020/12/29 14:15:09 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 15:03:05 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void			draw_save_image_text(t_window *win)
 void			save_image_func(t_window *win, t_image *image)
 {
 	SDL_Surface	*surf;
-	int			st;
+	// int			st;
 
 	if (!g_is_init)
 	{
@@ -77,10 +77,10 @@ void			save_image_func(t_window *win, t_image *image)
 			image->height, SDL_BITSPERPIXEL(SDL_PIXELFORMAT_ABGR8888),
 			image->width * SDL_BYTESPERPIXEL(SDL_PIXELFORMAT_ABGR8888),
 					SDL_PIXELFORMAT_ABGR8888);
-		if (st = IMG_SaveJPG(surf, image->png_image, 1000))
-			rt_warning(SDL_GetError());
-		if (st = SDL_SaveBMP(surf, image->bmp_image))
-			rt_warning(SDL_GetError());
+		// if (st = IMG_SaveJPG(surf, image->png_image, 1000))
+		// 	rt_warning(SDL_GetError());
+		// if (st = SDL_SaveBMP(surf, image->bmp_image))
+		// 	rt_warning(SDL_GetError());
 		draw_save_image_text(win);
 		SDL_FreeSurface(surf);
 		g_save_image = 0;

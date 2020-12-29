@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 19:54:26 by alex              #+#    #+#             */
-/*   Updated: 2020/12/21 17:23:26 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 15:09:06 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ void			gui_disk_vision(t_window *win, t_gui *gui)
 	char		*str[4];
 
 	get_float_data(gui->current_instance.r, "Radius", str);
-	draw_button(win, &gui->all_rect.first_button, str, &gui->colors);
+	draw_button(win, &gui->all_rect.fifth_button, str, &gui->colors);
 	free_str(str);
 }
