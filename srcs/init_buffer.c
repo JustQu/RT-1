@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_buffer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 23:27:18 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 13:41:42 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 17:13:47 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void			init_buffers(t_cl_program *const p,
 				s->instance_mngr.ninstances, s->instance_mngr.instances, &ret);
 	rt_is_dead(opencl_err, cl_create_buffer_error, ret, "");
 	p->objects = clCreateBuffer(cntx, ro, sizeof(t_obj) *
-					s->instance_mngr.nobjects, s->instance_mngr.objects, &ret);
+					s->instance_mngr.nobjects + 1, s->instance_mngr.objects, &ret);
 	rt_is_dead(opencl_err, cl_create_buffer_error, ret, "");
 	p->triangles = clCreateBuffer(cntx, ro, sizeof(t_triangle) * (s->
 			instance_mngr.ntriangles + 1), s->instance_mngr.triangles, &ret);
