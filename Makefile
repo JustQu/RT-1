@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+         #
+#    By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/10 14:33:34 by dmelessa          #+#    #+#              #
-#    Updated: 2020/12/29 16:24:06 by jvoor            ###   ########.fr        #
+#    Updated: 2020/12/29 18:47:11 by aapricot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -119,13 +119,12 @@ gui_render_text.c		pars_light.c			window.c\
 gui_material_type.c
 
 
-LOGSDIR = ./logs/
 OBJSDIR = ./obj/
 OBJS = $(addprefix $(OBJSDIR), $(SRCS:.c=.o))
 
 all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJS) $(INCS) $(LIBFTHEAD) $(LOGSDIR)
+$(NAME): $(OBJS) $(INCS) $(LIBFTHEAD)
 	@echo 'making executable'
 	@$(CC) -o $@ $(OBJS) $(LDLIBS) $(SDL) $(LDFLAGS)
 	@echo DONE!
@@ -142,17 +141,12 @@ $(OBJS): $(INCS)
 $(OBJSDIR):
 	mkdir $@
 
-$(LOGSDIR):
-	mkdir $@
-
 clean:
 	@echo deliting object files
 	@$(RM) $(OBJS)
 	@make -C $(LIBFTDIR) clean
 
 fclean: clean
-	@echo deliting logs
-	@$(RM) -r $(LOGSDIR)
 	@echo deliting executable file
 	@$(RM) $(NAME)
 	@make -C $(LIBFTDIR) fclean
