@@ -6,7 +6,7 @@
 /*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:53:11 by alex              #+#    #+#             */
-/*   Updated: 2020/12/29 16:07:03 by jvoor            ###   ########.fr       */
+/*   Updated: 2020/12/29 16:22:45 by jvoor            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,20 @@ void			is_type_lights(t_window *win,
 	is_type_light_cont(win, gui);
 }
 
+void			gui_triangle_vision(t_window *win, t_gui *gui)
+{
+	char		*str[4];
+
+	if (gui->options.depth >= 0)
+		;
+	get_float4_data(gui->current_instance.v1, "Vertex 1", str);
+	draw_button_xyz(win, &gui->all_rect.fifth_button, str, &gui->colors);
+	free_str(str);
+	get_float4_data(gui->current_instance.v2, "Vertex 2", str);
+	draw_button_xyz(win, &gui->all_rect.sixth_button, str, &gui->colors);
+	free_str(str);
+}
+
 static void		shape_type_vision(t_window *win,
 					t_gui *gui)
 {
@@ -69,6 +83,8 @@ static void		shape_type_vision(t_window *win,
 		gui_disk_vision(win, gui);
 	else if (gui->current_instance.type == rectangle)
 		gui_rectangle_vision(win, gui);
+	else if (gui->current_instance.type == triangle)
+		gui_triangle_vision(win, gui);
 }
 
 void			objects_tab_cont(t_window *win,
