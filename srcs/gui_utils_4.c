@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils_4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aapricot <aapricot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 16:02:53 by alex              #+#    #+#             */
-/*   Updated: 2020/12/29 16:01:25 by alex             ###   ########.fr       */
+/*   Updated: 2020/12/29 18:41:21 by aapricot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ void			get_texture_data_2(int ptr, char **str)
 		str[1] = ft_strdup("wave_perlin");
 	else if (ptr == 9)
 		str[1] = ft_strdup("image");
-	else
+	else if (ptr < 0 || ptr > 9)
 		str[1] = ft_strdup("no texture");
 }
