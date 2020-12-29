@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 18:10:45 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/20 22:41:41 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 15:09:18 by jvoor            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,6 @@ void				cl_error(t_cl_program *program, t_clp *clp, int code)
 		clGetProgramBuildInfo(program->program, clp->de_id,
 							CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
 		ft_putstr_fd(log, 2);
-		ft_memdel(&log);
+		ft_memdel((void **)&log);
 	}
 }

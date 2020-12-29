@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   rt_types.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 17:57:17 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/21 17:24:58 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 15:00:36 by jvoor            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_TYPES_H
 # define RT_TYPES_H
-
-# define OPEN_CL __OPENCL_C_VERSION__
 
 # ifndef __OPENCL_C_VERSION__
 #  include "inttypes.h"

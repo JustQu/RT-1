@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup_buffers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmelessa <cool.3meu@gmail.com>             +#+  +:+       +#+        */
+/*   By: jvoor <jvoor@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 16:04:56 by dmelessa          #+#    #+#             */
-/*   Updated: 2020/12/20 23:02:10 by dmelessa         ###   ########.fr       */
+/*   Updated: 2020/12/29 15:13:39 by jvoor            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,23 @@ static void	cleanup2(t_app app)
 
 void		cleanup(t_app app)
 {
-	ft_memdel(&app.image.pixels);
-	ft_memdel(&app.image.rgb);
-	ft_memdel(&app.rt.sampler_manager.samplers);
-	ft_memdel(&app.rt.sampler_manager.samples);
-	ft_memdel(&app.rt.sampler_manager.disk_samples);
-	ft_memdel(&app.rt.sampler_manager.hemisphere_samples);
-	ft_memdel(&app.rt.scene.instance_mngr.instances);
-	ft_memdel(&app.rt.scene.instance_mngr.extra);
-	ft_memdel(&app.rt.scene.instance_mngr.objects);
-	ft_memdel(&app.rt.scene.instance_mngr.matrices);
-	ft_memdel(&app.rt.scene.instance_mngr.triangles);
-	ft_memdel(&app.rt.scene.light_manager.lights);
-	ft_memdel(&app.rt.scene.bvh);
-	ft_memdel(&app.rt.scene.instance_mngr.texture_manager.textures);
-	ft_memdel(&app.rt.scene.instance_mngr.texture_manager.ranvec);
-	ft_memdel(&app.rt.scene.instance_mngr.texture_manager.perm_x);
-	ft_memdel(&app.rt.scene.instance_mngr.texture_manager.perm_y);
-	ft_memdel(&app.rt.scene.instance_mngr.texture_manager.perm_z);
+	ft_memdel((void **)&app.image.pixels);
+	ft_memdel((void **)&app.image.rgb);
+	ft_memdel((void **)&app.rt.sampler_manager.samplers);
+	ft_memdel((void **)&app.rt.sampler_manager.samples);
+	ft_memdel((void **)&app.rt.sampler_manager.disk_samples);
+	ft_memdel((void **)&app.rt.sampler_manager.hemisphere_samples);
+	ft_memdel((void **)&app.rt.scene.instance_mngr.instances);
+	ft_memdel((void **)&app.rt.scene.instance_mngr.extra);
+	ft_memdel((void **)&app.rt.scene.instance_mngr.objects);
+	ft_memdel((void **)&app.rt.scene.instance_mngr.matrices);
+	ft_memdel((void **)&app.rt.scene.instance_mngr.triangles);
+	ft_memdel((void **)&app.rt.scene.light_manager.lights);
+	ft_memdel((void **)&app.rt.scene.bvh);
+	ft_memdel((void **)&app.rt.scene.instance_mngr.texture_manager.textures);
+	ft_memdel((void **)&app.rt.scene.instance_mngr.texture_manager.ranvec);
+	ft_memdel((void **)&app.rt.scene.instance_mngr.texture_manager.perm_x);
+	ft_memdel((void **)&app.rt.scene.instance_mngr.texture_manager.perm_y);
+	ft_memdel((void **)&app.rt.scene.instance_mngr.texture_manager.perm_z);
 	cleanup2(app);
 }
